@@ -28,10 +28,10 @@ namespace Odorless
 					public:
 						FontManager();
 						~FontManager();
-						const int AddFont(const char *path);
+						const int AddFont(const char *path, bool setMonoSpaced);
 						void SetFont(const char *name);
 						void SetFont(const unsigned int &index);
-						void CalculateProperUVs(_FONT &font);
+						void CalculateUVs(_FONT &font, bool setMonoSpaced);
 						void Write(const char *path) const;
 						int IndexOf(const char *name);
 						

@@ -95,13 +95,16 @@ Odorless::Engine::Types::String Odorless::Engine::Types::String::Remove(const ch
 	const unsigned int len = Length(string);
 	int index = IndexOf(string);
 	const unsigned int sz = this->_uiLength - len;
-	char* temp = (char*)malloc(sz+1);
-	memcpy(temp,this->_szData,index);
-	memcpy(temp+index,this->_szData+index+len,this->_uiLength-index);
-	temp[sz] = 0;
-	Odorless::Engine::Types::String* t = new Odorless::Engine::Types::String(temp);
-	free(temp);
-	return *t;
+	char* szTemp = (char*)malloc(sz+1);
+	memcpy(szTemp,this->_szData,index);
+	memcpy(szTemp+index,this->_szData+index+len,this->_uiLength-index);
+	szTemp[sz] = 0;
+	
+	Odorless::Engine::Types::String oestrTemp(szTemp);
+
+	free(szTemp);
+
+	return oestrTemp;
 }
 
 Odorless::Engine::Types::String Odorless::Engine::Types::String::Replace(const char* t, const char* n) const
