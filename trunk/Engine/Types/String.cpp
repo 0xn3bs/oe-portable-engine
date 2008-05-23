@@ -11,27 +11,26 @@
 
 #include "string.h"
 #include <cstdlib>
-#include <iostream>
 
 Odorless::Engine::Types::String::String()
 {
-	this->_szData = (char*)malloc(sizeof(char));
-	this->_szData[0] = 0;
-	this->_uiLength = Length(this->_szData);
+	_szData = (char*)malloc(sizeof(char));
+	_szData[0] = 0;
+	_uiLength = Length(_szData);
 }
 
 Odorless::Engine::Types::String::String(const char* s)
 {
 	int sz = (Length(s)+1)*sizeof(char);
-	this->_szData = (char*)malloc(sz);
-	memcpy(this->_szData, s, sz);
-	this->_szData[sz-1] = 0;
-	this->_uiLength = Length(this->_szData);
+	_szData = (char*)malloc(sz);
+	memcpy(_szData, s, sz);
+	_szData[sz-1] = 0;
+	_uiLength = Length(_szData);
 }
 
 Odorless::Engine::Types::String::~String()
 {
-
+	free(_szData);
 }
 
 std::ostream& Odorless::Engine::Types::operator <<(std::ostream& os, const Odorless::Engine::Types::String& rightHand)
@@ -40,21 +39,17 @@ std::ostream& Odorless::Engine::Types::operator <<(std::ostream& os, const Odorl
 	return os;
 }
 
-char* Odorless::Engine::Types::String::c_str() const
+const char* Odorless::Engine::Types::String::c_str() const
 {
-	int size = (_uiLength+1)*sizeof(char);
-	char* temp = (char*)malloc(size);
-	memcpy(temp, this->_szData, size);
-	temp[size-1] = 0;
-	return temp;
+	return _szData;
 }
 
 void Odorless::Engine::Types::String::Add(const char* s)
 {
 	int slen = Length(s);
-	_szData = (char*)realloc(_szData,(this->_uiLength+slen+1)*sizeof(char));
-	memcpy(_szData+this->_uiLength,s,(slen+1)*sizeof(char));
-	this->_uiLength = Length(_szData);
+	_szData = (char*)realloc(_szData,(_uiLength+slen+1)*sizeof(char));
+	memcpy(_szData+_uiLength,s,(slen+1)*sizeof(char));
+	_uiLength = Length(_szData);
 }
 
 //	Does not count the null terminator
@@ -78,26 +73,26 @@ bool Odorless::Engine::Types::String::IsLower(const char& c)
 
 void Odorless::Engine::Types::String::ToLower()
 {
-	for(unsigned int i = 0; i < this->_uiLength; i++)
-		if(IsUpper(this->_szData[i]))
-			this->_szData[i] += 32;
+	for(unsigned int i = 0; i < _uiLength; i++)
+		if(IsUpper(_szData[i]))
+			_szData[i] += 32;
 }
 
 void Odorless::Engine::Types::String::ToUpper()
 {
-	for(unsigned int i = 0; i < this->_uiLength; i++)
-		if(IsLower(this->_szData[i]))
-			this->_szData[i] -= 32;
+	for(unsigned int i = 0; i < _uiLength; i++)
+		if(IsLower(_szData[i]))
+			_szData[i] -= 32;
 }
 
 Odorless::Engine::Types::String Odorless::Engine::Types::String::Remove(const char* string) const
 {
 	const unsigned int len = Length(string);
 	int index = IndexOf(string);
-	const unsigned int sz = this->_uiLength - len;
+	const unsigned int sz = _uiLength - len;
 	char* szTemp = (char*)malloc(sz+1);
-	memcpy(szTemp,this->_szData,index);
-	memcpy(szTemp+index,this->_szData+index+len,this->_uiLength-index);
+	memcpy(szTemp,_szData,index);
+	memcpy(szTemp+index,_szData+index+len,_uiLength-index);
 	szTemp[sz] = 0;
 	
 	Odorless::Engine::Types::String oestrTemp(szTemp);
@@ -113,10 +108,10 @@ Odorless::Engine::Types::String Odorless::Engine::Types::String::Replace(const c
 
 	int oldSz = Length(t);
 	int newSz = Length(n);
-	int fnlSz = (this->_uiLength - oldSz) + newSz;
+	int fnlSz = (_uiLength - oldSz) + newSz;
 
 	char* temp = (char*)malloc(fnlSz+1);
-	Odorless::Engine::Types::String rmd = this->Remove(t);
+	Odorless::Engine::Types::String rmd = Remove(t);
 
 
 	//	FINISH THIS.
@@ -126,16 +121,16 @@ Odorless::Engine::Types::String Odorless::Engine::Types::String::Replace(const c
 
 int Odorless::Engine::Types::String::IndexOf(const char c) const
 {
-	for(unsigned int i = 0; i < this->_uiLength; i++)
-		if(c == this->_szData[i])
+	for(unsigned int i = 0; i < _uiLength; i++)
+		if(c == _szData[i])
 			return i;
 	return -1;
 }
 
 int Odorless::Engine::Types::String::IndexOf(const char c, unsigned int i) const
 {
-	for(; i < this->_uiLength; i++)
-		if(c == this->_szData[i])
+	for(; i < _uiLength; i++)
+		if(c == _szData[i])
 			return i;
 	return -1;
 }
@@ -153,7 +148,7 @@ int Odorless::Engine::Types::String::IndexOf(const char* string) const
 	{
 		if(pi == -1)
 			break;
-		if(this->_szData[pi+i]==string[i])
+		if(_szData[pi+i]==string[i])
 		{
 			if(i==len-1)
 				return pi;

@@ -1,22 +1,22 @@
-#ifndef MATH_H_
-#define MATH_H_
+#ifndef COMMON_H_
+#define COMMON_H_
 
 namespace Odorless
 {
-        namespace Engine
-        {
-                namespace Tools
-                {
-                        namespace Math
-                        {
-                                class Common
-                                {
-                                        public:
-                                                static double Sqrt(double num);
-                                };
-                        }
-                }
-        }
+	namespace Engine
+	{
+		namespace Tools
+		{
+			namespace Math
+			{
+				class Common
+				{
+					public:
+						static double Sqrt(double num);
+				};
+			}
+		}
+	}
 }
 
-#endif /*MATH_H_*/
+#endif /*COMMON_H_*/

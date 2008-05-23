@@ -38,7 +38,7 @@ namespace Odorless
 						Add(rhs);
 					}
 
-					char* c_str() const;
+					const char* c_str() const;
 
 					void Add(const char* s);
 					Odorless::Engine::Types::String Remove(const char* string) const;
@@ -58,4 +58,4 @@ namespace Odorless
 		};
 	};
 };
-#endif
+#endif /*STRING_H_*/

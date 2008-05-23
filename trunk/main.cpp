@@ -9,10 +9,11 @@
  *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
  *****************************************************************************************/
 #include <windows.h>
-#define _BUILD_STRING_ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
+#define __BUILD_STRING__ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
 #include "Engine/Base.h"
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/Tools/Timers/Timer.h"
+#include "Engine/Types/String.h"
 #include <iostream>
 
 Odorless::Engine::UI::Fonts::FontManager *fontManager;
@@ -43,7 +44,9 @@ void Draw(double deltaTime)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glColor4f(1, 1, 1, 1.0f);
 	glPushMatrix();
-	fontManager->Write("Gamedev.net\nNew line test!");
+	Odorless::Engine::Types::String text("Gamedev.net\nNew line test!");
+	fontManager->Write(text.c_str());
+
 	glPopMatrix();
 }
 
@@ -65,7 +68,7 @@ int main()
 	Odorless::Engine::Base::InitializeEngine();
 	Odorless::Engine::Base::OpenWindow(800, 600, 8, 8, 8, 8, 24, 8);
 	Odorless::Engine::Base::SetWindowResize(OnResize);
-	Odorless::Engine::Base::SetWindowTitle(_BUILD_STRING_);
+	Odorless::Engine::Base::SetWindowTitle(__BUILD_STRING__);
 	Odorless::Engine::Base::SetInitialize(Initialize);
 	Odorless::Engine::Base::SetUpdate(Update);
 	Odorless::Engine::Base::SetDraw(Draw);
@@ -85,7 +88,7 @@ int main()
 				totalFrames = 0;
 				timer->Start();
 				char windowtitle[1024];
-				sprintf(windowtitle, "%s :: FPS: %i", _BUILD_STRING_, FPS);
+				sprintf(windowtitle, "%s :: FPS: %i", __BUILD_STRING__, FPS);
 				Odorless::Engine::Base::SetWindowTitle(windowtitle);
 			}
 		}
@@ -106,6 +109,7 @@ int main()
 	Odorless::Engine::Base::Dispose();
 
 	delete fontManager;
+	delete timer;
 
 	return 0;
 }
