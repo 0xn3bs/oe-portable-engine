@@ -21,8 +21,8 @@ Odorless::Engine::Tools::Timers::Timer *timer;
 void Initialize()
 {
 	fontManager = new Odorless::Engine::UI::Fonts::FontManager();
-	fontManager->AddFont("base/textures/fonts/phantom");
-	fontManager->SetFont("base/textures/fonts/phantom");
+	fontManager->AddFont("../../../base/textures/fonts/phantom");
+	fontManager->SetFont("../../../base/textures/fonts/phantom");
 
 	timer = new Odorless::Engine::Tools::Timers::Timer();
 
