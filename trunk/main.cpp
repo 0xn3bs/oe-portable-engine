@@ -7,7 +7,6 @@
  * 
  * Contributors:
  *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
- *     Joshua 'blankthemuffin' Simmons - Absolutly nothing. Yet.. 
  *****************************************************************************************/
 #include <windows.h>
 #define _BUILD_STRING_ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
