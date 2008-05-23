@@ -52,7 +52,6 @@ void Odorless::Engine::Types::String::Add(const char* s)
 	_uiLength = Length(_szData);
 }
 
-//	Does not count the null terminator
 unsigned int Odorless::Engine::Types::String::Length(const char* s)
 {
 	int i = 0;
@@ -61,12 +60,12 @@ unsigned int Odorless::Engine::Types::String::Length(const char* s)
 	return i;
 }
 
-bool Odorless::Engine::Types::String::IsUpper(const char& c)
+bool Odorless::Engine::Types::String::IsUpper(const char c)
 {
 	return (c > 64 && c < 91);
 }
 
-bool Odorless::Engine::Types::String::IsLower(const char& c)
+bool Odorless::Engine::Types::String::IsLower(const char c)
 {
 	return (c > 96 && c < 123);
 }
@@ -85,7 +84,8 @@ void Odorless::Engine::Types::String::ToUpper()
 			_szData[i] -= 32;
 }
 
-Odorless::Engine::Types::String Odorless::Engine::Types::String::Remove(const char* string) const
+//	TODO: Complete Remove method, don't forget to add all overloaded methods.
+void Odorless::Engine::Types::String::Remove(const char* string)
 {
 	const unsigned int len = Length(string);
 	int index = IndexOf(string);
@@ -94,15 +94,12 @@ Odorless::Engine::Types::String Odorless::Engine::Types::String::Remove(const ch
 	memcpy(szTemp,_szData,index);
 	memcpy(szTemp+index,_szData+index+len,_uiLength-index);
 	szTemp[sz] = 0;
-	
-	Odorless::Engine::Types::String oestrTemp(szTemp);
-
-	free(szTemp);
-
-	return oestrTemp;
+	free(_szData);
+	_szData = szTemp;
 }
 
-Odorless::Engine::Types::String Odorless::Engine::Types::String::Replace(const char* t, const char* n) const
+//	TODO: Complete Replace method, don't forget to add all overloaded methods.
+void Odorless::Engine::Types::String::Replace(const char* t, const char* n)
 {
 	int index = IndexOf(t);
 
@@ -111,12 +108,7 @@ Odorless::Engine::Types::String Odorless::Engine::Types::String::Replace(const c
 	int fnlSz = (_uiLength - oldSz) + newSz;
 
 	char* temp = (char*)malloc(fnlSz+1);
-	Odorless::Engine::Types::String rmd = Remove(t);
-
-
-	//	FINISH THIS.
-
-	return rmd;
+	Remove(t);
 }
 
 int Odorless::Engine::Types::String::IndexOf(const char c) const

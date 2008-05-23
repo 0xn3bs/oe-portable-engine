@@ -41,12 +41,12 @@ namespace Odorless
 					const char* c_str() const;
 
 					void Add(const char* s);
-					Odorless::Engine::Types::String Remove(const char* string) const;
-					Odorless::Engine::Types::String Replace(const char* t, const char* n) const;
+					void Remove(const char* string);
+					void Replace(const char* t, const char* n);
 
 					static unsigned int Length(const char* s);
-					static bool IsUpper(const char& c);
-					static bool IsLower(const char& c);
+					static bool IsUpper(const char c);
+					static bool IsLower(const char c);
 
 					void ToLower();
 					void ToUpper();

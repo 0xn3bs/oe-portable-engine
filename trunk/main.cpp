@@ -1,13 +1,13 @@
 /*****************************************************************************************
- * Copyright (c) 2008 Jonathan 'Bladezor' Bastnagel.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v2.1
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
- * Contributors:
- *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
- *****************************************************************************************/
+* Copyright (c) 2008 Jonathan 'Bladezor' Bastnagel.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the GNU Lesser Public License v2.1
+* which accompanies this distribution, and is available at
+* http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+* 
+* Contributors:
+*     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
+*****************************************************************************************/
 #include <windows.h>
 #define __BUILD_STRING__ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
 #include "Engine/Base.h"
@@ -45,6 +45,7 @@ void Draw(double deltaTime)
 	glColor4f(1, 1, 1, 1.0f);
 	glPushMatrix();
 	Odorless::Engine::Types::String text("Gamedev.net\nNew line test!");
+	text.Remove("\nNew");
 	fontManager->Write(text.c_str());
 
 	glPopMatrix();
@@ -101,7 +102,7 @@ int main()
 		Odorless::Engine::Base::Flush();
 		Odorless::Engine::Base::SwapBuffers();
 		if (glfwGetKey(GLFW_KEY_ESC) || !glfwGetWindowParam(GLFW_OPENED))
-		break;
+			break;
 
 		totalFrames++;
 	}
