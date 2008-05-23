@@ -16,15 +16,12 @@
 #include "Engine/Types/String.h"
 #include <iostream>
 
-Odorless::Engine::UI::Fonts::FontManager *fontManager;
-Odorless::Engine::Tools::Timers::Timer *timer;
+Odorless::Engine::UI::Fonts::FontManager fontManager;
+Odorless::Engine::Tools::Timers::Timer timer;
 void Initialize()
 {
-	fontManager = new Odorless::Engine::UI::Fonts::FontManager();
-	fontManager->AddFont("../../../base/textures/fonts/phantom", true);
-	fontManager->SetFont("../../../base/textures/fonts/phantom");
-
-	timer = new Odorless::Engine::Tools::Timers::Timer();
+	fontManager.AddFont("base/textures/fonts/phantom", true);
+	fontManager.SetFont("base/textures/fonts/phantom");
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
@@ -46,7 +43,7 @@ void Draw(double deltaTime)
 	glPushMatrix();
 	Odorless::Engine::Types::String text("Gamedev.net\nNew line test!");
 	text.Remove("\nNew");
-	fontManager->Write(text.c_str());
+	fontManager.Write(text.c_str());
 
 	glPopMatrix();
 }
@@ -81,13 +78,13 @@ int main()
 	while (Odorless::Engine::Base::IsRunning())
 	{
 		float deltaTime = 0.0f;
-		if(timer->IsRunning)
+		if(timer.IsRunning)
 		{
-			if(timer->GetElapsedMilliSec() >= 1000)
+			if(timer.GetElapsedMilliSec() >= 1000)
 			{
 				FPS = totalFrames;
 				totalFrames = 0;
-				timer->Start();
+				timer.Start();
 				char windowtitle[1024];
 				sprintf(windowtitle, "%s :: FPS: %i", __BUILD_STRING__, FPS);
 				Odorless::Engine::Base::SetWindowTitle(windowtitle);
@@ -95,7 +92,7 @@ int main()
 		}
 		else
 		{
-			timer->Start();
+			timer.Start();
 		}
 		Odorless::Engine::Base::Update(deltaTime);
 		Odorless::Engine::Base::Draw(deltaTime);
@@ -108,9 +105,6 @@ int main()
 	}
 
 	Odorless::Engine::Base::Dispose();
-
-	delete fontManager;
-	delete timer;
 
 	return 0;
 }
