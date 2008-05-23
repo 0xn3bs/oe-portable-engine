@@ -278,10 +278,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ClassDiagram.cd"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
