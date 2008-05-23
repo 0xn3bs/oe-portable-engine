@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
@@ -170,7 +170,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="...\..\..\...\..\..\...\..\..\Engine\Base.h"
+				RelativePath="..\..\..\Engine\Base.h"
 				>
 			</File>
 			<File
@@ -270,6 +270,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram.cd"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

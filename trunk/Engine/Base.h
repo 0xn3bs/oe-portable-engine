@@ -8,8 +8,8 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
-#ifndef Engine_H_
-#define Engine_H_
+#ifndef ENGINE_H_
+#define ENGINE_H_
 
 #include <GL/glfw.h>
 
@@ -80,4 +80,4 @@ namespace Odorless
 	}
 }
 
-#endif /*Engine_H_*/
+#endif /*ENGINE_H_*/
