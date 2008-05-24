@@ -29,7 +29,7 @@ namespace Odorless
 				{
 					public:
 						Window();
-						Window(float x, float y, float width, float height);
+						Window(const float &x, const float &y, const float &width, const float &height);
 						~Window();
 						virtual int Initialize() = 0;
 						virtual void Dispose() = 0;
