@@ -10,6 +10,14 @@
  *****************************************************************************************/
 #include "Window.h"
 
+Odorless::Engine::UI::Windows::Window::Window()
+{
+	_2fPosition[0] = 0;
+	_2fPosition[1] = 0;
+	_2fDimensions[0] = 0;
+	_2fDimensions[1] = 0;
+}
+
 Odorless::Engine::UI::Windows::Window::Window(float x, float y, float width, float height)
 {
 	_2fPosition[0] = x;
@@ -23,14 +31,14 @@ Odorless::Engine::UI::Windows::Window::~Window()
 
 }
 
-bool Odorless::Engine::UI::Windows::Window::IsOver(float pos[2])
+bool Odorless::Engine::UI::Windows::Window::IsOver(const float &x, const float &y)
 {
-	bool x = pos[0] > _2fPosition[0] && pos[0] < _2fPosition[0] + _2fDimensions[0];
-	bool y = pos[1] > _2fPosition[1] && pos[1] < _2fPosition[1] + _2fDimensions[1];
-	return x && y;
+	bool isX = x > _2fPosition[0] && x < _2fPosition[0] + _2fDimensions[0];
+	bool isY = y > _2fPosition[1] && y < _2fPosition[1] + _2fDimensions[1];
+	return isX && isY;
 }
 
-bool Odorless::Engine::UI::Windows::Window::IsOverTitleBar(float pos[2])
+bool Odorless::Engine::UI::Windows::Window::IsOverTitleBar(const float &x, const float &y)
 {
 	return false;
 }

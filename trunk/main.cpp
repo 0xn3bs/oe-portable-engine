@@ -12,16 +12,21 @@
 #define __BUILD_STRING__ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
 #include "Engine/Base.h"
 #include "Engine/UI/Fonts/FontManager.h"
+#include "Engine/Input/Input.h"
 #include "Engine/Tools/Timers/Timer.h"
 #include "Engine/Types/String.h"
+#include "Game/UI/BasicWindow.h"
 #include <iostream>
 
 Odorless::Engine::UI::Fonts::FontManager fontManager;
 Odorless::Engine::Tools::Timers::Timer timer;
+Odorless::Engine::Input::InputManager inputManager;
+Odorless::Game::UI::BasicWindow basicWindow(50, 50, 100, 100);
+
 void Initialize()
 {
-	fontManager.AddFont("base/textures/fonts/phantom", true);
-	fontManager.SetFont("base/textures/fonts/phantom");
+	fontManager.AddFont("base/textures/fonts/arial", true);
+	fontManager.SetFont("base/textures/fonts/arial");
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
@@ -34,11 +39,13 @@ void Initialize()
 
 void Update(double deltaTime)
 {
+	inputManager.Update();
 }
 
 void Draw(double deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	basicWindow.Render(deltaTime);
 	glColor4f(1, 1, 1, 1.0f);
 	glPushMatrix();
 	Odorless::Engine::Types::String text("Gamedev.net\nNew line test!");

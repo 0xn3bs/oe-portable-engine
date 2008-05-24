@@ -22,27 +22,66 @@ namespace Odorless
 	{
 		namespace Input
 		{
-			class Input
+			class InputManager
 			{
-				private:
-					int _iMouseX, _iMouseY;
-					bool _rgcKeys[255];
-				public:
-					Input()
-					{
-					}
+			private:
+				static int _iMouseX;
+				static int _iMouseY;
+				static bool _rgcKeys[255];
 
-					~Input()
-					{
-					}
+				static void GLFWCALL SetKeyEvent(const int key, const int action)
+				{
+					_rgcKeys[key] = (bool)action;
+				}
+			public:
+				InputManager()
+				{
+				}
 
-					void SetKeyState(const char key, bool state);
-					bool GetKeyState(const char key);
+				~InputManager()
+				{
+				}
 
-					void SetMousePos(const int x, const int y);
-					void GetMousePos(int *pos);
-					const int GetMouseX();
-					const int GetMouseY();
+				static void Initialize()
+				{
+					glfwSetKeyCallback(SetKeyEvent);
+				}
+
+				static void Update()
+				{
+					glfwGetMousePos(&_iMouseX, &_iMouseY);
+				}
+
+				static void SetKeyState(const char key, bool state)
+				{
+					_rgcKeys[key] = state;
+				}
+
+				static bool GetKeyState(const char key)
+				{
+					return _rgcKeys[key];
+				}
+
+				static void SetMousePos(const int x, const int y)
+				{
+					glfwSetMousePos(_iMouseX, _iMouseY);
+				}
+
+				static void GetMousePos(int *xPos, int *yPos)
+				{
+					*xPos = _iMouseX;
+					*yPos = _iMouseY;
+				}
+
+				static const int GetMouseX()
+				{
+					return _iMouseX;
+				}
+
+				static const int GetMouseY()
+				{
+					return _iMouseY;
+				}
 			};
 		};
 	};

@@ -26,14 +26,15 @@ namespace Odorless
 				class Window
 				{
 					public:
+						Window();
 						Window(float x, float y, float width, float height);
-						virtual ~Window();
+						~Window();
 						virtual int Initialize() = 0;
 						virtual void Dispose() = 0;
 						virtual void Update(const float &dt) = 0;
 						virtual void Render(const float &dt) = 0;
-						bool IsOver(float pos[2]);
-						bool IsOverTitleBar(float pos[2]);
+						bool IsOver(const float &x, const float &y);
+						bool IsOverTitleBar(const float &x, const float &y);
 						void AddWidget(const UI::Widgets::Widget &widget);
 						void RemoveWidget(const unsigned int &index);
 						
@@ -43,7 +44,6 @@ namespace Odorless
 						unsigned int _uiBgColor;
 					private:
 						std::vector<UI::Widgets::Widget*> _vecWidgets;
-						
 				};
 			}
 		}
