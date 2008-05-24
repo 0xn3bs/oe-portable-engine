@@ -11,6 +11,7 @@
 #ifndef WINDOWMANAGER_H_
 #define WINDOWMANAGER_H_
 
+#include "../../../Game/UI/BasicWindow.h"
 #include "Window.h"
 
 #include <vector>
@@ -26,6 +27,8 @@ namespace Odorless
 				class WindowManager
 				{
 					public:
+						
+
 						WindowManager();
 						~WindowManager();
 						void AddWindow(const Window &window);

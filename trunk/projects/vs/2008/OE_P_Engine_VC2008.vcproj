@@ -175,6 +175,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Game\UI\BasicWindow.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Engine\Tools\Colors\Color.h"
 				>
 			</File>
@@ -232,6 +236,10 @@
 			>
 			<File
 				RelativePath="..\..\..\Engine\Base.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Game\UI\BasicWindow.cpp"
 				>
 			</File>
 			<File

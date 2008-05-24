@@ -11,6 +11,7 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
+#include <GL/glfw.h>
 #include "../Widgets/Widget.h"
 
 #include <vector>
@@ -23,6 +24,7 @@ namespace Odorless
 		{
 			namespace Windows
 			{
+				class WindowManager; //	Forward declaration for the Window Manager.
 				class Window
 				{
 					public:
@@ -38,12 +40,15 @@ namespace Odorless
 						void AddWidget(const UI::Widgets::Widget &widget);
 						void RemoveWidget(const unsigned int &index);
 						
+					private:
+						std::vector<UI::Widgets::Widget*> _vecWidgets;
+						friend class WindowManager;
+
+					protected:
 						float _2fDimensions[2];
 						float _2fPosition[2];
 						unsigned int _uiFgColor;
 						unsigned int _uiBgColor;
-					private:
-						std::vector<UI::Widgets::Widget*> _vecWidgets;
 				};
 			}
 		}
