@@ -55,7 +55,7 @@ namespace Odorless
 				{
 					//	Background
 					glBegin(GL_QUADS);
-					glColor3ub(6, 57, 64);
+					glColor4ub(6, 57, 64, 127);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(1, 1, 0);
@@ -75,7 +75,7 @@ namespace Odorless
 
 					//	Border
 					glBegin(GL_LINES);
-					glColor3ub(25,94,99);
+					glColor4ub(25,94,99,127);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(0, 1, 0);

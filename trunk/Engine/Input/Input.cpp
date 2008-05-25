@@ -12,3 +12,5 @@
 #include "Input.h"
 int Odorless::Engine::Input::InputManager::_iMouseX=0;
 int Odorless::Engine::Input::InputManager::_iMouseY=0;
+int Odorless::Engine::Input::InputManager::_iMouseDeltaX=0;
+int Odorless::Engine::Input::InputManager::_iMouseDeltaY=0;

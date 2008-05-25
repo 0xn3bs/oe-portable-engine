@@ -25,6 +25,7 @@ Odorless::Engine::UI::Windows::Window::Window(const float &x, const float &y, co
 	_2fPosition[1] = y;
 	_2fDimensions[0] = width;
 	_2fDimensions[1] = height;
+	_fTitleBarY = 0;
 }
 
 Odorless::Engine::UI::Windows::Window::~Window()
@@ -41,7 +42,9 @@ bool Odorless::Engine::UI::Windows::Window::IsOver(const float &x, const float &
 
 bool Odorless::Engine::UI::Windows::Window::IsOverTitleBar(const float &x, const float &y)
 {
-	return false;
+	bool isX = x > _2fPosition[0] && x < _2fPosition[0] + _2fDimensions[0];
+	bool isY = y > _2fPosition[1] && y < _2fPosition[1] + (_fTitleBarY*_2fDimensions[1]);
+	return isX && isY;
 }
 
 void Odorless::Engine::UI::Windows::Window::AddWidget(

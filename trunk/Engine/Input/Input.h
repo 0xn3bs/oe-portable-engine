@@ -27,6 +27,8 @@ namespace Odorless
 			private:
 				static int _iMouseX;
 				static int _iMouseY;
+				static int _iMouseDeltaX;
+				static int _iMouseDeltaY;
 				static bool _rgcKeys[255];
 
 				static void GLFWCALL SetKeyEvent(const int key, const int action)
@@ -49,7 +51,12 @@ namespace Odorless
 
 				static void Update()
 				{
+					int iMouseOldX = _iMouseX;
+					int iMouseOldY = _iMouseY;
 					glfwGetMousePos(&_iMouseX, &_iMouseY);
+
+					_iMouseDeltaX = _iMouseX - iMouseOldX;
+					_iMouseDeltaY = _iMouseY - iMouseOldY;
 				}
 
 				static void SetKeyState(const char key, bool state)
@@ -67,10 +74,25 @@ namespace Odorless
 					glfwSetMousePos(_iMouseX, _iMouseY);
 				}
 
+				static bool IsMouseDown(const int &button)
+				{
+					return glfwGetMouseButton(button);
+				}
+
 				static void GetMousePos(int *xPos, int *yPos)
 				{
 					*xPos = _iMouseX;
 					*yPos = _iMouseY;
+				}
+
+				static const int GetMouseDeltaX()
+				{
+					return _iMouseDeltaX;
+				}
+
+				static const int GetMouseDeltaY()
+				{
+					return _iMouseDeltaY;
 				}
 
 				static const int GetMouseX()

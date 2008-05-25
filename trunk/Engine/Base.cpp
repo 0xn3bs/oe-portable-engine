@@ -12,7 +12,7 @@
 #include <iostream>
 #include "Textures/TextureManager.h"
 
-int Odorless::Engine::Base::windowWidth, Odorless::Engine::Base::windowHeight = 0;
+int Odorless::Engine::Base::_iWindowWidth, Odorless::Engine::Base::_iWindowHeight = 0;
 bool Odorless::Engine::Base::_bIsRunning = false;
 void (*Odorless::Engine::Base::_pf_Initialize)(void) = 0;
 void (*Odorless::Engine::Base::_pf_Update)(double deltaTime) = 0;
@@ -54,8 +54,8 @@ int Odorless::Engine::Base::OpenWindow(int width, int height, int redbits,
 		stencilbits,
 		GLFW_WINDOW);
 
-	windowWidth = width;
-	windowHeight = height;
+	_iWindowWidth = width;
+	_iWindowHeight = height;
 
 	if (!window)
 		Dispose();

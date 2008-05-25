@@ -13,7 +13,7 @@
 
 #include <GL/glfw.h>
 #include "../Widgets/Widget.h"
-
+#include "../../Input/Input.h"
 #include <vector>
 
 namespace Odorless
@@ -47,6 +47,7 @@ namespace Odorless
 						float _fTitleBarY;
 						unsigned int _uiFgColor;
 						unsigned int _uiBgColor;
+						bool _bIsDragging;
 						std::vector<UI::Widgets::Widget*> _vecWidgets;
 				};
 			}

@@ -35,6 +35,10 @@ namespace Odorless
 						~WindowManager()
 						{
 						}
+						void SetInput(Odorless::Engine::Input::InputManager* inputManager)
+						{
+							_inputManager = inputManager;
+						}
 						void AddWindow(Window &window)
 						{
 							_vecWindows.push_back(&window);
@@ -48,6 +52,8 @@ namespace Odorless
 						void Render(const float &dt);
 					
 					private:
+						Odorless::Engine::Input::InputManager* _inputManager;
+						//Odorless::Engine::UI::Fonts::FontManager fontManager;
 						std::vector<Window*> _vecWindows;
 						int _iWinWidth, _iWinHeight;
 				};

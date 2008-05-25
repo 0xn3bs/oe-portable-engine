@@ -19,19 +19,19 @@
 #include "Game/UI/BasicWindow.h"
 #include <iostream>
 
-Odorless::Engine::UI::Fonts::FontManager fontManager;
 Odorless::Engine::Tools::Timers::Timer timer;
 Odorless::Engine::Input::InputManager inputManager;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
-Odorless::Game::UI::BasicWindow a(100, 100, 100, 100), b(200, 200, 50, 50);
+Odorless::Game::UI::BasicWindow a(100, 100, 100, 100), b(200, 200, 150, 150);
 
 void Initialize()
 {
-	fontManager.AddFont("base/textures/fonts/arial", true);
-	fontManager.SetFont("base/textures/fonts/arial");
+//	fontManager.AddFont("base/textures/fonts/arial", true);
+//	fontManager.SetFont("base/textures/fonts/arial");
 
 	windowManager.AddWindow(a);
 	windowManager.AddWindow(b);
+	windowManager.SetInput(&inputManager);
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);

@@ -9,12 +9,29 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *****************************************************************************************/
 #include "WindowManager.h"
-
+#include <iostream>
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
-		_vecWindows.at(i)->Update(dt);
+		Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i);
+		
+		const int iMouseX = _inputManager->GetMouseX();
+		const int iMouseY = _inputManager->GetMouseY();
+
+		if(tempWin->IsOverTitleBar(iMouseX, iMouseY) || tempWin->_bIsDragging)
+		{
+			if(_inputManager->IsMouseDown(0))
+			{
+				tempWin->_bIsDragging = true;
+				tempWin->_2fPosition[0] += _inputManager->GetMouseDeltaX();
+				tempWin->_2fPosition[1] += _inputManager->GetMouseDeltaY();
+			}
+			else
+				tempWin->_bIsDragging = false;
+		}
+
+		tempWin->Update(dt);
 	}
 }
 
