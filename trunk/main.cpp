@@ -25,7 +25,6 @@ Odorless::Engine::Input::InputManager inputManager;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
 Odorless::Game::UI::BasicWindow a(0, 0, 100, 100);
 
-
 void Initialize()
 {
 	fontManager.AddFont("base/textures/fonts/arial", true);

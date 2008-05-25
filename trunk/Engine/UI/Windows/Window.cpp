@@ -1,13 +1,13 @@
 /*****************************************************************************************
- * Copyright (c) 2008 Jonathan 'Bladezor' Bastnagel.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v2.1
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
- * Contributors:
- *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
- *****************************************************************************************/
+* Copyright (c) 2008 Jonathan 'Bladezor' Bastnagel.
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the GNU Lesser Public License v2.1
+* which accompanies this distribution, and is available at
+* http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+* 
+* Contributors:
+*     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
+*****************************************************************************************/
 #include "Window.h"
 
 Odorless::Engine::UI::Windows::Window::Window()
@@ -44,13 +44,13 @@ bool Odorless::Engine::UI::Windows::Window::IsOverTitleBar(const float &x, const
 }
 
 void Odorless::Engine::UI::Windows::Window::AddWidget(
-		const UI::Widgets::Widget &widget)
+	const UI::Widgets::Widget &widget)
 {
-	
+
 }
 
 void Odorless::Engine::UI::Windows::Window::RemoveWidget(
-		const unsigned int &index)
+	const unsigned int &index)
 {
 
 }
