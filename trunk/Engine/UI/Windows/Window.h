@@ -44,6 +44,7 @@ namespace Odorless
 					protected:
 						float _2fDimensions[2];
 						float _2fPosition[2];
+						float _fTitleBarY;
 						unsigned int _uiFgColor;
 						unsigned int _uiBgColor;
 						std::vector<UI::Widgets::Widget*> _vecWidgets;

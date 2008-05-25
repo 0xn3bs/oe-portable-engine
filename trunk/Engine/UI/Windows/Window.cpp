@@ -16,6 +16,7 @@ Odorless::Engine::UI::Windows::Window::Window()
 	_2fPosition[1] = 0;
 	_2fDimensions[0] = 0;
 	_2fDimensions[1] = 0;
+	_fTitleBarY = 0;
 }
 
 Odorless::Engine::UI::Windows::Window::Window(const float &x, const float &y, const float &width, const float &height)

@@ -25,12 +25,12 @@ namespace Odorless
 			public:
 				BasicWindow() : Odorless::Engine::UI::Windows::Window()
 				{
-
+					_fTitleBarY = 12.5 / this->_2fDimensions[1];
 				}
 
 				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
 				{
-
+					_fTitleBarY = 12.5 / this->_2fDimensions[1];
 				}
 
 				~BasicWindow()
@@ -60,11 +60,22 @@ namespace Odorless
 					glVertex3f(0, 1, 0);
 					glVertex3f(1, 1, 0);
 					glVertex3f(1, 0, 0);
+					glColor3ub(62,131,140);
+					glVertex3f(0, 0, 0);
+					glVertex3f(0, _fTitleBarY, 0);
+					glVertex3f(1, _fTitleBarY, 0);
+					glVertex3f(1, 0, 0);
 					glEnd();
+
+					//	Render widgets here.
+					for(int i = 0; i < _vecWidgets.size(); i++)
+					{
+						_vecWidgets.at(i)->Render(dt);
+					}
 
 					//	Border
 					glBegin(GL_LINES);
-					glColor3ub(62,131,140);
+					glColor3ub(25,94,99);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(0, 1, 0);
@@ -73,9 +84,8 @@ namespace Odorless
 					glVertex3f(1, 0, 0);
 					glVertex3f(1, 0, 0);
 					glVertex3f(0, 0, 0);
-
-					glVertex3f(0, 12.5/this->_2fDimensions[1], 0);
-					glVertex3f(1, 12.5/this->_2fDimensions[1], 0);
+					glVertex3f(0, _fTitleBarY, 0);
+					glVertex3f(1, _fTitleBarY, 0);
 					glEnd();
 				}
 			};
