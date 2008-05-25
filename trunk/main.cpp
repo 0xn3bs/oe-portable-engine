@@ -23,7 +23,7 @@ Odorless::Engine::UI::Fonts::FontManager fontManager;
 Odorless::Engine::Tools::Timers::Timer timer;
 Odorless::Engine::Input::InputManager inputManager;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
-Odorless::Game::UI::BasicWindow a(0, 0, 100, 100);
+Odorless::Game::UI::BasicWindow a(100, 100, 100, 100), b(200, 200, 100, 100);
 
 void Initialize()
 {
@@ -57,7 +57,8 @@ void Update(double deltaTime)
 void Draw(double deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glColor4f(1, 1, 1, 1.0f);
+	glColor4f(0, 1, 1, 1.0f);
+	glViewport(0, 0, 800, 600);
 	windowManager.Render(deltaTime);
 }
 

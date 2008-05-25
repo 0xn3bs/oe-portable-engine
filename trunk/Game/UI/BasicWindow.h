@@ -53,23 +53,26 @@ namespace Odorless
 
 				void Render(const float &dt)
 				{
+					//	Background
 					glBegin(GL_QUADS);
 					glColor3f(1, 0, 0);
-					//Top-left vertex (corner)
-					//glTexCoord2f(character._fU1, character._fV1);
 					glVertex3f(0, 0, 0);
-
-					//Bottom-left vertex (corner)
-					//glTexCoord2f(character._fU1, character._fV2);
 					glVertex3f(0, 1, 0);
-
-					//Bottom-right vertex (corner)
-					//glTexCoord2f(character._fU2, character._fV2);
 					glVertex3f(1, 1, 0);
-
-					//Top-right vertex (corner)
-					//glTexCoord2f(character._fU2, character._fV1);
 					glVertex3f(1, 0, 0);
+					glEnd();
+
+					//	Border
+					glBegin(GL_LINES);
+					glColor3f(0, 1, 0);
+					glVertex3f(0, 0, 0);
+					glVertex3f(0, 1, 0);
+					glVertex3f(0, 1, 0);
+					glVertex3f(1, 1, 0);
+					glVertex3f(1, 1, 0);
+					glVertex3f(1, 0, 0);
+					glVertex3f(1, 0, 0);
+					glVertex3f(0, 0, 0);
 					glEnd();
 				}
 			};
