@@ -73,6 +73,8 @@ namespace Odorless
 					glVertex3f(1, 0, 0);
 					glVertex3f(1, 0, 0);
 					glVertex3f(0, 0, 0);
+					glVertex3f(0, 14/this->_2fDimensions[1], 0);
+					glVertex3f(1, 14/this->_2fDimensions[1], 0);
 					glEnd();
 				}
 			};
