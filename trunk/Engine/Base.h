@@ -23,6 +23,7 @@ namespace Odorless
 		class Base
 		{
 		public:
+			
 			static unsigned int InitializeEngine();
 			static int OpenWindow(int width, int height, int redbits,
 				int greenbits, int bluebits, int alphabits,
@@ -63,6 +64,13 @@ namespace Odorless
 			{
 				glfwSetWindowSizeCallback((GLFWwindowsizefun)resize);
 			}
+			/*
+			static void UpdateWindowSize(int width, int height)
+			{
+				windowWidth = width;
+				windowHeight = height;
+			}
+			*/
 			static void SwapBuffers()
 			{
 				glfwSwapBuffers();
@@ -72,6 +80,7 @@ namespace Odorless
 				glFlush();
 			}
 		private:
+			static int windowWidth, windowHeight;
 			static bool _bIsRunning;
 			static void (*_pf_Update)(double deltaTime);
 			static void (*_pf_Draw)(double deltaTime);

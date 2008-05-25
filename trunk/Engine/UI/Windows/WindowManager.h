@@ -27,17 +27,43 @@ namespace Odorless
 				class WindowManager
 				{
 					public:
-						
-
-						WindowManager();
-						~WindowManager();
-						void AddWindow(const Window &window);
-						void RemoveWindow(const unsigned int &index);
-						void Update(const float &dt);
-						void Render(const float &dt);
+						WindowManager()
+						{
+						}
+						~WindowManager()
+						{
+						}
+						void AddWindow(Window &window)
+						{
+							_vecWindows.push_back(&window);
+						}
+						void RemoveWindow(const unsigned int &index)
+						{
+							_vecWindows.erase(_vecWindows.begin() + index);
+						}
+						void Update(const float &dt)
+						{
+							for(int i = 0; i < _vecWindows.size(); i++)
+							{
+								_vecWindows.at(i)->Update(dt);
+							}
+						}
+						void UpdateWin(const int width, const int height)
+						{
+							_iWinWidth = width;
+							_iWinHeight = height;
+						}
+						void Render(const float &dt)
+						{
+							for(int i = 0; i < _vecWindows.size(); i++)
+							{
+								_vecWindows.at(i)->Render(dt, _iWinWidth, _iWinHeight);
+							}
+						}
 					
 					private:
 						std::vector<Window*> _vecWindows;
+						int _iWinWidth, _iWinHeight;
 				};
 			}
 		}

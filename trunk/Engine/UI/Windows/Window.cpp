@@ -18,7 +18,7 @@ Odorless::Engine::UI::Windows::Window::Window()
 	_2fDimensions[1] = 0;
 }
 
-Odorless::Engine::UI::Windows::Window::Window(float x, float y, float width, float height)
+Odorless::Engine::UI::Windows::Window::Window(const float &x, const float &y, const float &width, const float &height)
 {
 	_2fPosition[0] = x;
 	_2fPosition[1] = y;

@@ -28,7 +28,7 @@ namespace Odorless
 
 				}
 
-				BasicWindow(float x, float y, float width, float height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
+				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
 				{
 
 				}
@@ -51,25 +51,27 @@ namespace Odorless
 				{
 				}
 
-				void Render(const float &dt)
+				void Render(const float &dt, int &mainWinWidth, int &mainWinHeight)
 				{
+					glMatrixMode( GL_PROJECTION );
+					glViewport(this->_2fPosition[0], mainWinHeight-this->_2fDimensions[0]-this->_2fPosition[1], this->_2fDimensions[0], this->_2fDimensions[1]);
 					glBegin(GL_QUADS);
-					glColor3f(1.0f, 0.0f, 0.0f);
+					glColor3f(1, 0, 0);
 					//Top-left vertex (corner)
 					//glTexCoord2f(character._fU1, character._fV1);
-					glVertex3f(this->_2fPosition[0], this->_2fPosition[1], 0);
+					glVertex3f(0, 0, 0);
 
 					//Bottom-left vertex (corner)
 					//glTexCoord2f(character._fU1, character._fV2);
-					glVertex3f(this->_2fPosition[0], this->_2fPosition[1] + this->_2fDimensions[1], 0);
+					glVertex3f(0, 1, 0);
 
 					//Bottom-right vertex (corner)
 					//glTexCoord2f(character._fU2, character._fV2);
-					glVertex3f(this->_2fPosition[0] + this->_2fDimensions[0], this->_2fPosition[1] + this->_2fDimensions[1], 0);
+					glVertex3f(1, 1, 0);
 
 					//Top-right vertex (corner)
 					//glTexCoord2f(character._fU2, character._fV1);
-					glVertex3f(this->_2fPosition[0] + this->_2fDimensions[0], this->_2fPosition[1], 0);
+					glVertex3f(1, 0, 0);
 					glEnd();
 				}
 			};

@@ -27,6 +27,7 @@ namespace Odorless
 				class WindowManager; //	Forward declaration for the Window Manager.
 				class Window
 				{
+					friend class WindowManager;
 					public:
 						Window();
 						Window(const float &x, const float &y, const float &width, const float &height);
@@ -34,21 +35,18 @@ namespace Odorless
 						virtual int Initialize() = 0;
 						virtual void Dispose() = 0;
 						virtual void Update(const float &dt) = 0;
-						virtual void Render(const float &dt) = 0;
+						virtual void Render(const float &dt, int &mainWinWidth, int &mainWinHeight) = 0;
 						bool IsOver(const float &x, const float &y);
 						bool IsOverTitleBar(const float &x, const float &y);
 						void AddWidget(const UI::Widgets::Widget &widget);
 						void RemoveWidget(const unsigned int &index);
-						
-					private:
-						std::vector<UI::Widgets::Widget*> _vecWidgets;
-						friend class WindowManager;
-
+					
 					protected:
 						float _2fDimensions[2];
 						float _2fPosition[2];
 						unsigned int _uiFgColor;
 						unsigned int _uiBgColor;
+						std::vector<UI::Widgets::Widget*> _vecWidgets;
 				};
 			}
 		}

@@ -22,11 +22,16 @@
 Odorless::Engine::UI::Fonts::FontManager fontManager;
 Odorless::Engine::Tools::Timers::Timer timer;
 Odorless::Engine::Input::InputManager inputManager;
+Odorless::Engine::UI::Windows::WindowManager windowManager;
+Odorless::Game::UI::BasicWindow a(0, 0, 100, 100);
+
 
 void Initialize()
 {
 	fontManager.AddFont("base/textures/fonts/arial", true);
 	fontManager.SetFont("base/textures/fonts/arial");
+
+	windowManager.AddWindow(a);
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
@@ -35,36 +40,35 @@ void Initialize()
 	glEnable(GL_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
+
+	glMatrixMode( GL_PROJECTION );
+	glLoadIdentity();
+	glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	Odorless::Engine::Base::VSync(false);
 }
 
 void Update(double deltaTime)
 {
 	inputManager.Update();
+	windowManager.Update(deltaTime);
 }
 
 void Draw(double deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glColor4f(1, 1, 1, 1.0f);
-	glPushMatrix();
-	Odorless::Engine::Types::String text("Gamedev.net\nNew line test!");
-	text.Remove("\nNew");
-	fontManager.Write(text.c_str());
-
-	glPopMatrix();
+	windowManager.Render(deltaTime);
 }
 
 void OnResize(int width, int height)
 {
-	Odorless::Engine::Base::VSync(false);
-
-	glViewport(0, 0, width, height);
-	glMatrixMode(GL_PROJECTION);
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
+	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
-	glOrtho(0.0f, width, height, 0.0f, -1.0f, 1.0f);
+	glViewport(0, 0, width, height);
+	glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
+	windowManager.UpdateWin(width, height);
 }
 
 int main()
@@ -84,6 +88,7 @@ int main()
 	while (Odorless::Engine::Base::IsRunning())
 	{
 		float deltaTime = 0.0f;
+
 		if(timer.IsRunning)
 		{
 			if(timer.GetElapsedMilliSec() >= 1000)
@@ -100,10 +105,12 @@ int main()
 		{
 			timer.Start();
 		}
+
 		Odorless::Engine::Base::Update(deltaTime);
 		Odorless::Engine::Base::Draw(deltaTime);
 		Odorless::Engine::Base::Flush();
 		Odorless::Engine::Base::SwapBuffers();
+
 		if (glfwGetKey(GLFW_KEY_ESC) || !glfwGetWindowParam(GLFW_OPENED))
 			break;
 
