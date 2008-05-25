@@ -51,10 +51,8 @@ namespace Odorless
 				{
 				}
 
-				void Render(const float &dt, int &mainWinWidth, int &mainWinHeight)
+				void Render(const float &dt)
 				{
-					glMatrixMode( GL_PROJECTION );
-					glViewport(this->_2fPosition[0], mainWinHeight-this->_2fDimensions[0]-this->_2fPosition[1], this->_2fDimensions[0], this->_2fDimensions[1]);
 					glBegin(GL_QUADS);
 					glColor3f(1, 0, 0);
 					//Top-left vertex (corner)

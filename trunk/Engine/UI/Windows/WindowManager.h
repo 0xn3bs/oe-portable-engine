@@ -29,6 +29,8 @@ namespace Odorless
 					public:
 						WindowManager()
 						{
+							_iWinWidth = 0;
+							_iWinHeight = 0;
 						}
 						~WindowManager()
 						{
@@ -41,25 +43,9 @@ namespace Odorless
 						{
 							_vecWindows.erase(_vecWindows.begin() + index);
 						}
-						void Update(const float &dt)
-						{
-							for(int i = 0; i < _vecWindows.size(); i++)
-							{
-								_vecWindows.at(i)->Update(dt);
-							}
-						}
-						void UpdateWin(const int width, const int height)
-						{
-							_iWinWidth = width;
-							_iWinHeight = height;
-						}
-						void Render(const float &dt)
-						{
-							for(int i = 0; i < _vecWindows.size(); i++)
-							{
-								_vecWindows.at(i)->Render(dt, _iWinWidth, _iWinHeight);
-							}
-						}
+						void Update(const float &dt);
+						void UpdateWin(const int width, const int height);
+						void Render(const float &dt);
 					
 					private:
 						std::vector<Window*> _vecWindows;

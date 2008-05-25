@@ -75,6 +75,7 @@ int main()
 {
 	Odorless::Engine::Base::InitializeEngine();
 	Odorless::Engine::Base::OpenWindow(800, 600, 8, 8, 8, 8, 24, 8);
+	windowManager.UpdateWin(800, 600);
 	Odorless::Engine::Base::SetWindowResize(OnResize);
 	Odorless::Engine::Base::SetWindowTitle(__BUILD_STRING__);
 	Odorless::Engine::Base::SetInitialize(Initialize);
