@@ -55,7 +55,7 @@ namespace Odorless
 				{
 					//	Background
 					glBegin(GL_QUADS);
-					glColor3f(1, 0, 0);
+					glColor3ub(6, 57, 64);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(1, 1, 0);
@@ -64,7 +64,7 @@ namespace Odorless
 
 					//	Border
 					glBegin(GL_LINES);
-					glColor3f(0, 1, 0);
+					glColor3ub(62,131,140);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(0, 1, 0);
@@ -73,8 +73,9 @@ namespace Odorless
 					glVertex3f(1, 0, 0);
 					glVertex3f(1, 0, 0);
 					glVertex3f(0, 0, 0);
-					glVertex3f(0, 14/this->_2fDimensions[1], 0);
-					glVertex3f(1, 14/this->_2fDimensions[1], 0);
+
+					glVertex3f(0, 12.5/this->_2fDimensions[1], 0);
+					glVertex3f(1, 12.5/this->_2fDimensions[1], 0);
 					glEnd();
 				}
 			};
