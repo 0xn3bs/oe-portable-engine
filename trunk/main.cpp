@@ -23,7 +23,7 @@ Odorless::Engine::UI::Fonts::FontManager fontManager;
 Odorless::Engine::Tools::Timers::Timer timer;
 Odorless::Engine::Input::InputManager inputManager;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
-Odorless::Game::UI::BasicWindow a(100, 100, 100, 100);
+Odorless::Game::UI::BasicWindow a(100, 100, 100, 100), b(200, 200, 50, 50);
 
 void Initialize()
 {
@@ -31,6 +31,7 @@ void Initialize()
 	fontManager.SetFont("base/textures/fonts/arial");
 
 	windowManager.AddWindow(a);
+	windowManager.AddWindow(b);
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
