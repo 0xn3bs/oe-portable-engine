@@ -28,8 +28,45 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 
 		if((tempWin->IsOverTitleBar(iMouseX, iMouseY) || tempWin->_bIsDragging) && !bOthersDragging)
 		{
+			if(_inputManager->GetMouseX() < 0)
+			{
+					tempWin->_bIsDragging = false;
+					break;
+			}
+
+			if(_inputManager->GetMouseX() > _iWinWidth)
+			{
+					tempWin->_bIsDragging = false;
+					break;
+			}
+
+			if(_inputManager->GetMouseY() < 0)
+			{
+					tempWin->_bIsDragging = false;
+					break;
+			}
+
+			if(_inputManager->GetMouseY() > _iWinHeight)
+			{
+					tempWin->_bIsDragging = false;
+					break;
+			}
+
+			if(tempWin->_2fPosition[1] < -(tempWin->_fTitleBarY)-10)
+				tempWin->_2fPosition[1] = -(tempWin->_fTitleBarY)-10;
+
+			if(tempWin->_2fPosition[1] > _iWinHeight-2)
+				tempWin->_2fPosition[1] = _iWinHeight-2;
+
+			if(tempWin->_2fPosition[0] < -tempWin->_2fDimensions[0]+2)
+				tempWin->_2fPosition[0] = -tempWin->_2fDimensions[0]+2;
+
+			if(tempWin->_2fPosition[0] > _iWinWidth-2)
+				tempWin->_2fPosition[0] = _iWinWidth-2;
+
 			if(_inputManager->IsMouseDown(0))
 			{
+				SetFocus(i);
 				tempWin->_bIsDragging = true;
 				tempWin->_2fPosition[0] += _inputManager->GetMouseDeltaX();
 				tempWin->_2fPosition[1] += _inputManager->GetMouseDeltaY();

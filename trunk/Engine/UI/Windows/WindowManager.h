@@ -47,6 +47,12 @@ namespace Odorless
 						{
 							_vecWindows.erase(_vecWindows.begin() + index);
 						}
+						void SetFocus(const unsigned int &index)
+						{
+							Window *tempWinA = _vecWindows.at(index);
+							_vecWindows.erase(_vecWindows.begin() + index);
+							_vecWindows.push_back(tempWinA);
+						}
 						void Update(const float &dt);
 						void UpdateWin(const int width, const int height);
 						void Render(const float &dt);

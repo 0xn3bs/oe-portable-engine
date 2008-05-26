@@ -26,17 +26,17 @@ namespace Odorless
 			public:
 				BasicWindow() : Odorless::Engine::UI::Windows::Window()
 				{
-					Engine::Tools::Colors::Color::RGBA(_uiBgColor,6,57,64,240);
-					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,25,94,99,240);
-					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,240);
+					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
+					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
+					Engine::Tools::Colors::Color::RGBA(_uiFgColor,255,255,225,190);
 					_fTitleBarY = 12.5 / this->_2fDimensions[1];
 				}
 
 				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
 				{
-					Engine::Tools::Colors::Color::RGBA(_uiBgColor,6,57,64,240);
-					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,25,94,99,240);
-					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,240);
+					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
+					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
+					Engine::Tools::Colors::Color::RGBA(_uiFgColor,255,255,225,190);
 					_fTitleBarY = 12.5 / this->_2fDimensions[1];
 				}
 

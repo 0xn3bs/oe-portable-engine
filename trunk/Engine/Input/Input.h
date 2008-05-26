@@ -71,7 +71,17 @@ namespace Odorless
 
 				static void SetMousePos(const int x, const int y)
 				{
-					glfwSetMousePos(_iMouseX, _iMouseY);
+					glfwSetMousePos(x, y);
+				}
+
+				static void SetMouseX(const int x)
+				{
+					glfwSetMousePos(x, _iMouseY);
+				}
+
+				static void SetMouseY(const int y)
+				{
+					glfwSetMousePos(_iMouseX, y);
 				}
 
 				static bool IsMouseDown(const int &button)
