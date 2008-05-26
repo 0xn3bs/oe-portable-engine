@@ -14,6 +14,7 @@
 
 #include "../../Engine/UI/Windows/Window.h"
 #include "../../Engine/Tools/Colors/Color.h"
+#include "../../Engine/Textures/TextureManager.h"
 
 namespace Odorless
 {
@@ -24,6 +25,7 @@ namespace Odorless
 			class BasicWindow : public Odorless::Engine::UI::Windows::Window
 			{
 			public:
+				int uintTextureHandle;
 				BasicWindow() : Odorless::Engine::UI::Windows::Window()
 				{
 					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
@@ -34,6 +36,7 @@ namespace Odorless
 
 				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
 				{
+					uintTextureHandle = Odorless::Engine::Textures::TextureManager::LoadTexture("base/textures/fonts/arial.tga");
 					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
 					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
 					Engine::Tools::Colors::Color::RGBA(_uiFgColor,255,255,225,190);
@@ -47,6 +50,7 @@ namespace Odorless
 
 				int Initialize()
 				{
+
 					return 0;
 				}
 
@@ -60,12 +64,20 @@ namespace Odorless
 
 				void Render(const float &dt)
 				{
+					
+					//	base/textures/fonts/arial
+					
+					glBindTexture(GL_TEXTURE_2D, uintTextureHandle);
 					//	Background
 					glBegin(GL_QUADS);
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
+					glTexCoord2f(0, 0);
 					glVertex3f(0, 0, 0);
+					glTexCoord2f(0, 1);
 					glVertex3f(0, 1, 0);
+					glTexCoord2f(1, 1);
 					glVertex3f(1, 1, 0);
+					glTexCoord2f(1, 0);
 					glVertex3f(1, 0, 0);
 					glColor4ub(_uiBgColor[0]/2,_uiBgColor[1]/2,_uiBgColor[2]/2,_uiBgColor[3]);
 					glVertex3f(0, 0, 0);
@@ -93,6 +105,8 @@ namespace Odorless
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, _fTitleBarY, 0);
 					glVertex3f(1, _fTitleBarY, 0);
+					glVertex3f(0, 0, 0);
+					glVertex3f(1, 1, 0);
 					glEnd();
 				}
 			};
