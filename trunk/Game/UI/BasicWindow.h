@@ -13,6 +13,7 @@
 #define BASIC_WINDOW_H_
 
 #include "../../Engine/UI/Windows/Window.h"
+#include "../../Engine/Tools/Colors/Color.h"
 
 namespace Odorless
 {
@@ -25,11 +26,17 @@ namespace Odorless
 			public:
 				BasicWindow() : Odorless::Engine::UI::Windows::Window()
 				{
+					Engine::Tools::Colors::Color::RGBA(_uiBgColor,6,57,64,240);
+					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,25,94,99,240);
+					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,240);
 					_fTitleBarY = 12.5 / this->_2fDimensions[1];
 				}
 
 				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
 				{
+					Engine::Tools::Colors::Color::RGBA(_uiBgColor,6,57,64,240);
+					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,25,94,99,240);
+					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,240);
 					_fTitleBarY = 12.5 / this->_2fDimensions[1];
 				}
 
@@ -55,12 +62,12 @@ namespace Odorless
 				{
 					//	Background
 					glBegin(GL_QUADS);
-					glColor4ub(6, 57, 64, 127);
+					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(1, 1, 0);
 					glVertex3f(1, 0, 0);
-					glColor3ub(62,131,140);
+					glColor4ub(_uiBgColor[0]/2,_uiBgColor[1]/2,_uiBgColor[2]/2,_uiBgColor[3]);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, _fTitleBarY, 0);
 					glVertex3f(1, _fTitleBarY, 0);
@@ -75,7 +82,7 @@ namespace Odorless
 
 					//	Border
 					glBegin(GL_LINES);
-					glColor4ub(25,94,99,127);
+					glColor4ub(_uiBrdrColor[0],_uiBrdrColor[1],_uiBrdrColor[2],_uiBrdrColor[3]);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(0, 1, 0);

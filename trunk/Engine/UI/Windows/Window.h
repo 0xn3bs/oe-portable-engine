@@ -45,8 +45,9 @@ namespace Odorless
 						float _2fDimensions[2];
 						float _2fPosition[2];
 						float _fTitleBarY;
-						unsigned int _uiFgColor;
-						unsigned int _uiBgColor;
+						unsigned char _uiFgColor[4];
+						unsigned char _uiBgColor[4];
+						unsigned char _uiBrdrColor[4];
 						bool _bIsDragging;
 						std::vector<UI::Widgets::Widget*> _vecWidgets;
 				};

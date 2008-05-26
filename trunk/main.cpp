@@ -11,11 +11,11 @@
 #include <windows.h>
 #define __BUILD_STRING__ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
 #include "Engine/Base.h"
-#include "Engine/UI/Windows/WindowManager.h"
-#include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/Input/Input.h"
 #include "Engine/Tools/Timers/Timer.h"
 #include "Engine/Types/String.h"
+#include "Engine/UI/Windows/WindowManager.h"
+#include "Engine/UI/Fonts/FontManager.h"
 #include "Game/UI/BasicWindow.h"
 #include <iostream>
 
@@ -44,6 +44,7 @@ void Initialize()
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 	Odorless::Engine::Base::VSync(false);

@@ -15,11 +15,18 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
 		Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i);
-		
+
+		bool bOthersDragging = false;
+		for(int j = 0; j < _vecWindows.size(); j++)
+		{
+			if(_vecWindows.at(j)->_bIsDragging && j != i)
+				bOthersDragging = true;
+		}
+
 		const int iMouseX = _inputManager->GetMouseX();
 		const int iMouseY = _inputManager->GetMouseY();
 
-		if(tempWin->IsOverTitleBar(iMouseX, iMouseY) || tempWin->_bIsDragging)
+		if((tempWin->IsOverTitleBar(iMouseX, iMouseY) || tempWin->_bIsDragging) && !bOthersDragging)
 		{
 			if(_inputManager->IsMouseDown(0))
 			{
