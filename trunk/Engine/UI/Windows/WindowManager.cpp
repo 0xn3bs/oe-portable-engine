@@ -34,6 +34,16 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 		Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i); 
 		tempWin->Update(dt);
 
+		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
+		if(tempWin->_2fPosition[1] < -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+5)
+			tempWin->_2fPosition[1] = -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+5;
+		if(tempWin->_2fPosition[1] > _iWinHeight-5)
+			tempWin->_2fPosition[1] = _iWinHeight-5;
+		if(tempWin->_2fPosition[0] < -tempWin->_2fDimensions[0]+5)
+			tempWin->_2fPosition[0] = -tempWin->_2fDimensions[0]+5;
+		if(tempWin->_2fPosition[0] > _iWinWidth-5)
+			tempWin->_2fPosition[0] = _iWinWidth-5;
+
 		bool bOthersDragging = false;
 		for(int j = 0; j < _vecWindows.size(); j++)
 		{
@@ -67,18 +77,6 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 				tempWin->_bIsDragging = false;
 				break;
 			}
-
-			if(tempWin->_2fPosition[1] < -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+2)
-				tempWin->_2fPosition[1] = -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+2;
-
-			if(tempWin->_2fPosition[1] > _iWinHeight-2)
-				tempWin->_2fPosition[1] = _iWinHeight-2;
-
-			if(tempWin->_2fPosition[0] < -tempWin->_2fDimensions[0]+2)
-				tempWin->_2fPosition[0] = -tempWin->_2fDimensions[0]+2;
-
-			if(tempWin->_2fPosition[0] > _iWinWidth-2)
-				tempWin->_2fPosition[0] = _iWinWidth-2;
 
 			if(_inputManager->IsMouseDown(0))
 			{
