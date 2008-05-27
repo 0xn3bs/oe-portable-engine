@@ -64,7 +64,10 @@ namespace Odorless
 				{
 					//	Background
 					glBegin(GL_QUADS);
-					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
+					if(!_bHasFocus)
+						glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
+					else
+						glColor4ub(_uiBgColor[2],_uiBgColor[1],_uiBgColor[0],_uiBgColor[3]);
 					glTexCoord2f(0, 0);
 					glVertex3f(0, 0, 0);
 					glTexCoord2f(0, 1);
@@ -73,7 +76,10 @@ namespace Odorless
 					glVertex3f(1, 1, 0);
 					glTexCoord2f(1, 0);
 					glVertex3f(1, 0, 0);
-					glColor4ub(_uiBgColor[0]/2,_uiBgColor[1]/2,_uiBgColor[2]/2,_uiBgColor[3]);
+					if(!_bHasFocus)
+						glColor4ub(_uiBgColor[0]/2,_uiBgColor[1]/2,_uiBgColor[2]/2,_uiBgColor[3]);
+					else
+						glColor4ub(_uiBgColor[2]/2,_uiBgColor[1]/2,_uiBgColor[0]/2,_uiBgColor[3]);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, _fTitleBarY, 0);
 					glVertex3f(1, _fTitleBarY, 0);

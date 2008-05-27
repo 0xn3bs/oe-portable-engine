@@ -54,6 +54,7 @@ namespace Odorless
 						unsigned char _uiBgColor[4];
 						unsigned char _uiBrdrColor[4];
 						bool _bIsDragging;
+						bool _bHasFocus;
 						std::vector<UI::Widgets::Widget*> _vecWidgets;
 				};
 			}

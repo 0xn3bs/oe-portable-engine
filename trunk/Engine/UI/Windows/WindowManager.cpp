@@ -13,14 +13,26 @@
 
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
-
 	/*
 	const int iMouseX = _inputManager->GetMouseX();
 	const int iMouseY = _inputManager->GetMouseY();
 
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
+	Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i); 
+	tempWin->Update(dt);
+
+	if(CanPick(i, iMouseX, iMouseY))
+	SetFocus(i);
+	}
+	*/
+	const int iMouseX = _inputManager->GetMouseX();
+	const int iMouseY = _inputManager->GetMouseY();
+
+	for(int i = 0; i < _vecWindows.size(); i++)
+	{
 		Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i); 
+		tempWin->Update(dt);
 
 		bool bOthersDragging = false;
 		for(int j = 0; j < _vecWindows.size(); j++)
@@ -29,30 +41,31 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 				bOthersDragging = true;
 		}
 
-		if((tempWin->IsOverTitleBar(iMouseX, iMouseY) || tempWin->_bIsDragging) && !bOthersDragging)
+		bool bCanDrag = CanPick(i, iMouseX, iMouseY);
+		if(((tempWin->IsOverTitleBar(iMouseX, iMouseY) && bCanDrag) || tempWin->_bIsDragging) && !bOthersDragging)
 		{
 			if(_inputManager->GetMouseX() < 0)
 			{
-					tempWin->_bIsDragging = false;
-					break;
+				tempWin->_bIsDragging = false;
+				break;
 			}
 
 			if(_inputManager->GetMouseX() > _iWinWidth)
 			{
-					tempWin->_bIsDragging = false;
-					break;
+				tempWin->_bIsDragging = false;
+				break;
 			}
 
 			if(_inputManager->GetMouseY() < 0)
 			{
-					tempWin->_bIsDragging = false;
-					break;
+				tempWin->_bIsDragging = false;
+				break;
 			}
 
 			if(_inputManager->GetMouseY() > _iWinHeight)
 			{
-					tempWin->_bIsDragging = false;
-					break;
+				tempWin->_bIsDragging = false;
+				break;
 			}
 
 			if(tempWin->_2fPosition[1] < -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+2)
@@ -76,13 +89,8 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 			}
 			else
 				tempWin->_bIsDragging = false;
-		}
-
-		tempWin->Update(dt);
+		}	
 	}
-	*/
-
-
 }
 
 void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)

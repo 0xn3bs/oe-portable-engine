@@ -16,7 +16,6 @@
 #include <ostream>
 #include <memory>
 #include <vector>
-#include <cstdlib>
 
 namespace Odorless
 {
@@ -74,6 +73,7 @@ namespace Odorless
 					_iMouseDeltaY = _iMouseY - iMouseOldY;
 				}
 
+				/*
 				void AddMouseDownCB(void(*mDownCB)(const char button, const int x, const int y))
 				{
 					_vecMouseDownCallbacks.push_back(mDownCB);
@@ -88,6 +88,7 @@ namespace Odorless
 				{
 					_vecMouseClickCallbacks.push_back(mClickCB);
 				}
+				*/
 
 				void SetKeyState(const char key, bool state)
 				{

@@ -22,7 +22,7 @@
 Odorless::Engine::Tools::Timers::Timer timer;
 Odorless::Engine::Input::InputManager inputManager;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
-Odorless::Game::UI::BasicWindow a(100, 100, 100, 100), b(200, 200, 150, 150);
+Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
 
 void Initialize()
 {
@@ -31,6 +31,7 @@ void Initialize()
 
 	windowManager.AddWindow(a);
 	windowManager.AddWindow(b);
+	windowManager.AddWindow(c);
 	windowManager.SetInput(&inputManager);
 
 	glEnable(GL_LINE);
