@@ -10,7 +10,11 @@
 ***************************************************************************************************/
 
 #include "Input.h"
-int Odorless::Engine::Input::InputManager::_iMouseX=0;
-int Odorless::Engine::Input::InputManager::_iMouseY=0;
-int Odorless::Engine::Input::InputManager::_iMouseDeltaX=0;
-int Odorless::Engine::Input::InputManager::_iMouseDeltaY=0;
+//int Odorless::Engine::Input::InputManager::_iMouseX=0;
+//int Odorless::Engine::Input::InputManager::_iMouseY=0;
+//int Odorless::Engine::Input::InputManager::_iMouseDeltaX=0;
+//int Odorless::Engine::Input::InputManager::_iMouseDeltaY=0;
+
+//std::vector<void(*)(const char button, const int x, const int y)> Odorless::Engine::Input::InputManager::_vecMouseDownCallbacks = std::vector<void(*)(const char button, const int x, const int y)>();
+//std::vector<void(*)(const char button, const int x, const int y)> Odorless::Engine::Input::InputManager::_vecMouseUpCallbacks = std::vector<void(*)(const char button, const int x, const int y)>();
+//std::vector<void(*)(const char button, const int x, const int y)> Odorless::Engine::Input::InputManager::_vecMouseClickCallbacks = std::vector<void(*)(const char button, const int x, const int y)>();

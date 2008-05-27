@@ -35,9 +35,21 @@ namespace Odorless
 						~WindowManager()
 						{
 						}
+						void OnMouseClick(const char button, const int x, const int y)
+						{
+						}
+						void OnMouseDown(const char button, const int x, const int y)
+						{
+						}
+						void OnMouseUp(const char button, const int x, const int y)
+						{
+						}
 						void SetInput(Odorless::Engine::Input::InputManager* inputManager)
 						{
 							_inputManager = inputManager;
+							_inputManager->AddMouseDownCB(OnMouseDown);
+							//_inputManager->AddMouseUpCB(this, OnMouseUp);
+							//_inputManager->AddMouseClickCB(this, OnMouseClick);
 						}
 						void AddWindow(Window &window)
 						{
@@ -56,8 +68,9 @@ namespace Odorless
 						void Update(const float &dt);
 						void UpdateWin(const int width, const int height);
 						void Render(const float &dt);
-					
+
 					private:
+						bool _bIsMouseAlreadyDown;
 						Odorless::Engine::Input::InputManager* _inputManager;
 						//Odorless::Engine::UI::Fonts::FontManager fontManager;
 						std::vector<Window*> _vecWindows;

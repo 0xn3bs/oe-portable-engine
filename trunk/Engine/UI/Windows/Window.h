@@ -36,6 +36,11 @@ namespace Odorless
 						virtual void Dispose() = 0;
 						virtual void Update(const float &dt) = 0;
 						virtual void Render(const float &dt) = 0;
+
+						virtual void OnMouseClick(const char button, const int x, const int y){};
+						virtual void OnMouseDown(const char button, const int x, const int y){};
+						virtual void OnMouseUp(const char button, const int x, const int y){};
+
 						bool IsOver(const float &x, const float &y);
 						bool IsOverTitleBar(const float &x, const float &y);
 						void AddWidget(const UI::Widgets::Widget &widget);

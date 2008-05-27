@@ -15,6 +15,8 @@
 #include <GL/glfw.h>
 #include <ostream>
 #include <memory>
+#include <vector>
+#include <cstdlib>
 
 namespace Odorless
 {
@@ -25,31 +27,44 @@ namespace Odorless
 			class InputManager
 			{
 			private:
-				static int _iMouseX;
-				static int _iMouseY;
-				static int _iMouseDeltaX;
-				static int _iMouseDeltaY;
+				//template <typename T> std::vector<void(T::*)(const char button, const int x, const int y)> _vecMouseDownCallbacks;
+				//template <typename T> std::vector<void(T::*)(const char button, const int x, const int y)> _vecMouseUpCallbacks;
+				//template <typename T> std::vector<void(T::*)(const char button, const int x, const int y)> _vecMouseClickCallbacks;
+
+				int _iMouseClckStrtX;
+				int _iMouseClckStrtY;
+				int _iMouseX;
+				int _iMouseY;
+				int _iMouseDeltaX;
+				int _iMouseDeltaY;
 				static bool _rgcKeys[255];
 
 				static void GLFWCALL SetKeyEvent(const int key, const int action)
 				{
+			
 					_rgcKeys[key] = (bool)action;
 				}
 			public:
 				InputManager()
 				{
+					_iMouseClckStrtX=0;
+					_iMouseClckStrtY=0;
+					_iMouseX=0;
+					_iMouseY=0;
+					_iMouseDeltaX=0;
+					_iMouseDeltaY=0;
 				}
 
 				~InputManager()
 				{
 				}
 
-				static void Initialize()
+				void Initialize()
 				{
 					glfwSetKeyCallback(SetKeyEvent);
 				}
 
-				static void Update()
+				void Update()
 				{
 					int iMouseOldX = _iMouseX;
 					int iMouseOldY = _iMouseY;
@@ -59,7 +74,22 @@ namespace Odorless
 					_iMouseDeltaY = _iMouseY - iMouseOldY;
 				}
 
-				static void SetKeyState(const char key, bool state)
+				void AddMouseDownCB(void(*mDownCB)(const char button, const int x, const int y))
+				{
+					_vecMouseDownCallbacks.push_back(mDownCB);
+				}
+
+				void AddMouseUpCB(void(*mDownCB)(const char button, const int x, const int y))
+				{
+					_vecMouseUpCallbacks.push_back(mDownCB);
+				}
+
+				void AddMouseClickCB(void(*mClickCB)(const char button, const int x, const int y))
+				{
+					_vecMouseClickCallbacks.push_back(mClickCB);
+				}
+
+				void SetKeyState(const char key, bool state)
 				{
 					_rgcKeys[key] = state;
 				}
@@ -69,48 +99,48 @@ namespace Odorless
 					return _rgcKeys[key];
 				}
 
-				static void SetMousePos(const int x, const int y)
+				void SetMousePos(const int x, const int y)
 				{
 					glfwSetMousePos(x, y);
 				}
 
-				static void SetMouseX(const int x)
+				void SetMouseX(const int x)
 				{
 					glfwSetMousePos(x, _iMouseY);
 				}
 
-				static void SetMouseY(const int y)
+				void SetMouseY(const int y)
 				{
 					glfwSetMousePos(_iMouseX, y);
 				}
 
-				static bool IsMouseDown(const int &button)
+				bool IsMouseDown(const int &button)
 				{
 					return glfwGetMouseButton(button);
 				}
 
-				static void GetMousePos(int *xPos, int *yPos)
+				void GetMousePos(int *xPos, int *yPos)
 				{
 					*xPos = _iMouseX;
 					*yPos = _iMouseY;
 				}
 
-				static const int GetMouseDeltaX()
+				const int GetMouseDeltaX()
 				{
 					return _iMouseDeltaX;
 				}
 
-				static const int GetMouseDeltaY()
+				const int GetMouseDeltaY()
 				{
 					return _iMouseDeltaY;
 				}
 
-				static const int GetMouseX()
+				const int GetMouseX()
 				{
 					return _iMouseX;
 				}
 
-				static const int GetMouseY()
+				const int GetMouseY()
 				{
 					return _iMouseY;
 				}

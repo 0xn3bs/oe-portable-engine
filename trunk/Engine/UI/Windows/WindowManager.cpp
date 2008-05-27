@@ -10,11 +10,17 @@
 *****************************************************************************************/
 #include "WindowManager.h"
 #include <iostream>
+
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
+
+	/*
+	const int iMouseX = _inputManager->GetMouseX();
+	const int iMouseY = _inputManager->GetMouseY();
+
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
-		Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i);
+		Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i); 
 
 		bool bOthersDragging = false;
 		for(int j = 0; j < _vecWindows.size(); j++)
@@ -22,9 +28,6 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 			if(_vecWindows.at(j)->_bIsDragging && j != i)
 				bOthersDragging = true;
 		}
-
-		const int iMouseX = _inputManager->GetMouseX();
-		const int iMouseY = _inputManager->GetMouseY();
 
 		if((tempWin->IsOverTitleBar(iMouseX, iMouseY) || tempWin->_bIsDragging) && !bOthersDragging)
 		{
@@ -52,8 +55,8 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 					break;
 			}
 
-			if(tempWin->_2fPosition[1] < -(tempWin->_fTitleBarY)-10)
-				tempWin->_2fPosition[1] = -(tempWin->_fTitleBarY)-10;
+			if(tempWin->_2fPosition[1] < -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+2)
+				tempWin->_2fPosition[1] = -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+2;
 
 			if(tempWin->_2fPosition[1] > _iWinHeight-2)
 				tempWin->_2fPosition[1] = _iWinHeight-2;
@@ -77,6 +80,9 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 
 		tempWin->Update(dt);
 	}
+	*/
+
+
 }
 
 void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)
@@ -87,7 +93,7 @@ void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, co
 
 void Odorless::Engine::UI::Windows::WindowManager::Render(const float &dt)
 {
-	for(int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* tempWin = _vecWindows.at(i);
 		glMatrixMode( GL_PROJECTION );

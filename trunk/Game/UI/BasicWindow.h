@@ -30,7 +30,7 @@ namespace Odorless
 					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
 					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
 					Engine::Tools::Colors::Color::RGBA(_uiFgColor,255,255,225,190);
-					_fTitleBarY = 12.5 / this->_2fDimensions[1];
+					_fTitleBarY = 12.5f / this->_2fDimensions[1];
 				}
 
 				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
@@ -38,7 +38,7 @@ namespace Odorless
 					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
 					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
 					Engine::Tools::Colors::Color::RGBA(_uiFgColor,255,255,225,190);
-					_fTitleBarY = 12.5 / this->_2fDimensions[1];
+					_fTitleBarY = 12.5f / this->_2fDimensions[1];
 				}
 
 				~BasicWindow()
@@ -81,7 +81,7 @@ namespace Odorless
 					glEnd();
 
 					//	Render widgets here.
-					for(int i = 0; i < _vecWidgets.size(); i++)
+					for(unsigned int i = 0; i < _vecWidgets.size(); i++)
 					{
 						_vecWidgets.at(i)->Render(dt);
 					}
@@ -99,8 +99,6 @@ namespace Odorless
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, _fTitleBarY, 0);
 					glVertex3f(1, _fTitleBarY, 0);
-					glVertex3f(0, 0, 0);
-					glVertex3f(1, 1, 0);
 					glEnd();
 				}
 			};
