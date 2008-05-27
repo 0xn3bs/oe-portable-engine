@@ -51,8 +51,9 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 				bOthersDragging = true;
 		}
 
-		bool bCanDrag = CanPick(i, iMouseX, iMouseY);
-		if(((tempWin->IsOverTitleBar(iMouseX, iMouseY) && bCanDrag) || tempWin->_bIsDragging) && !bOthersDragging)
+		bool bCanPick = CanPick(i, iMouseX, iMouseY);
+
+		if(((tempWin->IsOverTitleBar(iMouseX, iMouseY) && bCanPick) || tempWin->_bIsDragging) && !bOthersDragging)
 		{
 			if(_inputManager->GetMouseX() < 0)
 			{
