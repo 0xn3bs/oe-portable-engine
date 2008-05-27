@@ -11,7 +11,6 @@
 #ifndef WINDOWMANAGER_H_
 #define WINDOWMANAGER_H_
 
-#include "../../../Game/UI/BasicWindow.h"
 #include "Window.h"
 
 #include <vector>

@@ -53,6 +53,11 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 
 		bool bCanPick = CanPick(i, iMouseX, iMouseY);
 
+		if(!tempWin->_bHasFocus&&bCanPick&&_inputManager->IsMouseDown(0)&&!bOthersDragging)
+		{
+			SetFocus(i);
+		}
+
 		if(((tempWin->IsOverTitleBar(iMouseX, iMouseY) && bCanPick) || tempWin->_bIsDragging) && !bOthersDragging)
 		{
 			if(_inputManager->GetMouseX() < 0)
@@ -81,7 +86,6 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 
 			if(_inputManager->IsMouseDown(0))
 			{
-				SetFocus(i);
 				tempWin->_bIsDragging = true;
 				tempWin->_2fPosition[0] += _inputManager->GetMouseDeltaX();
 				tempWin->_2fPosition[1] += _inputManager->GetMouseDeltaY();

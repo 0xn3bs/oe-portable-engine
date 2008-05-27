@@ -12,8 +12,8 @@
 #define WINDOW_H_
 
 #include <GL/glfw.h>
-#include "../Widgets/Widget.h"
-#include "../../Input/Input.h"
+#include "Engine/UI/Widgets/Widget.h"
+#include "Engine/Input/Input.h"
 #include <vector>
 
 namespace Odorless

@@ -9,8 +9,8 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *****************************************************************************************/
 #include "FontManager.h"
-#include "../../Textures/TextureManager.h"
-#include "../../Tools/Colors/Color.h"
+#include "Engine/Textures/TextureManager.h"
+#include "Engine/Tools/Colors/Color.h"
 #include <string>
 #include <iostream>
 

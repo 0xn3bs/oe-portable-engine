@@ -12,9 +12,9 @@
 #ifndef BASIC_WINDOW_H_
 #define BASIC_WINDOW_H_
 
-#include "../../Engine/UI/Windows/Window.h"
-#include "../../Engine/Tools/Colors/Color.h"
-#include "../../Engine/Textures/TextureManager.h"
+#include "Engine/UI/Windows/Window.h"
+#include "Engine/Tools/Colors/Color.h"
+#include "Engine/Textures/TextureManager.h"
 
 namespace Odorless
 {
