@@ -46,12 +46,12 @@ namespace Odorless
 				static int _iMousePressStartY;
 				static bool _rgcKeys[255];
 
-				static void GLFWCALL GLFWSetKeyEvent(const int key, const int action)
+				static void GLFWCALL GLFWSetKeyEvent(int key, int action)
 				{
 					_rgcKeys[key] = (bool)action;
 				}
 
-				static void GLFWCALL GLFWSetMousePos(const int x, const int y)
+				static void GLFWCALL GLFWSetMousePos(int x, int y)
 				{
 					_iMouseDeltaX = x - _iMouseX;
 					_iMouseDeltaY = y - _iMouseY;
@@ -59,7 +59,7 @@ namespace Odorless
 					_iMouseY = y;
 				}
 
-				static void GLFWCALL GLFWSetMouseDown(const int x, const int y)
+				static void GLFWCALL GLFWSetMouseDown(int x, int y)
 				{
 					for(int i = 0; i < _vecInputListeners.size(); i++)
 					{
