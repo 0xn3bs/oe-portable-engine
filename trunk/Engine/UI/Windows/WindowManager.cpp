@@ -41,6 +41,8 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, 
 		}
 		std::cout << std::endl;
 	}
+
+	//	Setting a new focused window changes the order of the windows.
 	UpdateFocus();
 }
 
