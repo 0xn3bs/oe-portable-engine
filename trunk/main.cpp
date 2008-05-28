@@ -21,19 +21,17 @@
 #include <iostream>
 
 Odorless::Engine::Tools::Timers::Timer timer;
-Odorless::Engine::Input::InputManager inputManager;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
 Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
 
 void Initialize()
 {
-//	fontManager.AddFont("base/textures/fonts/arial", true);
-//	fontManager.SetFont("base/textures/fonts/arial");
+	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/arial", true);
+	Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/arial");
 
 	windowManager.AddWindow(a);
 	windowManager.AddWindow(b);
 	windowManager.AddWindow(c);
-	windowManager.SetInput(&inputManager);
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
@@ -43,7 +41,7 @@ void Initialize()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
 
-	glMatrixMode( GL_PROJECTION );
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -54,7 +52,7 @@ void Initialize()
 
 void Update(double deltaTime)
 {
-	inputManager.Update();
+	Odorless::Engine::Input::InputManager::Update();
 	windowManager.Update(deltaTime);
 }
 
@@ -85,7 +83,6 @@ int main()
 	Odorless::Engine::Base::SetInitialize(Initialize);
 	Odorless::Engine::Base::SetUpdate(Update);
 	Odorless::Engine::Base::SetDraw(Draw);
-
 	Odorless::Engine::Base::Initialize();
 
 	int totalFrames = 0;

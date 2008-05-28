@@ -11,6 +11,7 @@
 #include "Base.h"
 #include <iostream>
 #include "Textures/TextureManager.h"
+#include "Input/Input.h"
 
 int Odorless::Engine::Base::_iWindowWidth, Odorless::Engine::Base::_iWindowHeight = 0;
 bool Odorless::Engine::Base::_bIsRunning = false;
@@ -25,6 +26,7 @@ unsigned int Odorless::Engine::Base::InitializeEngine()
 
 	_bIsRunning = true;
 	glfwEnable(GLFW_STICKY_KEYS);
+	Engine::Input::InputManager::Initialize();
 
 	return 0;
 }

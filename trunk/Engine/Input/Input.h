@@ -14,6 +14,7 @@
 
 #include <GL/glfw.h>
 #include <ostream>
+#include <iostream>
 #include <memory>
 #include <vector>
 
@@ -23,127 +24,140 @@ namespace Odorless
 	{
 		namespace Input
 		{
+			class InputListener
+			{
+			public:
+				virtual void OnMousePress(const int x, const int y){};
+				virtual void OnMouseDown(const int x, const int y){};
+				virtual void OnMouseUp(const int x, const int y){};
+				virtual void OnMouseClick(const int x, const int y){};
+			};
+
 			class InputManager
 			{
 			private:
-				//template <typename T> std::vector<void(T::*)(const char button, const int x, const int y)> _vecMouseDownCallbacks;
-				//template <typename T> std::vector<void(T::*)(const char button, const int x, const int y)> _vecMouseUpCallbacks;
-				//template <typename T> std::vector<void(T::*)(const char button, const int x, const int y)> _vecMouseClickCallbacks;
+				static std::vector<InputListener*> _vecInputListeners;
 
-				int _iMouseClckStrtX;
-				int _iMouseClckStrtY;
-				int _iMouseX;
-				int _iMouseY;
-				int _iMouseDeltaX;
-				int _iMouseDeltaY;
+				static int _iMouseX;
+				static int _iMouseY;
+				static int _iMouseDeltaX;
+				static int _iMouseDeltaY;
+				static int _iMousePressStartX;
+				static int _iMousePressStartY;
 				static bool _rgcKeys[255];
 
-				static void GLFWCALL SetKeyEvent(const int key, const int action)
+				static void GLFWCALL GLFWSetKeyEvent(const int key, const int action)
 				{
-			
 					_rgcKeys[key] = (bool)action;
+				}
+
+				static void GLFWCALL GLFWSetMousePos(const int x, const int y)
+				{
+					_iMouseDeltaX = x - _iMouseX;
+					_iMouseDeltaY = y - _iMouseY;
+					_iMouseX = x;
+					_iMouseY = y;
+				}
+
+				static void GLFWCALL GLFWSetMouseDown(const int x, const int y)
+				{
+					for(int i = 0; i < _vecInputListeners.size(); i++)
+					{
+						_vecInputListeners.at(i)->OnMouseDown(x, y);
+					}
 				}
 			public:
 				InputManager()
 				{
-					_iMouseClckStrtX=0;
-					_iMouseClckStrtY=0;
+					_iMousePressStartX=0;
+					_iMousePressStartY=0;
 					_iMouseX=0;
 					_iMouseY=0;
 					_iMouseDeltaX=0;
 					_iMouseDeltaY=0;
+					glfwSetKeyCallback(GLFWSetKeyEvent);
+					glfwSetMousePosCallback(GLFWSetMousePos);
+					glfwSetMouseButtonCallback(GLFWSetMouseDown);
 				}
 
 				~InputManager()
 				{
 				}
 
-				void Initialize()
+				static void Initialize()
 				{
-					glfwSetKeyCallback(SetKeyEvent);
+					
 				}
 
-				void Update()
+				static void Update()
 				{
-					int iMouseOldX = _iMouseX;
-					int iMouseOldY = _iMouseY;
-					glfwGetMousePos(&_iMouseX, &_iMouseY);
-
-					_iMouseDeltaX = _iMouseX - iMouseOldX;
-					_iMouseDeltaY = _iMouseY - iMouseOldY;
+					int x, y;
+					glfwGetMousePos(&x, &y);
+					_iMouseDeltaX = x - _iMouseX;
+					_iMouseDeltaY = y - _iMouseY;
+					_iMouseX = x;
+					_iMouseY = y;
 				}
 
-				/*
-				void AddMouseDownCB(void(*mDownCB)(const char button, const int x, const int y))
+				static void AddInputListener(InputListener* inputListener)
 				{
-					_vecMouseDownCallbacks.push_back(mDownCB);
+					_vecInputListeners.push_back(inputListener);
 				}
-
-				void AddMouseUpCB(void(*mDownCB)(const char button, const int x, const int y))
-				{
-					_vecMouseUpCallbacks.push_back(mDownCB);
-				}
-
-				void AddMouseClickCB(void(*mClickCB)(const char button, const int x, const int y))
-				{
-					_vecMouseClickCallbacks.push_back(mClickCB);
-				}
-				*/
-
-				void SetKeyState(const char key, bool state)
+				
+				static void SetKeyState(const char &key, bool &state)
 				{
 					_rgcKeys[key] = state;
 				}
 
-				static bool GetKeyState(const char key)
+				static bool GetKeyState(const char &key)
 				{
 					return _rgcKeys[key];
 				}
 
-				void SetMousePos(const int x, const int y)
+				static void SetMousePos(const int &x, const int &y)
 				{
 					glfwSetMousePos(x, y);
 				}
 
-				void SetMouseX(const int x)
+				static void SetMouseX(const int &x)
 				{
 					glfwSetMousePos(x, _iMouseY);
 				}
 
-				void SetMouseY(const int y)
+				static void SetMouseY(const int &y)
 				{
 					glfwSetMousePos(_iMouseX, y);
-				}
+				}	
 
-				bool IsMouseDown(const int &button)
-				{
-					return glfwGetMouseButton(button);
-				}
-
-				void GetMousePos(int *xPos, int *yPos)
+				static void GetMousePos(int *xPos, int *yPos)
 				{
 					*xPos = _iMouseX;
 					*yPos = _iMouseY;
 				}
 
-				const int GetMouseDeltaX()
+				static const int GetMouseDeltaX()
 				{
 					return _iMouseDeltaX;
 				}
 
-				const int GetMouseDeltaY()
+				static const int GetMouseDeltaY()
 				{
 					return _iMouseDeltaY;
 				}
 
-				const int GetMouseX()
+				static const int GetMouseX()
 				{
 					return _iMouseX;
 				}
 
-				const int GetMouseY()
+				static const int GetMouseY()
 				{
 					return _iMouseY;
+				}
+				
+				static bool IsMouseDown(const int &button)
+				{
+					return glfwGetMouseButton(button);
 				}
 			};
 		};

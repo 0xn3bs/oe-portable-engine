@@ -12,6 +12,8 @@
 #define WINDOWMANAGER_H_
 
 #include "Window.h"
+#include "Engine/UI/Fonts/FontManager.h"
+#include "Engine/Input/Input.h"
 
 #include <vector>
 #include <iostream>
@@ -24,33 +26,25 @@ namespace Odorless
 		{
 			namespace Windows
 			{
-				class WindowManager
+				class WindowManager : public Odorless::Engine::Input::InputListener
 				{
 				public:
 					WindowManager()
 					{
 						_iWinWidth = 0;
 						_iWinHeight = 0;
+						Odorless::Engine::Input::InputManager::AddInputListener(this);
 					}
+
 					~WindowManager()
 					{
 					}
-					void OnMouseClick(const char button, const int x, const int y)
+
+					void OnMouseDown(const int x, const int y)
 					{
+						std::cout << "OMG MOUSE DOWN" << std::endl;
 					}
-					void OnMouseDown(const char button, const int x, const int y)
-					{
-					}
-					void OnMouseUp(const char button, const int x, const int y)
-					{
-					}
-					void SetInput(Odorless::Engine::Input::InputManager* inputManager)
-					{
-						_inputManager = inputManager;
-						//_inputManager->AddMouseDownCB(OnMouseDown);
-						//_inputManager->AddMouseUpCB(this, OnMouseUp);
-						//_inputManager->AddMouseClickCB(this, OnMouseClick);
-					}
+
 					void AddWindow(Window &window)
 					{
 						_vecWindows.push_back(&window);
@@ -89,8 +83,6 @@ namespace Odorless
 				private:
 					bool _bIsMouseAlreadyDown;
 					Window *_winCurrentFocused;
-					Odorless::Engine::Input::InputManager* _inputManager;
-					//Odorless::Engine::UI::Fonts::FontManager fontManager;
 					std::vector<Window*> _vecWindows;
 
 					int _iWinWidth, _iWinHeight;

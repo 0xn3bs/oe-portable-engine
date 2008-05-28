@@ -10,12 +10,12 @@
 *****************************************************************************************/
 #include "WindowManager.h"
 #include <iostream>
-
+#include "Engine/Input/Input.h"
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
 	/*
-	const int iMouseX = _inputManager->GetMouseX();
-	const int iMouseY = _inputManager->GetMouseY();
+	const int iMouseX = Engine::Input::InputManager::GetMouseX();
+	const int iMouseY = Engine::Input::InputManager::GetMouseY();
 
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
@@ -26,8 +26,9 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 	SetFocus(i);
 	}
 	*/
-	const int iMouseX = _inputManager->GetMouseX();
-	const int iMouseY = _inputManager->GetMouseY();
+	/*
+	const int iMouseX = Engine::Input::InputManager::GetMouseX();
+	const int iMouseY = Engine::Input::InputManager::GetMouseY();
 
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
@@ -53,47 +54,48 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 
 		bool bCanPick = CanPick(i, iMouseX, iMouseY);
 
-		if(!tempWin->_bHasFocus&&bCanPick&&_inputManager->IsMouseDown(0)&&!bOthersDragging)
+		if(!tempWin->_bHasFocus&&bCanPick&&Engine::Input::InputManager::IsMouseDown(0)&&!bOthersDragging)
 		{
 			SetFocus(i);
 		}
 
 		if(((tempWin->IsOverTitleBar(iMouseX, iMouseY) && bCanPick) || tempWin->_bIsDragging) && !bOthersDragging)
 		{
-			if(_inputManager->GetMouseX() < 0)
+			if(Engine::Input::InputManager::GetMouseX() < 0)
 			{
 				tempWin->_bIsDragging = false;
 				break;
 			}
 
-			if(_inputManager->GetMouseX() > _iWinWidth)
+			if(Engine::Input::InputManager::GetMouseX() > _iWinWidth)
 			{
 				tempWin->_bIsDragging = false;
 				break;
 			}
 
-			if(_inputManager->GetMouseY() < 0)
+			if(Engine::Input::InputManager::GetMouseY() < 0)
 			{
 				tempWin->_bIsDragging = false;
 				break;
 			}
 
-			if(_inputManager->GetMouseY() > _iWinHeight)
+			if(Engine::Input::InputManager::GetMouseY() > _iWinHeight)
 			{
 				tempWin->_bIsDragging = false;
 				break;
 			}
 
-			if(_inputManager->IsMouseDown(0))
+			if(Engine::Input::InputManager::IsMouseDown(0))
 			{
 				tempWin->_bIsDragging = true;
-				tempWin->_2fPosition[0] += _inputManager->GetMouseDeltaX();
-				tempWin->_2fPosition[1] += _inputManager->GetMouseDeltaY();
+				tempWin->_2fPosition[0] += Engine::Input::InputManager::GetMouseDeltaX();
+				tempWin->_2fPosition[1] += Engine::Input::InputManager::GetMouseDeltaY();
 			}
 			else
 				tempWin->_bIsDragging = false;
 		}	
 	}
+	*/
 }
 
 void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)

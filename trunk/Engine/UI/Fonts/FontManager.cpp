@@ -14,6 +14,11 @@
 #include <string>
 #include <iostream>
 
+Odorless::Engine::UI::Fonts::FontManager g_fontManager;
+
+std::vector<Odorless::Engine::UI::Fonts::_FONT> Odorless::Engine::UI::Fonts::FontManager::_vFonts = std::vector<Odorless::Engine::UI::Fonts::_FONT>();
+int Odorless::Engine::UI::Fonts::FontManager::_iCurrentFont = 0;
+
 Odorless::Engine::UI::Fonts::FontManager::FontManager()
 {
 	_iCurrentFont = -1;
@@ -112,7 +117,7 @@ void Odorless::Engine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool se
 	*/
 }
 
-void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string) const
+void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
 {
 	if (_iCurrentFont <= -1 || _iCurrentFont > (int)_vFonts.size())
 	{
