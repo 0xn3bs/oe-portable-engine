@@ -27,10 +27,9 @@ namespace Odorless
 			class InputListener
 			{
 			public:
-				virtual void OnMousePress(const int x, const int y){};
-				virtual void OnMouseDown(const int x, const int y){};
-				virtual void OnMouseUp(const int x, const int y){};
+				virtual void OnMouseButton(const int button, const int action){};
 				virtual void OnMouseClick(const int x, const int y){};
+				virtual void OnMouseMove(const int x, const int y){};
 			};
 
 			class InputManager
@@ -53,31 +52,18 @@ namespace Odorless
 
 				static void GLFWCALL GLFWSetMousePos(int x, int y)
 				{
-					_iMouseDeltaX = x - _iMouseX;
-					_iMouseDeltaY = y - _iMouseY;
-					_iMouseX = x;
-					_iMouseY = y;
 				}
 
-				static void GLFWCALL GLFWSetMouseDown(int x, int y)
+				static void GLFWCALL GLFWSetMouseDown(int button, int action)
 				{
 					for(int i = 0; i < _vecInputListeners.size(); i++)
 					{
-						_vecInputListeners.at(i)->OnMouseDown(x, y);
+						_vecInputListeners.at(i)->OnMouseButton(button, action);
 					}
 				}
 			public:
 				InputManager()
 				{
-					_iMousePressStartX=0;
-					_iMousePressStartY=0;
-					_iMouseX=0;
-					_iMouseY=0;
-					_iMouseDeltaX=0;
-					_iMouseDeltaY=0;
-					glfwSetKeyCallback(GLFWSetKeyEvent);
-					glfwSetMousePosCallback(GLFWSetMousePos);
-					glfwSetMouseButtonCallback(GLFWSetMouseDown);
 				}
 
 				~InputManager()
@@ -86,7 +72,9 @@ namespace Odorless
 
 				static void Initialize()
 				{
-					
+					glfwSetKeyCallback(GLFWSetKeyEvent);
+					glfwSetMousePosCallback(GLFWSetMousePos);
+					glfwSetMouseButtonCallback(GLFWSetMouseDown);
 				}
 
 				static void Update()
@@ -131,8 +119,9 @@ namespace Odorless
 
 				static void GetMousePos(int *xPos, int *yPos)
 				{
-					*xPos = _iMouseX;
-					*yPos = _iMouseY;
+					glfwGetMousePos(xPos, yPos);
+					//*xPos = _iMouseX;
+					//*yPos = _iMouseY;
 				}
 
 				static const int GetMouseDeltaX()

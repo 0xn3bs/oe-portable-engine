@@ -11,6 +11,7 @@
 #ifndef WINDOWMANAGER_H_
 #define WINDOWMANAGER_H_
 
+#include "Engine/Base.h"
 #include "Window.h"
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/Input/Input.h"
@@ -35,20 +36,19 @@ namespace Odorless
 						_iWinHeight = 0;
 						Odorless::Engine::Input::InputManager::AddInputListener(this);
 					}
-
 					~WindowManager()
 					{
 					}
-
-					void OnMouseDown(const int x, const int y)
+					void Initialize()
 					{
-						std::cout << "OMG MOUSE DOWN" << std::endl;
+						Odorless::Engine::Base::GetWindowSize(&_iWinWidth, &_iWinHeight);
 					}
-
+					void OnMouseButton(const int key, const int action);
 					void AddWindow(Window &window)
 					{
 						_vecWindows.push_back(&window);
 						SetFocus(_vecWindows.size()-1);
+						_winCurrentFocused = &window;
 					}
 					void RemoveWindow(const unsigned int &index)
 					{
@@ -64,27 +64,36 @@ namespace Odorless
 							if(b)
 								return false;
 						}
-
 						return bOver;
 					}
 					void SetFocus(const unsigned int &index)
 					{
 						if(_winCurrentFocused != NULL) 
 							_winCurrentFocused->_bHasFocus = false;
-						_winCurrentFocused = _vecWindows.at(index);
-						_winCurrentFocused->_bHasFocus = true;
-						_vecWindows.erase(_vecWindows.begin()+index);
-						_vecWindows.push_back(_winCurrentFocused);
+						_vecWindows[index]->_bHasFocus = true;
 					}
 					void Update(const float &dt);
 					void UpdateWin(const int width, const int height);
 					void Render(const float &dt);
 
 				private:
+					void UpdateFocus()
+					{
+						for(int i = 0; i < _vecWindows.size(); i++)
+						{
+							Window* tempWin = _vecWindows.at(i);
+							_winCurrentFocused = tempWin;
+							if(tempWin->_bHasFocus && i!=_vecWindows.size()-1)
+							{
+								_vecWindows.erase(_vecWindows.begin()+i);
+								_vecWindows.push_back(tempWin);
+							}
+						}
+					}
+
 					bool _bIsMouseAlreadyDown;
 					Window *_winCurrentFocused;
 					std::vector<Window*> _vecWindows;
-
 					int _iWinWidth, _iWinHeight;
 				};
 			}

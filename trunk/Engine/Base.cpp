@@ -62,6 +62,8 @@ int Odorless::Engine::Base::OpenWindow(int width, int height, int redbits,
 	if (!window)
 		Dispose();
 
+	Engine::Input::InputManager::Initialize();
+
 	return 0;
 }
 

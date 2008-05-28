@@ -60,6 +60,11 @@ namespace Odorless
 			{
 				_pf_Draw = draw;
 			}
+			static void GetWindowSize(int* width, int* height)
+			{
+				*width = _iWindowWidth;
+				*height = _iWindowHeight;
+			}
 			static void SetWindowResize(void (*resize)(int width, int height))
 			{
 				glfwSetWindowSizeCallback((GLFWwindowsizefun)resize);

@@ -29,6 +29,7 @@ void Initialize()
 	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/arial", true);
 	Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/arial");
 
+	windowManager.Initialize();
 	windowManager.AddWindow(a);
 	windowManager.AddWindow(b);
 	windowManager.AddWindow(c);
@@ -77,7 +78,6 @@ int main()
 {
 	Odorless::Engine::Base::InitializeEngine();
 	Odorless::Engine::Base::OpenWindow(800, 600, 8, 8, 8, 8, 24, 8);
-	windowManager.UpdateWin(800, 600);
 	Odorless::Engine::Base::SetWindowResize(OnResize);
 	Odorless::Engine::Base::SetWindowTitle(__BUILD_STRING__);
 	Odorless::Engine::Base::SetInitialize(Initialize);

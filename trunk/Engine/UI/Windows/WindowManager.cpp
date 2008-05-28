@@ -11,29 +11,44 @@
 #include "WindowManager.h"
 #include <iostream>
 #include "Engine/Input/Input.h"
+
+void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, const int action)
+{
+	int iMouseX, iMouseY;
+	Odorless::Engine::Input::InputManager::GetMousePos(&iMouseX, &iMouseY);
+	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
+	{
+		for(int i = 0; i < _vecWindows.size(); i++)
+		{
+			Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
+			if(tempWin->_bIsDragging)
+				tempWin->_bIsDragging = false;
+		}
+	}
+
+	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
+	{
+		for(int i = 0; i < _vecWindows.size(); i++)
+		{
+			Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
+			bool bCanPick = CanPick(i, iMouseX, iMouseY);
+
+			if(bCanPick&&!tempWin->_bHasFocus)
+				SetFocus(i);
+
+			if(bCanPick&&tempWin->IsOverTitleBar(iMouseX, iMouseY))
+				tempWin->_bIsDragging = true;
+		}
+		std::cout << std::endl;
+	}
+	UpdateFocus();
+}
+
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
-	/*
-	const int iMouseX = Engine::Input::InputManager::GetMouseX();
-	const int iMouseY = Engine::Input::InputManager::GetMouseY();
-
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
-	Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i); 
-	tempWin->Update(dt);
-
-	if(CanPick(i, iMouseX, iMouseY))
-	SetFocus(i);
-	}
-	*/
-	/*
-	const int iMouseX = Engine::Input::InputManager::GetMouseX();
-	const int iMouseY = Engine::Input::InputManager::GetMouseY();
-
-	for(int i = 0; i < _vecWindows.size(); i++)
-	{
-		Odorless::Engine::UI::Windows::Window *tempWin = _vecWindows.at(i); 
-		tempWin->Update(dt);
+		Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
 
 		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
 		if(tempWin->_2fPosition[1] < -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+5)
@@ -45,57 +60,36 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 		if(tempWin->_2fPosition[0] > _iWinWidth-5)
 			tempWin->_2fPosition[0] = _iWinWidth-5;
 
-		bool bOthersDragging = false;
-		for(int j = 0; j < _vecWindows.size(); j++)
+		if(tempWin->_bIsDragging)
 		{
-			if(_vecWindows.at(j)->_bIsDragging && j != i)
-				bOthersDragging = true;
+			tempWin->_2fPosition[0] += Odorless::Engine::Input::InputManager::GetMouseDeltaX();
+			tempWin->_2fPosition[1] += Odorless::Engine::Input::InputManager::GetMouseDeltaY();
 		}
 
-		bool bCanPick = CanPick(i, iMouseX, iMouseY);
-
-		if(!tempWin->_bHasFocus&&bCanPick&&Engine::Input::InputManager::IsMouseDown(0)&&!bOthersDragging)
+		if(Engine::Input::InputManager::GetMouseX() < 0)
 		{
-			SetFocus(i);
+			tempWin->_bIsDragging = false;
+			continue;
 		}
 
-		if(((tempWin->IsOverTitleBar(iMouseX, iMouseY) && bCanPick) || tempWin->_bIsDragging) && !bOthersDragging)
+		if(Engine::Input::InputManager::GetMouseX() > _iWinWidth)
 		{
-			if(Engine::Input::InputManager::GetMouseX() < 0)
-			{
-				tempWin->_bIsDragging = false;
-				break;
-			}
+			tempWin->_bIsDragging = false;
+			continue;
+		}
 
-			if(Engine::Input::InputManager::GetMouseX() > _iWinWidth)
-			{
-				tempWin->_bIsDragging = false;
-				break;
-			}
+		if(Engine::Input::InputManager::GetMouseY() < 0)
+		{
+			tempWin->_bIsDragging = false;
+			continue;
+		}
 
-			if(Engine::Input::InputManager::GetMouseY() < 0)
-			{
-				tempWin->_bIsDragging = false;
-				break;
-			}
-
-			if(Engine::Input::InputManager::GetMouseY() > _iWinHeight)
-			{
-				tempWin->_bIsDragging = false;
-				break;
-			}
-
-			if(Engine::Input::InputManager::IsMouseDown(0))
-			{
-				tempWin->_bIsDragging = true;
-				tempWin->_2fPosition[0] += Engine::Input::InputManager::GetMouseDeltaX();
-				tempWin->_2fPosition[1] += Engine::Input::InputManager::GetMouseDeltaY();
-			}
-			else
-				tempWin->_bIsDragging = false;
-		}	
+		if(Engine::Input::InputManager::GetMouseY() > _iWinHeight)
+		{
+			tempWin->_bIsDragging = false;
+			continue;
+		}
 	}
-	*/
 }
 
 void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)

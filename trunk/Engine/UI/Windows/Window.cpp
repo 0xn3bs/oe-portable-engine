@@ -17,6 +17,7 @@ Odorless::Engine::UI::Windows::Window::Window()
 	_2fDimensions[0] = 0;
 	_2fDimensions[1] = 0;
 	_fTitleBarY = 0;
+	_bIsDragging = false;
 }
 
 Odorless::Engine::UI::Windows::Window::Window(const float &x, const float &y, const float &width, const float &height)
@@ -26,6 +27,7 @@ Odorless::Engine::UI::Windows::Window::Window(const float &x, const float &y, co
 	_2fDimensions[0] = width;
 	_2fDimensions[1] = height;
 	_fTitleBarY = 0;
+	_bIsDragging = false;
 }
 
 Odorless::Engine::UI::Windows::Window::~Window()
