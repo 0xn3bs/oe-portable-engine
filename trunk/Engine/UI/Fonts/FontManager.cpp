@@ -138,7 +138,7 @@ void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
 
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
-	int iXPos = 0, iYPos = 0;
+	float iXPos = 0, iYPos = 0;
 	for (unsigned int i = 0; i < uintLength; i++)
 	{
 
@@ -170,7 +170,7 @@ void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
 		glVertex3f((GLfloat)iXPos + character._fSize, (GLfloat)iYPos, 0);
 		glEnd();
 
-		iXPos += (int)character._fSize;
+		iXPos += (int)character._fSize*0.75f;
 	}
 
 	glBindTexture(GL_TEXTURE_2D, NULL);

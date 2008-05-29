@@ -26,8 +26,12 @@ Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20
 
 void Initialize()
 {
-	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/arial", true);
-	Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/arial");
+	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
+	Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
+
+	a.SetCaption("Window A");
+	b.SetCaption("Window B");
+	c.SetCaption("C");
 
 	windowManager.Initialize();
 	windowManager.AddWindow(a);
