@@ -16,6 +16,7 @@
 #include "Engine/Tools/Timers/Timer.h"
 #include "Engine/Types/String.h"
 #include "Engine/UI/Windows/WindowManager.h"
+#include "Engine/UI/Widgets/Button.h"
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Game/UI/BasicWindow.h"
 #include <iostream>
@@ -23,7 +24,6 @@
 Odorless::Engine::Tools::Timers::Timer timer;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
 Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
-
 void Initialize()
 {
 	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
@@ -33,10 +33,15 @@ void Initialize()
 	b.SetCaption("Window B");
 	c.SetCaption("C");
 
+	
 	windowManager.Initialize();
+	Odorless::Engine::UI::Widgets::Button *testButton = new Odorless::Engine::UI::Widgets::Button(20, 20, 100, 15.5, &b);
+	testButton->SetCaption("Button");
+	b.AddWidget(testButton);
 	windowManager.AddWindow(a);
 	windowManager.AddWindow(b);
 	windowManager.AddWindow(c);
+	
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);

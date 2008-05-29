@@ -15,6 +15,7 @@
 #include "Engine/UI/Windows/Window.h"
 #include "Engine/Tools/Colors/Color.h"
 #include "Engine/Textures/TextureManager.h"
+#include "Engine/UI/Widgets/Button.h"
 
 namespace Odorless
 {
@@ -83,7 +84,10 @@ namespace Odorless
 					//	Render widgets here.
 					for(unsigned int i = 0; i < _vecWidgets.size(); i++)
 					{
-						_vecWidgets.at(i)->Render(dt);
+						Odorless::Engine::UI::Widgets::Widget* wWidget = _vecWidgets.at(i);
+						glTranslatef(wWidget->_2fPosition[0], wWidget->_2fPosition[1], 0);
+						wWidget->Render(dt);
+						glTranslatef(-wWidget->_2fPosition[0], -wWidget->_2fPosition[1], 0);
 					}
 
 					//	Border

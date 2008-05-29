@@ -28,17 +28,26 @@ namespace Odorless
 						Widget(const float &x, const float &y, const float &width, const float &height, 
 							Odorless::Engine::UI::Windows::Window* parentWindow)
 						{
+							_2fPosition[0] = x;
+							_2fPosition[1] = y;
+							_2fDimensions[0] = width;
+							_2fDimensions[1] = height;
 							_winParentWindow = parentWindow;
 						}
-						~Widget();
+						~Widget()
+						{
+						}
 						virtual void OnMouseClick(const int x, const int y){};
 						virtual void OnMouseButton(const int button, const int action){};
 						virtual void Update(const float &dt) = 0;
 						virtual void Render(const float &dt) = 0;
-						
-					private:
+						void SetCaption(char* caption)
+						{
+							_szCaption = caption;
+						}
 						Odorless::Engine::UI::Windows::Window* _winParentWindow;
-						float _2fDimension[2];
+						char* _szCaption;
+						float _2fDimensions[2];
 						float _2fPosition[2];
 						unsigned char _uiFgColor[4];
 						unsigned char _uiBgColor[4];
