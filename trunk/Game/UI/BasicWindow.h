@@ -30,39 +30,33 @@ namespace Odorless
 					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
 					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
 					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
-					_fTitleBarY = 15.5f / this->_2fDimensions[1];
+					_fTitleBarY = 15.5f;
 				}
-
 				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
 				{
 					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
 					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
 					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
-					_fTitleBarY = 15.5f / this->_2fDimensions[1];
+					_fTitleBarY = 15.5f;
 				}
-
 				~BasicWindow()
 				{
 
 				}
-
 				int Initialize()
 				{
 
 					return 0;
 				}
-
 				void Dispose()
 				{
 				}
-
 				void Update(const float &dt)
 				{
 				}
-
 				void Render(const float &dt)
 				{
-									//	Background
+					//	Background
 					glBegin(GL_QUADS);
 					if(!_bHasFocus)
 						glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
@@ -71,19 +65,19 @@ namespace Odorless
 					glTexCoord2f(0, 0);
 					glVertex3f(0, 0, 0);
 					glTexCoord2f(0, 1);
-					glVertex3f(0, 1, 0);
+					glVertex3f(0, _2fDimensions[1], 0);
 					glTexCoord2f(1, 1);
-					glVertex3f(1, 1, 0);
+					glVertex3f(_2fDimensions[0], _2fDimensions[1], 0);
 					glTexCoord2f(1, 0);
-					glVertex3f(1, 0, 0);
+					glVertex3f(_2fDimensions[0], 0, 0);
 					if(!_bHasFocus)
 						glColor4ub(_uiBgColor[0]/2,_uiBgColor[1]/2,_uiBgColor[2]/2,_uiBgColor[3]);
 					else
 						glColor4ub(_uiBgColor[2]/2,_uiBgColor[1]/2,_uiBgColor[0]/2,_uiBgColor[3]);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, _fTitleBarY, 0);
-					glVertex3f(1, _fTitleBarY, 0);
-					glVertex3f(1, 0, 0);
+					glVertex3f(_2fDimensions[0], _fTitleBarY, 0);
+					glVertex3f(_2fDimensions[0], 0, 0);
 					glEnd();
 
 					//	Render widgets here.
@@ -95,28 +89,25 @@ namespace Odorless
 					//	Border
 					glBegin(GL_LINES);
 					glColor4ub(_uiBrdrColor[0],_uiBrdrColor[1],_uiBrdrColor[2],_uiBrdrColor[3]);
-					glVertex3f(0, 0, 0);
-					glVertex3f(0, 1, 0);
-					glVertex3f(0, 1, 0);
-					glVertex3f(1, 1, 0);
-					glVertex3f(1, 1, 0);
-					glVertex3f(1, 0, 0);
-					glVertex3f(1, 0, 0);
-					glVertex3f(0, 0, 0);
-					glVertex3f(0, _fTitleBarY, 0);
-					glVertex3f(1, _fTitleBarY, 0);
+						glVertex3f(0, 0, 0);
+						glVertex3f(0, _2fDimensions[1], 0);
+						glVertex3f(0, _2fDimensions[1], 0);
+						glVertex3f(_2fDimensions[0], _2fDimensions[1], 0);
+						glVertex3f(_2fDimensions[0], _2fDimensions[1], 0);
+						glVertex3f(_2fDimensions[0], 0, 0);
+						glVertex3f(_2fDimensions[0], 0, 0);
+						glVertex3f(0, 0, 0);
+						glVertex3f(0, _fTitleBarY, 0);
+						glVertex3f(_2fDimensions[0], _fTitleBarY, 0);
 					glEnd();
 
+					//	Caption
 					glPushMatrix();
 					glColor4ub(_uiFgColor[0],_uiFgColor[1],_uiFgColor[2],_uiFgColor[3]);
-					glScalef(1/_2fDimensions[0], 1/_2fDimensions[1], 0);
-
 					if(_szCaption == 0)
 						Engine::UI::Fonts::FontManager::Write("Untitled");
 					else
 						Engine::UI::Fonts::FontManager::Write(_szCaption);
-					
-					glScalef(1/(1/_2fDimensions[0]), 1/(1/_2fDimensions[1]), 0);
 					glPopMatrix();
 				}
 			};

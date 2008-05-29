@@ -19,42 +19,38 @@ Odorless::Engine::UI::Windows::Window::Window()
 	_fTitleBarY = 0;
 	_bIsDragging = false;
 }
-
 Odorless::Engine::UI::Windows::Window::Window(const float &x, const float &y, const float &width, const float &height)
 {
 	_2fPosition[0] = x;
 	_2fPosition[1] = y;
 	_2fDimensions[0] = width;
 	_2fDimensions[1] = height;
+	_fScaleX = 1/width;
+	_fScaleY = 1/height;
 	_fTitleBarY = 0;
 	_bIsDragging = false;
 }
-
 Odorless::Engine::UI::Windows::Window::~Window()
 {
 
 }
-
 bool Odorless::Engine::UI::Windows::Window::IsOver(const float &x, const float &y)
 {
 	bool isX = x > _2fPosition[0] && x < _2fPosition[0] + _2fDimensions[0];
 	bool isY = y > _2fPosition[1] && y < _2fPosition[1] + _2fDimensions[1];
 	return isX && isY;
 }
-
 bool Odorless::Engine::UI::Windows::Window::IsOverTitleBar(const float &x, const float &y)
 {
 	bool isX = x > _2fPosition[0] && x < _2fPosition[0] + _2fDimensions[0];
-	bool isY = y > _2fPosition[1] && y < _2fPosition[1] + (_fTitleBarY*_2fDimensions[1]);
+	bool isY = y > _2fPosition[1] && y < _2fPosition[1] + (_fTitleBarY);
 	return isX && isY;
 }
-
 void Odorless::Engine::UI::Windows::Window::AddWidget(
 	const UI::Widgets::Widget &widget)
 {
 
 }
-
 void Odorless::Engine::UI::Windows::Window::RemoveWidget(
 	const unsigned int &index)
 {

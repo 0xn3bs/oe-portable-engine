@@ -39,13 +39,11 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, 
 			if(bCanPick&&tempWin->IsOverTitleBar(iMouseX, iMouseY))
 				tempWin->_bIsDragging = true;
 		}
-		std::cout << std::endl;
 	}
 
 	//	Setting a new focused window changes the order of the windows.
 	UpdateFocus();
 }
-
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
 	for(int i = 0; i < _vecWindows.size(); i++)
@@ -53,8 +51,8 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 		Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
 
 		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
-		if(tempWin->_2fPosition[1] < -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+5)
-			tempWin->_2fPosition[1] = -(tempWin->_2fDimensions[1]*tempWin->_fTitleBarY)+5;
+		if(tempWin->_2fPosition[1] < -tempWin->_fTitleBarY+5)
+			tempWin->_2fPosition[1] = -tempWin->_fTitleBarY+5;
 		if(tempWin->_2fPosition[1] > _iWinHeight-5)
 			tempWin->_2fPosition[1] = _iWinHeight-5;
 		if(tempWin->_2fPosition[0] < -tempWin->_2fDimensions[0]+5)
@@ -93,20 +91,20 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 		}
 	}
 }
-
 void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)
 {
 	_iWinWidth = width;
 	_iWinHeight = height;
 }
-
 void Odorless::Engine::UI::Windows::WindowManager::Render(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* tempWin = _vecWindows.at(i);
 		glMatrixMode( GL_PROJECTION );
+		glScalef(tempWin->_fScaleX,tempWin->_fScaleY,1);
 		glViewport(tempWin->_2fPosition[0], _iWinHeight-tempWin->_2fDimensions[0]-tempWin->_2fPosition[1], tempWin->_2fDimensions[0], tempWin->_2fDimensions[1]);
 		tempWin->Render(dt);
+		glScalef(1/tempWin->_fScaleX,1/tempWin->_fScaleY,1);
 	}
 }

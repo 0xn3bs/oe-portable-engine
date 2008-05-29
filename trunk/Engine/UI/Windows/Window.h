@@ -55,6 +55,8 @@ namespace Odorless
 						float _2fDimensions[2];
 						float _2fPosition[2];
 						float _fTitleBarY;
+						float _fScaleX;
+						float _fScaleY;
 						unsigned char _uiFgColor[4];
 						unsigned char _uiBgColor[4];
 						unsigned char _uiBrdrColor[4];

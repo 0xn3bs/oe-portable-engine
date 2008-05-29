@@ -23,12 +23,10 @@ Odorless::Engine::UI::Fonts::FontManager::FontManager()
 {
 	_iCurrentFont = -1;
 }
-
 Odorless::Engine::UI::Fonts::FontManager::~FontManager()
 {
 
 }
-
 //	TODO: Use alternative texture loading techniques as to not restrict to TGAs.
 //	TODO: Generate non-monospace UV coordinates for characters.
 const int Odorless::Engine::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpaced)
@@ -57,7 +55,6 @@ const int Odorless::Engine::UI::Fonts::FontManager::AddFont(const char *path, bo
 
 	return -1;
 }
-
 void Odorless::Engine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool setMonoSpaced)
 {
 	if(setMonoSpaced)
@@ -116,7 +113,6 @@ void Odorless::Engine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool se
 	delete image;
 	*/
 }
-
 void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
 {
 	if (_iCurrentFont <= -1 || _iCurrentFont > (int)_vFonts.size())
@@ -170,12 +166,11 @@ void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
 		glVertex3f((GLfloat)iXPos + character._fSize, (GLfloat)iYPos, 0);
 		glEnd();
 
-		iXPos += (int)character._fSize*0.75f;
+		iXPos += (int)character._fSize;
 	}
 
 	glBindTexture(GL_TEXTURE_2D, NULL);
 }
-
 void Odorless::Engine::UI::Fonts::FontManager::SetFont(const char *name)
 {
 	if (IndexOf(name) > -1)
@@ -184,13 +179,11 @@ void Odorless::Engine::UI::Fonts::FontManager::SetFont(const char *name)
 		std::clog << "Font set to '" << name << "'" << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
 	}
 }
-
 void Odorless::Engine::UI::Fonts::FontManager::SetFont(const unsigned int &index)
 {
 	if (index < _vFonts.size() && index >= 0)
 		_iCurrentFont = index;
 }
-
 int Odorless::Engine::UI::Fonts::FontManager::IndexOf(const char *name)
 {
 	for (unsigned int i = 0; i < _vFonts.size(); i++)

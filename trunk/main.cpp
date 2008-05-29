@@ -54,13 +54,11 @@ void Initialize()
 
 	Odorless::Engine::Base::VSync(false);
 }
-
 void Update(double deltaTime)
 {
 	Odorless::Engine::Input::InputManager::Update();
 	windowManager.Update(deltaTime);
 }
-
 void Draw(double deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -68,7 +66,6 @@ void Draw(double deltaTime)
 	glViewport(0, 0, 800, 600);
 	windowManager.Render(deltaTime);
 }
-
 void OnResize(int width, int height)
 {
 	glMatrixMode( GL_PROJECTION );
@@ -77,7 +74,6 @@ void OnResize(int width, int height)
 	glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
 	windowManager.UpdateWin(width, height);
 }
-
 int main()
 {
 	Odorless::Engine::Base::InitializeEngine();

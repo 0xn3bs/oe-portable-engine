@@ -90,7 +90,6 @@ namespace Odorless
 							}
 						}
 					}
-
 					bool _bIsMouseAlreadyDown;
 					Window *_winCurrentFocused;
 					std::vector<Window*> _vecWindows;
