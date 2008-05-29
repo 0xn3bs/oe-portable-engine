@@ -7,9 +7,11 @@
  * 
  * Contributors:
  *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
-***************************************************************************************************/
+ ***************************************************************************************************/
 #ifndef WIDGET_H_
 #define WIDGET_H_
+
+#include "Engine/UI/Windows/Window.h"
 
 namespace Odorless
 {
@@ -17,23 +19,30 @@ namespace Odorless
 	{
 		namespace UI
 		{
+			namespace Windows{class Window;}	//	Forward declaration for Window.
 			namespace Widgets
 			{
 				class Widget
 				{
 					public:
-						Widget();
-						virtual ~Widget();
-						virtual void Initialize() = 0;
-						virtual void Dispose() = 0;
+						Widget(const float &x, const float &y, const float &width, const float &height, 
+							Odorless::Engine::UI::Windows::Window* parentWindow)
+						{
+							_winParentWindow = parentWindow;
+						}
+						~Widget();
+						virtual void OnMouseClick(const int x, const int y){};
+						virtual void OnMouseButton(const int button, const int action){};
 						virtual void Update(const float &dt) = 0;
 						virtual void Render(const float &dt) = 0;
 						
 					private:
+						Odorless::Engine::UI::Windows::Window* _winParentWindow;
 						float _2fDimension[2];
 						float _2fPosition[2];
-						unsigned int _uiFgColor;
-						unsigned int _uiBgColor;
+						unsigned char _uiFgColor[4];
+						unsigned char _uiBgColor[4];
+						unsigned char _uiBrdrColor[4];
 				};
 			}
 		}

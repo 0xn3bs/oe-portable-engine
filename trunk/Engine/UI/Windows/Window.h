@@ -43,7 +43,7 @@ namespace Odorless
 
 						bool IsOver(const float &x, const float &y);
 						bool IsOverTitleBar(const float &x, const float &y);
-						void AddWidget(const UI::Widgets::Widget &widget);
+						void AddWidget(UI::Widgets::Widget *widget);
 						void RemoveWidget(const unsigned int &index);
 						void SetCaption(char* caption)
 						{

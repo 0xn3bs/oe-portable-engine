@@ -9,7 +9,7 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
 
-#include "string.h"
+#include "String.h"
 #include <cstdlib>
 
 Odorless::Engine::Types::String::String()

@@ -46,13 +46,12 @@ bool Odorless::Engine::UI::Windows::Window::IsOverTitleBar(const float &x, const
 	bool isY = y > _2fPosition[1] && y < _2fPosition[1] + (_fTitleBarY);
 	return isX && isY;
 }
-void Odorless::Engine::UI::Windows::Window::AddWidget(
-	const UI::Widgets::Widget &widget)
+void Odorless::Engine::UI::Windows::Window::AddWidget(UI::Widgets::Widget *widget)
 {
-
+	_vecWidgets.push_back(widget);
 }
 void Odorless::Engine::UI::Windows::Window::RemoveWidget(
 	const unsigned int &index)
 {
-
+	_vecWidgets.erase(_vecWidgets.begin()+index);
 }
