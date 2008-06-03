@@ -44,6 +44,8 @@ namespace Odorless
 						Odorless::Engine::Base::GetWindowSize(&_iWinWidth, &_iWinHeight);
 					}
 					void OnMouseButton(const int key, const int action);
+					void OnMouseClick(const int startX, const int startY, const int endX, const int endY);
+					void OnMouseMove(const int x, const int y);
 					void AddWindow(Window &window)
 					{
 						_vecWindows.push_back(&window);
@@ -57,18 +59,18 @@ namespace Odorless
 					}
 					bool CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
 					{
-						bool bOver = _vecWindows.at(index)->IsOver(x, y);
+						Window* winTemp = _vecWindows.at(index);
+						bool bOver = winTemp->IsOver(x, y);
 						for(int i = index+1; i < _vecWindows.size(); i++)
 						{
-							bool b = (_vecWindows.at(i)->IsOver(x,y) || _vecWindows.at(i)->IsOverTitleBar(x,y));
-							if(b)
+							if((_vecWindows[i]->IsOver(x,y) || _vecWindows[i]->IsOverTitleBar(x,y)))
 								return false;
 						}
 						return bOver;
 					}
 					void SetFocus(const unsigned int &index)
 					{
-						if(_winCurrentFocused != NULL) 
+						if(_winCurrentFocused != NULL)
 							_winCurrentFocused->_bHasFocus = false;
 						_vecWindows[index]->_bHasFocus = true;
 					}
@@ -90,7 +92,6 @@ namespace Odorless
 							}
 						}
 					}
-					bool _bIsMouseAlreadyDown;
 					Window *_winCurrentFocused;
 					std::vector<Window*> _vecWindows;
 					int _iWinWidth, _iWinHeight;

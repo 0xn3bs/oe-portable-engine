@@ -17,7 +17,10 @@ int Odorless::Engine::Input::InputManager::_iMouseX=0;
 int Odorless::Engine::Input::InputManager::_iMouseY=0;
 int Odorless::Engine::Input::InputManager::_iMouseDeltaX=0;
 int Odorless::Engine::Input::InputManager::_iMouseDeltaY=0;
-int Odorless::Engine::Input::InputManager::_iMousePressStartX=0;
-int Odorless::Engine::Input::InputManager::_iMousePressStartY=0;
+int Odorless::Engine::Input::InputManager::_iMouseClickStartX=0;
+int Odorless::Engine::Input::InputManager::_iMouseClickStartY=0;
+int Odorless::Engine::Input::InputManager::_iMouseClickEndX=0;
+int Odorless::Engine::Input::InputManager::_iMouseClickEndY=0;
+bool Odorless::Engine::Input::InputManager::_bIsMouseAlreadyDown=false;
 
 std::vector<Odorless::Engine::Input::InputListener*> Odorless::Engine::Input::InputManager::_vecInputListeners = std::vector<Odorless::Engine::Input::InputListener*>();

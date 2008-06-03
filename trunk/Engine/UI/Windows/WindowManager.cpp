@@ -44,6 +44,44 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, 
 	//	Setting a new focused window changes the order of the windows.
 	UpdateFocus();
 }
+void Odorless::Engine::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
+{
+	for(int i = 0; i < _vecWindows.size(); i++)
+	{
+		Window* winTemp = _vecWindows.at(i);
+
+		for(int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		{
+			bool startIsOver = winTemp->_vecWidgets[j]->IsOver(startX, startY) && CanPick(i, startX, startY);
+			bool endIsOver = winTemp->_vecWidgets[j]->IsOver(endX, endY) && CanPick(i, endX, endY);
+			if(startIsOver&&endIsOver)
+				winTemp->_vecWidgets[j]->OnMouseClick();
+		}
+	}
+}
+void Odorless::Engine::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
+{
+	for(int i = 0; i < _vecWindows.size(); i++)
+	{
+		Window* winTemp = _vecWindows.at(i);
+		for(int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		{
+			bool isOver = winTemp->_vecWidgets[j]->IsOver(x, y) && CanPick(i, x, y);
+
+			if(isOver && !winTemp->_vecWidgets[j]->_bIsOver)
+			{
+				winTemp->_vecWidgets[j]->_bIsOver = true;
+				winTemp->_vecWidgets[j]->OnMouseOver();
+			}
+			else
+				if(!isOver && winTemp->_vecWidgets[j]->_bIsOver)
+				{
+					winTemp->_vecWidgets[j]->_bIsOver = false;
+					winTemp->_vecWidgets[j]->OnMouseOut();
+				}
+		}
+	}
+}
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
 	for(int i = 0; i < _vecWindows.size(); i++)

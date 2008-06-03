@@ -28,7 +28,7 @@ namespace Odorless
 			{
 			public:
 				virtual void OnMouseButton(const int button, const int action){};
-				virtual void OnMouseClick(const int x, const int y){};
+				virtual void OnMouseClick(const int startX, const int startY, const int endX, const int endY){};
 				virtual void OnMouseMove(const int x, const int y){};
 			};
 
@@ -41,8 +41,11 @@ namespace Odorless
 				static int _iMouseY;
 				static int _iMouseDeltaX;
 				static int _iMouseDeltaY;
-				static int _iMousePressStartX;
-				static int _iMousePressStartY;
+				static int _iMouseClickStartX;
+				static int _iMouseClickStartY;
+				static int _iMouseClickEndX;
+				static int _iMouseClickEndY;
+				static bool _bIsMouseAlreadyDown;
 				static bool _rgcKeys[255];
 
 				static void GLFWCALL GLFWSetKeyEvent(int key, int action)
@@ -52,13 +55,33 @@ namespace Odorless
 
 				static void GLFWCALL GLFWSetMousePos(int x, int y)
 				{
+					for(int i = 0; i < _vecInputListeners.size(); i++)
+					{
+						_vecInputListeners.at(i)->OnMouseMove(x, y);
+					}
 				}
 
-				static void GLFWCALL GLFWSetMouseDown(int button, int action)
+				static void GLFWCALL GLFWSetMouseButton(int button, int action)
 				{
+					bool click = false;
+					if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
+					{
+						_bIsMouseAlreadyDown = true;
+						_iMouseClickStartX = _iMouseX;
+						_iMouseClickStartY = _iMouseY;
+					}
+					if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE && _bIsMouseAlreadyDown)
+					{
+						_bIsMouseAlreadyDown = false;
+						_iMouseClickEndX = _iMouseX;
+						_iMouseClickEndY = _iMouseY;
+						click = true;
+					}
 					for(int i = 0; i < _vecInputListeners.size(); i++)
 					{
 						_vecInputListeners.at(i)->OnMouseButton(button, action);
+						if(click)
+							_vecInputListeners.at(i)->OnMouseClick(_iMouseClickStartX, _iMouseClickStartY, _iMouseClickEndX, _iMouseClickEndY);
 					}
 				}
 			public:
@@ -74,7 +97,7 @@ namespace Odorless
 				{
 					glfwSetKeyCallback(GLFWSetKeyEvent);
 					glfwSetMousePosCallback(GLFWSetMousePos);
-					glfwSetMouseButtonCallback(GLFWSetMouseDown);
+					glfwSetMouseButtonCallback(GLFWSetMouseButton);
 				}
 
 				static void Update()

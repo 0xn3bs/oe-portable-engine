@@ -283,6 +283,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Engine\UI\Widgets\Widget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Engine\UI\Windows\Window.cpp"
 				>
 			</File>

@@ -22,6 +22,7 @@ namespace Odorless
 	{
 		namespace UI
 		{
+			namespace Widgets{class Widget;}
 			namespace Windows
 			{
 				class WindowManager; //	Forward declaration for the Window Manager.
@@ -40,6 +41,12 @@ namespace Odorless
 						virtual void OnMouseClick(const char button, const int x, const int y){};
 						virtual void OnMouseDown(const char button, const int x, const int y){};
 						virtual void OnMouseUp(const char button, const int x, const int y){};
+						virtual void OnMouseMove(int x, int y){};
+
+						int GetXPos(){return _2fPosition[0];}
+						int GetYPos(){return _2fPosition[1];}
+						int GetWidth(){return _2fDimensions[0];}
+						int GetHeight(){return _2fDimensions[1];}
 
 						bool IsOver(const float &x, const float &y);
 						bool IsOverTitleBar(const float &x, const float &y);

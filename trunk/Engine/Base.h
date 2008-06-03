@@ -31,7 +31,6 @@ namespace Odorless
 			static void Initialize();
 			static void Update(double deltaTime);
 			static void Draw(double deltaTime);
-
 			static void SetWindowTitle(const char* title)
 			{
 				glfwSetWindowTitle(title);

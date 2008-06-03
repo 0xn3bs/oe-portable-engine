@@ -33,14 +33,22 @@ namespace Odorless
 							_2fDimensions[0] = width;
 							_2fDimensions[1] = height;
 							_winParentWindow = parentWindow;
+							_uiBgColor[0] = 150;
+							_uiBgColor[1] = 240;
+							_uiBgColor[2] = 150;
+							_uiBgColor[3] = 255;
+							_bIsOver = false;
 						}
 						~Widget()
 						{
 						}
-						virtual void OnMouseClick(const int x, const int y){};
+						virtual void OnMouseOver(){};
+						virtual void OnMouseOut(){};
+						virtual void OnMouseClick(){};
 						virtual void OnMouseButton(const int button, const int action){};
 						virtual void Update(const float &dt) = 0;
 						virtual void Render(const float &dt) = 0;
+						bool IsOver(const float &x, const float &y);
 						void SetCaption(char* caption)
 						{
 							_szCaption = caption;
@@ -52,6 +60,7 @@ namespace Odorless
 						unsigned char _uiFgColor[4];
 						unsigned char _uiBgColor[4];
 						unsigned char _uiBrdrColor[4];
+						bool _bIsOver;
 				};
 			}
 		}
