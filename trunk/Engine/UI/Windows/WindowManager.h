@@ -57,17 +57,7 @@ namespace Odorless
 						_vecWindows.at(index)->_bHasFocus = false;
 						_vecWindows.erase(_vecWindows.begin() + index);
 					}
-					bool CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
-					{
-						Window* winTemp = _vecWindows.at(index);
-						bool bOver = winTemp->IsOver(x, y);
-						for(int i = index+1; i < _vecWindows.size(); i++)
-						{
-							if((_vecWindows[i]->IsOver(x,y) || _vecWindows[i]->IsOverTitleBar(x,y)))
-								return false;
-						}
-						return bOver;
-					}
+					bool CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y);
 					void SetFocus(const unsigned int &index)
 					{
 						if(_winCurrentFocused != NULL)

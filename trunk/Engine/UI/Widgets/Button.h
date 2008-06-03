@@ -33,6 +33,10 @@ namespace Odorless
 					~Button()
 					{
 					}
+					virtual void OnMouseButton(const int button, const int action)
+					{
+						_szCaption = "Down";
+					}
 					virtual void OnMouseOver()
 					{
 						_uiBgColor[0] += 105;
