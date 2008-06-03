@@ -27,34 +27,6 @@ namespace Odorless
 		{
 			namespace Windows
 			{
-				class Dot
-				{
-				public:
-					int _iX, _iY;
-					float _iAlpha;
-					float _fDTTotal;
-
-					Dot(const int &x, const int &y)
-					{
-						_iX = x;
-						_iY = y;
-						_iAlpha = 255;
-					}
-					~Dot()
-					{
-					}
-					void Render(float dt)
-					{
-						glBegin(GL_POINTS);
-						glColor4ub(100,0,255,_iAlpha);
-						glVertex3f(0, 0, 0);
-						glEnd();
-					}
-					void Update(float dt)
-					{
-						_iAlpha-=0.00025*dt;
-					}
-				};
 				class WindowManager : public Odorless::Engine::Input::InputListener
 				{
 				public:
@@ -112,7 +84,6 @@ namespace Odorless
 					}
 					Window *_winCurrentFocused;
 					std::vector<Window*> _vecWindows;
-					std::vector<Dot*> _vecDots;
 					int _iWinWidth, _iWinHeight;
 				};
 			}
