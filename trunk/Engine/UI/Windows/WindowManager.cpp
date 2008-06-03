@@ -67,8 +67,11 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseClick(const int startX
 		}
 	}
 }
+
 void Odorless::Engine::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 {
+	_vecDots.push_back(new Dot(x, y));
+
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* winTemp = _vecWindows.at(i);
@@ -103,6 +106,16 @@ bool Odorless::Engine::UI::Windows::WindowManager::CanPick(const unsigned int &i
 }
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
+	for(int i = 0; i < _vecDots.size(); i++)
+	{
+		_vecDots[i]->Update(dt);
+		if(_vecDots[i]->_iAlpha<=0)
+		{
+			_vecDots.erase(_vecDots.begin()+i);
+			i--;
+			continue;
+		}
+	}
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
 		Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
@@ -155,6 +168,13 @@ void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, co
 }
 void Odorless::Engine::UI::Windows::WindowManager::Render(const float &dt)
 {
+	for(int i = 0; i < _vecDots.size(); i++)
+	{
+		glMatrixMode( GL_PROJECTION );
+		glViewport(_vecDots[i]->_iX, _iWinHeight-_vecDots[i]->_iY, 1, 1);
+		_vecDots[i]->Render(dt);
+	}
+
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* tempWin = _vecWindows.at(i);

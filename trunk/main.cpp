@@ -21,7 +21,8 @@
 #include "Game/UI/BasicWindow.h"
 #include <iostream>
 
-Odorless::Engine::Tools::Timers::Timer timer;
+Odorless::Engine::Tools::Timers::Timer timerFPS;
+Odorless::Engine::Tools::Timers::Timer timerAlpha;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
 Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
 void Initialize()
@@ -50,6 +51,8 @@ void Initialize()
 	glEnable(GL_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
+	glPointSize(10.0f);
+
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -95,14 +98,22 @@ int main()
 	while (Odorless::Engine::Base::IsRunning())
 	{
 		float deltaTime = 0.0f;
-
-		if(timer.IsRunning)
+		
+		if(timerAlpha.IsRunning)
 		{
-			if(timer.GetElapsedMilliSec() >= 1000)
+			deltaTime = timerFPS.GetElapsedMilliSec();
+			timerAlpha.Start();
+		}
+		else
+			timerAlpha.Start();
+
+		if(timerFPS.IsRunning)
+		{
+			if(timerFPS.GetElapsedMilliSec() >= 1000)
 			{
 				FPS = totalFrames;
 				totalFrames = 0;
-				timer.Start();
+				timerFPS.Start();
 				char windowtitle[1024];
 				sprintf(windowtitle, "%s :: FPS: %i", __BUILD_STRING__, FPS);
 				Odorless::Engine::Base::SetWindowTitle(windowtitle);
@@ -110,7 +121,7 @@ int main()
 		}
 		else
 		{
-			timer.Start();
+			timerFPS.Start();
 		}
 
 		Odorless::Engine::Base::Update(deltaTime);
