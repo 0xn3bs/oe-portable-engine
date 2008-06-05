@@ -22,6 +22,13 @@ namespace Odorless
 	{
 		namespace UI
 		{
+			struct _THEME
+			{
+				unsigned char _4bBGColor[4];
+				unsigned char _4bFGColor[4];
+				unsigned char _4bTextColor[4];
+				unsigned char _4bBorderColor[4];
+			};
 			namespace Widgets{class Widget;}
 			namespace Windows
 			{

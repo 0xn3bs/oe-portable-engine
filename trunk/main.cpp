@@ -19,12 +19,14 @@
 #include "Engine/UI/Widgets/Button.h"
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Game/UI/BasicWindow.h"
+#include "Engine/Parsers/INI.h"
 #include <iostream>
 
 Odorless::Engine::Tools::Timers::Timer timerFPS;
 Odorless::Engine::Tools::Timers::Timer timerAlpha;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
 Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
+Odorless::Engine::Parsers::INI iniParser;
 void Initialize()
 {
 	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
@@ -33,7 +35,6 @@ void Initialize()
 	a.SetCaption("Window A");
 	b.SetCaption("Window B");
 	c.SetCaption("C");
-
 	
 	windowManager.Initialize();
 	Odorless::Engine::UI::Widgets::Button *testButton = new Odorless::Engine::UI::Widgets::Button(20, 20, 100, 15.5, &b);
@@ -42,7 +43,6 @@ void Initialize()
 	windowManager.AddWindow(a);
 	windowManager.AddWindow(b);
 	windowManager.AddWindow(c);
-	
 
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
@@ -52,7 +52,6 @@ void Initialize()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
 	glPointSize(10.0f);
-
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -84,8 +83,11 @@ void OnResize(int width, int height)
 }
 int main()
 {
+	iniParser.ParseINI("base/cfg/default.ini");
 	Odorless::Engine::Base::InitializeEngine();
-	Odorless::Engine::Base::OpenWindow(800, 600, 8, 8, 8, 8, 24, 8);
+	int iResWidth = iniParser.GetInt("video", "res_width");
+	int iResHeight = iniParser.GetInt("video", "res_height");
+	Odorless::Engine::Base::OpenWindow(iResWidth, iResHeight, 8, 8, 8, 8, 24, 8);
 	Odorless::Engine::Base::SetWindowResize(OnResize);
 	Odorless::Engine::Base::SetWindowTitle(__BUILD_STRING__);
 	Odorless::Engine::Base::SetInitialize(Initialize);

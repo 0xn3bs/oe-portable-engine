@@ -106,45 +106,45 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
 	for(int i = 0; i < _vecWindows.size(); i++)
 	{
-		Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
+		Odorless::Engine::UI::Windows::Window* winTemp = _vecWindows.at(i);
 
 		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
-		if(tempWin->_2fPosition[1] < -tempWin->_fTitleBarY+5)
-			tempWin->_2fPosition[1] = -tempWin->_fTitleBarY+5;
-		if(tempWin->_2fPosition[1] > _iWinHeight-5)
-			tempWin->_2fPosition[1] = _iWinHeight-5;
-		if(tempWin->_2fPosition[0] < -tempWin->_2fDimensions[0]+5)
-			tempWin->_2fPosition[0] = -tempWin->_2fDimensions[0]+5;
-		if(tempWin->_2fPosition[0] > _iWinWidth-5)
-			tempWin->_2fPosition[0] = _iWinWidth-5;
+		if(winTemp->_2fPosition[1] < -winTemp->_fTitleBarY+5)
+			winTemp->_2fPosition[1] = -winTemp->_fTitleBarY+5;
+		if(winTemp->_2fPosition[1] > _iWinHeight-5)
+			winTemp->_2fPosition[1] = _iWinHeight-5;
+		if(winTemp->_2fPosition[0] < -winTemp->_2fDimensions[0]+5)
+			winTemp->_2fPosition[0] = -winTemp->_2fDimensions[0]+5;
+		if(winTemp->_2fPosition[0] > _iWinWidth-5)
+			winTemp->_2fPosition[0] = _iWinWidth-5;
 
-		if(tempWin->_bIsDragging)
+		if(winTemp->_bIsDragging)
 		{
-			tempWin->_2fPosition[0] += Odorless::Engine::Input::InputManager::GetMouseDeltaX();
-			tempWin->_2fPosition[1] += Odorless::Engine::Input::InputManager::GetMouseDeltaY();
+			winTemp->_2fPosition[0] += Odorless::Engine::Input::InputManager::GetMouseDeltaX();
+			winTemp->_2fPosition[1] += Odorless::Engine::Input::InputManager::GetMouseDeltaY();
 		}
 
 		if(Engine::Input::InputManager::GetMouseX() < 0)
 		{
-			tempWin->_bIsDragging = false;
+			winTemp->_bIsDragging = false;
 			continue;
 		}
 
 		if(Engine::Input::InputManager::GetMouseX() > _iWinWidth)
 		{
-			tempWin->_bIsDragging = false;
+			winTemp->_bIsDragging = false;
 			continue;
 		}
 
 		if(Engine::Input::InputManager::GetMouseY() < 0)
 		{
-			tempWin->_bIsDragging = false;
+			winTemp->_bIsDragging = false;
 			continue;
 		}
 
 		if(Engine::Input::InputManager::GetMouseY() > _iWinHeight)
 		{
-			tempWin->_bIsDragging = false;
+			winTemp->_bIsDragging = false;
 			continue;
 		}
 	}
@@ -158,11 +158,11 @@ void Odorless::Engine::UI::Windows::WindowManager::Render(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
-		Window* tempWin = _vecWindows.at(i);
+		Window* winTemp = _vecWindows.at(i);
 		glMatrixMode( GL_PROJECTION );
-		glScalef(tempWin->_fScaleX,tempWin->_fScaleY,1);
-		glViewport(tempWin->_2fPosition[0], _iWinHeight-tempWin->_2fDimensions[0]-tempWin->_2fPosition[1], tempWin->_2fDimensions[0], tempWin->_2fDimensions[1]);
-		tempWin->Render(dt);
-		glScalef(1/tempWin->_fScaleX,1/tempWin->_fScaleY,1);
+		glScalef(winTemp->_fScaleX,winTemp->_fScaleY,1);
+		glViewport(winTemp->_2fPosition[0], _iWinHeight-winTemp->_2fDimensions[0]-winTemp->_2fPosition[1], winTemp->_2fDimensions[0], winTemp->_2fDimensions[1]);
+		winTemp->Render(dt);
+		glScalef(1/winTemp->_fScaleX,1/winTemp->_fScaleY,1);
 	}
 }

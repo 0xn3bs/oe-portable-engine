@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Engine\Parsers\INI.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Engine\Input\Input.h"
 				>
 			</File>
@@ -260,6 +264,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Engine\UI\Fonts\FontManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Engine\Parsers\INI.cpp"
 				>
 			</File>
 			<File
