@@ -30,6 +30,7 @@ namespace Odorless
 				virtual void OnMouseButton(const int button, const int action){};
 				virtual void OnMouseClick(const int startX, const int startY, const int endX, const int endY){};
 				virtual void OnMouseMove(const int x, const int y){};
+				virtual void OnKeyEvent(const int key, const int action){};
 			};
 
 			class InputManager
@@ -47,10 +48,15 @@ namespace Odorless
 				static int _iMouseClickEndY;
 				static bool _bIsMouseAlreadyDown;
 				static bool _rgcKeys[255];
+				static bool _bInitialized;
 
 				static void GLFWCALL GLFWSetKeyEvent(int key, int action)
 				{
 					_rgcKeys[key] = (bool)action;
+					for(int i = 0; i < _vecInputListeners.size(); i++)
+					{
+						_vecInputListeners.at(i)->OnKeyEvent(key,action);
+					}
 				}
 
 				static void GLFWCALL GLFWSetMousePos(int x, int y)
@@ -87,6 +93,7 @@ namespace Odorless
 			public:
 				InputManager()
 				{
+					_bInitialized = false;
 				}
 
 				~InputManager()
@@ -98,7 +105,10 @@ namespace Odorless
 					glfwSetKeyCallback(GLFWSetKeyEvent);
 					glfwSetMousePosCallback(GLFWSetMousePos);
 					glfwSetMouseButtonCallback(GLFWSetMouseButton);
+					_bInitialized = true;
 				}
+
+				static bool IsInitialized(){return _bInitialized;}
 
 				static void Update()
 				{

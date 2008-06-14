@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Engine\Parsers\BSP.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Engine\UI\Widgets\Button.h"
 				>
 			</File>
@@ -199,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Engine\Cameras\FPSCamera.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Engine\Parsers\INI.h"
 				>
 			</File>
@@ -216,6 +224,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Engine\Tools\Timers\Timer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Engine\Parsers\VMAP.h"
 				>
 			</File>
 			<File
@@ -251,6 +263,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Engine\Parsers\BSP.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Engine\Tools\Colors\Color.cpp"
 				>
 			</File>
@@ -264,6 +280,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Engine\UI\Fonts\FontManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Engine\Cameras\FPSCamera.cpp"
 				>
 			</File>
 			<File
@@ -288,6 +308,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Engine\Tools\Timers\Timer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Engine\Parsers\VMAP.cpp"
 				>
 			</File>
 			<File

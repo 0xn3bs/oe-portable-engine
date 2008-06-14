@@ -20,13 +20,18 @@
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Game/UI/BasicWindow.h"
 #include "Engine/Parsers/INI.h"
+#include "Engine/Parsers/BSP.h"
+#include "Engine/Cameras/FPSCamera.h"
 #include <iostream>
+#include <math.h>
 
 Odorless::Engine::Tools::Timers::Timer timerFPS;
 Odorless::Engine::Tools::Timers::Timer timerAlpha;
 Odorless::Engine::UI::Windows::WindowManager windowManager;
 Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
 Odorless::Engine::Parsers::INI iniParser;
+Odorless::Engine::Parsers::BSP bspParser;
+Odorless::Engine::Cameras::Camera *fpsCamera;
 void Initialize()
 {
 	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
@@ -35,7 +40,7 @@ void Initialize()
 	a.SetCaption("Window A");
 	b.SetCaption("Window B");
 	c.SetCaption("C");
-	
+
 	windowManager.Initialize();
 	Odorless::Engine::UI::Widgets::Button *testButton = new Odorless::Engine::UI::Widgets::Button(20, 20, 100, 15.5, &b);
 	testButton->SetCaption("Button");
@@ -44,6 +49,8 @@ void Initialize()
 	windowManager.AddWindow(b);
 	windowManager.AddWindow(c);
 
+	fpsCamera = new Odorless::Engine::Cameras::Camera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
+
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
 	glEnable(GL_LINE_SMOOTH);
@@ -51,39 +58,78 @@ void Initialize()
 	glEnable(GL_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
-	glPointSize(10.0f);
+	//glEnable(GL_LIGHTING);
+	glPointSize(1.0f);
+	glLineWidth(0.1f);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
+	/*
+	glMatrixMode(GL_MODELVIEW);
+
+	double a0 = 1/tan(90.0f/2.0f);
+	float zNear = 0.1f;
+	float zFar = 10000.0f;
+	float PerspectiveMatrix[4][4] =
+	{
+	{a0/(800/600),0,0,0},
+	{0,a0,0,0},
+	{0,0,(zFar+zNear)/(zNear-zFar),(2*zFar*zNear)/(zNear-zFar)},
+	{0,0,-1,0}
+	};
+
+	glLoadMatrixf((const float*)PerspectiveMatrix);
+	*/
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
 	Odorless::Engine::Base::VSync(false);
 }
 void Update(double deltaTime)
 {
 	Odorless::Engine::Input::InputManager::Update();
 	windowManager.Update(deltaTime);
+	fpsCamera->Update(deltaTime);
 }
 void Draw(double deltaTime)
 {
+	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glColor4f(0, 1, 1, 1.0f);
-	glViewport(0, 0, 800, 600);
-	windowManager.Render(deltaTime);
+	//glColor4f(0, 1, 1, 1.0f);
+	//glMatrixMode( GL_MODELVIEW );
+	glLoadIdentity();
+	fpsCamera->Render();
+	//gluLookAt(0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f);
+	//glViewport(0, 0, 800, 600);
+	glColor3f(0.0f, 1.0f, 0.0f);
+	//glBegin(GL_TRIANGLES);
+	//	glVertex3f(10.0f, 0.0f, 1.0f);
+	//	glVertex3f(0.0f, 10.0f, 1.0f);
+	//	glVertex3f(-10.0f, 0.0f, 0.0f);
+	//glEnd();
+	bspParser.DebugRender();
+	//glMatrixMode( GL_PROJECTION );
+	//glViewport(0, 0, 800, 600);
+	//windowManager.Render(deltaTime);
 }
 void OnResize(int width, int height)
 {
+	glViewport(0, 0, width, height);
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
-	glViewport(0, 0, width, height);
-	glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
-	windowManager.UpdateWin(width, height);
+	gluPerspective(65, (GLfloat)width/(GLfloat)height, 0.1f, 10000.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	//glMatrixMode( GL_PROJECTION );
+	//glLoadIdentity();
+	//glViewport(0, 0, width, height);
+	//glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
+	//windowManager.UpdateWin(width, height);
 }
 int main()
 {
 	iniParser.ParseINI("base/cfg/default.ini");
+	bspParser.ParseBSP("base/maps/q3dm17.bsp");
 	Odorless::Engine::Base::InitializeEngine();
 	int iResWidth = iniParser.GetInt("video", "res_width");
 	int iResHeight = iniParser.GetInt("video", "res_height");
@@ -100,7 +146,7 @@ int main()
 	while (Odorless::Engine::Base::IsRunning())
 	{
 		float deltaTime = 0.0f;
-		
+
 		if(timerAlpha.IsRunning)
 		{
 			deltaTime = timerFPS.GetElapsedMilliSec();
@@ -128,6 +174,11 @@ int main()
 
 		Odorless::Engine::Base::Update(deltaTime);
 		Odorless::Engine::Base::Draw(deltaTime);
+		int x, y;
+		Odorless::Engine::Base::GetWindowSize(&x, &y);
+		//glViewport(0, 0, x, y);
+
+
 		Odorless::Engine::Base::Flush();
 		Odorless::Engine::Base::SwapBuffers();
 
