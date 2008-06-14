@@ -34,6 +34,7 @@ Odorless::Engine::Parsers::BSP bspParser;
 Odorless::Engine::Cameras::Camera *fpsCamera;
 void Initialize()
 {
+	Odorless::Engine::Textures::TextureManager::LoadTexture("base/textures/notexture.tga");
 	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
 	Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
 
@@ -51,6 +52,7 @@ void Initialize()
 
 	fpsCamera = new Odorless::Engine::Cameras::Camera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
 
+	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
 	glEnable(GL_LINE_SMOOTH);
@@ -58,6 +60,8 @@ void Initialize()
 	glEnable(GL_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 	//glEnable(GL_LIGHTING);
 	glPointSize(1.0f);
 	glLineWidth(0.1f);
@@ -101,7 +105,7 @@ void Draw(double deltaTime)
 	fpsCamera->Render();
 	//gluLookAt(0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f);
 	//glViewport(0, 0, 800, 600);
-	glColor3f(0.0f, 1.0f, 0.0f);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	//glBegin(GL_TRIANGLES);
 	//	glVertex3f(10.0f, 0.0f, 1.0f);
 	//	glVertex3f(0.0f, 10.0f, 1.0f);
@@ -143,14 +147,16 @@ int main()
 
 	int totalFrames = 0;
 	int FPS = 0;
+	float elapsedTime = 0.0f;
+	float deltaTime = 0.0f;
+
 	while (Odorless::Engine::Base::IsRunning())
 	{
-		float deltaTime = 0.0f;
-
 		if(timerAlpha.IsRunning)
 		{
-			deltaTime = timerFPS.GetElapsedMilliSec();
-			timerAlpha.Start();
+			float el = timerAlpha.GetElapsedSec();
+			deltaTime = el - elapsedTime;
+			elapsedTime = el;
 		}
 		else
 			timerAlpha.Start();

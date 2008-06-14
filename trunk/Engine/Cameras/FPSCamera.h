@@ -17,6 +17,7 @@
 #include <iostream>
 
 #define PI 3.14159265
+#define CAMERA_SPEED 250
 
 namespace Odorless
 {
@@ -64,9 +65,9 @@ namespace Odorless
 
 					float magnitude = sqrt((x * x) + (y * y) + (z * z));
 
-					_dEyeX += ((x/magnitude)*0.1f)*dt;
-					_dEyeY += ((y/magnitude)*0.1f)*dt;
-					_dEyeZ += ((z/magnitude)*0.1f)*dt;
+					_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
+					_dEyeY += ((y/magnitude)*CAMERA_SPEED)*dt;
+					_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
 				}
 
 				void MoveBackward(const float &dt)
@@ -78,9 +79,9 @@ namespace Odorless
 
 					float magnitude = sqrt((x * x) + (y * y) + (z * z));
 
-					_dEyeX -= ((x/magnitude)*0.1f)*dt;
-					_dEyeY -= ((y/magnitude)*0.1f)*dt;
-					_dEyeZ -= ((z/magnitude)*0.1f)*dt;
+					_dEyeX -= ((x/magnitude)*CAMERA_SPEED)*dt;
+					_dEyeY -= ((y/magnitude)*CAMERA_SPEED)*dt;
+					_dEyeZ -= ((z/magnitude)*CAMERA_SPEED)*dt;
 				}
 
 				void StrafeLeft(const float &dt)
@@ -94,8 +95,8 @@ namespace Odorless
 
 					float magnitude = sqrt((x * x) + (z * z));
 
-					_dEyeX += ((x/magnitude)*0.1f)*dt;
-					_dEyeZ += ((z/magnitude)*0.1f)*dt;
+					_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
+					_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
 
 					_dCenterX -= _dEyeX + sin(yAngle+0.5*PI);
 					_dCenterZ -= _dEyeZ + cos(yAngle+0.5*PI);
@@ -112,8 +113,8 @@ namespace Odorless
 
 					float magnitude = sqrt((x * x) + (z * z));
 
-					_dEyeX += ((x/magnitude)*0.1f)*dt;
-					_dEyeZ += ((z/magnitude)*0.1f)*dt;
+					_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
+					_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
 
 					_dCenterX -= _dEyeX + sin(yAngle-0.5*PI);
 					_dCenterZ -= _dEyeZ + cos(yAngle-0.5*PI);

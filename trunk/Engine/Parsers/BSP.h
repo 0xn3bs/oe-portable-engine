@@ -25,20 +25,20 @@ namespace Odorless
 			class BSP
 			{
 			public:
-				struct _LUMPDIRECTORY
+				struct _ILUMPDIRECTORY
 				{
 					int offset;
 					int length;
 				};
 
-				struct _HEADER
+				struct _IHEADER
 				{
 					char magic[4];
 					int version;
-					_LUMPDIRECTORY direntries[17];
+					_ILUMPDIRECTORY direntries[17];
 				};
 
-				struct _NODE
+				struct _INODE
 				{
 					int plane;
 					int children[2];
@@ -46,7 +46,7 @@ namespace Odorless
 					int maxs[3];
 				};
 
-				struct _VERTEX
+				struct _IVERTEX
 				{
 					float position[3];
 					float texcoord[2][2];
@@ -54,7 +54,7 @@ namespace Odorless
 					unsigned char color[4];
 				};
 
-				struct _FACE
+				struct _IFACE
 				{
 					int texture;
 					int effect;
@@ -81,11 +81,14 @@ namespace Odorless
 				}
 
 				const int ParseBSP(const char *path);
+				const int ParseIBSP(FILE* pFile);
+				const int ParseVBSP(FILE* pFile);
+
 				void DebugRender();
 
 			private:
-				std::vector<_VERTEX> vVertices;
-				std::vector<_FACE> vFaces;
+				std::vector<_IVERTEX> vVertices;
+				std::vector<_IFACE> vFaces;
 			};
 		}
 	}
