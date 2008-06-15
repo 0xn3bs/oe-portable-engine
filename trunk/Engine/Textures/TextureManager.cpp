@@ -1,8 +1,6 @@
 #include "TextureManager.h"
 #include <iostream>
 
-#include "Engine/Parsers/JPEG/jpegdecoder.h"
-
 std::vector<GLint> Odorless::Engine::Textures::TextureManager::_vLoadedTextures = std::vector<GLint>();
 
 bool Odorless::Engine::Textures::TextureManager::LoadTGA(const char *path, GLuint Texture)

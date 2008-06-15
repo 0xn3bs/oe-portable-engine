@@ -84,6 +84,11 @@ namespace Odorless
 					unsigned char color[4];
 				};
 				
+				struct _IMESHVERT
+				{
+					int offset;
+				};
+
 				struct _VVERTEX
 				{
 					_VVECTOR point;
@@ -150,6 +155,13 @@ namespace Odorless
 					int type;
 					int vertex;
 					int n_vertexes;
+					int meshvert;
+					int n_meshverts;
+				};
+
+				struct _OMESHVERT
+				{
+					int offset;
 				};
 
 				struct _OVERTEX
@@ -184,6 +196,7 @@ namespace Odorless
 				std::vector<_OEDGE> _vEdges;
 				std::vector<_OFACE> _vFaces;
 				std::vector<GLint> _vTextures;
+				std::vector<_OMESHVERT> _vMeshVerts;
 				int _iBSPType;
 			};
 		}

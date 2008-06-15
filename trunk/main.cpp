@@ -57,15 +57,15 @@ void Initialize()
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
 	glEnable(GL_LINE_SMOOTH);
-	glEnable(GL_BLEND);
-	glEnable(GL_ALPHA);
+	//glEnable(GL_BLEND);
+	//glEnable(GL_ALPHA);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	//glEnable(GL_LIGHTING);
-	glPointSize(1.0f);
-	glLineWidth(0.1f);
+	glPointSize(2.0f);
+	glLineWidth(1.0f);
 
 	/*
 	glMatrixMode(GL_MODELVIEW);
