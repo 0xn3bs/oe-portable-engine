@@ -18,6 +18,7 @@
 
 #define PI 3.14159265
 #define CAMERA_SPEED 250
+#define MOUSE_SENSITIVITY 0.25
 
 namespace Odorless
 {
@@ -54,6 +55,10 @@ namespace Odorless
 
 				void OnKeyEvent(const int key, const int action)
 				{
+					if(key==GLFW_KEY_TAB && action == GLFW_PRESS)
+					{
+						Odorless::Engine::Input::InputManager::SetForceToMouseReference(!Odorless::Engine::Input::InputManager::IsMouseForcedToReference());
+					}
 				};
 
 				void MoveForward(const float &dt)
@@ -140,8 +145,8 @@ namespace Odorless
 					{
 						StrafeRight(dt);
 					}
-					yAngle -= (Odorless::Engine::Input::InputManager::GetMouseDeltaX()*0.01f);
-					xAngle -= (Odorless::Engine::Input::InputManager::GetMouseDeltaY()*0.01f);
+					yAngle += (Odorless::Engine::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
+					xAngle += (Odorless::Engine::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
 					_dCenterX = _dEyeX + sin(yAngle);
 					_dCenterZ = _dEyeZ + cos(yAngle);
 					_dCenterY = _dEyeY + tan(xAngle);

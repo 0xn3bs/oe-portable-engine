@@ -32,6 +32,7 @@ Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20
 Odorless::Engine::Parsers::INI iniParser;
 Odorless::Engine::Parsers::BSP bspParser;
 Odorless::Engine::Cameras::Camera *fpsCamera;
+bool IsGUIEnabled = false;
 void Initialize()
 {
 	Odorless::Engine::Textures::TextureManager::LoadTexture("base/textures/notexture.tga");
@@ -92,7 +93,10 @@ void Initialize()
 void Update(double deltaTime)
 {
 	Odorless::Engine::Input::InputManager::Update();
-	windowManager.Update(deltaTime);
+	if(IsGUIEnabled)
+	{
+		windowManager.Update(deltaTime);
+	}
 	fpsCamera->Update(deltaTime);
 }
 void Draw(double deltaTime)
@@ -105,13 +109,17 @@ void Draw(double deltaTime)
 	fpsCamera->Render();
 	//gluLookAt(0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f);
 	//glViewport(0, 0, 800, 600);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glColor4f(1.0f, 1.0f, 1.0f, 0.75f);
 	//glBegin(GL_TRIANGLES);
 	//	glVertex3f(10.0f, 0.0f, 1.0f);
 	//	glVertex3f(0.0f, 10.0f, 1.0f);
 	//	glVertex3f(-10.0f, 0.0f, 0.0f);
 	//glEnd();
 	bspParser.DebugRender();
+	if(IsGUIEnabled)
+	{
+		//	Render GUI here
+	}
 	//glMatrixMode( GL_PROJECTION );
 	//glViewport(0, 0, 800, 600);
 	//windowManager.Render(deltaTime);
@@ -124,6 +132,9 @@ void OnResize(int width, int height)
 	gluPerspective(65, (GLfloat)width/(GLfloat)height, 0.1f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	Odorless::Engine::Input::InputManager::SetMouseReferencePos(width/2, height/2);
+	Odorless::Engine::Input::InputManager::SetForceToMouseReference(true);
 	//glMatrixMode( GL_PROJECTION );
 	//glLoadIdentity();
 	//glViewport(0, 0, width, height);
@@ -180,11 +191,6 @@ int main()
 
 		Odorless::Engine::Base::Update(deltaTime);
 		Odorless::Engine::Base::Draw(deltaTime);
-		int x, y;
-		Odorless::Engine::Base::GetWindowSize(&x, &y);
-		//glViewport(0, 0, x, y);
-
-
 		Odorless::Engine::Base::Flush();
 		Odorless::Engine::Base::SwapBuffers();
 

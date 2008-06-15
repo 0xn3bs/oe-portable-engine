@@ -46,9 +46,12 @@ namespace Odorless
 				static int _iMouseClickStartY;
 				static int _iMouseClickEndX;
 				static int _iMouseClickEndY;
+				static int _iMouseReferenceX;
+				static int _iMouseReferenceY;
 				static bool _bIsMouseAlreadyDown;
 				static bool _rgcKeys[255];
 				static bool _bInitialized;
+				static bool _bForceMouseToRefPos;
 
 				static void GLFWCALL GLFWSetKeyEvent(int key, int action)
 				{
@@ -109,15 +112,38 @@ namespace Odorless
 				}
 
 				static bool IsInitialized(){return _bInitialized;}
+				static bool IsMouseForcedToReference(){return _bForceMouseToRefPos;}
+				static void SetMouseReferencePos(const int &x, const int &y)
+				{
+					_iMouseReferenceX = x;
+					_iMouseReferenceY = y;
+				}
+
+				static void SetForceToMouseReference(bool forceReference)
+				{
+					_bForceMouseToRefPos = forceReference;
+				}
 
 				static void Update()
 				{
 					int x, y;
 					glfwGetMousePos(&x, &y);
-					_iMouseDeltaX = x - _iMouseX;
-					_iMouseDeltaY = y - _iMouseY;
-					_iMouseX = x;
-					_iMouseY = y;
+
+					if(_bForceMouseToRefPos)
+					{
+						_iMouseDeltaX = _iMouseReferenceX - x;
+						_iMouseDeltaY = _iMouseReferenceY - y;
+						_iMouseX = _iMouseReferenceX;
+						_iMouseY = _iMouseReferenceY;
+						glfwSetMousePos(_iMouseReferenceX, _iMouseReferenceY);
+					}
+					else
+					{
+						_iMouseDeltaX = x - _iMouseX;
+						_iMouseDeltaY = y - _iMouseY;
+						_iMouseX = x;
+						_iMouseY = y;
+					}
 				}
 
 				static void AddInputListener(InputListener* inputListener)
