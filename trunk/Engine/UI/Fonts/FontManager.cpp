@@ -169,7 +169,7 @@ void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
 		iXPos += (int)character._fSize;
 	}
 
-	glBindTexture(GL_TEXTURE_2D, NULL);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 void Odorless::Engine::UI::Fonts::FontManager::SetFont(const char *name)
 {

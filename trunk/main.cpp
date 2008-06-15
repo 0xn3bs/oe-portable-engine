@@ -89,6 +89,8 @@ void Initialize()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	Odorless::Engine::Base::VSync(false);
+
+	bspParser.ParseBSP("base/maps/q3dm17.bsp");
 }
 void Update(double deltaTime)
 {
@@ -109,7 +111,6 @@ void Draw(double deltaTime)
 	fpsCamera->Render();
 	//gluLookAt(0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f);
 	//glViewport(0, 0, 800, 600);
-	glColor4f(1.0f, 1.0f, 1.0f, 0.75f);
 	//glBegin(GL_TRIANGLES);
 	//	glVertex3f(10.0f, 0.0f, 1.0f);
 	//	glVertex3f(0.0f, 10.0f, 1.0f);
@@ -144,7 +145,7 @@ void OnResize(int width, int height)
 int main()
 {
 	iniParser.ParseINI("base/cfg/default.ini");
-	bspParser.ParseBSP("base/maps/q3dm17.bsp");
+	
 	Odorless::Engine::Base::InitializeEngine();
 	int iResWidth = iniParser.GetInt("video", "res_width");
 	int iResHeight = iniParser.GetInt("video", "res_height");

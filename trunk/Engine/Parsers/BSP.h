@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <vector>
+#include "Engine/Textures/TextureManager.h"
 
 #define	V_HEADER_LUMPS	64
 
@@ -86,6 +87,13 @@ namespace Odorless
 				struct _VVERTEX
 				{
 					_VVECTOR point;
+				};
+
+				struct _ITEXTURE
+				{
+					char name[64];
+					int flags;
+					int contents;
 				};
 
 				struct _IFACE
@@ -175,6 +183,7 @@ namespace Odorless
 				std::vector<_OVERTEX> _vVertices;
 				std::vector<_OEDGE> _vEdges;
 				std::vector<_OFACE> _vFaces;
+				std::vector<GLint> _vTextures;
 				int _iBSPType;
 			};
 		}

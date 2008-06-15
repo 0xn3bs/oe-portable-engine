@@ -6,7 +6,8 @@ const int Odorless::Engine::Parsers::BSP::ParseBSP(const char *path)
 	FILE *pFile;
 	pFile = fopen(path, "rb");
 
-	/*_IHEADER *header = (_IHEADER*)malloc(sizeof(_IHEADER));
+	/*
+	_IHEADER *header = (_IHEADER*)malloc(sizeof(_IHEADER));
 	fread((_IHEADER*)header,sizeof(_IHEADER),1, pFile);
 	fseek(pFile, 0, SEEK_SET);
 	if(strcmp(header->magic, "IBSP.") == 0)
@@ -57,6 +58,12 @@ const int Odorless::Engine::Parsers::BSP::ParseIBSP(FILE* pFile)
 		tVertex.position[0] = vertices[i].position[0];
 		tVertex.position[1] = y;
 		tVertex.position[2] = z;
+
+		tVertex.texcoord[0][0] = vertices[i].texcoord[0][0];
+		tVertex.texcoord[0][1] = vertices[i].texcoord[0][1];
+
+		tVertex.texcoord[1][0] = vertices[i].texcoord[1][0];
+		tVertex.texcoord[1][1] = vertices[i].texcoord[1][1];
 		_vVertices.push_back(tVertex);
 	}
 
@@ -75,6 +82,35 @@ const int Odorless::Engine::Parsers::BSP::ParseIBSP(FILE* pFile)
 		_vFaces.push_back(tFace);
 	}
 
+	int nTextures = header->direntries[1].length / sizeof(_ITEXTURE);
+	_ITEXTURE *textures = (_ITEXTURE*)malloc(sizeof(_ITEXTURE)*nTextures);
+	fseek(pFile, header->direntries[1].offset, SEEK_SET);
+	fread((_ITEXTURE*)textures, sizeof(_ITEXTURE), nTextures, pFile);
+
+	for(int i = 0; i < nTextures; i++)
+	{
+		char name[100];
+
+		strcpy (name,"base/");
+		strcat (name,textures[i].name);
+		strcat (name,".tga");
+		GLint texIndex = -1;
+		if(texIndex = Odorless::Engine::Textures::TextureManager::LoadTexture(name))
+		{
+			_vTextures.push_back(texIndex);
+			continue;
+		}
+		strcpy (name,"base/");
+		strcat (name,textures[i].name);
+		strcat (name,".jpg");
+		if(texIndex = Odorless::Engine::Textures::TextureManager::LoadTexture(name))
+		{
+			_vTextures.push_back(texIndex);
+			continue;
+		}
+	}
+
+	free(textures);
 	free(vertices);
 	free(faces);
 	free(header);
@@ -157,26 +193,33 @@ const int Odorless::Engine::Parsers::BSP::ParseVBSP(FILE* pFile)
 
 void Odorless::Engine::Parsers::BSP::DebugRender()
 {
-	glBindTexture(GL_TEXTURE_2D, 1);
+	glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
+	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
 	if(_iBSPType == BSP_TYPE_IBSP)
 	{
 		for(int i = 0; i < _vFaces.size(); i++)
 		{
-			if(_vFaces[i].type != 1)
+			if(_vFaces[i].type != 1/*&& _vFaces[i].type != 3*/)
 			{
 				continue;
 			}
 
-			glBegin(GL_LINES);
+			//std::cout << _vTextures[_vFaces[i].texture] << std::endl;
+			if(_vTextures[_vFaces[i].texture]>0)
+			{
+				glBindTexture(GL_TEXTURE_2D, _vTextures[_vFaces[i].texture]);
+			}
+			else
+				glBindTexture(GL_TEXTURE_2D, 1);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			glBegin(GL_POLYGON);
 			for(int j = _vFaces[i].vertex; j < _vFaces[i].vertex + _vFaces[i].n_vertexes; j++)
 			{
 				glTexCoord2f(_vVertices[j].texcoord[0][0], _vVertices[j].texcoord[0][1]);
@@ -185,6 +228,31 @@ void Odorless::Engine::Parsers::BSP::DebugRender()
 			glEnd();
 		}
 	}
+
+
+
+	/*
+
+	if(_iBSPType == BSP_TYPE_IBSP)
+	{
+	for(int i = 0; i < _vFaces.size(); i++)
+	{
+	if(_vFaces[i].type != 1)
+	{
+	continue;
+	}
+
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	//glBindTexture(_vTextures[_vFaces[i].texture], 1);
+	glBegin(GL_LINES);
+	for(int j = _vFaces[i].vertex; j < _vFaces[i].vertex + _vFaces[i].n_vertexes; j++)
+	{
+	glTexCoord2f(_vVertices[j].texcoord[0][0], _vVertices[j].texcoord[0][1]);
+	glVertex3f(_vVertices[j].position[0], _vVertices[j].position[1], _vVertices[j].position[2]);
+	}
+	glEnd();
+	}
+	}*/
 
 	/*
 	if(_iBSPType == BSP_TYPE_VBSP)

@@ -17,11 +17,14 @@ namespace Odorless
 			class TextureManager
 			{
 				public:
-					static GLint LoadTexture(const char *TexName);
+					static GLint LoadTexture(const char *path);
 					static void DeleteTexture(const GLuint index);
 					static void Dispose();
+
 				private:
 					static std::vector<GLint> _vLoadedTextures;
+					static bool LoadTGA(const char *path, GLuint Texture);
+					static bool LoadJPG(const char *path, GLuint Texture);
 			};
 		}
 	}
