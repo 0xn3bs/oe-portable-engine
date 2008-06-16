@@ -12,11 +12,10 @@
 #define FPSCAMERA_H_
 
 #include <GL/glfw.h>
-#include <math.h>
+#include "Engine/Tools/Math/Common.h"
 #include "Engine/Input/Input.h"
 #include <iostream>
 
-#define PI 3.14159265
 #define CAMERA_SPEED 250
 #define MOUSE_SENSITIVITY 0.25
 

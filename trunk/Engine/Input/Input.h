@@ -133,9 +133,14 @@ namespace Odorless
 					{
 						_iMouseDeltaX = _iMouseReferenceX - x;
 						_iMouseDeltaY = _iMouseReferenceY - y;
-						_iMouseX = _iMouseReferenceX;
-						_iMouseY = _iMouseReferenceY;
-						glfwSetMousePos(_iMouseReferenceX, _iMouseReferenceY);
+						
+						//	Only set the mouse position back if there has been a change.
+						if(_iMouseDeltaX != 0 || _iMouseDeltaY != 0)
+						{
+							_iMouseX = _iMouseReferenceX;
+							_iMouseY = _iMouseReferenceY;
+							glfwSetMousePos(_iMouseReferenceX, _iMouseReferenceY);
+						}
 					}
 					else
 					{
@@ -179,8 +184,6 @@ namespace Odorless
 				static void GetMousePos(int *xPos, int *yPos)
 				{
 					glfwGetMousePos(xPos, yPos);
-					//*xPos = _iMouseX;
-					//*yPos = _iMouseY;
 				}
 
 				static const int GetMouseDeltaX()

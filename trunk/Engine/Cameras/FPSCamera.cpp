@@ -30,8 +30,8 @@ void Odorless::Engine::Cameras::FPSCamera::MoveBackward(const float &dt)
 
 void Odorless::Engine::Cameras::FPSCamera::StrafeLeft(const float &dt)
 {
-	_dCenterX = _dEyeX + sin(yChange+PI*0.5);
-	_dCenterZ = _dEyeZ + cos(yChange+PI*0.5);
+	_dCenterX = _dEyeX + sin(yChange+PI2);
+	_dCenterZ = _dEyeZ + cos(yChange+PI2);
 
 	float x, y, z;
 	x = _dCenterX - _dEyeX;
@@ -42,14 +42,14 @@ void Odorless::Engine::Cameras::FPSCamera::StrafeLeft(const float &dt)
 	_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
 	_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
 
-	_dCenterX -= _dEyeX + sin(yChange+PI*0.5);
-	_dCenterZ -= _dEyeZ + cos(yChange+PI*0.5);
+	_dCenterX -= _dEyeX + sin(yChange+PI2);
+	_dCenterZ -= _dEyeZ + cos(yChange+PI2);
 }
 
 void Odorless::Engine::Cameras::FPSCamera::StrafeRight(const float &dt)
 {
-	_dCenterX = _dEyeX + sin(yChange-PI*0.5);
-	_dCenterZ = _dEyeZ + cos(yChange-PI*0.5);
+	_dCenterX = _dEyeX + sin(yChange-PI2);
+	_dCenterZ = _dEyeZ + cos(yChange-PI2);
 
 	float x, y, z;
 	x = _dCenterX - _dEyeX;
@@ -60,8 +60,8 @@ void Odorless::Engine::Cameras::FPSCamera::StrafeRight(const float &dt)
 	_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
 	_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
 
-	_dCenterX -= _dEyeX + sin(yChange-PI*0.5);
-	_dCenterZ -= _dEyeZ + cos(yChange-PI*0.5);
+	_dCenterX -= _dEyeX + sin(yChange-PI2);
+	_dCenterZ -= _dEyeZ + cos(yChange-PI2);
 }
 
 void Odorless::Engine::Cameras::FPSCamera::Update(const float &dt)
@@ -82,14 +82,15 @@ void Odorless::Engine::Cameras::FPSCamera::Update(const float &dt)
 	{
 		StrafeRight(dt);
 	}
+
 	yChange += (Odorless::Engine::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
 	xChange += (Odorless::Engine::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
 
-	if(xChange > PI*0.5)
-		xChange = PI*0.5;
+	if(xChange > PI2)
+		xChange = PI2;
 
-	if(xChange < -PI*0.5)
-		xChange = -PI*0.5;
+	if(xChange < -PI2)
+		xChange = -PI2;
 
 	_dCenterX = _dEyeX + sin(yChange);
 	_dCenterZ = _dEyeZ + cos(yChange);

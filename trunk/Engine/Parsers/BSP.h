@@ -183,6 +183,11 @@ namespace Odorless
 
 				~BSP()
 				{
+					free(_vVertices);
+					free(_vEdges);
+					free(_vFaces);
+					free(_vTextures);
+					free(_vMeshVerts);
 				}
 
 				const int ParseBSP(const char *path);
@@ -192,11 +197,21 @@ namespace Odorless
 				void DebugRender();
 
 			private:
-				std::vector<_OVERTEX> _vVertices;
-				std::vector<_OEDGE> _vEdges;
-				std::vector<_OFACE> _vFaces;
-				std::vector<GLint> _vTextures;
-				std::vector<_OMESHVERT> _vMeshVerts;
+				_OVERTEX* _vVertices;
+				int _iNumVertices;
+
+				_OEDGE* _vEdges;
+				int _iNumEdges;
+
+				_OFACE* _vFaces;
+				int _iNumFaces;
+
+				GLint* _vTextures;
+				int _iNumTextures;
+
+				_OMESHVERT* _vMeshVerts;
+				int _iNumMeshVerts;
+
 				int _iBSPType;
 			};
 		}
