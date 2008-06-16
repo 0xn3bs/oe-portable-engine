@@ -65,34 +65,15 @@ void Initialize()
 	glEnable(GL_COLOR);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
+
 	//glEnable(GL_LIGHTING);
 	glPointSize(2.0f);
 	glLineWidth(1.0f);
-
-	/*
-	glMatrixMode(GL_MODELVIEW);
-
-	double a0 = 1/tan(90.0f/2.0f);
-	float zNear = 0.1f;
-	float zFar = 10000.0f;
-	float PerspectiveMatrix[4][4] =
-	{
-	{a0/(800/600),0,0,0},
-	{0,a0,0,0},
-	{0,0,(zFar+zNear)/(zNear-zFar),(2*zFar*zNear)/(zNear-zFar)},
-	{0,0,-1,0}
-	};
-
-	glLoadMatrixf((const float*)PerspectiveMatrix);
-	*/
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	Odorless::Engine::Base::VSync(false);
 
-	bspParser.ParseBSP("base/maps/q3dm17.bsp");
+	std::string mapToLoad = iniParser.GetString("default", "map");
+	bspParser.ParseBSP(mapToLoad.c_str());
 }
 void Update(double deltaTime)
 {

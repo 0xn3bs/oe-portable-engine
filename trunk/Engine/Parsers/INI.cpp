@@ -212,7 +212,7 @@ const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
 					std::string right = _vLines[i].substr(j+1,_vLines[i].size()-j-1);
 					il = right.find_last_of(' ');
 					ir = right.find_last_not_of(' ');
-					right = right.substr(il, ir);
+					right = right.substr(il+1, ir);
 					_mapINIData[section].insert(make_pair(left,right));
 				}
 			}

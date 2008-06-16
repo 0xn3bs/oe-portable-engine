@@ -8,6 +8,12 @@ const int Odorless::Engine::Parsers::BSP::ParseBSP(const char *path)
 	FILE *pFile;
 	pFile = fopen(path, "rb");
 
+	if(pFile==NULL)
+	{
+		std::cerr << "Error - Failed to load map \"" << path << "\", no such map!" << std::endl;
+		return -1;
+	}
+
 	//	Read the first 4 bytes for the magic number.
 	char* magic = (char*)malloc(sizeof(char)*5);
 	fread((char*)magic,sizeof(magic),1, pFile);
