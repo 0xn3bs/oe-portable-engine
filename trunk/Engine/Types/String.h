@@ -33,7 +33,7 @@ namespace Odorless
 
 					friend std::ostream& operator<<(std::ostream& os, const Odorless::Engine::Types::String& rightHand);
 
-					void Odorless::Engine::Types::String::operator+=(const char* rhs)
+					void operator+=(const char* rhs)
 					{
 						Add(rhs);
 					}
