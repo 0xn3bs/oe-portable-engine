@@ -1,6 +1,6 @@
 #include "Widget.h"
 
-bool Odorless::Engine::UI::Widgets::Widget::IsOver(const float &x, const float &y)
+bool OEngine::UI::Widgets::Widget::IsOver(const float &x, const float &y)
 {
 	int iXPos, iYPos;
 

@@ -13,66 +13,63 @@
 
 #include "Engine/UI/Fonts/FontManager.h"
 
-namespace Odorless
+namespace OEngine
 {
-	namespace Engine
+	namespace UI
 	{
-		namespace UI
+		namespace Widgets
 		{
-			namespace Widgets
+			class Button : public OEngine::UI::Widgets::Widget
 			{
-				class Button : public Odorless::Engine::UI::Widgets::Widget
+			public:
+				Button(const float& x, const float &y, const float &width, const float &height, 
+					OEngine::UI::Windows::Window* parentWindow) : Widget(x, y, width, 
+					height, parentWindow)
 				{
-				public:
-					Button(const float& x, const float &y, const float &width, const float &height, 
-						Odorless::Engine::UI::Windows::Window* parentWindow) : Widget(x, y, width, 
-						height, parentWindow)
-					{
 
-					}
-					~Button()
-					{
-					}
-					virtual void OnMouseButton(const int button, const int action)
-					{
-						_szCaption = "Down";
-					}
-					virtual void OnMouseOver()
-					{
-						_uiBgColor[0] += 105;
-						_uiBgColor[2] += 105;
-						_szCaption = "Over";
-					}
-					virtual void OnMouseOut()
-					{
-						_uiBgColor[0] -= 105;
-						_uiBgColor[2] -= 105;
-						_szCaption = "Out";
-					}
-					virtual void OnMouseClick()
-					{
-						_szCaption = "Click";
-					}
-					virtual void Update(const float &dt)
-					{
-					}
-					virtual void Render(const float &dt)
-					{
-						glPushMatrix();
-						glBegin(GL_QUADS);
-						glVertex3f(0, 0, 0);
-						glVertex3f(0, _2fDimensions[1], 0);
-						glTexCoord2f(1, 1);
-						glVertex3f(_2fDimensions[0], _2fDimensions[1], 0);
-						glTexCoord2f(1, 0);
-						glVertex3f(_2fDimensions[0], 0, 0);
-						glEnd();
-						glPopMatrix();
-						glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
-						Engine::UI::Fonts::FontManager::Write(_szCaption);
-					}
-				};
-			}
+				}
+				~Button()
+				{
+				}
+				virtual void OnMouseButton(const int button, const int action)
+				{
+					_szCaption = "Down";
+				}
+				virtual void OnMouseOver()
+				{
+					_uiBgColor[0] += 105;
+					_uiBgColor[2] += 105;
+					_szCaption = "Over";
+				}
+				virtual void OnMouseOut()
+				{
+					_uiBgColor[0] -= 105;
+					_uiBgColor[2] -= 105;
+					_szCaption = "Out";
+				}
+				virtual void OnMouseClick()
+				{
+					_szCaption = "Click";
+				}
+				virtual void Update(const float &dt)
+				{
+				}
+				virtual void Render(const float &dt)
+				{
+					glPushMatrix();
+					glBegin(GL_QUADS);
+					glVertex3f(0, 0, 0);
+					glVertex3f(0, _2fDimensions[1], 0);
+					glTexCoord2f(1, 1);
+					glVertex3f(_2fDimensions[0], _2fDimensions[1], 0);
+					glTexCoord2f(1, 0);
+					glVertex3f(_2fDimensions[0], 0, 0);
+					glEnd();
+					glPopMatrix();
+					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
+					OEngine::UI::Fonts::FontManager::Write(_szCaption);
+				}
+			};
 		}
 	}
 }

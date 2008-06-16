@@ -3,7 +3,7 @@
 
 #define IDBSPHEADER	(('P'<<24)+('S'<<16)+('B'<<8)+'V')
 
-const int Odorless::Engine::Parsers::BSP::ParseBSP(const char *path)
+const int OEngine::Parsers::BSP::ParseBSP(const char *path)
 {
 	FILE *pFile;
 	pFile = fopen(path, "rb");
@@ -35,7 +35,7 @@ const int Odorless::Engine::Parsers::BSP::ParseBSP(const char *path)
 		return 0;
 }
 
-const int Odorless::Engine::Parsers::BSP::ParseIBSP(const char* path)
+const int OEngine::Parsers::BSP::ParseIBSP(const char* path)
 {
 	FILE *pFile;
 	pFile = fopen(path, "rb");
@@ -95,7 +95,7 @@ const int Odorless::Engine::Parsers::BSP::ParseIBSP(const char* path)
 
 	for(int i = 0; i < _iNumTextures; i++)
 	{
-		_vTextures[i] = Odorless::Engine::Textures::TextureManager::LoadTexture(textures[i].name);
+		_vTextures[i] = OEngine::Textures::TextureManager::LoadTexture(textures[i].name);
 	}
 
 	//	TODO: MESH VERTS
@@ -122,7 +122,7 @@ const int Odorless::Engine::Parsers::BSP::ParseIBSP(const char* path)
 
 
 //	Ignore VBSP implementation for now.
-const int Odorless::Engine::Parsers::BSP::ParseVBSP(const char* path)
+const int OEngine::Parsers::BSP::ParseVBSP(const char* path)
 {
 	/*
 	_VHEADER *header = (_VHEADER*)malloc(sizeof(_VHEADER));
@@ -194,11 +194,10 @@ const int Odorless::Engine::Parsers::BSP::ParseVBSP(const char* path)
 	return 0;
 }
 
-void Odorless::Engine::Parsers::BSP::DebugRender()
+void OEngine::Parsers::BSP::DebugRender()
 {
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
-	glColor4f(0, 0, 0, 0.75f);
 	if(_iBSPType == BSP_TYPE_IBSP)
 	{
 		for(int i = 0; i < _iNumFaces; i++)
@@ -229,23 +228,23 @@ void Odorless::Engine::Parsers::BSP::DebugRender()
 				}
 				glEnd();
 			}
-			else
-				if(_vFaces[i].type == 3)
-				{
-					float x, y, z;
 
-					glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-					glBegin(GL_TRIANGLES);
-					for(int j = _vFaces[i].meshvert; j < _vFaces[i].meshvert + _vFaces[i].n_meshverts; j++)
-					{
-						x = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[0];
-						y = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[1];
-						z = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[2];
-						glTexCoord2f(_vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][0], _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][1]);
-						glVertex3f(x, y, z);
-					}
-					glEnd();
+			if(_vFaces[i].type == 3)
+			{
+				float x, y, z;
+
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				glBegin(GL_TRIANGLES);
+				for(int j = _vFaces[i].meshvert; j < _vFaces[i].meshvert + _vFaces[i].n_meshverts; j++)
+				{
+					x = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[0];
+					y = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[1];
+					z = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[2];
+					glTexCoord2f(_vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][0], _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][1]);
+					glVertex3f(x, y, z);
 				}
+				glEnd();
+			}
 		}
 		glDisable(GL_BLEND);
 	}
@@ -291,4 +290,3 @@ void Odorless::Engine::Parsers::BSP::DebugRender()
 	}
 	*/
 }
-

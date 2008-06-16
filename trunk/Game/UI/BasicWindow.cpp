@@ -1,15 +1,15 @@
 #include "BasicWindow.h"
 
-void Odorless::Game::UI::BasicWindow::Update(const float &dt)
+void OEngine::Game::UI::BasicWindow::Update(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWidgets.size(); i++)
 	{
-		Odorless::Engine::UI::Widgets::Widget* wWidget = _vecWidgets.at(i);
+		OEngine::UI::Widgets::Widget* wWidget = _vecWidgets.at(i);
 		wWidget->Update(dt);
 	}
 }
 
-void Odorless::Game::UI::BasicWindow::Render(const float &dt)
+void OEngine::Game::UI::BasicWindow::Render(const float &dt)
 {
 	//	Background
 	glBegin(GL_QUADS);
@@ -38,7 +38,7 @@ void Odorless::Game::UI::BasicWindow::Render(const float &dt)
 	//	Render widgets here.
 	for(unsigned int i = 0; i < _vecWidgets.size(); i++)
 	{
-		Odorless::Engine::UI::Widgets::Widget* wWidget = _vecWidgets.at(i);
+		OEngine::UI::Widgets::Widget* wWidget = _vecWidgets.at(i);
 		glTranslatef(wWidget->_2fPosition[0], wWidget->_2fPosition[1], 0);
 		wWidget->Render(dt);
 		glTranslatef(-wWidget->_2fPosition[0], -wWidget->_2fPosition[1], 0);
@@ -63,8 +63,8 @@ void Odorless::Game::UI::BasicWindow::Render(const float &dt)
 	glPushMatrix();
 	glColor4ub(_uiFgColor[0],_uiFgColor[1],_uiFgColor[2],_uiFgColor[3]);
 	if(_szCaption == 0)
-		Engine::UI::Fonts::FontManager::Write("Untitled");
+		OEngine::UI::Fonts::FontManager::Write("Untitled");
 	else
-		Engine::UI::Fonts::FontManager::Write(_szCaption);
+		OEngine::UI::Fonts::FontManager::Write(_szCaption);
 	glPopMatrix();
 }

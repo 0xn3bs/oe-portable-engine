@@ -14,29 +14,29 @@
 #include <string>
 #include <iostream>
 
-Odorless::Engine::UI::Fonts::FontManager g_fontManager;
+OEngine::UI::Fonts::FontManager g_fontManager;
 
-std::vector<Odorless::Engine::UI::Fonts::_FONT> Odorless::Engine::UI::Fonts::FontManager::_vFonts = std::vector<Odorless::Engine::UI::Fonts::_FONT>();
-int Odorless::Engine::UI::Fonts::FontManager::_iCurrentFont = 0;
+std::vector<OEngine::UI::Fonts::_FONT> OEngine::UI::Fonts::FontManager::_vFonts = std::vector<OEngine::UI::Fonts::_FONT>();
+int OEngine::UI::Fonts::FontManager::_iCurrentFont = 0;
 
-Odorless::Engine::UI::Fonts::FontManager::FontManager()
+OEngine::UI::Fonts::FontManager::FontManager()
 {
 	_iCurrentFont = -1;
 }
-Odorless::Engine::UI::Fonts::FontManager::~FontManager()
+OEngine::UI::Fonts::FontManager::~FontManager()
 {
 
 }
 //	TODO: Use alternative texture loading techniques as to not restrict to TGAs.
 //	TODO: Generate non-monospace UV coordinates for characters.
-const int Odorless::Engine::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpaced)
+const int OEngine::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpaced)
 {
 	char szTGAPath[255];
 
 	strcpy(szTGAPath, path);
 	strcat(szTGAPath, ".tga");
 
-	int uintTextureHandle = Odorless::Engine::Textures::TextureManager::LoadTexture(szTGAPath);
+	int uintTextureHandle = OEngine::Textures::TextureManager::LoadTexture(szTGAPath);
 
 	if (uintTextureHandle <= -1)
 		return uintTextureHandle;
@@ -55,7 +55,7 @@ const int Odorless::Engine::UI::Fonts::FontManager::AddFont(const char *path, bo
 
 	return -1;
 }
-void Odorless::Engine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool setMonoSpaced)
+void OEngine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool setMonoSpaced)
 {
 	if(setMonoSpaced)
 	{
@@ -113,7 +113,7 @@ void Odorless::Engine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool se
 	delete image;
 	*/
 }
-void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
+void OEngine::UI::Fonts::FontManager::Write(const char* string)
 {
 	if (_iCurrentFont <= -1 || _iCurrentFont > (int)_vFonts.size())
 	{
@@ -171,7 +171,7 @@ void Odorless::Engine::UI::Fonts::FontManager::Write(const char* string)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
-void Odorless::Engine::UI::Fonts::FontManager::SetFont(const char *name)
+void OEngine::UI::Fonts::FontManager::SetFont(const char *name)
 {
 	if (IndexOf(name) > -1)
 	{
@@ -179,12 +179,12 @@ void Odorless::Engine::UI::Fonts::FontManager::SetFont(const char *name)
 		std::clog << "Font set to '" << name << "'" << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
 	}
 }
-void Odorless::Engine::UI::Fonts::FontManager::SetFont(const unsigned int &index)
+void OEngine::UI::Fonts::FontManager::SetFont(const unsigned int &index)
 {
 	if (index < _vFonts.size() && index >= 0)
 		_iCurrentFont = index;
 }
-int Odorless::Engine::UI::Fonts::FontManager::IndexOf(const char *name)
+int OEngine::UI::Fonts::FontManager::IndexOf(const char *name)
 {
 	for (unsigned int i = 0; i < _vFonts.size(); i++)
 		if (strcmp(_vFonts[i]._szName, name) == 0)

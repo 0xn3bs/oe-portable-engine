@@ -67,17 +67,18 @@ enum std_markers {
 
 //#if DEBUG
 
-#define trace(fmt, args...) do { \
+/*#define trace(fmt, args...) do { \
    fprintf(stderr, fmt, ## args); \
    fflush(stderr); \
 } while(0)
+*/
 
 //#else
 
-//void _trace(char* fmt, ...)
-//{
-//	do { } while (0);
-//}
+void trace(char* fmt, ...)
+{
+	do { } while (0);
+}
 
 //#define trace(args) _trace args
 //#endif

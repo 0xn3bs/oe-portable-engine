@@ -1,15 +1,18 @@
 #include "TextureManager.h"
 #include <iostream>
 
-std::vector<GLint> Odorless::Engine::Textures::TextureManager::_vLoadedTextures = std::vector<GLint>();
+GLint* OEngine::Textures::TextureManager::_vLoadedTextures = (GLint*)malloc(sizeof(GLint));
+unsigned int OEngine::Textures::TextureManager::_iNumTextures = 0;
 
-bool Odorless::Engine::Textures::TextureManager::LoadTGA(const char* path, GLuint Texture)
+bool OEngine::Textures::TextureManager::LoadTGA(const char* path, GLuint Texture)
 {
 	if(glfwLoadTexture2D(path, GLFW_ORIGIN_UL_BIT))
 	{
 		std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
 			<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
-		_vLoadedTextures.push_back(Texture);
+		_iNumTextures++;
+		_vLoadedTextures = (GLint*)realloc(_vLoadedTextures, sizeof(GLint) * (_iNumTextures + 1));
+		_vLoadedTextures[_iNumTextures-1] = Texture;
 		glBindTexture (GL_TEXTURE_2D, 0);
 		return true;
 	}
@@ -17,7 +20,7 @@ bool Odorless::Engine::Textures::TextureManager::LoadTGA(const char* path, GLuin
 	return false;
 }
 
-bool Odorless::Engine::Textures::TextureManager::LoadJPG(const char* path, GLuint Texture)
+bool OEngine::Textures::TextureManager::LoadJPG(const char* path, GLuint Texture)
 {
 	FILE *fp;
 	unsigned int fLength, width, height;
@@ -68,14 +71,16 @@ bool Odorless::Engine::Textures::TextureManager::LoadJPG(const char* path, GLuin
 		level++;
 	}
 
-	_vLoadedTextures.push_back(Texture);
+	_iNumTextures++;
+	_vLoadedTextures = (GLint*)realloc(_vLoadedTextures, sizeof(GLint)*(_iNumTextures+1));
+	_vLoadedTextures[_iNumTextures-1] = Texture;
 
 	glBindTexture (GL_TEXTURE_2D, 0);
 	free(buf);
 	return true;
 }
 
-bool Odorless::Engine::Textures::TextureManager::DoesFileExist(const char* path)
+bool OEngine::Textures::TextureManager::DoesFileExist(const char* path)
 {
 	FILE *fp;
 	fp = fopen(path, "rb");
@@ -86,7 +91,7 @@ bool Odorless::Engine::Textures::TextureManager::DoesFileExist(const char* path)
 	return true;
 }
 
-std::string Odorless::Engine::Textures::TextureManager::GetTexturePath(const char* name)
+std::string OEngine::Textures::TextureManager::GetTexturePath(const char* name)
 {
 	std::string tName = std::string(TEXTURE_PATH) + name;
 
@@ -104,7 +109,7 @@ std::string Odorless::Engine::Textures::TextureManager::GetTexturePath(const cha
 	return std::string("");
 }
 
-GLint Odorless::Engine::Textures::TextureManager::_LoadTextureFromPath(const char* path)
+GLint OEngine::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 {
 	std::string tPath = std::string(path);
 	std::string ext = tPath.substr(tPath.find_last_of('.'), 4);
@@ -137,7 +142,7 @@ GLint Odorless::Engine::Textures::TextureManager::_LoadTextureFromPath(const cha
 	return -1;
 }
 
-GLint Odorless::Engine::Textures::TextureManager::LoadTexture(const char* name)
+GLint OEngine::Textures::TextureManager::LoadTexture(const char* name)
 {
 	std::string path = GetTexturePath(name);
 	GLint Texture = -1;
@@ -155,18 +160,20 @@ GLint Odorless::Engine::Textures::TextureManager::LoadTexture(const char* name)
 	return Texture;
 }
 
-void Odorless::Engine::Textures::TextureManager::DeleteTexture(const GLuint index)
+void OEngine::Textures::TextureManager::DeleteTexture(const GLuint index)
 {
-	std::clog << "Texture #" << index << " deleted" << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
+	std::clog << "Texture #" << index << " freed from memory" << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
 	glDeleteTextures(1, &index);
 }
 
 // This is quite hacky and messy..
 
-void Odorless::Engine::Textures::TextureManager::Dispose()
+void OEngine::Textures::TextureManager::Dispose()
 {
-	for( int i = 0; i < (int)_vLoadedTextures.size(); i++ )
+	for( int i = 0; i < _iNumTextures; i++ )
 	{
 		DeleteTexture(_vLoadedTextures[i]);
 	}
+
+	free(_vLoadedTextures);
 }

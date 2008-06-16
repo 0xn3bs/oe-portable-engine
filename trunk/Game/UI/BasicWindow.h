@@ -17,27 +17,27 @@
 #include "Engine/Textures/TextureManager.h"
 #include "Engine/UI/Widgets/Button.h"
 
-namespace Odorless
+namespace OEngine
 {
 	namespace Game
 	{
 		namespace UI
 		{
-			class BasicWindow : public Odorless::Engine::UI::Windows::Window
+			class BasicWindow : public OEngine::UI::Windows::Window
 			{
 			public:
-				BasicWindow() : Odorless::Engine::UI::Windows::Window()
+				BasicWindow() : OEngine::UI::Windows::Window()
 				{
-					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
-					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
-					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
+					OEngine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
+					OEngine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
+					OEngine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
 					_fTitleBarY = 15.5f;
 				}
-				BasicWindow(const float &x, const float &y, const float &width, const float &height) : Odorless::Engine::UI::Windows::Window(x, y, width, height)
+				BasicWindow(const float &x, const float &y, const float &width, const float &height) : OEngine::UI::Windows::Window(x, y, width, height)
 				{
-					Engine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
-					Engine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
-					Engine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
+					OEngine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
+					OEngine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
+					OEngine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
 					_fTitleBarY = 15.5f;
 				}
 				~BasicWindow()

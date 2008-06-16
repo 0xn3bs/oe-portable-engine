@@ -12,28 +12,27 @@
 #define GL_TEXTURE_2D_BINDING_EXT         0x8069
 #endif
 
-namespace Odorless
+namespace OEngine
 {
-	namespace Engine
+	namespace Textures
 	{
-		namespace Textures
+		class TextureManager
 		{
-			class TextureManager
-			{
-				public:
-					static GLint LoadTexture(const char* name);
-					static void DeleteTexture(const GLuint index);
-					static void Dispose();
+		public:
+			static GLint LoadTexture(const char* name);
+			static void DeleteTexture(const GLuint index);
+			static void Dispose();
 
-				private:
-					static std::vector<GLint> _vLoadedTextures;
-					static bool LoadTGA(const char* path, GLuint Texture);
-					static bool LoadJPG(const char* path, GLuint Texture);
-					static bool DoesFileExist(const char* path);
-					static std::string GetTexturePath(const char* name);
-					static GLint _LoadTextureFromPath(const char* path);
-			};
-		}
+		private:
+			static GLint* _vLoadedTextures;
+			static unsigned int _iNumTextures;
+			//static std::vector<GLint> _vLoadedTextures;
+			static bool LoadTGA(const char* path, GLuint Texture);
+			static bool LoadJPG(const char* path, GLuint Texture);
+			static bool DoesFileExist(const char* path);
+			static std::string GetTexturePath(const char* name);
+			static GLint _LoadTextureFromPath(const char* path);
+		};
 	}
 }
 

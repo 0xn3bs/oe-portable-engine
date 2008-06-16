@@ -29,17 +29,17 @@
 #include <iostream>
 #include <math.h>
 
-Odorless::Engine::Tools::Timers::Timer timerFPS;
-Odorless::Engine::Tools::Timers::Timer timerAlpha;
+OEngine::Tools::Timers::Timer timerFPS;
+OEngine::Tools::Timers::Timer timerAlpha;
 //Odorless::Engine::UI::Windows::WindowManager windowManager;
 //Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
-Odorless::Engine::Parsers::INI iniParser;
-Odorless::Engine::Parsers::BSP bspParser;
-Odorless::Engine::Cameras::FPSCamera *fpsCamera;
+OEngine::Parsers::INI iniParser;
+OEngine::Parsers::BSP bspParser;
+OEngine::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
 void Initialize()
 {
-	Odorless::Engine::Textures::TextureManager::LoadTexture("textures/notexture");
+	OEngine::Textures::TextureManager::LoadTexture("textures/notexture");
 	//Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
 	//Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
 
@@ -55,7 +55,7 @@ void Initialize()
 	//windowManager.AddWindow(b);
 	//windowManager.AddWindow(c);
 
-	fpsCamera = new Odorless::Engine::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
+	fpsCamera = new OEngine::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
 
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LINE);
@@ -74,14 +74,14 @@ void Initialize()
 	glPointSize(2.0f);
 	glLineWidth(1.0f);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	Odorless::Engine::Base::VSync(false);
+	OEngine::Base::VSync(false);
 
 	std::string mapToLoad = iniParser.GetString("default", "map");
 	bspParser.ParseBSP(mapToLoad.c_str());
 }
 void Update(double deltaTime)
 {
-	Odorless::Engine::Input::InputManager::Update();
+	OEngine::Input::InputManager::Update();
 	if(IsGUIEnabled)
 	{
 		//windowManager.Update(deltaTime);
@@ -121,8 +121,8 @@ void OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	Odorless::Engine::Input::InputManager::SetMouseReferencePos(width/2, height/2);
-	Odorless::Engine::Input::InputManager::SetForceToMouseReference(true);
+	OEngine::Input::InputManager::SetMouseReferencePos(width/2, height/2);
+	OEngine::Input::InputManager::SetForceToMouseReference(true);
 	//glMatrixMode( GL_PROJECTION );
 	//glLoadIdentity();
 	//glViewport(0, 0, width, height);
@@ -133,23 +133,23 @@ int main()
 {
 	iniParser.ParseINI("base/cfg/default.ini");
 	
-	Odorless::Engine::Base::InitializeEngine();
+	OEngine::Base::InitializeEngine();
 	int iResWidth = iniParser.GetInt("video", "res_width");
 	int iResHeight = iniParser.GetInt("video", "res_height");
-	Odorless::Engine::Base::OpenWindow(iResWidth, iResHeight, 8, 8, 8, 8, 24, 8);
-	Odorless::Engine::Base::SetWindowResize(OnResize);
-	Odorless::Engine::Base::SetWindowTitle(__BUILD_STRING__);
-	Odorless::Engine::Base::SetInitialize(Initialize);
-	Odorless::Engine::Base::SetUpdate(Update);
-	Odorless::Engine::Base::SetDraw(Draw);
-	Odorless::Engine::Base::Initialize();
+	OEngine::Base::OpenWindow(iResWidth, iResHeight, 8, 8, 8, 8, 24, 8);
+	OEngine::Base::SetWindowResize(OnResize);
+	OEngine::Base::SetWindowTitle(__BUILD_STRING__);
+	OEngine::Base::SetInitialize(Initialize);
+	OEngine::Base::SetUpdate(Update);
+	OEngine::Base::SetDraw(Draw);
+	OEngine::Base::Initialize();
 
 	int totalFrames = 0;
 	int FPS = 0;
 	float elapsedTime = 0.0f;
 	float deltaTime = 0.0f;
 
-	while (Odorless::Engine::Base::IsRunning())
+	while (OEngine::Base::IsRunning())
 	{
 		if(timerAlpha.IsRunning)
 		{
@@ -169,7 +169,7 @@ int main()
 				timerFPS.Start();
 				char windowtitle[1024];
 				sprintf(windowtitle, "%s :: FPS: %i", __BUILD_STRING__, FPS);
-				Odorless::Engine::Base::SetWindowTitle(windowtitle);
+				OEngine::Base::SetWindowTitle(windowtitle);
 			}
 		}
 		else
@@ -177,10 +177,10 @@ int main()
 			timerFPS.Start();
 		}
 
-		Odorless::Engine::Base::Update(deltaTime);
-		Odorless::Engine::Base::Draw(deltaTime);
-		Odorless::Engine::Base::Flush();
-		Odorless::Engine::Base::SwapBuffers();
+		OEngine::Base::Update(deltaTime);
+		OEngine::Base::Draw(deltaTime);
+		OEngine::Base::Flush();
+		OEngine::Base::SwapBuffers();
 
 		if (glfwGetKey(GLFW_KEY_ESC) || !glfwGetWindowParam(GLFW_OPENED))
 			break;
@@ -188,7 +188,7 @@ int main()
 		totalFrames++;
 	}
 
-	Odorless::Engine::Base::Dispose();
+	OEngine::Base::Dispose();
 
 	return 0;
 }

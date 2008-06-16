@@ -11,32 +11,29 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-namespace Odorless
+namespace OEngine
 {
-	namespace Engine
+	namespace Tools
 	{
-		namespace Tools
+		namespace Colors
 		{
-			namespace Colors
+			class Color
 			{
-				class Color
-				{
-				public:
-					static void IntToRGB(const unsigned int &RGB, unsigned int *colorComponents);
-					static unsigned int *IntToRGB(const unsigned int &RGB);
-					static void RGBToInt(int &RGB, const unsigned int &R, const unsigned int &G, const unsigned int &B);
-					static unsigned int RGBToInt(const unsigned int &R, const unsigned int &G, const unsigned int &B);
+			public:
+				static void IntToRGB(const unsigned int &RGB, unsigned int *colorComponents);
+				static unsigned int *IntToRGB(const unsigned int &RGB);
+				static void RGBToInt(int &RGB, const unsigned int &R, const unsigned int &G, const unsigned int &B);
+				static unsigned int RGBToInt(const unsigned int &R, const unsigned int &G, const unsigned int &B);
 
-					static void IntToRGBA(const unsigned int &RGBA, unsigned int *colorComponents);
-					static unsigned int *IntToRGBA(const unsigned int &RGBA);
-					static void RGBAToInt(unsigned int &RGBA, const unsigned int &R,
-						const unsigned int &G, const unsigned int &B, const unsigned int &A);
-					static unsigned int RGBAToInt(const unsigned int &R, const unsigned int &G, const unsigned int &B,
-						const unsigned int &A);
-					static void RGBA(unsigned char* RGBA, unsigned char R, unsigned char G, unsigned char B, unsigned char A);
+				static void IntToRGBA(const unsigned int &RGBA, unsigned int *colorComponents);
+				static unsigned int *IntToRGBA(const unsigned int &RGBA);
+				static void RGBAToInt(unsigned int &RGBA, const unsigned int &R,
+					const unsigned int &G, const unsigned int &B, const unsigned int &A);
+				static unsigned int RGBAToInt(const unsigned int &R, const unsigned int &G, const unsigned int &B,
+					const unsigned int &A);
+				static void RGBA(unsigned char* RGBA, unsigned char R, unsigned char G, unsigned char B, unsigned char A);
 
-				};
-			}
+			};
 		}
 	}
 }

@@ -1,6 +1,6 @@
 #include "FPSCamera.h"
 
-void Odorless::Engine::Cameras::FPSCamera::MoveForward(const float &dt)
+void OEngine::Cameras::FPSCamera::MoveForward(const float &dt)
 {
 	float x, y, z;
 	x = _dCenterX - _dEyeX;
@@ -14,7 +14,7 @@ void Odorless::Engine::Cameras::FPSCamera::MoveForward(const float &dt)
 	_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
 }
 
-void Odorless::Engine::Cameras::FPSCamera::MoveBackward(const float &dt)
+void OEngine::Cameras::FPSCamera::MoveBackward(const float &dt)
 {
 	float x, y, z;
 	x = _dCenterX - _dEyeX;
@@ -28,7 +28,7 @@ void Odorless::Engine::Cameras::FPSCamera::MoveBackward(const float &dt)
 	_dEyeZ -= ((z/magnitude)*CAMERA_SPEED)*dt;
 }
 
-void Odorless::Engine::Cameras::FPSCamera::StrafeLeft(const float &dt)
+void OEngine::Cameras::FPSCamera::StrafeLeft(const float &dt)
 {
 	_dCenterX = _dEyeX + sin(yChange+PI2);
 	_dCenterZ = _dEyeZ + cos(yChange+PI2);
@@ -46,7 +46,7 @@ void Odorless::Engine::Cameras::FPSCamera::StrafeLeft(const float &dt)
 	_dCenterZ -= _dEyeZ + cos(yChange+PI2);
 }
 
-void Odorless::Engine::Cameras::FPSCamera::StrafeRight(const float &dt)
+void OEngine::Cameras::FPSCamera::StrafeRight(const float &dt)
 {
 	_dCenterX = _dEyeX + sin(yChange-PI2);
 	_dCenterZ = _dEyeZ + cos(yChange-PI2);
@@ -64,27 +64,27 @@ void Odorless::Engine::Cameras::FPSCamera::StrafeRight(const float &dt)
 	_dCenterZ -= _dEyeZ + cos(yChange-PI2);
 }
 
-void Odorless::Engine::Cameras::FPSCamera::Update(const float &dt)
+void OEngine::Cameras::FPSCamera::Update(const float &dt)
 {
-	if(Odorless::Engine::Input::InputManager::GetKeyState('W'))
+	if(OEngine::Input::InputManager::GetKeyState('W'))
 	{
 		MoveForward(dt);
 	}
-	if(Odorless::Engine::Input::InputManager::GetKeyState('S'))
+	if(OEngine::Input::InputManager::GetKeyState('S'))
 	{
 		MoveBackward(dt);
 	}
-	if(Odorless::Engine::Input::InputManager::GetKeyState('A'))
+	if(OEngine::Input::InputManager::GetKeyState('A'))
 	{
 		StrafeLeft(dt);
 	}
-	if(Odorless::Engine::Input::InputManager::GetKeyState('D'))
+	if(OEngine::Input::InputManager::GetKeyState('D'))
 	{
 		StrafeRight(dt);
 	}
 
-	yChange += (Odorless::Engine::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
-	xChange += (Odorless::Engine::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
+	yChange += (OEngine::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
+	xChange += (OEngine::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
 
 	if(xChange > PI2)
 		xChange = PI2;
@@ -97,7 +97,7 @@ void Odorless::Engine::Cameras::FPSCamera::Update(const float &dt)
 	_dCenterY = _dEyeY + tan(xChange);
 }
 
-void Odorless::Engine::Cameras::FPSCamera::Render()
+void OEngine::Cameras::FPSCamera::Render()
 {	
 	gluLookAt(_dEyeX,_dEyeY,_dEyeZ,_dCenterX,_dCenterY,_dCenterZ,_dUpX,_dUpY,_dUpZ);
 }

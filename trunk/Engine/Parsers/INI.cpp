@@ -1,6 +1,6 @@
 #include "INI.h"
 
-int Odorless::Engine::Parsers::INI::GetInt(std::string section, std::string variable)
+int OEngine::Parsers::INI::GetInt(std::string section, std::string variable)
 {
 	std::string value = _mapINIData[section][variable];
 	const char* tempBuffer = value.c_str();
@@ -8,7 +8,7 @@ int Odorless::Engine::Parsers::INI::GetInt(std::string section, std::string vari
 	return result;
 }
 
-bool Odorless::Engine::Parsers::INI::GetBool(std::string section, std::string variable)
+bool OEngine::Parsers::INI::GetBool(std::string section, std::string variable)
 {
 	std::string value = _mapINIData[section][variable];
 
@@ -17,7 +17,7 @@ bool Odorless::Engine::Parsers::INI::GetBool(std::string section, std::string va
 	return false;
 }
 
-double Odorless::Engine::Parsers::INI::GetDouble(std::string section, std::string variable)
+double OEngine::Parsers::INI::GetDouble(std::string section, std::string variable)
 {
 	std::string value = _mapINIData[section][variable];
 	const char* tempBuffer = value.c_str();
@@ -25,7 +25,7 @@ double Odorless::Engine::Parsers::INI::GetDouble(std::string section, std::strin
 	return result;
 }
 
-float Odorless::Engine::Parsers::INI::GetFloat(std::string section, std::string variable)
+float OEngine::Parsers::INI::GetFloat(std::string section, std::string variable)
 {
 	std::string value = _mapINIData[section][variable];
 	const char* tempBuffer = value.c_str();
@@ -33,7 +33,7 @@ float Odorless::Engine::Parsers::INI::GetFloat(std::string section, std::string 
 	return result;
 }
 
-const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
+const int OEngine::Parsers::INI::ParseINI(const char* path)
 {
 	std::vector<std::string> _vLines;
 

@@ -12,14 +12,14 @@
 #include "String.h"
 #include <cstdlib>
 
-Odorless::Engine::Types::String::String()
+OEngine::Types::String::String()
 {
 	_szData = (char*)malloc(sizeof(char));
 	_szData[0] = 0;
 	_uiLength = Length(_szData);
 }
 
-Odorless::Engine::Types::String::String(const char* s)
+OEngine::Types::String::String(const char* s)
 {
 	int sz = (Length(s)+1)*sizeof(char);
 	_szData = (char*)malloc(sz);
@@ -28,23 +28,23 @@ Odorless::Engine::Types::String::String(const char* s)
 	_uiLength = Length(_szData);
 }
 
-Odorless::Engine::Types::String::~String()
+OEngine::Types::String::~String()
 {
 	free(_szData);
 }
 
-std::ostream& operator <<(std::ostream& os, const Odorless::Engine::Types::String& rightHand)
+std::ostream& operator <<(std::ostream& os, const OEngine::Types::String& rightHand)
 {
 	os << rightHand.c_str();
 	return os;
 }
 
-const char* Odorless::Engine::Types::String::c_str() const
+const char* OEngine::Types::String::c_str() const
 {
 	return _szData;
 }
 
-void Odorless::Engine::Types::String::Add(const char* s)
+void OEngine::Types::String::Add(const char* s)
 {
 	int slen = Length(s);
 	_szData = (char*)realloc(_szData,(_uiLength+slen+1)*sizeof(char));
@@ -52,7 +52,7 @@ void Odorless::Engine::Types::String::Add(const char* s)
 	_uiLength = Length(_szData);
 }
 
-unsigned int Odorless::Engine::Types::String::Length(const char* s)
+unsigned int OEngine::Types::String::Length(const char* s)
 {
 	int i = 0;
 	while(s[i] != 0)
@@ -60,24 +60,24 @@ unsigned int Odorless::Engine::Types::String::Length(const char* s)
 	return i;
 }
 
-bool Odorless::Engine::Types::String::IsUpper(const char c)
+bool OEngine::Types::String::IsUpper(const char c)
 {
 	return (c > 64 && c < 91);
 }
 
-bool Odorless::Engine::Types::String::IsLower(const char c)
+bool OEngine::Types::String::IsLower(const char c)
 {
 	return (c > 96 && c < 123);
 }
 
-void Odorless::Engine::Types::String::ToLower()
+void OEngine::Types::String::ToLower()
 {
 	for(unsigned int i = 0; i < _uiLength; i++)
 		if(IsUpper(_szData[i]))
 			_szData[i] += 32;
 }
 
-void Odorless::Engine::Types::String::ToUpper()
+void OEngine::Types::String::ToUpper()
 {
 	for(unsigned int i = 0; i < _uiLength; i++)
 		if(IsLower(_szData[i]))
@@ -85,7 +85,7 @@ void Odorless::Engine::Types::String::ToUpper()
 }
 
 //	TODO: Complete Remove method, don't forget to add all overloaded methods.
-void Odorless::Engine::Types::String::Remove(const char* string)
+void OEngine::Types::String::Remove(const char* string)
 {
 	const unsigned int len = Length(string);
 	int index = IndexOf(string);
@@ -99,7 +99,7 @@ void Odorless::Engine::Types::String::Remove(const char* string)
 }
 
 //	TODO: Complete Replace method, don't forget to add all overloaded methods.
-void Odorless::Engine::Types::String::Replace(const char* t, const char* n)
+void OEngine::Types::String::Replace(const char* t, const char* n)
 {
 	int index = IndexOf(t);
 
@@ -111,7 +111,7 @@ void Odorless::Engine::Types::String::Replace(const char* t, const char* n)
 	Remove(t);
 }
 
-int Odorless::Engine::Types::String::IndexOf(const char c) const
+int OEngine::Types::String::IndexOf(const char c) const
 {
 	for(unsigned int i = 0; i < _uiLength; i++)
 		if(c == _szData[i])
@@ -119,7 +119,7 @@ int Odorless::Engine::Types::String::IndexOf(const char c) const
 	return -1;
 }
 
-int Odorless::Engine::Types::String::IndexOf(const char c, unsigned int i) const
+int OEngine::Types::String::IndexOf(const char c, unsigned int i) const
 {
 	for(; i < _uiLength; i++)
 		if(c == _szData[i])
@@ -127,7 +127,7 @@ int Odorless::Engine::Types::String::IndexOf(const char c, unsigned int i) const
 	return -1;
 }
 
-int Odorless::Engine::Types::String::IndexOf(const char* string) const
+int OEngine::Types::String::IndexOf(const char* string) const
 {
 	const unsigned int len = Length(string);
 

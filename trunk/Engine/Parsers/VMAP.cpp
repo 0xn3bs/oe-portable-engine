@@ -1,6 +1,6 @@
 #include "VMAP.h"
 
-const int Odorless::Engine::Parsers::VMAP::ParseVMAP(const char *path)
+const int OEngine::Parsers::VMAP::ParseVMAP(const char *path)
 {
 	std::vector<std::string> _vLines;
 

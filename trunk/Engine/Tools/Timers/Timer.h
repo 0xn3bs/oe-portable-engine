@@ -18,58 +18,55 @@
 #include <unistd.h>
 #endif
 
-namespace Odorless
+namespace OEngine
 {
-	namespace Engine
+	namespace Tools
 	{
-		namespace Tools
+		namespace Timers
 		{
-			namespace Timers
+			typedef struct _TIME
 			{
-				typedef struct _TIME
-				{
-					double Years;
-					double Days;
-					double Hours;
-					double Minutes;
-					double Seconds;
-					double Milliseconds;
-					double Microseconds;
-				} TIME;
+				double Years;
+				double Days;
+				double Hours;
+				double Minutes;
+				double Seconds;
+				double Milliseconds;
+				double Microseconds;
+			} TIME;
 
-				class Timer
-				{
-				public:
+			class Timer
+			{
+			public:
 
-					Timer();
-					~Timer();
+				Timer();
+				~Timer();
 
-					void Start();
-					void Stop();
+				void Start();
+				void Stop();
 
-					double GetElapsedMicroSec();
-					double GetElapsedMilliSec();
-					double GetElapsedSec();
-					TIME GetElapsed();
-					bool IsRunning;
+				double GetElapsedMicroSec();
+				double GetElapsedMilliSec();
+				double GetElapsedSec();
+				TIME GetElapsed();
+				bool IsRunning;
 
-				protected:
-				private:
+			protected:
+			private:
 
 #ifdef WIN32
-					LARGE_INTEGER Freq;
-					LARGE_INTEGER StartCount;
-					LARGE_INTEGER EndCount;
+				LARGE_INTEGER Freq;
+				LARGE_INTEGER StartCount;
+				LARGE_INTEGER EndCount;
 #else
-					timeval StartCount;
-					timeval EndCount;
+				timeval StartCount;
+				timeval EndCount;
 #endif
 
-					double _dStartTime;
-					double _dEndTime;
+				double _dStartTime;
+				double _dEndTime;
 
-				};
-			}
+			};
 		}
 	}
 }

@@ -11,7 +11,7 @@
 #include "Timer.h"
 #include <stdlib.h>
 
-Odorless::Engine::Tools::Timers::Timer::Timer()
+OEngine::Tools::Timers::Timer::Timer()
 {
 #ifdef WIN32
 	QueryPerformanceFrequency(&Freq);
@@ -25,12 +25,12 @@ Odorless::Engine::Tools::Timers::Timer::Timer()
 	_dEndTime = 0;
 }
 
-Odorless::Engine::Tools::Timers::Timer::~Timer()
+OEngine::Tools::Timers::Timer::~Timer()
 {
 
 }
 
-void Odorless::Engine::Tools::Timers::Timer::Start()
+void OEngine::Tools::Timers::Timer::Start()
 {
 #ifdef WIN32
 	QueryPerformanceCounter(&StartCount);
@@ -40,7 +40,7 @@ void Odorless::Engine::Tools::Timers::Timer::Start()
 	IsRunning = true;
 }
 
-void Odorless::Engine::Tools::Timers::Timer::Stop()
+void OEngine::Tools::Timers::Timer::Stop()
 {
 #ifdef WIN32
 	QueryPerformanceCounter(&EndCount);
@@ -50,7 +50,7 @@ void Odorless::Engine::Tools::Timers::Timer::Stop()
 	IsRunning = false;
 }
 
-double Odorless::Engine::Tools::Timers::Timer::GetElapsedMicroSec()
+double OEngine::Tools::Timers::Timer::GetElapsedMicroSec()
 {
 #ifdef WIN32
 	if(IsRunning)
@@ -68,17 +68,17 @@ double Odorless::Engine::Tools::Timers::Timer::GetElapsedMicroSec()
 	return _dEndTime - _dStartTime;
 }
 
-double Odorless::Engine::Tools::Timers::Timer::GetElapsedMilliSec()
+double OEngine::Tools::Timers::Timer::GetElapsedMilliSec()
 {
 	return GetElapsedMicroSec() * 0.001;
 }
 
-double Odorless::Engine::Tools::Timers::Timer::GetElapsedSec()
+double OEngine::Tools::Timers::Timer::GetElapsedSec()
 {
 	return GetElapsedMilliSec() * 0.001;
 }
 
-Odorless::Engine::Tools::Timers::TIME Odorless::Engine::Tools::Timers::Timer::GetElapsed()
+OEngine::Tools::Timers::TIME OEngine::Tools::Timers::Timer::GetElapsed()
 {
 	TIME temp;
 	temp.Microseconds = GetElapsedMicroSec();

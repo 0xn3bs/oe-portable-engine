@@ -15,46 +15,43 @@
 #include <ostream>
 #include <memory>
 
-namespace Odorless
+namespace OEngine
 {
-	namespace Engine
+	namespace Types
 	{
-		namespace Types
+		class String
 		{
-			class String
+		private:
+			char* _szData;
+			unsigned int _uiLength;
+		public:
+			String();
+			String(const char* s);
+			~String();
+
+			friend std::ostream& operator<<(std::ostream& os, const OEngine::Types::String& rightHand);
+
+			void operator+=(const char* rhs)
 			{
-				private:
-					char* _szData;
-					unsigned int _uiLength;
-				public:
-					String();
-					String(const char* s);
-					~String();
+				Add(rhs);
+			}
 
-					friend std::ostream& operator<<(std::ostream& os, const Odorless::Engine::Types::String& rightHand);
+			const char* c_str() const;
 
-					void operator+=(const char* rhs)
-					{
-						Add(rhs);
-					}
+			void Add(const char* s);
+			void Remove(const char* string);
+			void Replace(const char* t, const char* n);
 
-					const char* c_str() const;
+			static unsigned int Length(const char* s);
+			static bool IsUpper(const char c);
+			static bool IsLower(const char c);
 
-					void Add(const char* s);
-					void Remove(const char* string);
-					void Replace(const char* t, const char* n);
+			void ToLower();
+			void ToUpper();
 
-					static unsigned int Length(const char* s);
-					static bool IsUpper(const char c);
-					static bool IsLower(const char c);
-
-					void ToLower();
-					void ToUpper();
-
-					int IndexOf(const char c) const;
-					int IndexOf(const char c, const unsigned int i) const;
-					int IndexOf(const char* string) const;
-			};
+			int IndexOf(const char c) const;
+			int IndexOf(const char c, const unsigned int i) const;
+			int IndexOf(const char* string) const;
 		};
 	};
 };

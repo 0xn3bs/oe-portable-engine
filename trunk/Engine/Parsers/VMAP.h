@@ -16,44 +16,41 @@
 #include <vector>
 #include <string>
 
-namespace Odorless
+namespace OEngine
 {
-	namespace Engine
+	namespace Parsers
 	{
-		namespace Parsers
+		class VMAP
 		{
-			class VMAP
+		public:
+			struct _SECTION	//	A Multi dimensional tree node.
 			{
-			public:
-				struct _SECTION	//	A Multi dimensional tree node.
-				{
-					int _iStart, _iEnd;
-					std::vector<_SECTION*> _vSectionChilds;
-				};
-				struct _PLANE
-				{
-					float _3fPos[3][3];
-					std::string _sTexture;
-				};
-				struct _BRUSH
-				{
-					std::vector<_PLANE> _vPlanes;
-				};
-				static const int VMAP_LOAD_ERROR = -1;
-				static const int VMAP_LOAD_SUCCESS = 0;
-
-				VMAP()
-				{
-				}
-				~VMAP()
-				{
-				}
-
-				const int ParseVMAP(const char* path);
-			private:
-				unsigned int _uiLength;
+				int _iStart, _iEnd;
+				std::vector<_SECTION*> _vSectionChilds;
 			};
-		}
+			struct _PLANE
+			{
+				float _3fPos[3][3];
+				std::string _sTexture;
+			};
+			struct _BRUSH
+			{
+				std::vector<_PLANE> _vPlanes;
+			};
+			static const int VMAP_LOAD_ERROR = -1;
+			static const int VMAP_LOAD_SUCCESS = 0;
+
+			VMAP()
+			{
+			}
+			~VMAP()
+			{
+			}
+
+			const int ParseVMAP(const char* path);
+		private:
+			unsigned int _uiLength;
+		};
 	}
 }
 

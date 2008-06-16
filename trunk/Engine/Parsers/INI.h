@@ -17,42 +17,39 @@
 #include <string>
 #include <map>
 
-namespace Odorless
+namespace OEngine
 {
-	namespace Engine
+	namespace Parsers
 	{
-		namespace Parsers
+		class INI
 		{
-			class INI
+		public:
+			static const int INI_LOAD_ERROR = -1;
+			static const int INI_LOAD_SUCCESS = 0;
+
+			INI()
 			{
-			public:
-				static const int INI_LOAD_ERROR = -1;
-				static const int INI_LOAD_SUCCESS = 0;
+			}
+			~INI()
+			{
+			}
 
-				INI()
-				{
-				}
-				~INI()
-				{
-				}
+			const int ParseINI(const char* path);
 
-				const int ParseINI(const char* path);
+			std::string GetString(std::string section, std::string variable)
+			{
+				return _mapINIData[section][variable];
+			}
 
-				std::string GetString(std::string section, std::string variable)
-				{
-					return _mapINIData[section][variable];
-				}
+			int GetInt(std::string section, std::string variable);
+			bool GetBool(std::string section, std::string variable);
+			double GetDouble(std::string section, std::string variable);
+			float GetFloat(std::string section, std::string variable);
 
-				int GetInt(std::string section, std::string variable);
-				bool GetBool(std::string section, std::string variable);
-				double GetDouble(std::string section, std::string variable);
-				float GetFloat(std::string section, std::string variable);
-
-			private:
-				std::map< std::string, std::map<std::string,std::string> > _mapINIData;
-				unsigned int _uiLength;
-			};
-		}
+		private:
+			std::map< std::string, std::map<std::string,std::string> > _mapINIData;
+			unsigned int _uiLength;
+		};
 	}
 }
 

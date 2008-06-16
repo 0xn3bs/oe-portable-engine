@@ -11,20 +11,20 @@
 
 #include "Input.h"
 
-Odorless::Engine::Input::InputManager g_inputManager;
-bool Odorless::Engine::Input::InputManager::_rgcKeys[255];
-int Odorless::Engine::Input::InputManager::_iMouseX=0;
-int Odorless::Engine::Input::InputManager::_iMouseY=0;
-int Odorless::Engine::Input::InputManager::_iMouseDeltaX=0;
-int Odorless::Engine::Input::InputManager::_iMouseDeltaY=0;
-int Odorless::Engine::Input::InputManager::_iMouseClickStartX=0;
-int Odorless::Engine::Input::InputManager::_iMouseClickStartY=0;
-int Odorless::Engine::Input::InputManager::_iMouseClickEndX=0;
-int Odorless::Engine::Input::InputManager::_iMouseClickEndY=0;
-int Odorless::Engine::Input::InputManager::_iMouseReferenceX=0;
-int Odorless::Engine::Input::InputManager::_iMouseReferenceY=0;
-bool Odorless::Engine::Input::InputManager::_bIsMouseAlreadyDown=false;
-bool Odorless::Engine::Input::InputManager::_bInitialized=false;
-bool Odorless::Engine::Input::InputManager::_bForceMouseToRefPos=false;
+OEngine::Input::InputManager g_inputManager;
+bool OEngine::Input::InputManager::_rgcKeys[255];
+int OEngine::Input::InputManager::_iMouseX=0;
+int OEngine::Input::InputManager::_iMouseY=0;
+int OEngine::Input::InputManager::_iMouseDeltaX=0;
+int OEngine::Input::InputManager::_iMouseDeltaY=0;
+int OEngine::Input::InputManager::_iMouseClickStartX=0;
+int OEngine::Input::InputManager::_iMouseClickStartY=0;
+int OEngine::Input::InputManager::_iMouseClickEndX=0;
+int OEngine::Input::InputManager::_iMouseClickEndY=0;
+int OEngine::Input::InputManager::_iMouseReferenceX=0;
+int OEngine::Input::InputManager::_iMouseReferenceY=0;
+bool OEngine::Input::InputManager::_bIsMouseAlreadyDown=false;
+bool OEngine::Input::InputManager::_bInitialized=false;
+bool OEngine::Input::InputManager::_bForceMouseToRefPos=false;
 
-std::vector<Odorless::Engine::Input::InputListener*> Odorless::Engine::Input::InputManager::_vecInputListeners = std::vector<Odorless::Engine::Input::InputListener*>();
+std::vector<OEngine::Input::InputListener*> OEngine::Input::InputManager::_vecInputListeners = std::vector<OEngine::Input::InputListener*>();

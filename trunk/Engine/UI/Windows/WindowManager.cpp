@@ -12,16 +12,16 @@
 #include <iostream>
 #include "Engine/Input/Input.h"
 
-void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, const int action)
+void OEngine::UI::Windows::WindowManager::OnMouseButton(const int key, const int action)
 {
 	int iMouseX, iMouseY;
-	Odorless::Engine::Input::InputManager::GetMousePos(&iMouseX, &iMouseY);
+	OEngine::Input::InputManager::GetMousePos(&iMouseX, &iMouseY);
 
 	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
 	{
 		for(int i = 0; i < _vecWindows.size(); i++)
 		{
-			Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
+			OEngine::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			if(tempWin->_bIsDragging)
 				tempWin->_bIsDragging = false;
 		}
@@ -31,7 +31,7 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, 
 	{
 		for(unsigned int i = 0; i < _vecWindows.size(); i++)
 		{
-			Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
+			OEngine::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			bool bCanPick = CanPick(i, iMouseX, iMouseY);
 
 			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
@@ -52,7 +52,7 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, 
 	//	Setting a new focused window changes the order of the windows.
 	UpdateFocus();
 }
-void Odorless::Engine::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
+void OEngine::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
@@ -68,7 +68,7 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseClick(const int startX
 	}
 }
 
-void Odorless::Engine::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
+void OEngine::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
@@ -91,7 +91,7 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseMove(const int x, cons
 		}
 	}
 }
-bool Odorless::Engine::UI::Windows::WindowManager::CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
+bool OEngine::UI::Windows::WindowManager::CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
 {
 	Window* winTemp = _vecWindows.at(index);
 	bool bOver = winTemp->IsOver(x, y);
@@ -102,11 +102,11 @@ bool Odorless::Engine::UI::Windows::WindowManager::CanPick(const unsigned int &i
 	}
 	return bOver;
 }
-void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
+void OEngine::UI::Windows::WindowManager::Update(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
-		Odorless::Engine::UI::Windows::Window* winTemp = _vecWindows.at(i);
+		OEngine::UI::Windows::Window* winTemp = _vecWindows.at(i);
 
 		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
 		if(winTemp->_2fPosition[1] < -winTemp->_fTitleBarY+5)
@@ -120,41 +120,41 @@ void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 
 		if(winTemp->_bIsDragging)
 		{
-			winTemp->_2fPosition[0] += Odorless::Engine::Input::InputManager::GetMouseDeltaX();
-			winTemp->_2fPosition[1] += Odorless::Engine::Input::InputManager::GetMouseDeltaY();
+			winTemp->_2fPosition[0] += OEngine::Input::InputManager::GetMouseDeltaX();
+			winTemp->_2fPosition[1] += OEngine::Input::InputManager::GetMouseDeltaY();
 		}
 
-		if(Engine::Input::InputManager::GetMouseX() < 0)
+		if(OEngine::Input::InputManager::GetMouseX() < 0)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 
-		if(Engine::Input::InputManager::GetMouseX() > _iWinWidth)
+		if(OEngine::Input::InputManager::GetMouseX() > _iWinWidth)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 
-		if(Engine::Input::InputManager::GetMouseY() < 0)
+		if(OEngine::Input::InputManager::GetMouseY() < 0)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 
-		if(Engine::Input::InputManager::GetMouseY() > _iWinHeight)
+		if(OEngine::Input::InputManager::GetMouseY() > _iWinHeight)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 	}
 }
-void Odorless::Engine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)
+void OEngine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)
 {
 	_iWinWidth = width;
 	_iWinHeight = height;
 }
-void Odorless::Engine::UI::Windows::WindowManager::Render(const float &dt)
+void OEngine::UI::Windows::WindowManager::Render(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
