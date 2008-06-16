@@ -27,29 +27,29 @@
 
 Odorless::Engine::Tools::Timers::Timer timerFPS;
 Odorless::Engine::Tools::Timers::Timer timerAlpha;
-Odorless::Engine::UI::Windows::WindowManager windowManager;
-Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
+//Odorless::Engine::UI::Windows::WindowManager windowManager;
+//Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
 Odorless::Engine::Parsers::INI iniParser;
 Odorless::Engine::Parsers::BSP bspParser;
 Odorless::Engine::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
 void Initialize()
 {
-	Odorless::Engine::Textures::TextureManager::LoadTexture("base/textures/notexture.tga");
-	Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
-	Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
+	Odorless::Engine::Textures::TextureManager::LoadTexture("textures/notexture");
+	//Odorless::Engine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
+	//Odorless::Engine::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
 
-	a.SetCaption("Window A");
-	b.SetCaption("Window B");
-	c.SetCaption("C");
+	//a.SetCaption("Window A");
+	//b.SetCaption("Window B");
+	//c.SetCaption("C");
 
-	windowManager.Initialize();
-	Odorless::Engine::UI::Widgets::Button *testButton = new Odorless::Engine::UI::Widgets::Button(20, 20, 100, 15.5, &b);
-	testButton->SetCaption("Button");
-	b.AddWidget(testButton);
-	windowManager.AddWindow(a);
-	windowManager.AddWindow(b);
-	windowManager.AddWindow(c);
+	//windowManager.Initialize();
+	//Odorless::Engine::UI::Widgets::Button *testButton = new Odorless::Engine::UI::Widgets::Button(20, 20, 100, 15.5, &b);
+	//testButton->SetCaption("Button");
+	//b.AddWidget(testButton);
+	//windowManager.AddWindow(a);
+	//windowManager.AddWindow(b);
+	//windowManager.AddWindow(c);
 
 	fpsCamera = new Odorless::Engine::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
 
@@ -80,7 +80,7 @@ void Update(double deltaTime)
 	Odorless::Engine::Input::InputManager::Update();
 	if(IsGUIEnabled)
 	{
-		windowManager.Update(deltaTime);
+		//windowManager.Update(deltaTime);
 	}
 	fpsCamera->Update(deltaTime);
 }

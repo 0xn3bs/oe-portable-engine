@@ -3,100 +3,156 @@
 
 std::vector<GLint> Odorless::Engine::Textures::TextureManager::_vLoadedTextures = std::vector<GLint>();
 
-bool Odorless::Engine::Textures::TextureManager::LoadTGA(const char *path, GLuint Texture)
+bool Odorless::Engine::Textures::TextureManager::LoadTGA(const char* path, GLuint Texture)
 {
 	if(glfwLoadTexture2D(path, GLFW_ORIGIN_UL_BIT))
 	{
 		std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
 			<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
 		_vLoadedTextures.push_back(Texture);
+		glBindTexture (GL_TEXTURE_2D, 0);
 		return true;
 	}
+	glBindTexture (GL_TEXTURE_2D, 0);
 	return false;
 }
 
-bool Odorless::Engine::Textures::TextureManager::LoadJPG(const char *path, GLuint Texture)
+bool Odorless::Engine::Textures::TextureManager::LoadJPG(const char* path, GLuint Texture)
 {
-	_vLoadedTextures.push_back(Texture);
-	return true;
-	/*jpeg_decoder_file_stream jpegStream;
-	if(!jpegStream.open(path))
+	FILE *fp;
+	unsigned int fLength, width, height;
+	unsigned char* buf;
+	struct jdec_private *jpegDecoder;
+	unsigned char* components[3];
+
+	fp = fopen(path, "rb");
+	if(fp==NULL)
 		return false;
+	fseek(fp, 0, SEEK_END);
+	fLength = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+	buf = (unsigned char *)malloc(fLength + 4);
+	fread(buf, fLength, 1, fp);
+	fclose(fp);
 
-	int fileSize = jpegStream.get_size();
-	size_t bytesRead;
-	bool eof;
-	unsigned char* fileBuf = new unsigned char[fileSize];
-	bytesRead = jpegStream.read(fileBuf, fileSize, &eof);
-	jpegStream.reset();
+	jpegDecoder = tinyjpeg_init();
 
-	return false;*/
+	if(jpegDecoder==NULL)
+	{
+		free(buf);
+		return false;
+	}
+
+	if(tinyjpeg_parse_header(jpegDecoder, buf, fLength)<0)
+	{
+		free(buf);
+		return false;
+	}
+
+	tinyjpeg_get_size(jpegDecoder, &width, &height);
+
+	if(tinyjpeg_decode(jpegDecoder, TINYJPEG_FMT_RGB24)<0)
+	{
+		free(buf);
+		return false;
+	}
+
+	tinyjpeg_get_components(jpegDecoder, components);
+
+	int level = 0;
+	while(width != 1 && height != 1)
+	{
+		glTexImage2D(GL_TEXTURE_2D, level, 3, width, height, 0, GL_RGB,GL_UNSIGNED_BYTE, components[0]);
+		width /= 2;
+		height /= 2;
+		level++;
+	}
+
+	_vLoadedTextures.push_back(Texture);
+
+	glBindTexture (GL_TEXTURE_2D, 0);
+	free(buf);
+	return true;
 }
 
-GLint Odorless::Engine::Textures::TextureManager::LoadTexture(const char *path)
+bool Odorless::Engine::Textures::TextureManager::DoesFileExist(const char* path)
 {
+	FILE *fp;
+	fp = fopen(path, "rb");
+	if(fp == NULL)
+		return false;
+
+	fclose(fp);
+	return true;
+}
+
+std::string Odorless::Engine::Textures::TextureManager::GetTexturePath(const char* name)
+{
+	std::string tName = std::string(TEXTURE_PATH) + name;
+
+	std::string tPath;
+
+	//	Test extensions.
+	tPath = tName + ".jpg";
+	if(DoesFileExist(tPath.c_str()))
+		return tPath.c_str();
+
+	tPath = tName + ".tga";
+	if(DoesFileExist(tPath.c_str()))
+		return tPath.c_str();
+
+	return std::string("");
+}
+
+GLint Odorless::Engine::Textures::TextureManager::_LoadTextureFromPath(const char* path)
+{
+	std::string tPath = std::string(path);
+	std::string ext = tPath.substr(tPath.find_last_of('.'), 4);
+
 	GLuint Texture;
 	glGenTextures(1, &Texture);
 	glBindTexture (GL_TEXTURE_2D, Texture);
 
-	const char* p = (path+(strlen(path)-4));
-
-	if(strcmp(".tga", p)==0)
+	//	Is it a tga?
+	if(ext.compare(".tga")==0)
 	{
 		if(LoadTGA(path, Texture))
 		{
-			glBindTexture (GL_TEXTURE_2D, 0);
 			return Texture;
 		}
 	}
-	else
-		if(strcmp(".jpg", p)==0)
+
+	//	Is it a jpeg?
+	if(ext.compare(".jpg")==0)
+	{
+		if(LoadJPG(path, Texture))
 		{
-			if(LoadJPG(path, Texture))
-			{
-				glBindTexture (GL_TEXTURE_2D, 0);
-				return Texture;
-			}
+			return Texture;
 		}
+	}
 
+	//	We don't know what it is, free recently allocated texture memory.
+	glBindTexture (GL_TEXTURE_2D, 0);
+	glDeleteTextures(1, &Texture);
+	return -1;
+}
 
-		/*
-		if(glfwLoadTexture2D(path, GLFW_ORIGIN_UL_BIT))
-		{
-		std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
-		<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
-		_vLoadedTextures.push_back(Texture);
+GLint Odorless::Engine::Textures::TextureManager::LoadTexture(const char* name)
+{
+	std::string path = GetTexturePath(name);
+	GLint Texture = -1;
+
+	if(path.length() == 0)
+	{
 		return Texture;
-		} 
-		else
-		{
-		FILE *pFile;
-		pFile = fopen(path, "rb");
+	}
 
-		char* magic = (char*)malloc(sizeof(char)*5);
-		fseek(pFile, 6, SEEK_SET);
-		fread((char*)magic,sizeof(magic),1, pFile);
-		magic[4] = '\0';
-		fclose(pFile);
+	if((Texture = _LoadTextureFromPath(path.c_str()))==-1)
+	{
+		std::cerr << "Error: Failed to load texture \"" << name << "\"" << std::endl;
+	}
 
-		if(strcmp(magic,"JFIF")==0)
-		{
-
-		}
-		else
-		{
-		const GLubyte *errstring;
-		errstring = gluErrorString(glGetError());
-		glDeleteTextures(1, &Texture);
-		return -1;
-		}
-		}
-		*/
-		glBindTexture (GL_TEXTURE_2D, 0);
-		const GLubyte *errstring;
-		errstring = gluErrorString(glGetError());
-		glDeleteTextures(1, &Texture);
-		return -1;
+	return Texture;
 }
 
 void Odorless::Engine::Textures::TextureManager::DeleteTexture(const GLuint index)

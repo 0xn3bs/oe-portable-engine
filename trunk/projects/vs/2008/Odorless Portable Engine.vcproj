@@ -228,6 +228,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Engine\Parsers\JPEG\tinyjpeg-internal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Engine\Parsers\JPEG\tinyjpeg.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Engine\Parsers\VMAP.h"
 				>
 			</File>
@@ -296,6 +304,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\Engine\Parsers\JPEG\jidctflt.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\main.cpp"
 				>
 			</File>
@@ -309,6 +321,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\Engine\Tools\Timers\Timer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\Engine\Parsers\JPEG\tinyjpeg.c"
 				>
 			</File>
 			<File

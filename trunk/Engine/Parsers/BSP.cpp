@@ -18,27 +18,27 @@ const int Odorless::Engine::Parsers::BSP::ParseBSP(const char *path)
 	char* magic = (char*)malloc(sizeof(char)*5);
 	fread((char*)magic,sizeof(magic),1, pFile);
 	magic[4] = '\0';
-	fseek(pFile, 0, SEEK_SET);
-
+	fclose(pFile);
 	if(strcmp(magic, "IBSP") == 0)
 	{
 		_iBSPType = BSP_TYPE_IBSP;
-		ParseIBSP(pFile);
+		ParseIBSP(path);
 	}
 	else
 		if(strcmp(magic, "VBSP") == 0)
 		{
 			_iBSPType = BSP_TYPE_VBSP;
-			ParseVBSP(pFile);
+			ParseVBSP(path);
 		}
 
 		free(magic);
-		fclose(pFile);
 		return 0;
 }
 
-const int Odorless::Engine::Parsers::BSP::ParseIBSP(FILE* pFile)
+const int Odorless::Engine::Parsers::BSP::ParseIBSP(const char* path)
 {
+	FILE *pFile;
+	pFile = fopen(path, "rb");
 	_IHEADER *header = (_IHEADER*)malloc(sizeof(_IHEADER));
 	fread((_IHEADER*)header,sizeof(_IHEADER),1, pFile);
 
@@ -95,25 +95,7 @@ const int Odorless::Engine::Parsers::BSP::ParseIBSP(FILE* pFile)
 
 	for(int i = 0; i < _iNumTextures; i++)
 	{
-		char name[100];
-
-		strcpy (name,"base/");
-		strcat (name,textures[i].name);
-		strcat (name,".tga");
-		GLint texIndex = -1;
-		if(texIndex = Odorless::Engine::Textures::TextureManager::LoadTexture(name))
-		{
-			_vTextures[i] = texIndex;
-			continue;
-		}
-		strcpy (name,"base/");
-		strcat (name,textures[i].name);
-		strcat (name,".jpg");
-		if(texIndex = Odorless::Engine::Textures::TextureManager::LoadTexture(name))
-		{
-			_vTextures[i] = texIndex;
-			continue;
-		}
+		_vTextures[i] = Odorless::Engine::Textures::TextureManager::LoadTexture(textures[i].name);
 	}
 
 	//	TODO: MESH VERTS
@@ -140,7 +122,7 @@ const int Odorless::Engine::Parsers::BSP::ParseIBSP(FILE* pFile)
 
 
 //	Ignore VBSP implementation for now.
-const int Odorless::Engine::Parsers::BSP::ParseVBSP(FILE* pFile)
+const int Odorless::Engine::Parsers::BSP::ParseVBSP(const char* path)
 {
 	/*
 	_VHEADER *header = (_VHEADER*)malloc(sizeof(_VHEADER));
@@ -216,6 +198,7 @@ void Odorless::Engine::Parsers::BSP::DebugRender()
 {
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
+	glColor4f(0, 0, 0, 0.75f);
 	if(_iBSPType == BSP_TYPE_IBSP)
 	{
 		for(int i = 0; i < _iNumFaces; i++)

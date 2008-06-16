@@ -191,8 +191,8 @@ namespace Odorless
 				}
 
 				const int ParseBSP(const char *path);
-				const int ParseIBSP(FILE* pFile);
-				const int ParseVBSP(FILE* pFile);
+				const int ParseIBSP(const char* path);
+				const int ParseVBSP(const char* path);
 
 				void DebugRender();
 

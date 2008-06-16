@@ -71,7 +71,16 @@
  * we use floating point arithmetic.
  */
 
+#ifdef _MSC_VER
+#define inline __inline
+#endif
+
+#include "includes/stdint.h"
+#ifdef WIN32
+#include "includes/stdint.h"
+#else
 #include <stdint.h>
+#endif
 #include "tinyjpeg-internal.h"
 
 #define FAST_FLOAT float
