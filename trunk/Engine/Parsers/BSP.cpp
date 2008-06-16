@@ -213,10 +213,6 @@ const int Odorless::Engine::Parsers::BSP::ParseVBSP(FILE* pFile)
 
 void Odorless::Engine::Parsers::BSP::DebugRender()
 {
-	//glColor4f(1.0f, 1.0f, 1.0f, 0.8f);
-
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
 	if(_iBSPType == BSP_TYPE_IBSP)
@@ -229,52 +225,32 @@ void Odorless::Engine::Parsers::BSP::DebugRender()
 			}
 
 			//std::cout << _vTextures[_vFaces[i].texture] << std::endl;
-			/*if(_vTextures[_vFaces[i].texture]>0)
+			if(_vTextures[_vFaces[i].texture]>0)
 			{
-			glBindTexture(GL_TEXTURE_2D, _vTextures[_vFaces[i].texture]);
+				glBindTexture(GL_TEXTURE_2D, _vTextures[_vFaces[i].texture]);
 			}
 			else
-			glBindTexture(GL_TEXTURE_2D, 1);
+				glBindTexture(GL_TEXTURE_2D, 1);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 			if(_vFaces[i].type == 1)
 			{
-				if(_vTextures[_vFaces[i].texture]>0)
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				glBegin(GL_POLYGON);
+				for(int j = _vFaces[i].vertex; j < _vFaces[i].vertex + _vFaces[i].n_vertexes; j++)
 				{
-					glBindTexture(GL_TEXTURE_2D, _vTextures[_vFaces[i].texture]);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-					glBegin(GL_POLYGON);
-					for(int j = _vFaces[i].vertex; j < _vFaces[i].vertex + _vFaces[i].n_vertexes; j++)
-					{
-						glTexCoord2f(_vVertices[j].texcoord[0][0], _vVertices[j].texcoord[0][1]);
-						glVertex3f(_vVertices[j].position[0], _vVertices[j].position[1], _vVertices[j].position[2]);
-					}
-					glEnd();
+					glTexCoord2f(_vVertices[j].texcoord[0][0], _vVertices[j].texcoord[0][1]);
+					glVertex3f(_vVertices[j].position[0], _vVertices[j].position[1], _vVertices[j].position[2]);
 				}
-				else
-				{
-					glBindTexture(GL_TEXTURE_2D, 1);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
-					glBegin(GL_LINES);
-					for(int j = _vFaces[i].vertex; j < _vFaces[i].vertex + _vFaces[i].n_vertexes; j++)
-					{
-						glVertex3f(_vVertices[j].position[0], _vVertices[j].position[1], _vVertices[j].position[2]);
-					}
-					glEnd();
-				}
+				glEnd();
 			}
 			else
 				if(_vFaces[i].type == 3)
 				{
 					float x, y, z;
 
-					/*
 					glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 					glBegin(GL_TRIANGLES);
 					for(int j = _vFaces[i].meshvert; j < _vFaces[i].meshvert + _vFaces[i].n_meshverts; j++)
@@ -282,31 +258,13 @@ void Odorless::Engine::Parsers::BSP::DebugRender()
 						x = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[0];
 						y = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[1];
 						z = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[2];
-						//x = _vVertices[_vMeshVerts[_vFaces[i].meshvert].offset].position[0];
-						//y = _vVertices[_vMeshVerts[_vFaces[i].meshvert].offset].position[1];
-						//z = _vVertices[_vMeshVerts[_vFaces[i].meshvert].offset].position[2];
 						glTexCoord2f(_vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][0], _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][1]);
-						glVertex3f(x, y, z);
-					}
-					glEnd();
-					*/
-
-					glBindTexture(GL_TEXTURE_2D, 0);
-					glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-					glBegin(GL_LINES);
-					for(int j = _vFaces[i].meshvert; j < _vFaces[i].meshvert + _vFaces[i].n_meshverts; j++)
-					{
-						x = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[0];
-						y = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[1];
-						z = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[2];
-						//x = _vVertices[_vMeshVerts[_vFaces[i].meshvert].offset].position[0];
-						//y = _vVertices[_vMeshVerts[_vFaces[i].meshvert].offset].position[1];
-						//z = _vVertices[_vMeshVerts[_vFaces[i].meshvert].offset].position[2];
 						glVertex3f(x, y, z);
 					}
 					glEnd();
 				}
 		}
+		glDisable(GL_BLEND);
 	}
 
 

@@ -31,7 +31,7 @@ Odorless::Engine::UI::Windows::WindowManager windowManager;
 Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
 Odorless::Engine::Parsers::INI iniParser;
 Odorless::Engine::Parsers::BSP bspParser;
-Odorless::Engine::Cameras::Camera *fpsCamera;
+Odorless::Engine::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
 void Initialize()
 {
@@ -51,14 +51,16 @@ void Initialize()
 	windowManager.AddWindow(b);
 	windowManager.AddWindow(c);
 
-	fpsCamera = new Odorless::Engine::Cameras::Camera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
+	fpsCamera = new Odorless::Engine::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
 
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
 	glEnable(GL_LINE_SMOOTH);
-	//glEnable(GL_BLEND);
-	//glEnable(GL_ALPHA);
+
+	glEnable(GL_BLEND);
+	glEnable(GL_ALPHA);
+
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
 	glEnable(GL_CULL_FACE);
@@ -86,7 +88,7 @@ void Initialize()
 	//glMatrixMode(GL_PROJECTION);
 	//glLoadIdentity();
 	//glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	Odorless::Engine::Base::VSync(false);
 
