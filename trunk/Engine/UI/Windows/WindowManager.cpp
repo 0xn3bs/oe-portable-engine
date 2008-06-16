@@ -29,12 +29,12 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, 
 
 	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
 	{
-		for(int i = 0; i < _vecWindows.size(); i++)
+		for(unsigned int i = 0; i < _vecWindows.size(); i++)
 		{
 			Odorless::Engine::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			bool bCanPick = CanPick(i, iMouseX, iMouseY);
 
-			for(int j = 0; j < tempWin->_vecWidgets.size(); j++)
+			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
 			{
 				bool bIsOver = tempWin->_vecWidgets[j]->IsOver(iMouseX, iMouseY) && bCanPick;
 				if(bIsOver)
@@ -54,11 +54,11 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseButton(const int key, 
 }
 void Odorless::Engine::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
 {
-	for(int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* winTemp = _vecWindows.at(i);
 
-		for(int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
 			bool startIsOver = winTemp->_vecWidgets[j]->IsOver(startX, startY) && CanPick(i, startX, startY);
 			bool endIsOver = winTemp->_vecWidgets[j]->IsOver(endX, endY) && CanPick(i, endX, endY);
@@ -70,10 +70,10 @@ void Odorless::Engine::UI::Windows::WindowManager::OnMouseClick(const int startX
 
 void Odorless::Engine::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 {
-	for(int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* winTemp = _vecWindows.at(i);
-		for(int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
 			bool isOver = winTemp->_vecWidgets[j]->IsOver(x, y) && CanPick(i, x, y);
 
@@ -95,7 +95,7 @@ bool Odorless::Engine::UI::Windows::WindowManager::CanPick(const unsigned int &i
 {
 	Window* winTemp = _vecWindows.at(index);
 	bool bOver = winTemp->IsOver(x, y);
-	for(int i = index+1; i < _vecWindows.size(); i++)
+	for(unsigned int i = index+1; i < _vecWindows.size(); i++)
 	{
 		if((_vecWindows[i]->IsOver(x,y) || _vecWindows[i]->IsOverTitleBar(x,y)))
 			return false;
@@ -104,7 +104,7 @@ bool Odorless::Engine::UI::Windows::WindowManager::CanPick(const unsigned int &i
 }
 void Odorless::Engine::UI::Windows::WindowManager::Update(const float &dt)
 {
-	for(int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Odorless::Engine::UI::Windows::Window* winTemp = _vecWindows.at(i);
 

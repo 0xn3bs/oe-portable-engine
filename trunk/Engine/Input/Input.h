@@ -56,7 +56,7 @@ namespace Odorless
 				static void GLFWCALL GLFWSetKeyEvent(int key, int action)
 				{
 					_rgcKeys[key] = (bool)action;
-					for(int i = 0; i < _vecInputListeners.size(); i++)
+					for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
 					{
 						_vecInputListeners.at(i)->OnKeyEvent(key,action);
 					}
@@ -64,7 +64,7 @@ namespace Odorless
 
 				static void GLFWCALL GLFWSetMousePos(int x, int y)
 				{
-					for(int i = 0; i < _vecInputListeners.size(); i++)
+					for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
 					{
 						_vecInputListeners.at(i)->OnMouseMove(x, y);
 					}
@@ -86,7 +86,7 @@ namespace Odorless
 						_iMouseClickEndY = _iMouseY;
 						click = true;
 					}
-					for(int i = 0; i < _vecInputListeners.size(); i++)
+					for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
 					{
 						_vecInputListeners.at(i)->OnMouseButton(button, action);
 						if(click)
@@ -158,12 +158,12 @@ namespace Odorless
 				
 				static void SetKeyState(const char &key, bool &state)
 				{
-					_rgcKeys[key] = state;
+					_rgcKeys[(int)key] = state;
 				}
 
 				static bool GetKeyState(const char &key)
 				{
-					return _rgcKeys[key];
+					return _rgcKeys[(int)key];
 				}
 
 				static void SetMousePos(const int &x, const int &y)

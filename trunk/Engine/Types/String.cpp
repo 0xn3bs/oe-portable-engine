@@ -33,7 +33,7 @@ Odorless::Engine::Types::String::~String()
 	free(_szData);
 }
 
-std::ostream& Odorless::Engine::Types::operator <<(std::ostream& os, const Odorless::Engine::Types::String& rightHand)
+std::ostream& operator <<(std::ostream& os, const Odorless::Engine::Types::String& rightHand)
 {
 	os << rightHand.c_str();
 	return os;

@@ -49,7 +49,7 @@ namespace Odorless
 				float GetFloat(std::string section, std::string variable);
 
 			private:
-				std::map<std::string, std::map<std::string,std::string>> _mapINIData;
+				std::map< std::string, std::map<std::string,std::string> > _mapINIData;
 				unsigned int _uiLength;
 			};
 		}

@@ -62,9 +62,9 @@ void Odorless::Engine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool se
 		const unsigned int cintFontSize = 256;
 		const unsigned int cintFontCharSize = cintFontSize >> 4;
 
-		for (int y = 0; y < cintFontSize; y+=cintFontCharSize)
+		for (unsigned int y = 0; y < cintFontSize; y+=cintFontCharSize)
 		{
-			for (int x = 0; x < cintFontSize; x+=cintFontCharSize)
+			for (unsigned int x = 0; x < cintFontSize; x+=cintFontCharSize)
 			{
 				float fU1, fU2, fV1, fV2;
 				fU1 = (float)x / (float)cintFontSize;

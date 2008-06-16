@@ -27,7 +27,7 @@ const int Odorless::Engine::Parsers::VMAP::ParseVMAP(const char *path)
 	delete fsFile;
 
 	//	Delete all the empty lines
-	for(int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
 		if(_vLines[i].size() <= 0)
 		{

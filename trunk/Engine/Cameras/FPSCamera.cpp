@@ -33,7 +33,7 @@ void Odorless::Engine::Cameras::FPSCamera::StrafeLeft(const float &dt)
 	_dCenterX = _dEyeX + sin(yChange+PI2);
 	_dCenterZ = _dEyeZ + cos(yChange+PI2);
 
-	float x, y, z;
+	float x, z;
 	x = _dCenterX - _dEyeX;
 	z = _dCenterZ - _dEyeZ;
 
@@ -51,7 +51,7 @@ void Odorless::Engine::Cameras::FPSCamera::StrafeRight(const float &dt)
 	_dCenterX = _dEyeX + sin(yChange-PI2);
 	_dCenterZ = _dEyeZ + cos(yChange-PI2);
 
-	float x, y, z;
+	float x, z;
 	x = _dCenterX - _dEyeX;
 	z = _dCenterZ - _dEyeZ;
 

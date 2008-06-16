@@ -61,7 +61,7 @@ const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
 
 	//	Remove leading and trailing whitespace.
 
-	for(int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
 		//	Erase empty lines from the vector.
 		if(_vLines[i].size()<=0)
@@ -85,9 +85,9 @@ const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
 	}
 
 	//	Remove invalid lines
-	for(int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
-		int equalIndex = _vLines[i].find_first_of("=");
+		unsigned int equalIndex = _vLines[i].find_first_of("=");
 		//	There's nothing important in this line so let's remove it.
 		if(equalIndex==std::string::npos&&_vLines[i][0]!='[')
 		{
@@ -98,10 +98,10 @@ const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
 	}
 
 	//	Build a map of quotes
-	std::map<int, std::vector<int>> vecQuoteIndices;
-	for(int i = 0; i < _vLines.size(); i++)
+	std::map< int, std::vector<int> > vecQuoteIndices;
+	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
-		for(int j = 0; j < _vLines[i].size(); j++)
+		for(unsigned int j = 0; j < _vLines[i].size(); j++)
 		{
 			if(_vLines[i][j]=='\"'&&_vLines[i][j-1]!='\\')
 				vecQuoteIndices[i].push_back(j);
@@ -109,12 +109,12 @@ const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
 	}
 
 	//	Strip Comments and clean it up...
-	for(int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
-		int equalIndex = _vLines[i].find_first_of("=");
-		int commentIndex = _vLines[i].find_first_of(';');
-		int LBraceIndex = _vLines[i].find_first_of('[');
-		int RBraceIndex = _vLines[i].find_first_of(']');
+		unsigned int equalIndex = _vLines[i].find_first_of("=");
+		unsigned int commentIndex = _vLines[i].find_first_of(';');
+		unsigned int LBraceIndex = _vLines[i].find_first_of('[');
+		unsigned int RBraceIndex = _vLines[i].find_first_of(']');
 
 		//	This line is invalid, remove it.
 		if(equalIndex == std::string::npos)
@@ -185,11 +185,11 @@ const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
 
 	//	Parse
 	std::string section="null";
-	for(int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
 		if(_vLines[i][0]=='[')
 		{
-			int endBrace = _vLines[i].find_last_of("]");
+			unsigned int endBrace = _vLines[i].find_last_of("]");
 			if(endBrace!=std::string::npos)
 			{
 				if(endBrace>1)
@@ -198,7 +198,7 @@ const int Odorless::Engine::Parsers::INI::ParseINI(const char* path)
 				}
 			}
 		}
-		for(int j = 0; j < _vLines[i].size(); j++)
+		for(unsigned int j = 0; j < _vLines[i].size(); j++)
 		{
 			if(_vLines[i][j]=='=')
 			{

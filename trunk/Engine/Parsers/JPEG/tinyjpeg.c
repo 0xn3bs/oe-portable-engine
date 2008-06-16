@@ -65,21 +65,26 @@ enum std_markers {
 #define BLACK_U 127
 #define BLACK_V 127
 
-#if DEBUG
+//#if DEBUG
+
 #define trace(fmt, args...) do { \
    fprintf(stderr, fmt, ## args); \
    fflush(stderr); \
 } while(0)
-#else
-void _trace(char* fmt, ...)
-{
-	do { } while (0);
-}
-#define trace(args) _trace args
-#endif
+
+//#else
+
+//void _trace(char* fmt, ...)
+//{
+//	do { } while (0);
+//}
+
+//#define trace(args) _trace args
+//#endif
+
 void _error(char* fmt, ...)
 {
-   return -1;
+   return;
 }
 #define error(args) _error args
 #if 0
