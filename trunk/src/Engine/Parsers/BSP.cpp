@@ -85,6 +85,8 @@ const int OE::Parsers::BSP::ParseIBSP(const char* path)
 		_vVertices[i] = tVertex;
 	}
 
+	free(vertices);
+
 	_iNumFaces = header->DirEntries[13].Length / sizeof(_IBSP_FACE);
 	_vFaces = (_OBSP_FACE*)malloc(sizeof(_OBSP_FACE)*_iNumFaces);
 	_IBSP_FACE *faces = (_IBSP_FACE*)malloc(sizeof(_IBSP_FACE)*_iNumFaces);
@@ -103,22 +105,28 @@ const int OE::Parsers::BSP::ParseIBSP(const char* path)
 		_vFaces[i] = tFace;
 	}
 
+	free(faces);
+
 	_iNumTextures = header->DirEntries[1].Length / sizeof(_IBSP_TEXTURE);
 	_vTextures = (GLint*)malloc(sizeof(GLint)*_iNumTextures);
 	_IBSP_TEXTURE *textures = (_IBSP_TEXTURE*)malloc(sizeof(_IBSP_TEXTURE)*_iNumTextures);
 	fseek(pFile, header->DirEntries[1].Offset, SEEK_SET);
 	fread((_IBSP_TEXTURE*)textures, sizeof(_IBSP_TEXTURE), _iNumTextures, pFile);
 
-	fclose(pFile);
 	for(int i = 0; i < _iNumTextures; i++)
 	{
 		_vTextures[i] = OE::Textures::TextureManager::LoadTexture(textures[i].Name);
 	}
-	pFile = fopen(path, "rb");
+
+	free(textures);
 
 	//	TODO: MESH VERTS
 	_iNumMeshVerts = header->DirEntries[11].Length / sizeof(_IBSP_MESHVERT);
 	_vMeshVerts = (_OBSP_MESHVERT*)malloc(sizeof(_OBSP_MESHVERT)*_iNumMeshVerts);
+	if(_vMeshVerts==NULL)
+	{
+		std::cout << "LOL CRAP";
+	}
 	_IBSP_MESHVERT *meshVerts = (_IBSP_MESHVERT*)malloc(sizeof(_IBSP_MESHVERT)*_iNumMeshVerts);
 	fseek(pFile, header->DirEntries[11].Offset, SEEK_SET);
 	fread((_IBSP_MESHVERT*)meshVerts, sizeof(_IBSP_MESHVERT), _iNumMeshVerts, pFile);
@@ -131,9 +139,6 @@ const int OE::Parsers::BSP::ParseIBSP(const char* path)
 	}
 
 	free(meshVerts);
-	free(textures);
-	free(vertices);
-	free(faces);
 	free(header);
 	return 0;
 }
