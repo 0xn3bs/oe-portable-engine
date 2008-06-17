@@ -71,6 +71,9 @@ bool OE::Textures::TextureManager::_LoadJPG(const char* path, GLuint Texture)
 
 	tinyjpeg_get_components(jpegDecoder, components);
 
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB,GL_UNSIGNED_BYTE, components[0]);
+
+	/*
 	int level = 0;
 	while(width != 1 && height != 1)
 	{
@@ -79,6 +82,7 @@ bool OE::Textures::TextureManager::_LoadJPG(const char* path, GLuint Texture)
 		height /= 2;
 		level++;
 	}
+	*/
 
 	_vLoadedTextures.push_back(Texture);
 
