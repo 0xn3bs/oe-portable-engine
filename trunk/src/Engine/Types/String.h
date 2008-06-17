@@ -55,4 +55,5 @@ namespace OEngine
 		};
 	};
 };
+
 #endif /*STRING_H_*/
