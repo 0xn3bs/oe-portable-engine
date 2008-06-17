@@ -8,7 +8,6 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
-
 #include "Input.h"
 
 OEngine::Input::InputManager g_inputManager;

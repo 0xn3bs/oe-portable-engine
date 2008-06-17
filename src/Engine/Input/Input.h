@@ -8,7 +8,6 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
-
 #ifndef INPUT_H_
 #define INPUT_H_
 
@@ -211,4 +210,5 @@ namespace OEngine
 		};
 	};
 };
+
 #endif /*INPUT_H_*/

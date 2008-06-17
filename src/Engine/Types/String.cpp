@@ -8,7 +8,6 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
-
 #include "String.h"
 #include <cstdlib>
 
