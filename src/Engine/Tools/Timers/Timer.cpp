@@ -11,7 +11,7 @@
 #include "Timer.h"
 #include <stdlib.h>
 
-OEngine::Tools::Timers::Timer::Timer()
+OE::Tools::Timers::Timer::Timer()
 {
 #ifdef WIN32
 	QueryPerformanceFrequency(&Freq);
@@ -25,12 +25,12 @@ OEngine::Tools::Timers::Timer::Timer()
 	_dEndTime = 0;
 }
 
-OEngine::Tools::Timers::Timer::~Timer()
+OE::Tools::Timers::Timer::~Timer()
 {
 
 }
 
-void OEngine::Tools::Timers::Timer::Start()
+void OE::Tools::Timers::Timer::Start()
 {
 #ifdef WIN32
 	QueryPerformanceCounter(&StartCount);
@@ -40,7 +40,7 @@ void OEngine::Tools::Timers::Timer::Start()
 	IsRunning = true;
 }
 
-void OEngine::Tools::Timers::Timer::Stop()
+void OE::Tools::Timers::Timer::Stop()
 {
 #ifdef WIN32
 	QueryPerformanceCounter(&EndCount);
@@ -50,7 +50,7 @@ void OEngine::Tools::Timers::Timer::Stop()
 	IsRunning = false;
 }
 
-double OEngine::Tools::Timers::Timer::GetElapsedMicroSec()
+double OE::Tools::Timers::Timer::GetElapsedMicroSec()
 {
 #ifdef WIN32
 	if(IsRunning)
@@ -68,17 +68,17 @@ double OEngine::Tools::Timers::Timer::GetElapsedMicroSec()
 	return _dEndTime - _dStartTime;
 }
 
-double OEngine::Tools::Timers::Timer::GetElapsedMilliSec()
+double OE::Tools::Timers::Timer::GetElapsedMilliSec()
 {
 	return GetElapsedMicroSec() * 0.001;
 }
 
-double OEngine::Tools::Timers::Timer::GetElapsedSec()
+double OE::Tools::Timers::Timer::GetElapsedSec()
 {
 	return GetElapsedMilliSec() * 0.001;
 }
 
-OEngine::Tools::Timers::TIME OEngine::Tools::Timers::Timer::GetElapsed()
+OE::Tools::Timers::TIME OE::Tools::Timers::Timer::GetElapsed()
 {
 	TIME temp;
 	temp.Microseconds = GetElapsedMicroSec();

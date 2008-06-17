@@ -22,7 +22,7 @@
 #define GL_TEXTURE_2D_BINDING_EXT         0x8069
 #endif
 
-namespace OEngine
+namespace OE
 {
 	namespace Textures
 	{
@@ -35,10 +35,10 @@ namespace OEngine
 
 		private:
 			static std::vector<GLint> _vLoadedTextures;
-			static bool LoadTGA(const char* path, GLuint Texture);
-			static bool LoadJPG(const char* path, GLuint Texture);
-			static bool DoesFileExist(const char* path);
-			static std::string GetTexturePath(const char* name);
+			static bool _LoadTGA(const char* path, GLuint Texture);
+			static bool _LoadJPG(const char* path, GLuint Texture);
+			static bool _DoesFileExist(const char* path);
+			static std::string _GetTexturePath(const char* name);
 			static GLint _LoadTextureFromPath(const char* path);
 		};
 	}

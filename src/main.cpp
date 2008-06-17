@@ -29,17 +29,17 @@
 #include <iostream>
 #include <math.h>
 
-OEngine::Tools::Timers::Timer timerFPS;
-OEngine::Tools::Timers::Timer timerAlpha;
+OE::Tools::Timers::Timer timerFPS;
+OE::Tools::Timers::Timer timerAlpha;
 //OEngine::UI::Windows::WindowManager windowManager;
 //Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
-OEngine::Parsers::INI iniParser;
-OEngine::Parsers::BSP bspParser;
-OEngine::Cameras::FPSCamera *fpsCamera;
+OE::Parsers::INI iniParser;
+OE::Parsers::BSP bspParser;
+OE::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
 void Initialize()
 {
-	OEngine::Textures::TextureManager::LoadTexture("textures/notexture");
+	OE::Textures::TextureManager::LoadTexture("textures/notexture");
 	//OEngine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
 	//OEngine::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
 
@@ -55,7 +55,7 @@ void Initialize()
 	//windowManager.AddWindow(b);
 	//windowManager.AddWindow(c);
 
-	fpsCamera = new OEngine::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
+	fpsCamera = new OE::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
 
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LINE);
@@ -74,14 +74,14 @@ void Initialize()
 	glPointSize(2.0f);
 	glLineWidth(1.0f);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	OEngine::Base::VSync(false);
+	OE::Base::VSync(false);
 
 	std::string mapToLoad = iniParser.GetString("default", "map");
 	bspParser.ParseBSP(mapToLoad.c_str());
 }
 void Update(double deltaTime)
 {
-	OEngine::Input::InputManager::Update();
+	OE::Input::InputManager::Update();
 	if(IsGUIEnabled)
 	{
 		//windowManager.Update(deltaTime);
@@ -121,8 +121,8 @@ void OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	OEngine::Input::InputManager::SetMouseReferencePos(width/2, height/2);
-	OEngine::Input::InputManager::SetForceToMouseReference(true);
+	OE::Input::InputManager::SetMouseReferencePos(width/2, height/2);
+	OE::Input::InputManager::SetForceToMouseReference(true);
 	//glMatrixMode( GL_PROJECTION );
 	//glLoadIdentity();
 	//glViewport(0, 0, width, height);
@@ -133,23 +133,23 @@ int main()
 {
 	iniParser.ParseINI("base/cfg/default.ini");
 	
-	OEngine::Base::InitializeEngine();
+	OE::Base::InitializeEngine();
 	int iResWidth = iniParser.GetInt("video", "res_width");
 	int iResHeight = iniParser.GetInt("video", "res_height");
-	OEngine::Base::OpenWindow(iResWidth, iResHeight, 8, 8, 8, 8, 24, 8);
-	OEngine::Base::SetWindowResize(OnResize);
-	OEngine::Base::SetWindowTitle(__BUILD_STRING__);
-	OEngine::Base::SetInitialize(Initialize);
-	OEngine::Base::SetUpdate(Update);
-	OEngine::Base::SetDraw(Draw);
-	OEngine::Base::Initialize();
+	OE::Base::OpenWindow(iResWidth, iResHeight, 8, 8, 8, 8, 24, 8);
+	OE::Base::SetWindowResize(OnResize);
+	OE::Base::SetWindowTitle(__BUILD_STRING__);
+	OE::Base::SetInitialize(Initialize);
+	OE::Base::SetUpdate(Update);
+	OE::Base::SetDraw(Draw);
+	OE::Base::Initialize();
 
 	int totalFrames = 0;
 	int FPS = 0;
 	float elapsedTime = 0.0f;
 	float deltaTime = 0.0f;
 
-	while (OEngine::Base::IsRunning())
+	while (OE::Base::IsRunning())
 	{
 		if(timerAlpha.IsRunning)
 		{
@@ -169,7 +169,7 @@ int main()
 				timerFPS.Start();
 				char windowtitle[1024];
 				sprintf(windowtitle, "%s :: FPS: %i", __BUILD_STRING__, FPS);
-				OEngine::Base::SetWindowTitle(windowtitle);
+				OE::Base::SetWindowTitle(windowtitle);
 			}
 		}
 		else
@@ -177,10 +177,10 @@ int main()
 			timerFPS.Start();
 		}
 
-		OEngine::Base::Update(deltaTime);
-		OEngine::Base::Draw(deltaTime);
-		OEngine::Base::Flush();
-		OEngine::Base::SwapBuffers();
+		OE::Base::Update(deltaTime);
+		OE::Base::Draw(deltaTime);
+		OE::Base::Flush();
+		OE::Base::SwapBuffers();
 
 		if (glfwGetKey(GLFW_KEY_ESC) || !glfwGetWindowParam(GLFW_OPENED))
 			break;
@@ -188,7 +188,7 @@ int main()
 		totalFrames++;
 	}
 
-	OEngine::Base::Dispose();
+	OE::Base::Dispose();
 
 	return 0;
 }

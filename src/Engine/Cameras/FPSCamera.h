@@ -19,11 +19,11 @@
 #define CAMERA_SPEED 250
 #define MOUSE_SENSITIVITY 0.25
 
-namespace OEngine
+namespace OE
 {
 	namespace Cameras
 	{
-		class FPSCamera : public OEngine::Input::InputListener
+		class FPSCamera : public OE::Input::InputListener
 		{
 		public:
 			FPSCamera(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ,
@@ -41,10 +41,10 @@ namespace OEngine
 				xChange = 0;
 				yChange = 0;
 				zAngle = 0;
-				if(OEngine::Input::InputManager::IsInitialized()==false)
+				if(OE::Input::InputManager::IsInitialized()==false)
 					std::cerr << "Warning: Camera - The Input Manager has not yet been initialized!" << std::endl;
 				else
-					OEngine::Input::InputManager::AddInputListener(this);
+					OE::Input::InputManager::AddInputListener(this);
 			}
 			~FPSCamera()
 			{
@@ -54,7 +54,7 @@ namespace OEngine
 			{
 				if(key==GLFW_KEY_TAB && action == GLFW_PRESS)
 				{
-					OEngine::Input::InputManager::SetForceToMouseReference(!OEngine::Input::InputManager::IsMouseForcedToReference());
+					OE::Input::InputManager::SetForceToMouseReference(!OE::Input::InputManager::IsMouseForcedToReference());
 				}
 			};
 

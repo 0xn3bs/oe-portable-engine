@@ -10,7 +10,7 @@
 ***************************************************************************************************/
 #include "Common.h"
 
-double OEngine::Tools::Math::Common::Sqrt(double num)
+double OE::Tools::Math::Common::osqrt(double num)
 {
 	return sqrt(num);
 }

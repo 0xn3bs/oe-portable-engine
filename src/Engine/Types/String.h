@@ -8,14 +8,13 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
-
 #ifndef STRING_H_
 #define STRING_H_
 
 #include <ostream>
 #include <memory>
 
-namespace OEngine
+namespace OE
 {
 	namespace Types
 	{
@@ -29,7 +28,7 @@ namespace OEngine
 			String(const char* s);
 			~String();
 
-			friend std::ostream& operator<<(std::ostream& os, const OEngine::Types::String& rightHand);
+			friend std::ostream& operator<<(std::ostream& os, const OE::Types::String& rightHand);
 
 			void operator+=(const char* rhs)
 			{

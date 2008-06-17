@@ -18,7 +18,7 @@
 #include <unistd.h>
 #endif
 
-namespace OEngine
+namespace OE
 {
 	namespace Tools
 	{

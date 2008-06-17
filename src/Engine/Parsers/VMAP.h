@@ -16,7 +16,7 @@
 #include <vector>
 #include <string>
 
-namespace OEngine
+namespace OE
 {
 	namespace Parsers
 	{

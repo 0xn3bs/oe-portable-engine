@@ -8,7 +8,6 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
-
 #ifndef BASIC_WINDOW_H_
 #define BASIC_WINDOW_H_
 
@@ -17,27 +16,27 @@
 #include "Engine/Textures/TextureManager.h"
 #include "Engine/UI/Widgets/Button.h"
 
-namespace OEngine
+namespace OE
 {
 	namespace Game
 	{
 		namespace UI
 		{
-			class BasicWindow : public OEngine::UI::Windows::Window
+			class BasicWindow : public OE::UI::Windows::Window
 			{
 			public:
-				BasicWindow() : OEngine::UI::Windows::Window()
+				BasicWindow() : OE::UI::Windows::Window()
 				{
-					OEngine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
-					OEngine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
-					OEngine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
+					OE::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
+					OE::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
+					OE::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
 					_fTitleBarY = 15.5f;
 				}
-				BasicWindow(const float &x, const float &y, const float &width, const float &height) : OEngine::UI::Windows::Window(x, y, width, height)
+				BasicWindow(const float &x, const float &y, const float &width, const float &height) : OE::UI::Windows::Window(x, y, width, height)
 				{
-					OEngine::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
-					OEngine::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
-					OEngine::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
+					OE::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);
+					OE::Tools::Colors::Color::RGBA(_uiBrdrColor,55,124,129,190);
+					OE::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
 					_fTitleBarY = 15.5f;
 				}
 				~BasicWindow()

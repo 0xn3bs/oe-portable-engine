@@ -11,7 +11,7 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-namespace OEngine
+namespace OE
 {
 	namespace Tools
 	{

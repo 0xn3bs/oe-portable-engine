@@ -1,6 +1,6 @@
 #include "VMAP.h"
 
-const int OEngine::Parsers::VMAP::ParseVMAP(const char *path)
+const int OE::Parsers::VMAP::ParseVMAP(const char *path)
 {
 	std::vector<std::string> _vLines;
 

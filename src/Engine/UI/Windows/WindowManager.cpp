@@ -12,16 +12,16 @@
 #include <iostream>
 #include "Engine/Input/Input.h"
 
-void OEngine::UI::Windows::WindowManager::OnMouseButton(const int key, const int action)
+void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int action)
 {
 	int iMouseX, iMouseY;
-	OEngine::Input::InputManager::GetMousePos(&iMouseX, &iMouseY);
+	OE::Input::InputManager::GetMousePos(&iMouseX, &iMouseY);
 
 	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
 	{
 		for(int i = 0; i < _vecWindows.size(); i++)
 		{
-			OEngine::UI::Windows::Window* tempWin = _vecWindows.at(i);
+			OE::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			if(tempWin->_bIsDragging)
 				tempWin->_bIsDragging = false;
 		}
@@ -31,7 +31,7 @@ void OEngine::UI::Windows::WindowManager::OnMouseButton(const int key, const int
 	{
 		for(unsigned int i = 0; i < _vecWindows.size(); i++)
 		{
-			OEngine::UI::Windows::Window* tempWin = _vecWindows.at(i);
+			OE::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			bool bCanPick = CanPick(i, iMouseX, iMouseY);
 
 			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
@@ -52,7 +52,7 @@ void OEngine::UI::Windows::WindowManager::OnMouseButton(const int key, const int
 	//	Setting a new focused window changes the order of the windows.
 	UpdateFocus();
 }
-void OEngine::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
+void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
@@ -68,7 +68,7 @@ void OEngine::UI::Windows::WindowManager::OnMouseClick(const int startX, const i
 	}
 }
 
-void OEngine::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
+void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
@@ -91,7 +91,7 @@ void OEngine::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 		}
 	}
 }
-bool OEngine::UI::Windows::WindowManager::CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
+bool OE::UI::Windows::WindowManager::CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
 {
 	Window* winTemp = _vecWindows.at(index);
 	bool bOver = winTemp->IsOver(x, y);
@@ -102,11 +102,11 @@ bool OEngine::UI::Windows::WindowManager::CanPick(const unsigned int &index, con
 	}
 	return bOver;
 }
-void OEngine::UI::Windows::WindowManager::Update(const float &dt)
+void OE::UI::Windows::WindowManager::Update(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
-		OEngine::UI::Windows::Window* winTemp = _vecWindows.at(i);
+		OE::UI::Windows::Window* winTemp = _vecWindows.at(i);
 
 		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
 		if(winTemp->_2fPosition[1] < -winTemp->_fTitleBarY+5)
@@ -120,41 +120,41 @@ void OEngine::UI::Windows::WindowManager::Update(const float &dt)
 
 		if(winTemp->_bIsDragging)
 		{
-			winTemp->_2fPosition[0] += OEngine::Input::InputManager::GetMouseDeltaX();
-			winTemp->_2fPosition[1] += OEngine::Input::InputManager::GetMouseDeltaY();
+			winTemp->_2fPosition[0] += OE::Input::InputManager::GetMouseDeltaX();
+			winTemp->_2fPosition[1] += OE::Input::InputManager::GetMouseDeltaY();
 		}
 
-		if(OEngine::Input::InputManager::GetMouseX() < 0)
+		if(OE::Input::InputManager::GetMouseX() < 0)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 
-		if(OEngine::Input::InputManager::GetMouseX() > _iWinWidth)
+		if(OE::Input::InputManager::GetMouseX() > _iWinWidth)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 
-		if(OEngine::Input::InputManager::GetMouseY() < 0)
+		if(OE::Input::InputManager::GetMouseY() < 0)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 
-		if(OEngine::Input::InputManager::GetMouseY() > _iWinHeight)
+		if(OE::Input::InputManager::GetMouseY() > _iWinHeight)
 		{
 			winTemp->_bIsDragging = false;
 			continue;
 		}
 	}
 }
-void OEngine::UI::Windows::WindowManager::UpdateWin(const int width, const int height)
+void OE::UI::Windows::WindowManager::UpdateWin(const int width, const int height)
 {
 	_iWinWidth = width;
 	_iWinHeight = height;
 }
-void OEngine::UI::Windows::WindowManager::Render(const float &dt)
+void OE::UI::Windows::WindowManager::Render(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{

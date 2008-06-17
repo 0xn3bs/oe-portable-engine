@@ -13,20 +13,20 @@
 #include "Textures/TextureManager.h"
 #include "Input/Input.h"
 
-int OEngine::Base::_iWindowWidth, OEngine::Base::_iWindowHeight = 0;
-bool OEngine::Base::_bIsRunning = false;
-void (*OEngine::Base::_pf_Initialize)(void) = 0;
-void (*OEngine::Base::_pf_Update)(double deltaTime) = 0;
-void (*OEngine::Base::_pf_Draw)(double deltaTime) = 0;
+int OE::Base::_iWindowWidth, OE::Base::_iWindowHeight = 0;
+bool OE::Base::_bIsRunning = false;
+void (*OE::Base::_pf_Initialize)(void) = 0;
+void (*OE::Base::_pf_Update)(double deltaTime) = 0;
+void (*OE::Base::_pf_Draw)(double deltaTime) = 0;
 
 ///	Function which Intializes the Engine. <b>Call this before anything else is done!</b>
-unsigned int OEngine::Base::InitializeEngine()
+unsigned int OE::Base::InitializeEngine()
 {
 	glfwInit();
 
 	_bIsRunning = true;
 	glfwEnable(GLFW_STICKY_KEYS);
-	OEngine::Input::InputManager::Initialize();
+	OE::Input::InputManager::Initialize();
 
 	return 0;
 }
@@ -42,7 +42,7 @@ unsigned int OEngine::Base::InitializeEngine()
 \param depthbits The number of bits to use for the depth buffer.
 \param stencilbits The number of bits to use for the stencil buffer.
 */
-int OEngine::Base::OpenWindow(int width, int height, int redbits,
+int OE::Base::OpenWindow(int width, int height, int redbits,
 										  int greenbits, int bluebits, int alphabits, int depthbits,
 										  int stencilbits)
 {
@@ -62,12 +62,12 @@ int OEngine::Base::OpenWindow(int width, int height, int redbits,
 	if (!window)
 		Dispose();
 
-	OEngine::Input::InputManager::Initialize();
+	OE::Input::InputManager::Initialize();
 
 	return 0;
 }
 
-void OEngine::Base::Initialize()
+void OE::Base::Initialize()
 {
 	if (_pf_Initialize != 0)
 		_pf_Initialize();
@@ -75,7 +75,7 @@ void OEngine::Base::Initialize()
 		std::cerr << "Intialize function not set!" << std::endl;
 }
 
-void OEngine::Base::Update(double deltaTime)
+void OE::Base::Update(double deltaTime)
 {
 	if (_pf_Update != 0)
 		_pf_Update(deltaTime);
@@ -83,7 +83,7 @@ void OEngine::Base::Update(double deltaTime)
 		std::cerr << "Update function not set!" << std::endl;
 }
 
-void OEngine::Base::Draw(double deltaTime)
+void OE::Base::Draw(double deltaTime)
 {
 	if (_pf_Draw != 0)
 		_pf_Draw(deltaTime);
@@ -91,11 +91,11 @@ void OEngine::Base::Draw(double deltaTime)
 		std::cerr << "Draw function not set!" << std::endl;
 }
 
-void OEngine::Base::Dispose()
+void OE::Base::Dispose()
 {
 	_bIsRunning = false;
 	glfwDisable(GLFW_STICKY_KEYS);
 
 	glfwTerminate();
-	OEngine::Textures::TextureManager::Dispose();
+	OE::Textures::TextureManager::Dispose();
 }

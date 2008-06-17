@@ -17,7 +17,7 @@
 #include <memory>
 #include <vector>
 
-namespace OEngine
+namespace OE
 {
 	namespace Input
 	{

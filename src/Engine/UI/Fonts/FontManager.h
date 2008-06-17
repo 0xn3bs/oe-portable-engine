@@ -15,7 +15,7 @@
 #include <vector>
 #include <iostream>
 
-namespace OEngine
+namespace OE
 {
 	namespace UI
 	{
@@ -30,16 +30,16 @@ namespace OEngine
 				static void SetFont(const char *name);
 				static void SetFont(const unsigned int &index);
 				static void CalculateUVs(_FONT &font, bool setMonoSpaced);
-				static OEngine::UI::Fonts::_FONT* GetFont(unsigned int &index)
+				static OE::UI::Fonts::_FONT* GetFont(unsigned int &index)
 				{
 					if(index >= _vFonts.size())
-						return (OEngine::UI::Fonts::_FONT*)0;
+						return (OE::UI::Fonts::_FONT*)0;
 				}
 				static void Write(const char *path);
 				static int IndexOf(const char *name);
 
 			private:
-				static std::vector<OEngine::UI::Fonts::_FONT> _vFonts;
+				static std::vector<OE::UI::Fonts::_FONT> _vFonts;
 				static int _iCurrentFont;
 			};
 		}

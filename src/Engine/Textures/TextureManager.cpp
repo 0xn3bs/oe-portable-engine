@@ -11,9 +11,9 @@
 #include "TextureManager.h"
 #include <iostream>
 
-std::vector<GLint> OEngine::Textures::TextureManager::_vLoadedTextures = std::vector<GLint>();
+std::vector<GLint> OE::Textures::TextureManager::_vLoadedTextures = std::vector<GLint>();
 
-bool OEngine::Textures::TextureManager::LoadTGA(const char* path, GLuint Texture)
+bool OE::Textures::TextureManager::_LoadTGA(const char* path, GLuint Texture)
 {
 	if(glfwLoadTexture2D(path, GLFW_ORIGIN_UL_BIT))
 	{
@@ -27,7 +27,7 @@ bool OEngine::Textures::TextureManager::LoadTGA(const char* path, GLuint Texture
 	return false;
 }
 
-bool OEngine::Textures::TextureManager::LoadJPG(const char* path, GLuint Texture)
+bool OE::Textures::TextureManager::_LoadJPG(const char* path, GLuint Texture)
 {
 	FILE *fp;
 	unsigned int fLength, width, height;
@@ -87,7 +87,7 @@ bool OEngine::Textures::TextureManager::LoadJPG(const char* path, GLuint Texture
 	return true;
 }
 
-bool OEngine::Textures::TextureManager::DoesFileExist(const char* path)
+bool OE::Textures::TextureManager::_DoesFileExist(const char* path)
 {
 	FILE *fp;
 	fp = fopen(path, "rb");
@@ -98,7 +98,7 @@ bool OEngine::Textures::TextureManager::DoesFileExist(const char* path)
 	return true;
 }
 
-std::string OEngine::Textures::TextureManager::GetTexturePath(const char* name)
+std::string OE::Textures::TextureManager::_GetTexturePath(const char* name)
 {
 	std::string tName = std::string(TEXTURE_PATH) + name;
 
@@ -106,17 +106,17 @@ std::string OEngine::Textures::TextureManager::GetTexturePath(const char* name)
 
 	//	Test extensions.
 	tPath = tName + ".jpg";
-	if(DoesFileExist(tPath.c_str()))
+	if(_DoesFileExist(tPath.c_str()))
 		return tPath.c_str();
 
 	tPath = tName + ".tga";
-	if(DoesFileExist(tPath.c_str()))
+	if(_DoesFileExist(tPath.c_str()))
 		return tPath.c_str();
 
 	return std::string("");
 }
 
-GLint OEngine::Textures::TextureManager::_LoadTextureFromPath(const char* path)
+GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 {
 	std::string tPath = std::string(path);
 	std::string ext = tPath.substr(tPath.find_last_of('.'), 4);
@@ -128,7 +128,7 @@ GLint OEngine::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	//	Is it a tga?
 	if(ext.compare(".tga")==0)
 	{
-		if(LoadTGA(path, Texture))
+		if(_LoadTGA(path, Texture))
 		{
 			return Texture;
 		}
@@ -137,7 +137,7 @@ GLint OEngine::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	//	Is it a jpeg?
 	if(ext.compare(".jpg")==0)
 	{
-		if(LoadJPG(path, Texture))
+		if(_LoadJPG(path, Texture))
 		{
 			return Texture;
 		}
@@ -149,9 +149,9 @@ GLint OEngine::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	return -1;
 }
 
-GLint OEngine::Textures::TextureManager::LoadTexture(const char* name)
+GLint OE::Textures::TextureManager::LoadTexture(const char* name)
 {
-	std::string path = GetTexturePath(name);
+	std::string path = _GetTexturePath(name);
 	GLint Texture = -1;
 
 	if(path.length() == 0)
@@ -167,7 +167,7 @@ GLint OEngine::Textures::TextureManager::LoadTexture(const char* name)
 	return Texture;
 }
 
-void OEngine::Textures::TextureManager::DeleteTexture(const GLuint index)
+void OE::Textures::TextureManager::DeleteTexture(const GLuint index)
 {
 	std::clog << "Texture #" << index << " deleted" << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
 	glDeleteTextures(1, &index);
@@ -175,7 +175,7 @@ void OEngine::Textures::TextureManager::DeleteTexture(const GLuint index)
 
 // This is quite hacky and messy..
 
-void OEngine::Textures::TextureManager::Dispose()
+void OE::Textures::TextureManager::Dispose()
 {
 	for( int i = 0; i < (int)_vLoadedTextures.size(); i++ )
 	{
