@@ -13,7 +13,7 @@
 
 #define IDBSPHEADER	(('P'<<24)+('S'<<16)+('B'<<8)+'V')
 
-const int OEngine::Parsers::BSP::ParseBSP(const char *path)
+const int OE::Parsers::BSP::ParseBSP(const char *path)
 {
 	FILE *pFile;
 	pFile = fopen(path, "rb");
@@ -51,82 +51,82 @@ const int OEngine::Parsers::BSP::ParseBSP(const char *path)
 	return 0;
 }
 
-const int OEngine::Parsers::BSP::ParseIBSP(const char* path)
+const int OE::Parsers::BSP::ParseIBSP(const char* path)
 {
 	FILE *pFile;
 	pFile = fopen(path, "rb");
-	_IHEADER *header = (_IHEADER*)malloc(sizeof(_IHEADER));
-	fread((_IHEADER*)header,sizeof(_IHEADER),1, pFile);
+	_IBSP_HEADER *header = (_IBSP_HEADER*)malloc(sizeof(_IBSP_HEADER));
+	fread((_IBSP_HEADER*)header,sizeof(_IBSP_HEADER),1, pFile);
 
-	_iNumVertices = header->direntries[10].length / sizeof(_IVERTEX);
-	_vVertices = (_OVERTEX*)malloc(sizeof(_OVERTEX)*_iNumVertices);
-	_IVERTEX *vertices = (_IVERTEX*)malloc(sizeof(_IVERTEX)*_iNumVertices);
-	fseek(pFile, header->direntries[10].offset, SEEK_SET);
-	fread((_IVERTEX*)vertices, sizeof(_IVERTEX), _iNumVertices, pFile);
+	_iNumVertices = header->DirEntries[10].Length / sizeof(_IBSP_VERTEX);
+	_vVertices = (_OBSP_VERTEX*)malloc(sizeof(_OBSP_VERTEX)*_iNumVertices);
+	_IBSP_VERTEX *vertices = (_IBSP_VERTEX*)malloc(sizeof(_IBSP_VERTEX)*_iNumVertices);
+	fseek(pFile, header->DirEntries[10].Offset, SEEK_SET);
+	fread((_IBSP_VERTEX*)vertices, sizeof(_IBSP_VERTEX), _iNumVertices, pFile);
 
 	for(int i = 0; i < _iNumVertices; i++)
 	{
-		int y = vertices[i].position[2];
-		int z = -vertices[i].position[1];
-		_OVERTEX tVertex;
-		tVertex.position[0] = vertices[i].position[0];
-		tVertex.position[1] = y;
-		tVertex.position[2] = z;
+		int y = vertices[i].Position[2];
+		int z = -vertices[i].Position[1];
+		_OBSP_VERTEX tVertex;
+		tVertex.Position[0] = vertices[i].Position[0];
+		tVertex.Position[1] = y;
+		tVertex.Position[2] = z;
 
-		tVertex.texcoord[0][0] = vertices[i].texcoord[0][0];
-		tVertex.texcoord[0][1] = vertices[i].texcoord[0][1];
+		tVertex.TexCoord[0][0] = vertices[i].TexCoord[0][0];
+		tVertex.TexCoord[0][1] = vertices[i].TexCoord[0][1];
 
-		tVertex.texcoord[1][0] = vertices[i].texcoord[1][0];
-		tVertex.texcoord[1][1] = vertices[i].texcoord[1][1];
+		tVertex.TexCoord[1][0] = vertices[i].TexCoord[1][0];
+		tVertex.TexCoord[1][1] = vertices[i].TexCoord[1][1];
 
-		tVertex.normal[0] = vertices[i].normal[0];
-		tVertex.normal[1] = vertices[i].normal[1];
-		tVertex.normal[2] = vertices[i].normal[2];
+		tVertex.Normal[0] = vertices[i].Normal[0];
+		tVertex.Normal[1] = vertices[i].Normal[1];
+		tVertex.Normal[2] = vertices[i].Normal[2];
 		_vVertices[i] = tVertex;
 	}
 
-	_iNumFaces = header->direntries[13].length / sizeof(_IFACE);
-	_vFaces = (_OFACE*)malloc(sizeof(_OFACE)*_iNumFaces);
-	_IFACE *faces = (_IFACE*)malloc(sizeof(_IFACE)*_iNumFaces);
-	fseek(pFile, header->direntries[13].offset, SEEK_SET);
-	fread((_IFACE*)faces, sizeof(_IFACE), _iNumFaces, pFile);
+	_iNumFaces = header->DirEntries[13].Length / sizeof(_IBSP_FACE);
+	_vFaces = (_OBSP_FACE*)malloc(sizeof(_OBSP_FACE)*_iNumFaces);
+	_IBSP_FACE *faces = (_IBSP_FACE*)malloc(sizeof(_IBSP_FACE)*_iNumFaces);
+	fseek(pFile, header->DirEntries[13].Offset, SEEK_SET);
+	fread((_IBSP_FACE*)faces, sizeof(_IBSP_FACE), _iNumFaces, pFile);
 
 	for(int i = 0; i < _iNumFaces; i++)
 	{
-		_OFACE tFace;
-		tFace.n_vertexes = faces[i].n_vertexes;
-		tFace.texture = faces[i].texture;
-		tFace.type = faces[i].type;
-		tFace.vertex = faces[i].vertex;
-		tFace.meshvert = faces[i].meshvert;
-		tFace.n_meshverts = faces[i].n_meshverts;
+		_OBSP_FACE tFace;
+		tFace.NumVerts = faces[i].NumVertex;
+		tFace.Texture = faces[i].Texture;
+		tFace.Type = faces[i].Type;
+		tFace.Vertex = faces[i].Vertex;
+		tFace.MeshVert = faces[i].MeshVert;
+		tFace.NumMeshVerts = faces[i].NumMeshVerts;
 		_vFaces[i] = tFace;
 	}
 
-	_iNumTextures = header->direntries[1].length / sizeof(_ITEXTURE);
+	_iNumTextures = header->DirEntries[1].Length / sizeof(_IBSP_TEXTURE);
 	_vTextures = (GLint*)malloc(sizeof(GLint)*_iNumTextures);
-	_ITEXTURE *textures = (_ITEXTURE*)malloc(sizeof(_ITEXTURE)*_iNumTextures);
-	fseek(pFile, header->direntries[1].offset, SEEK_SET);
-	fread((_ITEXTURE*)textures, sizeof(_ITEXTURE), _iNumTextures, pFile);
+	_IBSP_TEXTURE *textures = (_IBSP_TEXTURE*)malloc(sizeof(_IBSP_TEXTURE)*_iNumTextures);
+	fseek(pFile, header->DirEntries[1].Offset, SEEK_SET);
+	fread((_IBSP_TEXTURE*)textures, sizeof(_IBSP_TEXTURE), _iNumTextures, pFile);
 
 	fclose(pFile);
 	for(int i = 0; i < _iNumTextures; i++)
 	{
-		_vTextures[i] = OEngine::Textures::TextureManager::LoadTexture(textures[i].name);
+		_vTextures[i] = OE::Textures::TextureManager::LoadTexture(textures[i].Name);
 	}
 	pFile = fopen(path, "rb");
 
 	//	TODO: MESH VERTS
-	_iNumMeshVerts = header->direntries[11].length / sizeof(_IMESHVERT);
-	_vMeshVerts = (_OMESHVERT*)malloc(sizeof(_OMESHVERT)*_iNumMeshVerts);
-	_IMESHVERT *meshVerts = (_IMESHVERT*)malloc(sizeof(_IMESHVERT)*_iNumMeshVerts);
-	fseek(pFile, header->direntries[11].offset, SEEK_SET);
-	fread((_IMESHVERT*)meshVerts, sizeof(_IMESHVERT), _iNumMeshVerts, pFile);
+	_iNumMeshVerts = header->DirEntries[11].Length / sizeof(_IBSP_MESHVERT);
+	_vMeshVerts = (_OBSP_MESHVERT*)malloc(sizeof(_OBSP_MESHVERT)*_iNumMeshVerts);
+	_IBSP_MESHVERT *meshVerts = (_IBSP_MESHVERT*)malloc(sizeof(_IBSP_MESHVERT)*_iNumMeshVerts);
+	fseek(pFile, header->DirEntries[11].Offset, SEEK_SET);
+	fread((_IBSP_MESHVERT*)meshVerts, sizeof(_IBSP_MESHVERT), _iNumMeshVerts, pFile);
 
 	for(int i = 0; i < _iNumMeshVerts; i++)
 	{
-		_OMESHVERT t;
-		t.offset = meshVerts[i].offset;
+		_OBSP_MESHVERT t;
+		t.Offset = meshVerts[i].Offset;
 		_vMeshVerts[i] = t;
 	}
 
@@ -140,7 +140,7 @@ const int OEngine::Parsers::BSP::ParseIBSP(const char* path)
 
 
 //	Ignore VBSP implementation for now.
-const int OEngine::Parsers::BSP::ParseVBSP(const char* path)
+const int OE::Parsers::BSP::ParseVBSP(const char* path)
 {
 	/*
 	_VHEADER *header = (_VHEADER*)malloc(sizeof(_VHEADER));
@@ -212,7 +212,7 @@ const int OEngine::Parsers::BSP::ParseVBSP(const char* path)
 	return 0;
 }
 
-void OEngine::Parsers::BSP::DebugRender()
+void OE::Parsers::BSP::DebugRender()
 {
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
@@ -220,14 +220,14 @@ void OEngine::Parsers::BSP::DebugRender()
 	{
 		for(int i = 0; i < _iNumFaces; i++)
 		{
-			if(_vFaces[i].type != 1 && _vFaces[i].type != 3)
+			if(_vFaces[i].Type != 1 && _vFaces[i].Type != 3)
 			{
 				continue;
 			}
 
-			if(_vTextures[_vFaces[i].texture]>0)
+			if(_vTextures[_vFaces[i].Texture]>0)
 			{
-				glBindTexture(GL_TEXTURE_2D, _vTextures[_vFaces[i].texture]);
+				glBindTexture(GL_TEXTURE_2D, _vTextures[_vFaces[i].Texture]);
 			}
 			else
 				glBindTexture(GL_TEXTURE_2D, 1);
@@ -235,30 +235,30 @@ void OEngine::Parsers::BSP::DebugRender()
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			if(_vFaces[i].type == 1)
+			if(_vFaces[i].Type == 1)
 			{
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				glBegin(GL_POLYGON);
-				for(int j = _vFaces[i].vertex; j < _vFaces[i].vertex + _vFaces[i].n_vertexes; j++)
+				for(int j = _vFaces[i].Vertex; j < _vFaces[i].Vertex + _vFaces[i].NumVerts; j++)
 				{
-					glTexCoord2f(_vVertices[j].texcoord[0][0], _vVertices[j].texcoord[0][1]);
-					glVertex3f(_vVertices[j].position[0], _vVertices[j].position[1], _vVertices[j].position[2]);
+					glTexCoord2f(_vVertices[j].TexCoord[0][0], _vVertices[j].TexCoord[0][1]);
+					glVertex3f(_vVertices[j].Position[0], _vVertices[j].Position[1], _vVertices[j].Position[2]);
 				}
 				glEnd();
 			}
 
-			if(_vFaces[i].type == 3)
+			if(_vFaces[i].Type == 3)
 			{
 				float x, y, z;
 
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				glBegin(GL_TRIANGLES);
-				for(int j = _vFaces[i].meshvert; j < _vFaces[i].meshvert + _vFaces[i].n_meshverts; j++)
+				for(int j = _vFaces[i].MeshVert; j < _vFaces[i].MeshVert + _vFaces[i].NumMeshVerts; j++)
 				{
-					x = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[0];
-					y = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[1];
-					z = _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].position[2];
-					glTexCoord2f(_vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][0], _vVertices[_vFaces[i].vertex + _vMeshVerts[j].offset].texcoord[0][1]);
+					x = _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].Position[0];
+					y = _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].Position[1];
+					z = _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].Position[2];
+					glTexCoord2f(_vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].TexCoord[0][0], _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].TexCoord[0][1]);
 					glVertex3f(x, y, z);
 				}
 				glEnd();

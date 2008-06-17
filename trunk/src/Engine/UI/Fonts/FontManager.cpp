@@ -14,29 +14,31 @@
 #include <string>
 #include <iostream>
 
-OEngine::UI::Fonts::FontManager g_fontManager;
+OE::UI::Fonts::FontManager g_fontManager;
 
-std::vector<OEngine::UI::Fonts::_FONT> OEngine::UI::Fonts::FontManager::_vFonts = std::vector<OEngine::UI::Fonts::_FONT>();
-int OEngine::UI::Fonts::FontManager::_iCurrentFont = 0;
+std::vector<OE::UI::Fonts::_FONT> OE::UI::Fonts::FontManager::_vFonts = std::vector<OE::UI::Fonts::_FONT>();
+int OE::UI::Fonts::FontManager::_iCurrentFont = 0;
 
-OEngine::UI::Fonts::FontManager::FontManager()
+OE::UI::Fonts::FontManager::FontManager()
 {
 	_iCurrentFont = -1;
 }
-OEngine::UI::Fonts::FontManager::~FontManager()
+
+OE::UI::Fonts::FontManager::~FontManager()
 {
 
 }
+
 //	TODO: Use alternative texture loading techniques as to not restrict to TGAs.
 //	TODO: Generate non-monospace UV coordinates for characters.
-const int OEngine::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpaced)
+const int OE::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpaced)
 {
 	char szTGAPath[255];
 
 	strcpy(szTGAPath, path);
 	strcat(szTGAPath, ".tga");
 
-	int uintTextureHandle = OEngine::Textures::TextureManager::LoadTexture(szTGAPath);
+	int uintTextureHandle = OE::Textures::TextureManager::LoadTexture(szTGAPath);
 
 	if (uintTextureHandle <= -1)
 		return uintTextureHandle;
@@ -44,9 +46,9 @@ const int OEngine::UI::Fonts::FontManager::AddFont(const char *path, bool setMon
 	{
 		_FONT fontAddFont;
 
-		fontAddFont._uintTextureHandle = uintTextureHandle;
+		fontAddFont.TextureHandle = uintTextureHandle;
 
-		strcpy(fontAddFont._szName, path);
+		strcpy(fontAddFont.Name, path);
 
 		CalculateUVs(fontAddFont, setMonoSpaced);
 		_vFonts.push_back(fontAddFont);
@@ -55,7 +57,8 @@ const int OEngine::UI::Fonts::FontManager::AddFont(const char *path, bool setMon
 
 	return -1;
 }
-void OEngine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool setMonoSpaced)
+
+void OE::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool setMonoSpaced)
 {
 	if(setMonoSpaced)
 	{
@@ -73,47 +76,19 @@ void OEngine::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool setMonoSpac
 				fV2 = (float)(y+cintFontCharSize) / (float)cintFontSize;
 
 				_CHARACTER characterChar;
-				characterChar._fSize = cintFontCharSize;
-				characterChar._fU1 = fU1;
-				characterChar._fU2 = fU2;
-				characterChar._fV1 = fV1;
-				characterChar._fV2 = fV2;
+				characterChar.Size = cintFontCharSize;
+				characterChar.U1 = fU1;
+				characterChar.U2 = fU2;
+				characterChar.V1 = fV1;
+				characterChar.V2 = fV2;
 
-				font._vChars.push_back(characterChar);
+				font.Chars.push_back(characterChar);
 			}
 		}
 	}
-
-	/*
-	GLFWimage *image = new GLFWimage();
-	char szTGAPath[255];
-
-	strcpy(szTGAPath, font._szName);
-	strcat(szTGAPath, ".tga");
-	glfwReadImage( szTGAPath, image, GLFW_ORIGIN_UL_BIT );
-
-	for( int r = image->Height-1; r >= 0; r-- )
-	{
-	for( int c = image->Width-1; c >= 0; c-- )
-	{
-	std::cout << c << "," << r << " : \t";
-
-	int red = image->Data[r*c*image->BytesPerPixel];
-	int g = image->Data[r*c*image->BytesPerPixel+1];
-	int b = image->Data[r*c*image->BytesPerPixel+2];
-	int a = image->Data[r*c*image->BytesPerPixel+3];
-
-	std::cout << "r:" <<  red << "\t";
-	std::cout << "g:" <<  g << "\t";
-	std::cout << "b:" <<  b << "\t";
-	std::cout << "a:" <<  a << std::endl;
-	}
-	}
-
-	delete image;
-	*/
 }
-void OEngine::UI::Fonts::FontManager::Write(const char* string)
+
+void OE::UI::Fonts::FontManager::Write(const char* string)
 {
 	if (_iCurrentFont <= -1 || _iCurrentFont > (int)_vFonts.size())
 	{
@@ -125,7 +100,7 @@ void OEngine::UI::Fonts::FontManager::Write(const char* string)
 
 	_FONT fFont = _vFonts.at(_iCurrentFont);
 
-	glBindTexture(GL_TEXTURE_2D, fFont._uintTextureHandle);
+	glBindTexture(GL_TEXTURE_2D, fFont.TextureHandle);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -139,39 +114,40 @@ void OEngine::UI::Fonts::FontManager::Write(const char* string)
 	{
 
 		int intCharNum = (int)string[i];
-		_CHARACTER character = fFont._vChars.at(intCharNum);
+		_CHARACTER character = fFont.Chars.at(intCharNum);
 
 		if(string[i] == '\n')
 		{
-			iYPos += (int)character._fSize;
+			iYPos += (int)character.Size;
 			iXPos = 0;
 			continue;
 		}
 
 		glBegin(GL_QUADS);
 		//Top-left vertex (corner)
-		glTexCoord2f(character._fU1, character._fV1);
+		glTexCoord2f(character.U1, character.V1);
 		glVertex3f((GLfloat)iXPos, (GLfloat)iYPos, 0);
 
 		//Bottom-left vertex (corner)
-		glTexCoord2f(character._fU1, character._fV2);
-		glVertex3f((GLfloat)iXPos, (GLfloat)iYPos + character._fSize, 0);
+		glTexCoord2f(character.U1, character.V2);
+		glVertex3f((GLfloat)iXPos, (GLfloat)iYPos + character.Size, 0);
 
 		//Bottom-right vertex (corner)
-		glTexCoord2f(character._fU2, character._fV2);
-		glVertex3f((GLfloat)iXPos + character._fSize, (GLfloat)iYPos + character._fSize, 0);
+		glTexCoord2f(character.U2, character.V2);
+		glVertex3f((GLfloat)iXPos + character.Size, (GLfloat)iYPos + character.Size, 0);
 
 		//Top-right vertex (corner)
-		glTexCoord2f(character._fU2, character._fV1);
-		glVertex3f((GLfloat)iXPos + character._fSize, (GLfloat)iYPos, 0);
+		glTexCoord2f(character.U2, character.V1);
+		glVertex3f((GLfloat)iXPos + character.Size, (GLfloat)iYPos, 0);
 		glEnd();
 
-		iXPos += (int)character._fSize;
+		iXPos += (int)character.Size;
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
-void OEngine::UI::Fonts::FontManager::SetFont(const char *name)
+
+void OE::UI::Fonts::FontManager::SetFont(const char *name)
 {
 	if (IndexOf(name) > -1)
 	{
@@ -179,15 +155,17 @@ void OEngine::UI::Fonts::FontManager::SetFont(const char *name)
 		std::clog << "Font set to '" << name << "'" << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
 	}
 }
-void OEngine::UI::Fonts::FontManager::SetFont(const unsigned int &index)
+
+void OE::UI::Fonts::FontManager::SetFont(const unsigned int &index)
 {
 	if (index < _vFonts.size() && index >= 0)
 		_iCurrentFont = index;
 }
-int OEngine::UI::Fonts::FontManager::IndexOf(const char *name)
+
+int OE::UI::Fonts::FontManager::IndexOf(const char *name)
 {
 	for (unsigned int i = 0; i < _vFonts.size(); i++)
-		if (strcmp(_vFonts[i]._szName, name) == 0)
+		if (strcmp(_vFonts[i].Name, name) == 0)
 			return i;
 
 	return -1;

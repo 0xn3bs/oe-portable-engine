@@ -10,20 +10,20 @@
 ***************************************************************************************************/
 #include "Input.h"
 
-OEngine::Input::InputManager g_inputManager;
-bool OEngine::Input::InputManager::_rgcKeys[255];
-int OEngine::Input::InputManager::_iMouseX=0;
-int OEngine::Input::InputManager::_iMouseY=0;
-int OEngine::Input::InputManager::_iMouseDeltaX=0;
-int OEngine::Input::InputManager::_iMouseDeltaY=0;
-int OEngine::Input::InputManager::_iMouseClickStartX=0;
-int OEngine::Input::InputManager::_iMouseClickStartY=0;
-int OEngine::Input::InputManager::_iMouseClickEndX=0;
-int OEngine::Input::InputManager::_iMouseClickEndY=0;
-int OEngine::Input::InputManager::_iMouseReferenceX=0;
-int OEngine::Input::InputManager::_iMouseReferenceY=0;
-bool OEngine::Input::InputManager::_bIsMouseAlreadyDown=false;
-bool OEngine::Input::InputManager::_bInitialized=false;
-bool OEngine::Input::InputManager::_bForceMouseToRefPos=false;
+OE::Input::InputManager g_inputManager;
+bool OE::Input::InputManager::_rgcKeys[255];
+int OE::Input::InputManager::_iMouseX=0;
+int OE::Input::InputManager::_iMouseY=0;
+int OE::Input::InputManager::_iMouseDeltaX=0;
+int OE::Input::InputManager::_iMouseDeltaY=0;
+int OE::Input::InputManager::_iMouseClickStartX=0;
+int OE::Input::InputManager::_iMouseClickStartY=0;
+int OE::Input::InputManager::_iMouseClickEndX=0;
+int OE::Input::InputManager::_iMouseClickEndY=0;
+int OE::Input::InputManager::_iMouseReferenceX=0;
+int OE::Input::InputManager::_iMouseReferenceY=0;
+bool OE::Input::InputManager::_bIsMouseAlreadyDown=false;
+bool OE::Input::InputManager::_bInitialized=false;
+bool OE::Input::InputManager::_bForceMouseToRefPos=false;
 
-std::vector<OEngine::Input::InputListener*> OEngine::Input::InputManager::_vecInputListeners = std::vector<OEngine::Input::InputListener*>();
+std::vector<OE::Input::InputListener*> OE::Input::InputManager::_vecInputListeners = std::vector<OE::Input::InputListener*>();

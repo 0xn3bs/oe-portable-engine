@@ -13,7 +13,7 @@
 
 #include "Engine/UI/Windows/Window.h"
 
-namespace OEngine
+namespace OE
 {
 	namespace UI
 	{
@@ -24,7 +24,7 @@ namespace OEngine
 			{
 			public:
 				Widget(const float &x, const float &y, const float &width, const float &height, 
-					OEngine::UI::Windows::Window* parentWindow)
+					OE::UI::Windows::Window* parentWindow)
 				{
 					_2fPosition[0] = x;
 					_2fPosition[1] = y;
@@ -51,7 +51,7 @@ namespace OEngine
 				{
 					_szCaption = caption;
 				}
-				OEngine::UI::Windows::Window* _winParentWindow;
+				OE::UI::Windows::Window* _winParentWindow;
 				char* _szCaption;
 				float _2fDimensions[2];
 				float _2fPosition[2];

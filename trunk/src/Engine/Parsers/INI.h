@@ -17,7 +17,7 @@
 #include <string>
 #include <map>
 
-namespace OEngine
+namespace OE
 {
 	namespace Parsers
 	{

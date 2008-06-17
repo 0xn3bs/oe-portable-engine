@@ -10,7 +10,7 @@
 ***************************************************************************************************/
 #include "FPSCamera.h"
 
-void OEngine::Cameras::FPSCamera::MoveForward(const float &dt)
+void OE::Cameras::FPSCamera::MoveForward(const float &dt)
 {
 	float x, y, z;
 	x = _dCenterX - _dEyeX;
@@ -24,7 +24,7 @@ void OEngine::Cameras::FPSCamera::MoveForward(const float &dt)
 	_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
 }
 
-void OEngine::Cameras::FPSCamera::MoveBackward(const float &dt)
+void OE::Cameras::FPSCamera::MoveBackward(const float &dt)
 {
 	float x, y, z;
 	x = _dCenterX - _dEyeX;
@@ -38,7 +38,7 @@ void OEngine::Cameras::FPSCamera::MoveBackward(const float &dt)
 	_dEyeZ -= ((z/magnitude)*CAMERA_SPEED)*dt;
 }
 
-void OEngine::Cameras::FPSCamera::StrafeLeft(const float &dt)
+void OE::Cameras::FPSCamera::StrafeLeft(const float &dt)
 {
 	_dCenterX = _dEyeX + sin(yChange+PI2);
 	_dCenterZ = _dEyeZ + cos(yChange+PI2);
@@ -56,7 +56,7 @@ void OEngine::Cameras::FPSCamera::StrafeLeft(const float &dt)
 	_dCenterZ -= _dEyeZ + cos(yChange+PI2);
 }
 
-void OEngine::Cameras::FPSCamera::StrafeRight(const float &dt)
+void OE::Cameras::FPSCamera::StrafeRight(const float &dt)
 {
 	_dCenterX = _dEyeX + sin(yChange-PI2);
 	_dCenterZ = _dEyeZ + cos(yChange-PI2);
@@ -74,27 +74,27 @@ void OEngine::Cameras::FPSCamera::StrafeRight(const float &dt)
 	_dCenterZ -= _dEyeZ + cos(yChange-PI2);
 }
 
-void OEngine::Cameras::FPSCamera::Update(const float &dt)
+void OE::Cameras::FPSCamera::Update(const float &dt)
 {
-	if(OEngine::Input::InputManager::GetKeyState('W'))
+	if(OE::Input::InputManager::GetKeyState('W'))
 	{
 		MoveForward(dt);
 	}
-	if(OEngine::Input::InputManager::GetKeyState('S'))
+	if(OE::Input::InputManager::GetKeyState('S'))
 	{
 		MoveBackward(dt);
 	}
-	if(OEngine::Input::InputManager::GetKeyState('A'))
+	if(OE::Input::InputManager::GetKeyState('A'))
 	{
 		StrafeLeft(dt);
 	}
-	if(OEngine::Input::InputManager::GetKeyState('D'))
+	if(OE::Input::InputManager::GetKeyState('D'))
 	{
 		StrafeRight(dt);
 	}
 
-	yChange += (OEngine::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
-	xChange += (OEngine::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
+	yChange += (OE::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
+	xChange += (OE::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
 
 	if(xChange > PI2)
 		xChange = PI2;
@@ -107,7 +107,7 @@ void OEngine::Cameras::FPSCamera::Update(const float &dt)
 	_dCenterY = _dEyeY + tan(xChange);
 }
 
-void OEngine::Cameras::FPSCamera::Render()
+void OE::Cameras::FPSCamera::Render()
 {	
 	gluLookAt(_dEyeX,_dEyeY,_dEyeZ,_dCenterX,_dCenterY,_dCenterZ,_dUpX,_dUpY,_dUpZ);
 }

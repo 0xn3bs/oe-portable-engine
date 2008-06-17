@@ -19,27 +19,27 @@
 #include <vector>
 #include <iostream>
 
-namespace OEngine
+namespace OE
 {
 	namespace UI
 	{
 		namespace Windows
 		{
-			class WindowManager : public OEngine::Input::InputListener
+			class WindowManager : public OE::Input::InputListener
 			{
 			public:
 				WindowManager()
 				{
 					_iWinWidth = 0;
 					_iWinHeight = 0;
-					OEngine::Input::InputManager::AddInputListener(this);
+					OE::Input::InputManager::AddInputListener(this);
 				}
 				~WindowManager()
 				{
 				}
 				void Initialize()
 				{
-					OEngine::Base::GetWindowSize(&_iWinWidth, &_iWinHeight);
+					OE::Base::GetWindowSize(&_iWinWidth, &_iWinHeight);
 				}
 				void OnMouseButton(const int key, const int action);
 				void OnMouseClick(const int startX, const int startY, const int endX, const int endY);

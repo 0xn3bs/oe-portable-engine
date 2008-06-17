@@ -16,7 +16,7 @@
 /*! \namespace Odorless
 \brief The Odorless Entertainment's expandable namespace.
 */
-namespace OEngine
+namespace OE
 {
 	class Base
 	{

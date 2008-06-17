@@ -16,7 +16,7 @@
 #include "Engine/UI/Fonts/FontManager.h"
 #include <vector>
 
-namespace OEngine
+namespace OE
 {
 	namespace UI
 	{

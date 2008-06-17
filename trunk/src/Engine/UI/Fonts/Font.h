@@ -10,8 +10,10 @@
 *****************************************************************************************/
 #ifndef FONT_H_
 #define FONT_H_
+
 #include <vector>
-namespace OEngine
+
+namespace OE
 {
 	namespace UI
 	{
@@ -19,15 +21,15 @@ namespace OEngine
 		{
 			struct _CHARACTER
 			{
-				float _fU1, _fU2, _fV1, _fV2;
-				float _fSize;
+				float U1, U2, V1, V2;
+				float Size;
 			};
 
 			struct _FONT
 			{
-				char _szName[255];
-				unsigned int _uintTextureHandle;
-				std::vector<_CHARACTER> _vChars;
+				char Name[255];
+				unsigned int TextureHandle;
+				std::vector<_CHARACTER> Chars;
 			};
 		}
 	}

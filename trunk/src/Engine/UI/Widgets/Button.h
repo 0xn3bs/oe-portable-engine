@@ -13,17 +13,17 @@
 
 #include "Engine/UI/Fonts/FontManager.h"
 
-namespace OEngine
+namespace OE
 {
 	namespace UI
 	{
 		namespace Widgets
 		{
-			class Button : public OEngine::UI::Widgets::Widget
+			class Button : public OE::UI::Widgets::Widget
 			{
 			public:
 				Button(const float& x, const float &y, const float &width, const float &height, 
-					OEngine::UI::Windows::Window* parentWindow) : Widget(x, y, width, 
+					OE::UI::Windows::Window* parentWindow) : Widget(x, y, width, 
 					height, parentWindow)
 				{
 
@@ -67,7 +67,7 @@ namespace OEngine
 					glEnd();
 					glPopMatrix();
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
-					OEngine::UI::Fonts::FontManager::Write(_szCaption);
+					OE::UI::Fonts::FontManager::Write(_szCaption);
 				}
 			};
 		}

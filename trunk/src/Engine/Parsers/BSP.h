@@ -23,122 +23,125 @@
 #define BSP_TYPE_IBSP 0
 #define BSP_TYPE_VBSP 1
 
-namespace OEngine
+namespace OE
 {
 	namespace Parsers
 	{
 		class BSP
 		{
 		public:
-			struct _ILUMPDIRECTORY
+
+			//	ID BSP
+			struct _IBSP_LUMPDIRECTORY
 			{
-				int offset;
-				int length;
+				int Offset;
+				int Length;
 			};
 
-			struct _VLUMPDIRECTORY
+			struct _IBSP_HEADER
 			{
-				int offset;
-				int length;
+				char Magic[4];
+				int Version;
+				_IBSP_LUMPDIRECTORY DirEntries[17];
 			};
 
-			struct _IHEADER
+			struct _IBSP_TEXTURE
 			{
-				char magic[4];
-				int version;
-				_ILUMPDIRECTORY direntries[17];
+				char Name[64];
+				int Flags;
+				int Contents;
 			};
 
-			struct _VLUMP
+			struct _IBSP_VERTEX
 			{
-				int		fileofs, filelen;
-				int		version;
-				char	fourCC[4];
+				float Position[3];
+				float TexCoord[2][2];
+				float Normal[3];
+				unsigned char Color[4];
 			};
 
-			struct _VEDGE
+			struct _IBSP_MESHVERT
 			{
-				unsigned short v[2];
+				int Offset;
 			};
 
-			struct _VVECTOR
+			struct _IBSP_FACE
+			{
+				int Texture;
+				int Effect;
+				int Type;
+				int Vertex;
+				int NumVertex;
+				int MeshVert;
+				int NumMeshVerts;
+				int LMIndex;
+				int LMStart[2];
+				int LMSize[2];
+				float LMOrigin[3];
+				float LMVecs[2][3];
+				float Normal[3];
+				int Size[2];
+			};
+
+			//	Valve BSP
+			struct _VBSP_LUMP
+			{
+				int		FileOfs, FileLen;
+				int		Version;
+				char	FourCC[4];
+			};
+
+			struct _VBSP_HEADER
+			{
+				int Ident;
+				int Version;
+				_VBSP_LUMP Lumps[V_HEADER_LUMPS];
+				int MapRevision;
+			};
+
+			struct _VBSP_LUMPDIRECTORY
+			{
+				int Offset;
+				int Length;
+			};
+
+			struct _VBSP_VECTOR
 			{
 				float x, y, z;
 			};
 
-			struct _VHEADER
+			struct _VBSP_VERTEX
 			{
-				int ident;
-				int version;
-				_VLUMP lumps[V_HEADER_LUMPS];
-				int mapRevision;
+				_VBSP_VECTOR Point;
 			};
 
-			struct _IVERTEX
+			struct _VBSP_FACE
 			{
-				float position[3];
-				float texcoord[2][2];
-				float normal[3];
-				unsigned char color[4];
-			};
-
-			struct _IMESHVERT
-			{
-				int offset;
-			};
-
-			struct _VVERTEX
-			{
-				_VVECTOR point;
-			};
-
-			struct _ITEXTURE
-			{
-				char name[64];
-				int flags;
-				int contents;
-			};
-
-			struct _IFACE
-			{
-				int texture;
-				int effect;
-				int type;
-				int vertex;
-				int n_vertexes;
-				int meshvert;
-				int n_meshverts;
-				int lm_index;
-				int lm_start[2];
-				int lm_size[2];
-				float lm_origin[3];
-				float lm_vecs[2][3];
-				float normal[3];
-				int size[2];
-			};
-
-			struct _VFACE
-			{
-				unsigned short planenum;		// the plane number
-				char side;				// faces opposite to the node's plane direction
-				char onNode; 			// 1 of on node, 0 if in leaf
-				int firstedge;			// index into surfedges	
-				short numedges;			// number of surfedges
-				short texinfo;			// texture info
-				short dispinfo;			// displacement info
-				short surfaceFogVolumeID;		// ?	
-				char styles[4];			// switchable lighting info
-				int lightofs;			// offset into lightmap lump
-				float area;				// face area in units^2
+				unsigned short PlaneNum;		// the plane number
+				char Side;				// faces opposite to the node's plane direction
+				char OnNode; 			// 1 of on node, 0 if in leaf
+				int FirstEdge;			// index into surfedges	
+				short NumEdges;			// number of surfedges
+				short TexInfo;			// texture info
+				short DispInfo;			// displacement info
+				short SurfaceFogVolumeID;		// ?	
+				char Styles[4];			// switchable lighting info
+				int LMOfs;			// offset into lightmap lump
+				float Area;				// face area in units^2
 				int LightmapTextureMinsInLuxels[2];   // texture lighting info
 				int LightmapTextureSizeInLuxels[2];   // texture lighting info
-				int origFace;			// original face this was split from
-				unsigned short    numPrims;		// primitives
-				unsigned short    firstPrimID; 
-				unsigned int      smoothingGroups;	// lightmap smoothing group
+				int OriginalFace;			// original face this was split from
+				unsigned short    NumPrims;		// primitives
+				unsigned short    FirstPrimID; 
+				unsigned int      SmoothingGroups;	// lightmap smoothing group
 			};
 
-			struct _VTEXINFO
+			struct _VBSP_EDGE
+			{
+				unsigned short v[2];
+			};
+
+			struct _VBSP_TEXINFO
 			{
 				float		textureVecsTexelsPerWorldUnits[2][4];			// [s/t][xyz offset]
 				float		lightmapVecsLuxelsPerWorldUnits[2][4];			// [s/t][xyz offset] - length is in units of texels/area
@@ -146,31 +149,32 @@ namespace OEngine
 				int			texdata;			// Pointer to texture name, size, etc.
 			};
 
-			//	All that follows deals with the OBSP that all other BSP formats are converted to
-			struct _OFACE
+			//	Odorless Entertainment BSP
+			//	All other BSP formats will (hopefully) be converted to this format.
+			struct _OBSP_FACE
 			{
-				int texture;
-				int type;
-				int vertex;
-				int n_vertexes;
-				int meshvert;
-				int n_meshverts;
+				int Texture;
+				int Type;
+				int Vertex;
+				int NumVerts;
+				int MeshVert;
+				int NumMeshVerts;
 			};
 
-			struct _OMESHVERT
+			struct _OBSP_MESHVERT
 			{
-				int offset;
+				int Offset;
 			};
 
-			struct _OVERTEX
+			struct _OBSP_VERTEX
 			{
-				float position[3];
-				float texcoord[2][2];
-				float normal[3];
-				unsigned char color[4];
+				float Position[3];
+				float TexCoord[2][2];
+				float Normal[3];
+				unsigned char Color[4];
 			};
 
-			struct _OEDGE
+			struct _OBSP_EDGE
 			{
 				unsigned short v[2];
 			};
@@ -195,19 +199,19 @@ namespace OEngine
 			void DebugRender();
 
 		private:
-			_OVERTEX* _vVertices;
+			_OBSP_VERTEX* _vVertices;
 			int _iNumVertices;
 
-			_OEDGE* _vEdges;
+			_OBSP_EDGE* _vEdges;
 			int _iNumEdges;
 
-			_OFACE* _vFaces;
+			_OBSP_FACE* _vFaces;
 			int _iNumFaces;
 
 			GLint* _vTextures;
 			int _iNumTextures;
 
-			_OMESHVERT* _vMeshVerts;
+			_OBSP_MESHVERT* _vMeshVerts;
 			int _iNumMeshVerts;
 
 			int _iBSPType;
