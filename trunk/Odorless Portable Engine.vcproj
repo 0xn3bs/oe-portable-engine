@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)FreeImage&quot;;&quot;$(SolutionDir)src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)glew&quot;;&quot;$(SolutionDir)FreeImage&quot;;&quot;$(SolutionDir)src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib FreeImage.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)FreeImage&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)glew&quot;;&quot;$(SolutionDir)FreeImage&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"

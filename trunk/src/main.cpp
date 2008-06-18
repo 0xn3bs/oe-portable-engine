@@ -88,7 +88,7 @@ void OnResize(int width, int height)
 	glViewport(0, 0, width, height);
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
-	gluPerspective(65, (GLfloat)width/(GLfloat)height, 1.0f, 5000.0f);
+	gluPerspective(65, (GLfloat)width/(GLfloat)height, 1.0f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 

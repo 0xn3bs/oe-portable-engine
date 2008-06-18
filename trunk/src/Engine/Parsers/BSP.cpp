@@ -9,6 +9,7 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *****************************************************************************************/ 
 #include "BSP.h"
+#include <GL/glext.h>
 #include <GL/glfw.h>
 
 #define IDBSPHEADER	(('P'<<24)+('S'<<16)+('B'<<8)+'V')
@@ -246,11 +247,13 @@ void OE::Parsers::BSP::DebugRender()
 				numLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vTextures[_vFaces[i].Texture]);
 			if(numLevels>1||texID==-1)
 			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			}
 			else
 			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			}
