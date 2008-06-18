@@ -13,82 +13,55 @@
 
 std::vector<GLint> OE::Textures::TextureManager::_vLoadedTextures = std::vector<GLint>();
 
-bool OE::Textures::TextureManager::_LoadTGA(const char* path, GLuint Texture)
+bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 {
-	if(glfwLoadTexture2D(path, GLFW_ORIGIN_UL_BIT))
+	FREE_IMAGE_FORMAT fifmt = FreeImage_GetFileType(path, 0);
+	FIBITMAP *imageFile = FreeImage_Load(fifmt, path, 0);
+
+	if(imageFile == NULL)
 	{
-		std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
-			<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
-		_vLoadedTextures.push_back(Texture);
-		glBindTexture (GL_TEXTURE_2D, 0);
-		return true;
+		return false;
 	}
+
+	unsigned int bpp = FreeImage_GetBPP(imageFile);
+	GLint width = FreeImage_GetWidth(imageFile);
+	GLint height = FreeImage_GetHeight(imageFile);
+
+	_SwapRedAndBlueComponents(imageFile, width, height);
+	BYTE* bits = FreeImage_GetBits(imageFile);
+	FreeImage_FlipVertical(imageFile);
+
+	switch(bpp)
+	{
+	case 24:
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bits);
+			glBindTexture (GL_TEXTURE_2D, 0);
+			std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
+				<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
+			_vLoadedTextures.push_back(Texture);
+			glBindTexture (GL_TEXTURE_2D, 0);
+			return true;
+		}
+	case 32:
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, bits);
+			glBindTexture (GL_TEXTURE_2D, 0);
+			std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
+				<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
+			_vLoadedTextures.push_back(Texture);
+			glBindTexture (GL_TEXTURE_2D, 0);
+			return true;
+		}
+	default:
+		{
+			break;
+		}
+	}
+
+	FreeImage_Unload(imageFile);
 	glBindTexture (GL_TEXTURE_2D, 0);
 	return false;
-}
-
-bool OE::Textures::TextureManager::_LoadJPG(const char* path, GLuint Texture)
-{
-	FILE *fp;
-	unsigned int fLength, width, height;
-	unsigned char* buf;
-	struct jdec_private *jpegDecoder;
-	unsigned char* components[3];
-
-	fp = fopen(path, "rb");
-	if(fp==NULL)
-		return false;
-	fseek(fp, 0, SEEK_END);
-	fLength = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	buf = (unsigned char *)malloc(fLength + 4);
-	if(buf == NULL)
-		return false;
-	fread(buf, fLength, 1, fp);
-	fclose(fp);
-
-	jpegDecoder = tinyjpeg_init();
-
-	if(jpegDecoder==NULL)
-	{
-		free(buf);
-		return false;
-	}
-
-	if(tinyjpeg_parse_header(jpegDecoder, buf, fLength)<0)
-	{
-		free(buf);
-		return false;
-	}
-
-	tinyjpeg_get_size(jpegDecoder, &width, &height);
-
-	if(tinyjpeg_decode(jpegDecoder, TINYJPEG_FMT_RGB24)<0)
-	{
-		free(buf);
-		return false;
-	}
-
-	tinyjpeg_get_components(jpegDecoder, components);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB,GL_UNSIGNED_BYTE, components[0]);
-
-	/*
-	int level = 0;
-	while(width != 1 && height != 1)
-	{
-		glTexImage2D(GL_TEXTURE_2D, level, 3, width, height, 0, GL_RGB,GL_UNSIGNED_BYTE, components[0]);
-		width /= 2;
-		height /= 2;
-		level++;
-	}
-	*/
-
-	_vLoadedTextures.push_back(Texture);
-
-	glBindTexture (GL_TEXTURE_2D, 0);
-	free(buf);
-	return true;
 }
 
 bool OE::Textures::TextureManager::_DoesFileExist(const char* path)
@@ -109,11 +82,19 @@ std::string OE::Textures::TextureManager::_GetTexturePath(const char* name)
 	std::string tPath;
 
 	//	Test extensions.
+	tPath = tName + ".tga";
+	if(_DoesFileExist(tPath.c_str()))
+		return tPath.c_str();
+
 	tPath = tName + ".jpg";
 	if(_DoesFileExist(tPath.c_str()))
 		return tPath.c_str();
 
-	tPath = tName + ".tga";
+	tPath = tName + ".jpeg";
+	if(_DoesFileExist(tPath.c_str()))
+		return tPath.c_str();
+
+	tPath = tName + ".png";
 	if(_DoesFileExist(tPath.c_str()))
 		return tPath.c_str();
 
@@ -129,22 +110,9 @@ GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	glGenTextures(1, &Texture);
 	glBindTexture (GL_TEXTURE_2D, Texture);
 
-	//	Is it a tga?
-	if(ext.compare(".tga")==0)
+	if(_LoadImage(path, Texture))
 	{
-		if(_LoadTGA(path, Texture))
-		{
-			return Texture;
-		}
-	}
-
-	//	Is it a jpeg?
-	if(ext.compare(".jpg")==0)
-	{
-		if(_LoadJPG(path, Texture))
-		{
-			return Texture;
-		}
+		return Texture;
 	}
 
 	//	We don't know what it is, free recently allocated texture memory.

@@ -13,10 +13,10 @@
 
 #define TEXTURE_PATH "base/"
 
-#include "Engine/Parsers/JPEG/tinyjpeg.h"
 #include <GL/glfw.h>
 #include <vector>
 #include <string>
+#include "FreeImage/FreeImage.h"
 
 #ifndef GL_TEXTURE_2D_BINDING_EXT
 #define GL_TEXTURE_2D_BINDING_EXT         0x8069
@@ -35,11 +35,28 @@ namespace OE
 
 		private:
 			static std::vector<GLint> _vLoadedTextures;
-			static bool _LoadTGA(const char* path, GLuint Texture);
-			static bool _LoadJPG(const char* path, GLuint Texture);
+			static bool _LoadImage(const char* path, GLuint Texture);
 			static bool _DoesFileExist(const char* path);
 			static std::string _GetTexturePath(const char* name);
 			static GLint _LoadTextureFromPath(const char* path);
+
+			static void _SwapRedAndBlueComponents(FIBITMAP* image, int width, int height)
+			{
+				for( int x = 0; x < width; x++ )
+				{
+					for( int y = 0; y < height; y++ )
+					{
+						RGBQUAD p;
+						FreeImage_GetPixelColor( image, x, y, &p );
+
+						BYTE tmp = p.rgbRed;
+						p.rgbRed = p.rgbBlue;
+						p.rgbBlue = tmp;
+
+						FreeImage_SetPixelColor( image, x, y, &p );
+					}
+				}
+			}
 		};
 	}
 }

@@ -50,46 +50,9 @@ namespace OE
 			static bool _bInitialized;
 			static bool _bForceMouseToRefPos;
 
-			static void GLFWCALL GLFWSetKeyEvent(int key, int action)
-			{
-				_rgcKeys[key] = (bool)action;
-				for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
-				{
-					_vecInputListeners.at(i)->OnKeyEvent(key,action);
-				}
-			}
-
-			static void GLFWCALL GLFWSetMousePos(int x, int y)
-			{
-				for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
-				{
-					_vecInputListeners.at(i)->OnMouseMove(x, y);
-				}
-			}
-
-			static void GLFWCALL GLFWSetMouseButton(int button, int action)
-			{
-				bool click = false;
-				if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
-				{
-					_bIsMouseAlreadyDown = true;
-					_iMouseClickStartX = _iMouseX;
-					_iMouseClickStartY = _iMouseY;
-				}
-				if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE && _bIsMouseAlreadyDown)
-				{
-					_bIsMouseAlreadyDown = false;
-					_iMouseClickEndX = _iMouseX;
-					_iMouseClickEndY = _iMouseY;
-					click = true;
-				}
-				for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
-				{
-					_vecInputListeners.at(i)->OnMouseButton(button, action);
-					if(click)
-						_vecInputListeners.at(i)->OnMouseClick(_iMouseClickStartX, _iMouseClickStartY, _iMouseClickEndX, _iMouseClickEndY);
-				}
-			}
+			static void GLFWCALL GLFWSetKeyEvent(int key, int action);
+			static void GLFWCALL GLFWSetMousePos(int x, int y);
+			static void GLFWCALL GLFWSetMouseButton(int button, int action);
 		public:
 			InputManager()
 			{
@@ -100,14 +63,7 @@ namespace OE
 			{
 			}
 
-			static void Initialize()
-			{
-				glfwSetKeyCallback(GLFWSetKeyEvent);
-				glfwSetMousePosCallback(GLFWSetMousePos);
-				glfwSetMouseButtonCallback(GLFWSetMouseButton);
-				_bInitialized = true;
-			}
-
+			static void Initialize();
 			static bool IsInitialized(){return _bInitialized;}
 			static bool IsMouseForcedToReference(){return _bForceMouseToRefPos;}
 			static void SetMouseReferencePos(const int &x, const int &y)
@@ -121,32 +77,7 @@ namespace OE
 				_bForceMouseToRefPos = forceReference;
 			}
 
-			static void Update()
-			{
-				int x, y;
-				glfwGetMousePos(&x, &y);
-
-				if(_bForceMouseToRefPos)
-				{
-					_iMouseDeltaX = _iMouseReferenceX - x;
-					_iMouseDeltaY = _iMouseReferenceY - y;
-
-					//	Only set the mouse position back if there has been a change.
-					if(_iMouseDeltaX != 0 || _iMouseDeltaY != 0)
-					{
-						_iMouseX = _iMouseReferenceX;
-						_iMouseY = _iMouseReferenceY;
-						glfwSetMousePos(_iMouseReferenceX, _iMouseReferenceY);
-					}
-				}
-				else
-				{
-					_iMouseDeltaX = x - _iMouseX;
-					_iMouseDeltaY = y - _iMouseY;
-					_iMouseX = x;
-					_iMouseY = y;
-				}
-			}
+			static void Update(double &dt);
 
 			static void AddInputListener(InputListener* inputListener)
 			{

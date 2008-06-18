@@ -18,7 +18,6 @@
 #include "Engine/Base.h"
 #include "Engine/Input/Input.h"
 #include "Engine/Tools/Timers/Timer.h"
-#include "Engine/Types/String.h"
 #include "Engine/UI/Windows/WindowManager.h"
 #include "Engine/UI/Widgets/Button.h"
 #include "Engine/UI/Fonts/FontManager.h"
@@ -31,8 +30,6 @@
 
 OE::Tools::Timers::Timer timerFPS;
 OE::Tools::Timers::Timer timerAlpha;
-//OEngine::UI::Windows::WindowManager windowManager;
-//Odorless::Game::UI::BasicWindow a(150, 150, 100, 100), b(75, 75, 150, 150), c(20, 20, 50, 50);
 OE::Parsers::INI iniParser;
 OE::Parsers::BSP bspParser;
 OE::Cameras::FPSCamera *fpsCamera;
@@ -40,20 +37,6 @@ bool IsGUIEnabled = false;
 void Initialize()
 {
 	OE::Textures::TextureManager::LoadTexture("textures/notexture");
-	//OEngine::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
-	//OEngine::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
-
-	//a.SetCaption("Window A");
-	//b.SetCaption("Window B");
-	//c.SetCaption("C");
-
-	//windowManager.Initialize();
-	//OEngine::UI::Widgets::Button *testButton = new OEngine::UI::Widgets::Button(20, 20, 100, 15.5, &b);
-	//testButton->SetCaption("Button");
-	//b.AddWidget(testButton);
-	//windowManager.AddWindow(a);
-	//windowManager.AddWindow(b);
-	//windowManager.AddWindow(c);
 
 	fpsCamera = new OE::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
 
@@ -81,7 +64,7 @@ void Initialize()
 }
 void Update(double deltaTime)
 {
-	OE::Input::InputManager::Update();
+	OE::Input::InputManager::Update(deltaTime);
 	if(IsGUIEnabled)
 	{
 		//windowManager.Update(deltaTime);
@@ -92,25 +75,13 @@ void Draw(double deltaTime)
 {
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glColor4f(0, 1, 1, 1.0f);
-	//glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	fpsCamera->Render();
-	//gluLookAt(0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f);
-	//glViewport(0, 0, 800, 600);
-	//glBegin(GL_TRIANGLES);
-	//	glVertex3f(10.0f, 0.0f, 1.0f);
-	//	glVertex3f(0.0f, 10.0f, 1.0f);
-	//	glVertex3f(-10.0f, 0.0f, 0.0f);
-	//glEnd();
 	bspParser.DebugRender();
 	if(IsGUIEnabled)
 	{
 		//	Render GUI here
 	}
-	//glMatrixMode( GL_PROJECTION );
-	//glViewport(0, 0, 800, 600);
-	//windowManager.Render(deltaTime);
 }
 void OnResize(int width, int height)
 {
@@ -123,11 +94,6 @@ void OnResize(int width, int height)
 
 	OE::Input::InputManager::SetMouseReferencePos(width/2, height/2);
 	OE::Input::InputManager::SetForceToMouseReference(true);
-	//glMatrixMode( GL_PROJECTION );
-	//glLoadIdentity();
-	//glViewport(0, 0, width, height);
-	//glOrtho(0.0f, 1, 1, 0.0f, -1.0f, 1.0f);
-	//windowManager.UpdateWin(width, height);
 }
 int main()
 {
