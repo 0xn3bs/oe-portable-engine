@@ -11,7 +11,7 @@
 #include "TextureManager.h"
 #include <iostream>
 
-std::vector<GLint> OE::Textures::TextureManager::_vLoadedTextures = std::vector<GLint>();
+std::vector<OE::Textures::_TEXTURE> OE::Textures::TextureManager::_vLoadedTextures = std::vector<OE::Textures::_TEXTURE>();
 
 bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 {
@@ -30,11 +30,18 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 	_SwapRedAndBlueComponents(imageFile, width, height);
 	FreeImage_FlipVertical(imageFile);
 
-	_GenerateMipmaps(imageFile, width, height, bpp);
+	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 
 	std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
 				<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
-	_vLoadedTextures.push_back(Texture);
+	_TEXTURE temp;
+	temp.TextureID = Texture;
+	temp.Width = width;
+	temp.Height = height;
+	temp.BPP = bpp;
+	temp.Levels = numLevels;
+
+	_vLoadedTextures.push_back(temp);
 	glBindTexture (GL_TEXTURE_2D, 0);
 	FreeImage_Unload(imageFile);
 	return true;
@@ -97,22 +104,23 @@ GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	return -1;
 }
 
-GLint OE::Textures::TextureManager::LoadTexture(const char* name)
+int OE::Textures::TextureManager::LoadTexture(const char* name)
 {
 	std::string path = _GetTexturePath(name);
 	GLint Texture = -1;
 
 	if(path.length() == 0)
 	{
-		return Texture;
+		return -1;
 	}
 
 	if((Texture = _LoadTextureFromPath(path.c_str()))==-1)
 	{
 		std::cerr << "Error: Failed to load texture \"" << name << "\"" << std::endl;
+		return -1;
 	}
 
-	return Texture;
+	return _vLoadedTextures.size()-1;
 }
 
 void OE::Textures::TextureManager::DeleteTexture(const GLuint index)
@@ -127,6 +135,8 @@ void OE::Textures::TextureManager::Dispose()
 {
 	for( int i = 0; i < (int)_vLoadedTextures.size(); i++ )
 	{
-		DeleteTexture(_vLoadedTextures[i]);
+		DeleteTexture(_vLoadedTextures[i].TextureID);
 	}
+
+	_vLoadedTextures.empty();
 }
