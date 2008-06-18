@@ -57,6 +57,30 @@ namespace OE
 					}
 				}
 			}
+
+			static void _GenerateMipmaps(FIBITMAP* image, GLint &width, GLint &height, unsigned int &bpp)
+			{
+				bool canGenerateMipmaps = (width % 2 == 0 && height % 2 == 0 && width/height == 1) ? true : false;
+
+				const int tBpp = (bpp == 24) ? GL_RGB : GL_RGBA;
+
+				if(canGenerateMipmaps)
+				{
+					int i = 0;
+					for(int j = width; j >= 1; j/=2)
+					{
+						image = FreeImage_Rescale(image, j, j, FREE_IMAGE_FILTER::FILTER_BILINEAR);
+						BYTE* bits = FreeImage_GetBits(image);
+						glTexImage2D(GL_TEXTURE_2D, i, tBpp, j, j, 0, tBpp, GL_UNSIGNED_BYTE, bits);
+						i++;
+					}
+				}
+				else
+				{
+					BYTE* bits = FreeImage_GetBits(image);
+					glTexImage2D(GL_TEXTURE_2D, 0, tBpp, width, height, 0, tBpp, GL_UNSIGNED_BYTE, bits);
+				}
+			}
 		};
 	}
 }
