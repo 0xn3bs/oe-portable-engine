@@ -220,8 +220,6 @@ const int OE::Parsers::BSP::ParseVBSP(const char* path)
 
 void OE::Parsers::BSP::DebugRender()
 {
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
 	if(_iBSPType == BSP_TYPE_IBSP)
 	{
 		for(int i = 0; i < _iNumFaces; i++)
@@ -287,6 +285,5 @@ void OE::Parsers::BSP::DebugRender()
 				glEnd();
 			}
 		}
-		glDisable(GL_BLEND);
 	}
 }
