@@ -61,8 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib"
+				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib FreeImage.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src/FreeImage&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -112,6 +113,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -130,6 +132,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -205,6 +208,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\FreeImage\FreeImage.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\engine\parsers\INI.h"
 				>
 			</File>
@@ -226,14 +233,6 @@
 			</File>
 			<File
 				RelativePath=".\src\engine\tools\timers\Timer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\engine\parsers\jpeg\tinyjpeg-internal.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\engine\parsers\jpeg\tinyjpeg.h"
 				>
 			</File>
 			<File
@@ -305,10 +304,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\engine\parsers\jpeg\jidctflt.c"
-				>
-			</File>
-			<File
 				RelativePath=".\src\main.cpp"
 				>
 			</File>
@@ -322,10 +317,6 @@
 			</File>
 			<File
 				RelativePath=".\src\engine\tools\timers\Timer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\engine\parsers\jpeg\tinyjpeg.c"
 				>
 			</File>
 			<File
