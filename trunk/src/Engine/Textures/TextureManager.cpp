@@ -28,40 +28,16 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 	GLint height = FreeImage_GetHeight(imageFile);
 
 	_SwapRedAndBlueComponents(imageFile, width, height);
-	BYTE* bits = FreeImage_GetBits(imageFile);
 	FreeImage_FlipVertical(imageFile);
 
-	switch(bpp)
-	{
-	case 24:
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bits);
-			glBindTexture (GL_TEXTURE_2D, 0);
-			std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
-				<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
-			_vLoadedTextures.push_back(Texture);
-			glBindTexture (GL_TEXTURE_2D, 0);
-			return true;
-		}
-	case 32:
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, bits);
-			glBindTexture (GL_TEXTURE_2D, 0);
-			std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
-				<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
-			_vLoadedTextures.push_back(Texture);
-			glBindTexture (GL_TEXTURE_2D, 0);
-			return true;
-		}
-	default:
-		{
-			break;
-		}
-	}
+	_GenerateMipmaps(imageFile, width, height, bpp);
 
-	FreeImage_Unload(imageFile);
+	std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
+				<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
+	_vLoadedTextures.push_back(Texture);
 	glBindTexture (GL_TEXTURE_2D, 0);
-	return false;
+	FreeImage_Unload(imageFile);
+	return true;
 }
 
 bool OE::Textures::TextureManager::_DoesFileExist(const char* path)
