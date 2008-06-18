@@ -208,7 +208,7 @@ namespace OE
 			_OBSP_FACE* _vFaces;
 			int _iNumFaces;
 
-			GLint* _vTextures;
+			int* _vTextures;
 			int _iNumTextures;
 
 			_OBSP_MESHVERT* _vMeshVerts;

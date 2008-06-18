@@ -38,7 +38,7 @@ const int OE::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpac
 	strcpy(szTGAPath, path);
 	strcat(szTGAPath, ".tga");
 
-	int uintTextureHandle = OE::Textures::TextureManager::LoadTexture(szTGAPath);
+	int uintTextureHandle = OE::Textures::TextureManager::GetTexturesID(OE::Textures::TextureManager::LoadTexture(szTGAPath));
 
 	if (uintTextureHandle <= -1)
 		return uintTextureHandle;

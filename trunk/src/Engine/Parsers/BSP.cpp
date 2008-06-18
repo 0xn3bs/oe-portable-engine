@@ -108,7 +108,7 @@ const int OE::Parsers::BSP::ParseIBSP(const char* path)
 	free(faces);
 
 	_iNumTextures = header->DirEntries[1].Length / sizeof(_IBSP_TEXTURE);
-	_vTextures = (GLint*)malloc(sizeof(GLint)*_iNumTextures);
+	_vTextures = (int*)malloc(sizeof(int)*_iNumTextures);
 	_IBSP_TEXTURE *textures = (_IBSP_TEXTURE*)malloc(sizeof(_IBSP_TEXTURE)*_iNumTextures);
 	fseek(pFile, header->DirEntries[1].Offset, SEEK_SET);
 	fread((_IBSP_TEXTURE*)textures, sizeof(_IBSP_TEXTURE), _iNumTextures, pFile);
@@ -230,15 +230,30 @@ void OE::Parsers::BSP::DebugRender()
 				continue;
 			}
 
-			if(_vTextures[_vFaces[i].Texture]>0)
+			GLint texID = -1;
+			if(_vTextures[_vFaces[i].Texture] > 0)
+				texID = OE::Textures::TextureManager::GetTexturesID(_vTextures[_vFaces[i].Texture]);
+
+			if(texID>0)
 			{
-				glBindTexture(GL_TEXTURE_2D, _vTextures[_vFaces[i].Texture]);
+				glBindTexture(GL_TEXTURE_2D, texID);
 			}
 			else
 				glBindTexture(GL_TEXTURE_2D, 1);
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+			int numLevels = -1;
+			if(texID>0)
+				numLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vTextures[_vFaces[i].Texture]);
+			if(numLevels>1||texID==-1)
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+			}
+			else
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			}
 
 			if(_vFaces[i].Type == 1)
 			{
