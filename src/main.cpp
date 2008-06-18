@@ -59,6 +59,7 @@ void Initialize()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	OE::Base::VSync(false);
 
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	std::string mapToLoad = iniParser.GetString("default", "map");
 	bspParser.ParseBSP(mapToLoad.c_str());
 }

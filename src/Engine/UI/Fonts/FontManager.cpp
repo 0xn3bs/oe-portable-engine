@@ -107,8 +107,6 @@ void OE::UI::Fonts::FontManager::Write(const char* string)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
 	float iXPos = 0, iYPos = 0;
 	for (unsigned int i = 0; i < uintLength; i++)
 	{
