@@ -208,10 +208,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FreeImage\FreeImage.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\engine\parsers\INI.h"
 				>
 			</File>
