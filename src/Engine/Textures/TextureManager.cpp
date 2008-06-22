@@ -57,7 +57,6 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	GLint width = FreeImage_GetWidth(imageFile);
 	GLint height = FreeImage_GetHeight(imageFile);
 
-	_SwapRedAndBlueComponents(imageFile, width, height);
 	FreeImage_FlipVertical(imageFile);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
