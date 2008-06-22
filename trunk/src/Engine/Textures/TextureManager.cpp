@@ -12,16 +12,13 @@
 #include <iostream>
 
 std::vector<OE::Textures::_TEXTURE> OE::Textures::TextureManager::_vLoadedTextures = std::vector<OE::Textures::_TEXTURE>();
-
 bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 {
 	FREE_IMAGE_FORMAT fifmt = FreeImage_GetFileType(path, 0);
 	FIBITMAP *imageFile = FreeImage_Load(fifmt, path, 0);
 
 	if(imageFile == NULL)
-	{
 		return false;
-	}
 
 	unsigned int bpp = FreeImage_GetBPP(imageFile);
 	GLint width = FreeImage_GetWidth(imageFile);
@@ -33,7 +30,8 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 
 	std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
-				<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
+		<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
+
 	_TEXTURE temp;
 	temp.TextureID = Texture;
 	temp.Width = width;
@@ -44,6 +42,39 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 	_vLoadedTextures.push_back(temp);
 	glBindTexture (GL_TEXTURE_2D, 0);
 	FreeImage_Unload(imageFile);
+
+	return true;
+}
+
+bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLuint Texture)
+{
+	FIBITMAP *imageFile = FreeImage_ConvertFromRawBits((BYTE*)data, 128, 128, 128*3, 24, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK, FALSE);
+
+	if(imageFile==NULL)
+		return false;
+
+	unsigned int bpp = FreeImage_GetBPP(imageFile);
+	GLint width = FreeImage_GetWidth(imageFile);
+	GLint height = FreeImage_GetHeight(imageFile);
+
+	_SwapRedAndBlueComponents(imageFile, width, height);
+	FreeImage_FlipVertical(imageFile);
+
+	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
+
+	std::clog << "Raw texture loaded as texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl;
+
+	_TEXTURE temp;
+	temp.TextureID = Texture;
+	temp.Width = width;
+	temp.Height = height;
+	temp.BPP = bpp;
+	temp.Levels = numLevels;
+
+	_vLoadedTextures.push_back(temp);
+	glBindTexture (GL_TEXTURE_2D, 0);
+	FreeImage_Unload(imageFile);
+
 	return true;
 }
 
@@ -104,7 +135,24 @@ GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	return -1;
 }
 
-int OE::Textures::TextureManager::LoadTexture(const char* name)
+GLint OE::Textures::TextureManager::_LoadTextureFromRaw(const unsigned char *data)
+{
+	GLuint Texture;
+	glGenTextures(1, &Texture);
+	glBindTexture (GL_TEXTURE_2D, Texture);
+
+	if(_LoadRawImage(data, Texture))
+	{
+		return Texture;
+	}
+
+	//	We don't know what it is, free recently allocated texture memory.
+	glBindTexture (GL_TEXTURE_2D, 0);
+	glDeleteTextures(1, &Texture);
+	return -1;
+}
+
+int OE::Textures::TextureManager::LoadTextureFromPath(const char* name)
 {
 	std::string path = _GetTexturePath(name);
 	GLint Texture = -1;
@@ -117,6 +165,22 @@ int OE::Textures::TextureManager::LoadTexture(const char* name)
 	if((Texture = _LoadTextureFromPath(path.c_str()))==-1)
 	{
 		std::cerr << "Error: Failed to load texture \"" << name << "\"" << std::endl;
+		return -1;
+	}
+
+	return _vLoadedTextures.size()-1;
+}
+
+int OE::Textures::TextureManager::LoadTextureFromRaw(const unsigned char* data)
+{
+	if(data==NULL)
+		return -1;
+
+	GLint Texture = -1;
+
+	if((Texture = _LoadTextureFromRaw(data)) == -1)
+	{
+		std::cerr << "Error: Failed to load RAW texture" << std::endl;
 		return -1;
 	}
 

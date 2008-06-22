@@ -36,7 +36,7 @@ OE::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
 void Initialize()
 {
-	OE::Textures::TextureManager::LoadTexture("textures/notexture");
+	OE::Textures::TextureManager::LoadTextureFromPath("textures/notexture");
 
 	fpsCamera = new OE::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
 

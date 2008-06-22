@@ -11,7 +11,7 @@
 #include "Input.h"
 
 OE::Input::InputManager g_inputManager;
-bool OE::Input::InputManager::_rgcKeys[255];
+bool OE::Input::InputManager::_rgbKeys[255];
 int OE::Input::InputManager::_iMouseX=0;
 int OE::Input::InputManager::_iMouseY=0;
 int OE::Input::InputManager::_iMouseDeltaX=0;
@@ -30,7 +30,7 @@ std::vector<OE::Input::InputListener*> OE::Input::InputManager::_vecInputListene
 
 void GLFWCALL OE::Input::InputManager::GLFWSetKeyEvent(int key, int action)
 {
-	_rgcKeys[key] = (bool)action;
+	_rgbKeys[key] = (bool)action;
 	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
 	{
 		_vecInputListeners.at(i)->OnKeyEvent(key,action);

@@ -46,6 +46,7 @@ namespace OE
 				else
 					OE::Input::InputManager::AddInputListener(this);
 			}
+
 			~FPSCamera()
 			{
 			}
