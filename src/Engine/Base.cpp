@@ -43,8 +43,8 @@ unsigned int OE::Base::InitializeEngine()
 \param stencilbits The number of bits to use for the stencil buffer.
 */
 int OE::Base::OpenWindow(int width, int height, int redbits,
-										  int greenbits, int bluebits, int alphabits, int depthbits,
-										  int stencilbits)
+						 int greenbits, int bluebits, int alphabits, int depthbits,
+						 int stencilbits)
 {
 	int window = glfwOpenWindow(width,
 		height,
@@ -61,6 +61,12 @@ int OE::Base::OpenWindow(int width, int height, int redbits,
 
 	if (!window)
 		Dispose();
+
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+	{
+		std::cout << "Error: GLEW failed to load!" << std::endl;
+	}
 
 	OE::Input::InputManager::Initialize();
 

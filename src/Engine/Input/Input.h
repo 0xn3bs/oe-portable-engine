@@ -46,7 +46,7 @@ namespace OE
 			static int _iMouseReferenceX;
 			static int _iMouseReferenceY;
 			static bool _bIsMouseAlreadyDown;
-			static bool _rgcKeys[255];
+			static bool _rgbKeys[255];
 			static bool _bInitialized;
 			static bool _bForceMouseToRefPos;
 
@@ -86,12 +86,12 @@ namespace OE
 
 			static void SetKeyState(const char &key, bool &state)
 			{
-				_rgcKeys[(int)key] = state;
+				_rgbKeys[(int)key] = state;
 			}
 
 			static bool GetKeyState(const char &key)
 			{
-				return _rgcKeys[(int)key];
+				return _rgbKeys[(int)key];
 			}
 
 			static void SetMousePos(const int &x, const int &y)

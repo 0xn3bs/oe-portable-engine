@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <vector>
+#include "Engine/base.h"
 #include "Engine/Textures/TextureManager.h"
 
 #define	V_HEADER_LUMPS	64
@@ -81,6 +82,11 @@ namespace OE
 				float LMVecs[2][3];
 				float Normal[3];
 				int Size[2];
+			};
+
+			struct _IBSP_LIGHTMAP
+			{
+				unsigned char map[128][128][3];
 			};
 
 			//	Valve BSP
@@ -159,6 +165,10 @@ namespace OE
 				int NumVerts;
 				int MeshVert;
 				int NumMeshVerts;
+				int Size[2];
+				int LMIndex;
+				int LMStart[2];
+				int LMSize[2];
 			};
 
 			struct _OBSP_MESHVERT
@@ -179,6 +189,12 @@ namespace OE
 				unsigned short v[2];
 			};
 
+			struct _OBSP_LIGHTMAP
+			{
+				unsigned char map[128][128][3];
+				int textureIndex;
+			};
+
 			BSP()
 			{
 			}
@@ -190,6 +206,7 @@ namespace OE
 				free(_vFaces);
 				free(_vTextures);
 				free(_vMeshVerts);
+				free(_vLightMaps);
 			}
 
 			const int ParseBSP(const char *path);
@@ -199,6 +216,12 @@ namespace OE
 			void DebugRender();
 
 		private:
+			void _IBSP_ParseVertices(FILE *file, _IBSP_HEADER* header);
+			void _IBSP_ParseFaces(FILE *file, _IBSP_HEADER* header);
+			void _IBSP_ParseTextures(FILE *file, _IBSP_HEADER* header);
+			void _IBSP_ParseMeshVerts(FILE* file, _IBSP_HEADER* header);
+			void _IBSP_ParseLightmaps(FILE* file, _IBSP_HEADER* header);
+
 			_OBSP_VERTEX* _vVertices;
 			int _iNumVertices;
 
@@ -213,6 +236,9 @@ namespace OE
 
 			_OBSP_MESHVERT* _vMeshVerts;
 			int _iNumMeshVerts;
+
+			_OBSP_LIGHTMAP* _vLightMaps;
+			int _iNumLightMaps;
 
 			int _iBSPType;
 		};

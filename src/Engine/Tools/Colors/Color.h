@@ -32,7 +32,6 @@ namespace OE
 				static unsigned int RGBAToInt(const unsigned int &R, const unsigned int &G, const unsigned int &B,
 					const unsigned int &A);
 				static void RGBA(unsigned char* RGBA, unsigned char R, unsigned char G, unsigned char B, unsigned char A);
-
 			};
 		}
 	}
