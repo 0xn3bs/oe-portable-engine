@@ -31,7 +31,7 @@
 OE::Tools::Timers::Timer timerFPS;
 OE::Tools::Timers::Timer timerAlpha;
 OE::Parsers::INI iniParser;
-OE::Parsers::BSP bspParser;
+OE::Parsers::BSP *bspParser;
 OE::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
 void Initialize()
@@ -61,7 +61,8 @@ void Initialize()
 
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	std::string mapToLoad = iniParser.GetString("default", "map");
-	bspParser.ParseBSP(mapToLoad.c_str());
+	bspParser = new OE::Parsers::BSP();
+	bspParser->ParseBSP(mapToLoad.c_str());
 }
 void Update(double deltaTime)
 {
@@ -78,7 +79,7 @@ void Draw(double deltaTime)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	fpsCamera->Render();
-	bspParser.DebugRender();
+	bspParser->DebugRender();
 	if(IsGUIEnabled)
 	{
 		//	Render GUI here

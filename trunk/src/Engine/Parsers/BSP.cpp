@@ -27,6 +27,8 @@ const int OE::Parsers::BSP::ParseBSP(const char *path)
 
 	fclose(pFile);
 
+	_iBSPType = BSP_TYPE_IBSP;
+
 	//	Read the first 4 bytes for the magic number.
 	/*
 	char* magic = (char*)malloc(sizeof(char)*5);
@@ -54,7 +56,7 @@ const int OE::Parsers::BSP::ParseBSP(const char *path)
 	{
 		std::cout << "Anisotropic supported on your video card!" << std::endl;
 	}
-	
+
 	if(extensions.find_first_of("GL_ARB_multitexture")!=-1)
 	{
 		std::cout << "Multitexturing supported on your video card" << std::endl;
@@ -191,11 +193,11 @@ void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
 		unsigned int lm[128][128];
 		for(int x = 0; x < 128; x++)
 		{
-			for(int y = 0; y < 128; y++)
-			{
-				unsigned int colorData = (unsigned char)0xFF << 24 | _vLightMaps[i].map[x][y][0] << 16 | _vLightMaps[i].map[x][y][1] << 8 | _vLightMaps[i].map[x][y][2];
-				lm[x][y] = colorData;
-			}
+		for(int y = 0; y < 128; y++)
+		{
+		unsigned int colorData = (unsigned char)0xFF << 24 | _vLightMaps[i].map[x][y][0] << 16 | _vLightMaps[i].map[x][y][1] << 8 | _vLightMaps[i].map[x][y][2];
+		lm[x][y] = colorData;
+		}
 		}*/
 		_vLightMaps[i].textureIndex = OE::Textures::TextureManager::LoadTextureFromRaw(&_vLightMaps[i].map[0][0][0]);
 	}
@@ -252,7 +254,7 @@ void OE::Parsers::BSP::DebugRender()
 			{
 				lightMapTexID = OE::Textures::TextureManager::GetTexturesID(_vLightMaps[_vFaces[i].LMIndex].textureIndex);
 				lightMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vLightMaps[_vFaces[i].LMIndex].textureIndex);
-				
+
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, lightMapTexID);
 				glEnable(GL_TEXTURE_2D);
@@ -315,5 +317,6 @@ void OE::Parsers::BSP::DebugRender()
 				glEnd();
 			}
 		}
+		glDisable(GL_TEXTURE_2D);
 	}
 }

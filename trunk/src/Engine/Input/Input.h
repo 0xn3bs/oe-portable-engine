@@ -28,6 +28,7 @@ namespace OE
 			virtual void OnMouseClick(const int startX, const int startY, const int endX, const int endY){};
 			virtual void OnMouseMove(const int x, const int y){};
 			virtual void OnKeyEvent(const int key, const int action){};
+			virtual void OnCharEvent(const int key, const int action){};
 		};
 
 		class InputManager
@@ -50,6 +51,7 @@ namespace OE
 			static bool _bInitialized;
 			static bool _bForceMouseToRefPos;
 
+			static void GLFWCALL GLFWSetCharEvent(int key, int action);
 			static void GLFWCALL GLFWSetKeyEvent(int key, int action);
 			static void GLFWCALL GLFWSetMousePos(int x, int y);
 			static void GLFWCALL GLFWSetMouseButton(int button, int action);

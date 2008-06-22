@@ -16,6 +16,7 @@
 #include <fstream>
 #include <vector>
 #include "Engine/Base.h"
+#include "Engine/Input/Input.h"
 #include "Engine/Textures/TextureManager.h"
 
 #define	V_HEADER_LUMPS	64
@@ -28,7 +29,7 @@ namespace OE
 {
 	namespace Parsers
 	{
-		class BSP
+		class BSP : public OE::Input::InputListener
 		{
 		public:
 
@@ -194,11 +195,15 @@ namespace OE
 				unsigned char map[128][128][3];
 				int textureIndex;
 			};
-
+			
 			BSP()
 			{
+				_iNumFacesToRender = 0;
+				if(OE::Input::InputManager::IsInitialized()==false)
+					std::cerr << "Warning: BSP - The Input Manager has not yet been initialized!" << std::endl;
+				else
+					OE::Input::InputManager::AddInputListener(this);
 			}
-
 			~BSP()
 			{
 				free(_vVertices);
@@ -241,6 +246,8 @@ namespace OE
 			int _iNumLightMaps;
 
 			int _iBSPType;
+
+			int _iNumFacesToRender;
 		};
 	}
 }
