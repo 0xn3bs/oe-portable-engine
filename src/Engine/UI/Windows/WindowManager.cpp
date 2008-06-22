@@ -19,7 +19,7 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 
 	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
 	{
-		for(int i = 0; i < _vecWindows.size(); i++)
+		for(unsigned int i = 0; i < _vecWindows.size(); i++)
 		{
 			OE::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			if(tempWin->_bIsDragging)

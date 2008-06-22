@@ -15,7 +15,9 @@
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1698244577" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 <option id="gnu.cpp.link.option.libs.606406164" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="pthread"/>
+<listOptionValue builtIn="false" value="freeimage"/>
 <listOptionValue builtIn="false" value="Xrandr"/>
+<listOptionValue builtIn="false" value="GLEW"/>
 <listOptionValue builtIn="false" value="glut"/>
 <listOptionValue builtIn="false" value="glfw"/>
 </option>
