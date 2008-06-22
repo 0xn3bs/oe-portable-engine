@@ -25,9 +25,7 @@ unsigned int OE::Base::InitializeEngine()
 	glfwInit();
 
 	_bIsRunning = true;
-	glfwEnable(GLFW_STICKY_KEYS);
 	OE::Input::InputManager::Initialize();
-
 	return 0;
 }
 

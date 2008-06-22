@@ -28,6 +28,14 @@ bool OE::Input::InputManager::_bForceMouseToRefPos=false;
 
 std::vector<OE::Input::InputListener*> OE::Input::InputManager::_vecInputListeners = std::vector<OE::Input::InputListener*>();
 
+void GLFWCALL OE::Input::InputManager::GLFWSetCharEvent(int key, int action)
+{
+	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
+	{
+		_vecInputListeners.at(i)->OnCharEvent(key,action);
+	}
+}
+
 void GLFWCALL OE::Input::InputManager::GLFWSetKeyEvent(int key, int action)
 {
 	_rgbKeys[key] = (bool)action;
@@ -71,6 +79,7 @@ void OE::Input::InputManager::GLFWSetMouseButton(int button, int action)
 
 void OE::Input::InputManager::Initialize()
 {
+	glfwSetCharCallback(GLFWSetCharEvent);
 	glfwSetKeyCallback(GLFWSetKeyEvent);
 	glfwSetMousePosCallback(GLFWSetMousePos);
 	glfwSetMouseButtonCallback(GLFWSetMouseButton);
