@@ -266,6 +266,12 @@ void OE::Parsers::BSP::DebugRender()
 				textureMapTexID = OE::Textures::TextureManager::GetTexturesID(_vTextures[_vFaces[i].Texture]);
 				textureMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vTextures[_vFaces[i].Texture]);
 
+				if(_vFaces[i].LMIndex < 0)
+				{
+					glActiveTexture(GL_TEXTURE1);
+					glBindTexture(GL_TEXTURE_2D, textureMapTexID);
+					glEnable(GL_TEXTURE_2D);
+				}
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, textureMapTexID);
 				glEnable(GL_TEXTURE_2D);

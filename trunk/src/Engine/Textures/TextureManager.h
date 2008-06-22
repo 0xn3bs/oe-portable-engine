@@ -38,6 +38,7 @@ namespace OE
 		class TextureManager
 		{
 		public:
+			static double contrast, brightness, gamma;
 			static int LoadTextureFromPath(const char* name);
 			static int LoadTextureFromRaw(const unsigned char* data);
 			static void DeleteTexture(const GLuint index);

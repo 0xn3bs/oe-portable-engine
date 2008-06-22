@@ -53,10 +53,12 @@ void Initialize()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 
+
 	//glEnable(GL_LIGHTING);
 	glPointSize(2.0f);
 	glLineWidth(1.0f);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	OE::Base::VSync(false);
 
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);

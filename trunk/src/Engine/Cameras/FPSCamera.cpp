@@ -9,7 +9,7 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
 #include "FPSCamera.h"
-
+#include "Engine/Textures/TextureManager.h"
 void OE::Cameras::FPSCamera::MoveForward(const float &dt)
 {
 	float x, y, z;
