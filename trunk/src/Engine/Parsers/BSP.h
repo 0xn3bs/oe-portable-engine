@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <vector>
-#include "Engine/base.h"
+#include "Engine/Base.h"
 #include "Engine/Textures/TextureManager.h"
 
 #define	V_HEADER_LUMPS	64
