@@ -12,6 +12,9 @@
 #include <iostream>
 
 std::vector<OE::Textures::_TEXTURE> OE::Textures::TextureManager::_vLoadedTextures = std::vector<OE::Textures::_TEXTURE>();
+double OE::Textures::TextureManager::contrast =1.0;
+double OE::Textures::TextureManager::brightness =1.0;
+double OE::Textures::TextureManager::gamma =1.0;
 bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 {
 	FREE_IMAGE_FORMAT fifmt = FreeImage_GetFileType(path, 0);
@@ -26,6 +29,7 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 
 	_SwapRedAndBlueComponents(imageFile, width, height);
 	FreeImage_FlipVertical(imageFile);
+	FreeImage_AdjustBrightness(imageFile, 100);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 
@@ -58,6 +62,8 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	GLint height = FreeImage_GetHeight(imageFile);
 
 	FreeImage_FlipVertical(imageFile);
+	FreeImage_AdjustContrast(imageFile, 10);
+	FreeImage_AdjustBrightness(imageFile, 100);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 
