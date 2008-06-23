@@ -29,7 +29,6 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 
 	_SwapRedAndBlueComponents(imageFile, width, height);
 	FreeImage_FlipVertical(imageFile);
-	FreeImage_AdjustBrightness(imageFile, 100);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 
@@ -62,8 +61,13 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	GLint height = FreeImage_GetHeight(imageFile);
 
 	FreeImage_FlipVertical(imageFile);
-	FreeImage_AdjustContrast(imageFile, 10);
+	//glPixelTransferf(GL_RED_SCALE,10.0f);
+	//glPixelTransferf(GL_GREEN_SCALE,10.0f);
+	//glPixelTransferf(GL_BLUE_SCALE,10.0f);
+
+	//FreeImage_AdjustContrast(imageFile, 10);
 	FreeImage_AdjustBrightness(imageFile, 100);
+	//FreeImage_AdjustGamma(imageFile, 1.25);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 

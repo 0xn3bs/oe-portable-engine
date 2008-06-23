@@ -92,6 +92,11 @@ void OE::Parsers::BSP::_IBSP_ParseVertices(FILE *file, _IBSP_HEADER *header)
 		tVertex.Normal[0] = vertices[i].Normal[0];
 		tVertex.Normal[1] = vertices[i].Normal[1];
 		tVertex.Normal[2] = vertices[i].Normal[2];
+
+		tVertex.Color[0] = vertices[i].Color[0];
+		tVertex.Color[1] = vertices[i].Color[1];
+		tVertex.Color[2] = vertices[i].Color[2];
+		tVertex.Color[3] = vertices[i].Color[3];
 		_vVertices[i] = tVertex;
 	}
 
@@ -131,14 +136,16 @@ void OE::Parsers::BSP::_IBSP_ParseFaces(FILE* file, _IBSP_HEADER *header)
 void OE::Parsers::BSP::_IBSP_ParseTextures(FILE* file, _IBSP_HEADER *header)
 {
 	_iNumTextures = header->DirEntries[1].Length / sizeof(_IBSP_TEXTURE);
-	_vTextures = (int*)malloc(sizeof(int)*_iNumTextures);
+	_vTextures = (_OBSP_TEXTURE*)malloc(sizeof(_OBSP_TEXTURE)*_iNumTextures);
 	_IBSP_TEXTURE *textures = (_IBSP_TEXTURE*)malloc(sizeof(_IBSP_TEXTURE)*_iNumTextures);
 	fseek(file, header->DirEntries[1].Offset, SEEK_SET);
 	fread((_IBSP_TEXTURE*)textures, sizeof(_IBSP_TEXTURE), _iNumTextures, file);
 
 	for(int i = 0; i < _iNumTextures; i++)
 	{
-		_vTextures[i] = OE::Textures::TextureManager::LoadTextureFromPath(textures[i].Name);
+		_vTextures[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromPath(textures[i].Name);
+		_vTextures[i].Contents = textures[i].Contents;
+		_vTextures[i].Flags = textures[i].Flags;
 	}
 
 	free(textures);
@@ -189,17 +196,7 @@ void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
 
 	for(int i = 0; i < _iNumLightMaps; i++)
 	{
-		/*
-		unsigned int lm[128][128];
-		for(int x = 0; x < 128; x++)
-		{
-		for(int y = 0; y < 128; y++)
-		{
-		unsigned int colorData = (unsigned char)0xFF << 24 | _vLightMaps[i].map[x][y][0] << 16 | _vLightMaps[i].map[x][y][1] << 8 | _vLightMaps[i].map[x][y][2];
-		lm[x][y] = colorData;
-		}
-		}*/
-		_vLightMaps[i].textureIndex = OE::Textures::TextureManager::LoadTextureFromRaw(&_vLightMaps[i].map[0][0][0]);
+		_vLightMaps[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromRaw(&_vLightMaps[i].map[0][0][0]);
 	}
 
 
@@ -249,11 +246,23 @@ void OE::Parsers::BSP::DebugRender()
 			GLint textureMapTexID = -1;
 			GLint lightMapTexID = -1;
 
+			int contentFlags = _vTextures[_vFaces[i].Texture].Contents;
+			int surfaceFlags = _vTextures[_vFaces[i].Texture].Flags;
+
+			if(surfaceFlags & 0x80)
+				continue;
+
+			if(surfaceFlags & 0x200)
+				continue;
+
+			if(surfaceFlags & 0x4)
+				continue;
+
 			//	Bind Light Map
 			if(_vFaces[i].LMIndex > -1)
 			{
-				lightMapTexID = OE::Textures::TextureManager::GetTexturesID(_vLightMaps[_vFaces[i].LMIndex].textureIndex);
-				lightMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vLightMaps[_vFaces[i].LMIndex].textureIndex);
+				lightMapTexID = OE::Textures::TextureManager::GetTexturesID(_vLightMaps[_vFaces[i].LMIndex].TextureIndex);
+				lightMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vLightMaps[_vFaces[i].LMIndex].TextureIndex);
 
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, lightMapTexID);
@@ -261,17 +270,10 @@ void OE::Parsers::BSP::DebugRender()
 			}
 
 			//	Bind Texture Map
-			if(_vTextures[_vFaces[i].Texture] > -1)
+			if(_vTextures[_vFaces[i].Texture].TextureIndex > -1)
 			{
-				textureMapTexID = OE::Textures::TextureManager::GetTexturesID(_vTextures[_vFaces[i].Texture]);
-				textureMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vTextures[_vFaces[i].Texture]);
-
-				if(_vFaces[i].LMIndex < 0)
-				{
-					glActiveTexture(GL_TEXTURE1);
-					glBindTexture(GL_TEXTURE_2D, textureMapTexID);
-					glEnable(GL_TEXTURE_2D);
-				}
+				textureMapTexID = OE::Textures::TextureManager::GetTexturesID(_vTextures[_vFaces[i].Texture].TextureIndex);
+				textureMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vTextures[_vFaces[i].Texture].TextureIndex);
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, textureMapTexID);
 				glEnable(GL_TEXTURE_2D);
@@ -294,11 +296,12 @@ void OE::Parsers::BSP::DebugRender()
 				glBegin(GL_POLYGON);
 				for(int j = _vFaces[i].Vertex; j < _vFaces[i].Vertex + _vFaces[i].NumVerts; j++)
 				{
+					
 					glMultiTexCoord2f(GL_TEXTURE0, _vVertices[j].TexCoord[0][0], _vVertices[j].TexCoord[0][1]);
 
 					if(lightMapTexID>-1)
 						glMultiTexCoord2f(GL_TEXTURE1, _vVertices[j].TexCoord[1][0], _vVertices[j].TexCoord[1][1]);
-
+					glColor4f(_vVertices[j].Color[0], _vVertices[j].Color[1], _vVertices[j].Color[2], _vVertices[j].Color[3]);
 					glVertex3f(_vVertices[j].Position[0], _vVertices[j].Position[1], _vVertices[j].Position[2]);
 				}
 				glEnd();
