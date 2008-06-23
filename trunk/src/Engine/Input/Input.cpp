@@ -106,9 +106,9 @@ void OE::Input::InputManager::Update(double &dt)
 	}
 	else
 	{
-		_iMouseDeltaX = x - _iMouseX;
-		_iMouseDeltaY = y - _iMouseY;
-		_iMouseX = x;
-		_iMouseY = y;
+		_iMouseDeltaX = 0;
+		_iMouseDeltaY = 0;
+		//_iMouseX = x;
+		//_iMouseY = y;
 	}
 }

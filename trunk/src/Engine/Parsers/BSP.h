@@ -158,6 +158,14 @@ namespace OE
 
 			//	Odorless Entertainment BSP
 			//	All other BSP formats will (hopefully) be converted to this format.
+			struct _OBSP_TEXTURE
+			{
+				char Name[64];
+				int Flags;
+				int Contents;
+				int TextureIndex;
+			};
+
 			struct _OBSP_FACE
 			{
 				int Texture;
@@ -193,7 +201,7 @@ namespace OE
 			struct _OBSP_LIGHTMAP
 			{
 				unsigned char map[128][128][3];
-				int textureIndex;
+				int TextureIndex;
 			};
 			
 			BSP()
@@ -236,7 +244,7 @@ namespace OE
 			_OBSP_FACE* _vFaces;
 			int _iNumFaces;
 
-			int* _vTextures;
+			_OBSP_TEXTURE* _vTextures;
 			int _iNumTextures;
 
 			_OBSP_MESHVERT* _vMeshVerts;
