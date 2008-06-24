@@ -9,7 +9,6 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *	  Joshua 'blankthemuffin' Simmons - Comitted this line!
 *****************************************************************************************/
-
 #ifdef win32
 #include <windows.h>
 #endif
