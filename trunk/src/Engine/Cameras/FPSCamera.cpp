@@ -10,68 +10,63 @@
 ***************************************************************************************************/
 #include "FPSCamera.h"
 #include "Engine/Textures/TextureManager.h"
+
 void OE::Cameras::FPSCamera::MoveForward(const float &dt)
 {
-	float x, y, z;
-	x = _dCenterX - _dEyeX;
-	y = _dCenterY - _dEyeY;
-	z = _dCenterZ - _dEyeZ;
+	OE::Maths::Vec3<double> direction;
 
-	float magnitude = sqrt((x * x) + (y * y) + (z * z));
+	direction = _v3dCenter - _v3dEye;
 
-	_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
-	_dEyeY += ((y/magnitude)*CAMERA_SPEED)*dt;
-	_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
+	float magnitude = direction.Magnitude();
+
+	_v3dEye += ((direction/magnitude)*CAMERA_SPEED)*dt;
 }
 
 void OE::Cameras::FPSCamera::MoveBackward(const float &dt)
 {
-	float x, y, z;
-	x = _dCenterX - _dEyeX;
-	y = _dCenterY - _dEyeY;
-	z = _dCenterZ - _dEyeZ;
+	OE::Maths::Vec3<double> direction;
 
-	float magnitude = sqrt((x * x) + (y * y) + (z * z));
+	direction = _v3dCenter - _v3dEye;
 
-	_dEyeX -= ((x/magnitude)*CAMERA_SPEED)*dt;
-	_dEyeY -= ((y/magnitude)*CAMERA_SPEED)*dt;
-	_dEyeZ -= ((z/magnitude)*CAMERA_SPEED)*dt;
+	float magnitude = direction.Magnitude();
+
+	_v3dEye -= ((direction/magnitude)*CAMERA_SPEED)*dt;
 }
 
 void OE::Cameras::FPSCamera::StrafeLeft(const float &dt)
 {
-	_dCenterX = _dEyeX + sin(yChange+PI2);
-	_dCenterZ = _dEyeZ + cos(yChange+PI2);
+	_v3dCenter.x = _v3dEye.x + sin(_v3dChange.y+PI2);
+	_v3dCenter.z = _v3dEye.z + cos(_v3dChange.y+PI2);
 
-	float x, z;
-	x = _dCenterX - _dEyeX;
-	z = _dCenterZ - _dEyeZ;
+	OE::Maths::Vec3<double> direction;
+	direction = _v3dCenter - _v3dEye;
+	direction.y = 0;	//	Our y direction should not affect our pitch.
 
-	float magnitude = sqrt((x * x) + (z * z));
+	float magnitude = direction.Magnitude();
 
-	_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
-	_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
+	_v3dEye.x += ((direction.x/magnitude)*CAMERA_SPEED)*dt;
+	_v3dEye.z += ((direction.z/magnitude)*CAMERA_SPEED)*dt;
 
-	_dCenterX -= _dEyeX + sin(yChange+PI2);
-	_dCenterZ -= _dEyeZ + cos(yChange+PI2);
+	_v3dCenter.x -= _v3dEye.x + sin(_v3dChange.y+PI2);
+	_v3dCenter.z -= _v3dEye.z + cos(_v3dChange.y+PI2);
 }
 
 void OE::Cameras::FPSCamera::StrafeRight(const float &dt)
 {
-	_dCenterX = _dEyeX + sin(yChange-PI2);
-	_dCenterZ = _dEyeZ + cos(yChange-PI2);
+	_v3dCenter.x = _v3dEye.x + sin(_v3dChange.y-PI2);
+	_v3dCenter.z = _v3dEye.z + cos(_v3dChange.y-PI2);
 
-	float x, z;
-	x = _dCenterX - _dEyeX;
-	z = _dCenterZ - _dEyeZ;
+	OE::Maths::Vec3<double> direction;
+	direction = _v3dCenter - _v3dEye;
+	direction.y = 0;	//	Our y direction should not affect our pitch.
 
-	float magnitude = sqrt((x * x) + (z * z));
+	float magnitude = direction.Magnitude();
 
-	_dEyeX += ((x/magnitude)*CAMERA_SPEED)*dt;
-	_dEyeZ += ((z/magnitude)*CAMERA_SPEED)*dt;
+	_v3dEye.x += ((direction.x/magnitude)*CAMERA_SPEED)*dt;
+	_v3dEye.z += ((direction.z/magnitude)*CAMERA_SPEED)*dt;
 
-	_dCenterX -= _dEyeX + sin(yChange-PI2);
-	_dCenterZ -= _dEyeZ + cos(yChange-PI2);
+	_v3dCenter.x -= _v3dEye.x + sin(_v3dChange.y-PI2);
+	_v3dCenter.z -= _v3dEye.z + cos(_v3dChange.y-PI2);
 }
 
 void OE::Cameras::FPSCamera::Update(const float &dt)
@@ -93,21 +88,21 @@ void OE::Cameras::FPSCamera::Update(const float &dt)
 		StrafeRight(dt);
 	}
 
-	yChange += (OE::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
-	xChange += (OE::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
+	_v3dChange.y += (OE::Input::InputManager::GetMouseDeltaX()*0.01f)*MOUSE_SENSITIVITY;
+	_v3dChange.x += (OE::Input::InputManager::GetMouseDeltaY()*0.01f)*MOUSE_SENSITIVITY;
 
-	if(xChange > PI2)
-		xChange = PI2;
+	if(_v3dChange.x > PI2)
+		_v3dChange.x = PI2;
 
-	if(xChange < -PI2)
-		xChange = -PI2;
+	if(_v3dChange.x < -PI2)
+		_v3dChange.x = -PI2;
 
-	_dCenterX = _dEyeX + sin(yChange);
-	_dCenterZ = _dEyeZ + cos(yChange);
-	_dCenterY = _dEyeY + tan(xChange);
+	_v3dCenter.x = _v3dEye.x + sin(_v3dChange.y);
+	_v3dCenter.z = _v3dEye.z + cos(_v3dChange.y);
+	_v3dCenter.y = _v3dEye.y + tan(_v3dChange.x);
 }
 
 void OE::Cameras::FPSCamera::Render()
 {	
-	gluLookAt(_dEyeX,_dEyeY,_dEyeZ,_dCenterX,_dCenterY,_dCenterZ,_dUpX,_dUpY,_dUpZ);
+	gluLookAt(_v3dEye.x,_v3dEye.y,_v3dEye.z,_v3dCenter.x,_v3dCenter.y,_v3dCenter.z,_v3dUp.x,_v3dUp.y,_v3dUp.z);
 }

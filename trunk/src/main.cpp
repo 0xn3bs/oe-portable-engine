@@ -25,6 +25,7 @@
 #include "Engine/Parsers/INI.h"
 #include "Engine/Parsers/BSP.h"
 #include "Engine/Cameras/FPSCamera.h"
+#include "Engine/Maths/Vector.h"
 #include <iostream>
 #include <math.h>
 
@@ -38,7 +39,7 @@ void Initialize()
 {
 	OE::Textures::TextureManager::LoadTextureFromPath("textures/notexture");
 
-	fpsCamera = new OE::Cameras::FPSCamera(0.0, 0.0, 10.0, 0.0, 0.0, -100.0, 0.0, 1.0, 0.0);
+	fpsCamera = new OE::Cameras::FPSCamera(0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f);
 
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LINE);
@@ -64,6 +65,18 @@ void Initialize()
 	std::string mapToLoad = iniParser.GetString("default", "map");
 	bspParser = new OE::Parsers::BSP();
 	bspParser->ParseBSP(mapToLoad.c_str());
+
+	OE::Maths::Vec3<float> cp;
+	OE::Maths::Vec3<float> a(0.69, 0.10, 0.70);
+	OE::Maths::Vec3<float> b(0.44, 0.71, -0.54);
+
+	cp = a.CrossProduct(b);
+
+	std::cout << cp.x << " " << cp.y << " " << cp.z << std::endl;
+
+	cp = a % b;
+	
+	std::cout << cp.x << " " << cp.y << " " << cp.z << std::endl;
 }
 void Update(double deltaTime)
 {

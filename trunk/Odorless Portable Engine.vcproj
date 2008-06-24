@@ -212,6 +212,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Engine\Maths\Math.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\includes\stdint.h"
 				>
 			</File>

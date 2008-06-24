@@ -66,7 +66,7 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	//glPixelTransferf(GL_BLUE_SCALE,10.0f);
 
 	//FreeImage_AdjustContrast(imageFile, 10);
-	FreeImage_AdjustBrightness(imageFile, 100);
+	//FreeImage_AdjustBrightness(imageFile, 100);
 	//FreeImage_AdjustGamma(imageFile, 1.25);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
