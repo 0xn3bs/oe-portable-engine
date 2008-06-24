@@ -13,6 +13,7 @@
 
 #include <GL/glew.h>
 #include <GL/glfw.h>
+#include <AL/alut.h>
 
 /*! \namespace Odorless
 \brief The Odorless Entertainment's expandable namespace.
@@ -23,7 +24,7 @@ namespace OE
 	{
 	public:
 
-		static unsigned int InitializeEngine();
+		static unsigned int InitializeEngine(int argc, char **argv);
 		static int OpenWindow(int width, int height, int redbits,
 			int greenbits, int bluebits, int alphabits,
 			int depthbits, int stencilbits);

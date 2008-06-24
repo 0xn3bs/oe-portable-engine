@@ -20,10 +20,23 @@ void (*OE::Base::_pf_Update)(double deltaTime) = 0;
 void (*OE::Base::_pf_Draw)(double deltaTime) = 0;
 
 ///	Function which Intializes the Engine. <b>Call this before anything else is done!</b>
-unsigned int OE::Base::InitializeEngine()
+unsigned int OE::Base::InitializeEngine(int argc, char **argv)
 {
 	glfwInit();
+	/*
+	ALuint buffer, source;
+	alutInit (&argc, argv);
+	buffer = alutCreateBufferFromFile("base/sounds/music/oe.wav");
 
+	if(buffer == AL_NONE)
+	{
+		std::cout << "Failed to load sound" << std::endl;
+	}
+
+	alGenSources (1, &source);
+	alSourcei (source, AL_BUFFER, buffer);
+	alSourcePlay (source);
+	*/
 	_bIsRunning = true;
 	OE::Input::InputManager::Initialize();
 	return 0;
@@ -98,6 +111,7 @@ void OE::Base::Draw(double deltaTime)
 void OE::Base::Dispose()
 {
 	_bIsRunning = false;
+	alutExit();
 	glfwDisable(GLFW_STICKY_KEYS);
 
 	glfwTerminate();
