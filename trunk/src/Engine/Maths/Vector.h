@@ -120,6 +120,12 @@ namespace OE
 			{
 				return Vec1(*this)/=rhs;
 			}
+
+			friend std::ostream &operator<<(std::ostream &stream, Vec1<T> rhs)
+			{
+				stream << "<" << rhs.x << ">";
+				return stream;
+			}
 		};
 
 		template <class T>
@@ -229,6 +235,12 @@ namespace OE
 			Vec2<T> operator/(const T &rhs) const
 			{
 				return Vec2(*this)/=rhs;
+			}
+
+			friend std::ostream &operator<<(std::ostream &stream, Vec2<T> rhs)
+			{
+				stream << "<" << rhs.x << ", " << rhs.y << ">";
+				return stream;
 			}
 		};
 
@@ -367,6 +379,12 @@ namespace OE
 			{
 				return Vec3(*this)%=rhs;
 			}
+
+			friend std::ostream &operator<<(std::ostream &stream, Vec3<T> rhs)
+			{
+				stream << "<" << rhs.x << ", " << rhs.y << ", " << rhs.z << ">";
+				return stream;
+			}
 		};
 
 		template <class T>
@@ -490,6 +508,12 @@ namespace OE
 			Vec4<T> operator/(const T &rhs) const
 			{
 				return Vec4(*this)/=rhs;
+			}
+
+			friend std::ostream &operator<<(std::ostream &stream, Vec4<T> rhs)
+			{
+				stream << "<" << rhs.x << ", " << rhs.y << ", " << rhs.z << ", " << rhs.u << ">";
+				return stream;
 			}
 		};
 	}

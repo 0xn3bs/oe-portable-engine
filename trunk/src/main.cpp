@@ -70,13 +70,7 @@ void Initialize()
 	OE::Maths::Vec3<float> a(0.69, 0.10, 0.70);
 	OE::Maths::Vec3<float> b(0.44, 0.71, -0.54);
 
-	cp = a.CrossProduct(b);
-
-	std::cout << cp.x << " " << cp.y << " " << cp.z << std::endl;
-
-	cp = a % b;
-	
-	std::cout << cp.x << " " << cp.y << " " << cp.z << std::endl;
+	std::cout << a << " x " << b << " = " << a % b << std::endl;
 }
 void Update(double deltaTime)
 {
