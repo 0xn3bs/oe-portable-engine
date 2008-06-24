@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib FreeImage.lib glew32.lib"
+				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImage.lib glew32.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)FreeImage&quot;"
 				GenerateDebugInformation="true"
