@@ -10,7 +10,7 @@
 ***************************************************************************************************/
 #include "TextureManager.h"
 #include <iostream>
-
+#include <sstream> 
 std::vector<OE::Textures::_TEXTURE> OE::Textures::TextureManager::_vLoadedTextures = std::vector<OE::Textures::_TEXTURE>();
 double OE::Textures::TextureManager::contrast =1.0;
 double OE::Textures::TextureManager::brightness =1.0;
@@ -60,14 +60,11 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	GLint width = FreeImage_GetWidth(imageFile);
 	GLint height = FreeImage_GetHeight(imageFile);
 
-	FreeImage_FlipVertical(imageFile);
 	//glPixelTransferf(GL_RED_SCALE,10.0f);
 	//glPixelTransferf(GL_GREEN_SCALE,10.0f);
 	//glPixelTransferf(GL_BLUE_SCALE,10.0f);
 
-	//FreeImage_AdjustContrast(imageFile, 10);
-	//FreeImage_AdjustBrightness(imageFile, 100);
-	//FreeImage_AdjustGamma(imageFile, 1.25);
+	FreeImage_AdjustBrightness(imageFile, 100);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 
@@ -79,6 +76,11 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	temp.Height = height;
 	temp.BPP = bpp;
 	temp.Levels = numLevels;
+
+	std::stringstream fn;
+	fn << Texture << "_lm.png";
+
+	FreeImage_Save(FREE_IMAGE_FORMAT::FIF_PNG, imageFile, fn.str().c_str());
 
 	_vLoadedTextures.push_back(temp);
 	glBindTexture (GL_TEXTURE_2D, 0);

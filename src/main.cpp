@@ -46,7 +46,7 @@ void Initialize()
 	glEnable(GL_POINT);
 	glEnable(GL_LINE_SMOOTH);
 
-	//glEnable(GL_BLEND);
+	glEnable(GL_BLEND);
 	glEnable(GL_ALPHA);
 
 	glEnable(GL_TEXTURE_2D);
