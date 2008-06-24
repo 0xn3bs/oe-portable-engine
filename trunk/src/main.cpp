@@ -98,11 +98,11 @@ void OnResize(int width, int height)
 	OE::Input::InputManager::SetMouseReferencePos(width/2, height/2);
 	OE::Input::InputManager::SetForceToMouseReference(true);
 }
-int main()
+int main(int argc, char **argv)
 {
 	iniParser.ParseINI("base/cfg/default.ini");
 	
-	OE::Base::InitializeEngine();
+	OE::Base::InitializeEngine(argc, argv);
 	int iResWidth = iniParser.GetInt("video", "res_width");
 	int iResHeight = iniParser.GetInt("video", "res_height");
 	OE::Base::OpenWindow(iResWidth, iResHeight, 8, 8, 8, 8, 24, 8);
