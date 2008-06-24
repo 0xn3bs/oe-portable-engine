@@ -35,6 +35,7 @@ OE::Parsers::INI iniParser;
 OE::Parsers::BSP *bspParser;
 OE::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
+
 void Initialize()
 {
 	OE::Textures::TextureManager::LoadTextureFromPath("textures/notexture");
@@ -72,6 +73,7 @@ void Initialize()
 
 	std::cout << a << " x " << b << " = " << a % b << std::endl;
 }
+
 void Update(double deltaTime)
 {
 	OE::Input::InputManager::Update(deltaTime);
@@ -81,6 +83,7 @@ void Update(double deltaTime)
 	}
 	fpsCamera->Update(deltaTime);
 }
+
 void Draw(double deltaTime)
 {
 	glEnable(GL_DEPTH_TEST);
@@ -93,6 +96,7 @@ void Draw(double deltaTime)
 		//	Render GUI here
 	}
 }
+
 void OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -105,6 +109,7 @@ void OnResize(int width, int height)
 	OE::Input::InputManager::SetMouseReferencePos(width/2, height/2);
 	OE::Input::InputManager::SetForceToMouseReference(true);
 }
+
 int main(int argc, char **argv)
 {
 	iniParser.ParseINI("base/cfg/default.ini");
