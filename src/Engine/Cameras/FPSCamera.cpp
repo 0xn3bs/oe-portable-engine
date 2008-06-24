@@ -40,7 +40,7 @@ void OE::Cameras::FPSCamera::StrafeLeft(const float &dt)
 
 	OE::Maths::Vec3<double> direction;
 	direction = _v3dCenter - _v3dEye;
-	direction.y = 0;	//	Our y direction should not affect our pitch.
+	direction.y = 0;	//	Our y direction should not affect our strafe speed when pitched.
 
 	float magnitude = direction.Magnitude();
 
@@ -58,7 +58,7 @@ void OE::Cameras::FPSCamera::StrafeRight(const float &dt)
 
 	OE::Maths::Vec3<double> direction;
 	direction = _v3dCenter - _v3dEye;
-	direction.y = 0;	//	Our y direction should not affect our pitch.
+	direction.y = 0;	//	Our y direction should not affect our strafe speed when pitched.
 
 	float magnitude = direction.Magnitude();
 
