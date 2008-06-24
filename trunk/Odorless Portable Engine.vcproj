@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)FreeImage&quot;;&quot;$(SolutionDir)src&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImage.lib glew32.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)FreeImage&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -192,10 +192,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\engine\tools\math\Common.h"
-				>
-			</File>
-			<File
 				RelativePath=".\src\engine\ui\fonts\Font.h"
 				>
 			</File>
@@ -229,6 +225,10 @@
 			</File>
 			<File
 				RelativePath=".\src\engine\tools\timers\Timer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Engine\Maths\Vector.h"
 				>
 			</File>
 			<File
@@ -276,10 +276,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\engine\tools\math\Common.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\engine\ui\fonts\Font.cpp"
 				>
 			</File>
@@ -313,6 +309,10 @@
 			</File>
 			<File
 				RelativePath=".\src\engine\tools\timers\Timer.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Engine\Maths\Vector.cpp"
 				>
 			</File>
 			<File
