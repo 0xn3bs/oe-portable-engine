@@ -12,7 +12,7 @@
 #define FPSCAMERA_H_
 
 #include <GL/glfw.h>
-#include "Engine/Tools/Math/Common.h"
+#include "Engine/Maths/Vector.h"
 #include "Engine/Input/Input.h"
 #include <iostream>
 
@@ -26,21 +26,26 @@ namespace OE
 		class FPSCamera : public OE::Input::InputListener
 		{
 		public:
+			FPSCamera(OE::Maths::Vec3<double> eye, OE::Maths::Vec3<double> center, OE::Maths::Vec3<double> up)
+			{
+				_v3dEye = eye;
+				_v3dCenter = center;
+				_v3dUp = up;
+			}
+
 			FPSCamera(double eyeX, double eyeY, double eyeZ, double centerX, double centerY, double centerZ,
 				double upX, double upY, double upZ)
 			{
-				_dEyeX = eyeX;
-				_dEyeY = eyeY;
-				_dEyeZ = eyeZ;
-				_dCenterX = centerX;
-				_dCenterY = centerY;
-				_dCenterZ = centerZ;
-				_dUpX = upX;
-				_dUpY = upY;
-				_dUpZ = upZ;
-				xChange = 0;
-				yChange = 0;
-				zAngle = 0;
+				_v3dEye.x = eyeX;
+				_v3dEye.y = eyeY;
+				_v3dEye.z = eyeZ;
+				_v3dCenter.x = centerX;
+				_v3dCenter.y = centerY;
+				_v3dCenter.z = centerZ;
+				_v3dUp.x = upX;
+				_v3dUp.y = upY;
+				_v3dUp.z = upZ;
+
 				if(OE::Input::InputManager::IsInitialized()==false)
 					std::cerr << "Warning: Camera - The Input Manager has not yet been initialized!" << std::endl;
 				else
@@ -68,10 +73,10 @@ namespace OE
 			void Render();
 
 		private:
-			double xChange, yChange, zAngle;
-			double _dEyeX, _dEyeY, _dEyeZ;
-			double _dCenterX, _dCenterY, _dCenterZ;
-			double _dUpX, _dUpY, _dUpZ;
+			OE::Maths::Vec3<double> _v3dEye;
+			OE::Maths::Vec3<double> _v3dCenter;
+			OE::Maths::Vec3<double> _v3dUp;
+			OE::Maths::Vec3<double> _v3dChange;
 		};
 	}
 }
