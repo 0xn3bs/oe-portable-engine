@@ -28,42 +28,49 @@ namespace OE
 				{
 
 				}
+
 				~Button()
 				{
 				}
+
 				virtual void OnMouseButton(const int button, const int action)
 				{
 					_szCaption = "Down";
 				}
+
 				virtual void OnMouseOver()
 				{
 					_uiBgColor[0] += 105;
 					_uiBgColor[2] += 105;
 					_szCaption = "Over";
 				}
+
 				virtual void OnMouseOut()
 				{
 					_uiBgColor[0] -= 105;
 					_uiBgColor[2] -= 105;
 					_szCaption = "Out";
 				}
+
 				virtual void OnMouseClick()
 				{
 					_szCaption = "Click";
 				}
+
 				virtual void Update(const float &dt)
 				{
 				}
+
 				virtual void Render(const float &dt)
 				{
 					glPushMatrix();
 					glBegin(GL_QUADS);
 					glVertex3f(0, 0, 0);
-					glVertex3f(0, _2fDimensions[1], 0);
+					glVertex3f(0, _v2fDimensions.y, 0);
 					glTexCoord2f(1, 1);
-					glVertex3f(_2fDimensions[0], _2fDimensions[1], 0);
+					glVertex3f(_v2fDimensions.x, _v2fDimensions.y, 0);
 					glTexCoord2f(1, 0);
-					glVertex3f(_2fDimensions[0], 0, 0);
+					glVertex3f(_v2fDimensions.x, 0, 0);
 					glEnd();
 					glPopMatrix();
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);

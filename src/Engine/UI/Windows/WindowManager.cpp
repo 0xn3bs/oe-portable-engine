@@ -52,6 +52,7 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 	//	Setting a new focused window changes the order of the windows.
 	UpdateFocus();
 }
+
 void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
@@ -91,6 +92,7 @@ void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 		}
 	}
 }
+
 bool OE::UI::Windows::WindowManager::CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
 {
 	Window* winTemp = _vecWindows.at(index);
@@ -102,6 +104,7 @@ bool OE::UI::Windows::WindowManager::CanPick(const unsigned int &index, const un
 	}
 	return bOver;
 }
+
 void OE::UI::Windows::WindowManager::Update(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
@@ -109,19 +112,19 @@ void OE::UI::Windows::WindowManager::Update(const float &dt)
 		OE::UI::Windows::Window* winTemp = _vecWindows.at(i);
 
 		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
-		if(winTemp->_2fPosition[1] < -winTemp->_fTitleBarY+5)
-			winTemp->_2fPosition[1] = -winTemp->_fTitleBarY+5;
-		if(winTemp->_2fPosition[1] > _iWinHeight-5)
-			winTemp->_2fPosition[1] = _iWinHeight-5;
-		if(winTemp->_2fPosition[0] < -winTemp->_2fDimensions[0]+5)
-			winTemp->_2fPosition[0] = -winTemp->_2fDimensions[0]+5;
-		if(winTemp->_2fPosition[0] > _iWinWidth-5)
-			winTemp->_2fPosition[0] = _iWinWidth-5;
+		if(winTemp->_v2fPosition.y < -winTemp->_fTitleBarY+5)
+			winTemp->_v2fPosition.y = -winTemp->_fTitleBarY+5;
+		if(winTemp->_v2fPosition.y > _iWinHeight-5)
+			winTemp->_v2fPosition.y = _iWinHeight-5;
+		if(winTemp->_v2fPosition.x < -winTemp->_v2fDimensions.x+5)
+			winTemp->_v2fPosition.x = -winTemp->_v2fDimensions.x+5;
+		if(winTemp->_v2fPosition.x > _iWinWidth-5)
+			winTemp->_v2fPosition.x = _iWinWidth-5;
 
 		if(winTemp->_bIsDragging)
 		{
-			winTemp->_2fPosition[0] += OE::Input::InputManager::GetMouseDeltaX();
-			winTemp->_2fPosition[1] += OE::Input::InputManager::GetMouseDeltaY();
+			winTemp->_v2fPosition.x += OE::Input::InputManager::GetMouseDeltaX();
+			winTemp->_v2fPosition.y += OE::Input::InputManager::GetMouseDeltaY();
 		}
 
 		if(OE::Input::InputManager::GetMouseX() < 0)
@@ -149,20 +152,22 @@ void OE::UI::Windows::WindowManager::Update(const float &dt)
 		}
 	}
 }
+
 void OE::UI::Windows::WindowManager::UpdateWin(const int width, const int height)
 {
 	_iWinWidth = width;
 	_iWinHeight = height;
 }
+
 void OE::UI::Windows::WindowManager::Render(const float &dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* winTemp = _vecWindows.at(i);
 		glMatrixMode( GL_PROJECTION );
-		glScalef(winTemp->_fScaleX,winTemp->_fScaleY,1);
-		glViewport(winTemp->_2fPosition[0], _iWinHeight-winTemp->_2fDimensions[0]-winTemp->_2fPosition[1], winTemp->_2fDimensions[0], winTemp->_2fDimensions[1]);
+		glScalef(winTemp->_v2fScale.x,winTemp->_v2fScale.y,1);
+		glViewport(winTemp->_v2fPosition.x, _iWinHeight-winTemp->_v2fDimensions.x-winTemp->_v2fPosition.y, winTemp->_v2fDimensions.x, winTemp->_v2fDimensions.y);
 		winTemp->Render(dt);
-		glScalef(1/winTemp->_fScaleX,1/winTemp->_fScaleY,1);
+		glScalef(1/winTemp->_v2fScale.x,1/winTemp->_v2fScale.y,1);
 	}
 }

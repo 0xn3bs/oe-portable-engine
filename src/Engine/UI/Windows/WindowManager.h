@@ -34,13 +34,16 @@ namespace OE
 					_iWinHeight = 0;
 					OE::Input::InputManager::AddInputListener(this);
 				}
+
 				~WindowManager()
 				{
 				}
+
 				void Initialize()
 				{
 					OE::Base::GetWindowSize(&_iWinWidth, &_iWinHeight);
 				}
+
 				void OnMouseButton(const int key, const int action);
 				void OnMouseClick(const int startX, const int startY, const int endX, const int endY);
 				void OnMouseMove(const int x, const int y);
@@ -50,11 +53,13 @@ namespace OE
 					SetFocus(_vecWindows.size()-1);
 					_winCurrentFocused = &window;
 				}
+
 				void RemoveWindow(const unsigned int &index)
 				{
 					_vecWindows.at(index)->_bHasFocus = false;
 					_vecWindows.erase(_vecWindows.begin() + index);
 				}
+
 				bool CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y);
 				void SetFocus(const unsigned int &index)
 				{
@@ -62,6 +67,7 @@ namespace OE
 						_winCurrentFocused->_bHasFocus = false;
 					_vecWindows[index]->_bHasFocus = true;
 				}
+
 				void Update(const float &dt);
 				void UpdateWin(const int width, const int height);
 				void Render(const float &dt);
@@ -80,6 +86,7 @@ namespace OE
 						}
 					}
 				}
+
 				Window *_winCurrentFocused;
 				std::vector<Window*> _vecWindows;
 				int _iWinWidth, _iWinHeight;

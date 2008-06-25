@@ -47,18 +47,22 @@ namespace OE
 			{
 				return _vLoadedTextures[index].TextureID;
 			}
+
 			static unsigned int GetTexturesWidth(GLuint index)
 			{
 				return _vLoadedTextures[index].Width;
 			}
+
 			static unsigned int GetTexturesHeight(GLuint index)
 			{
 				return _vLoadedTextures[index].Height;
 			}
+
 			static unsigned int GetTexturesBPP(GLuint index)
 			{
 				return _vLoadedTextures[index].BPP;
 			}
+
 			static unsigned int GetTexturesNumLevels(GLuint index)
 			{
 				return _vLoadedTextures[index].Levels;

@@ -14,6 +14,7 @@
 #include <GL/glfw.h>
 #include "Engine/UI/Widgets/Widget.h"
 #include "Engine/UI/Fonts/FontManager.h"
+#include "Engine/Maths/Vector.h"
 #include <vector>
 
 namespace OE
@@ -27,6 +28,7 @@ namespace OE
 			unsigned char _4bTextColor[4];
 			unsigned char _4bBorderColor[4];
 		};
+
 		namespace Widgets{class Widget;}
 		namespace Windows
 		{
@@ -48,10 +50,10 @@ namespace OE
 				virtual void OnMouseUp(const char button, const int x, const int y){};
 				virtual void OnMouseMove(int x, int y){};
 
-				int GetXPos(){return _2fPosition[0];}
-				int GetYPos(){return _2fPosition[1];}
-				int GetWidth(){return _2fDimensions[0];}
-				int GetHeight(){return _2fDimensions[1];}
+				int GetXPos(){return _v2fPosition.x;}
+				int GetYPos(){return _v2fPosition.y;}
+				int GetWidth(){return _v2fDimensions.x;}
+				int GetHeight(){return _v2fDimensions.y;}
 
 				bool IsOver(const float &x, const float &y);
 				bool IsOverTitleBar(const float &x, const float &y);
@@ -64,11 +66,13 @@ namespace OE
 
 			protected:
 				char* _szCaption;
-				float _2fDimensions[2];
-				float _2fPosition[2];
+
+				OE::Maths::Vec2<float> _v2fDimensions;
+				OE::Maths::Vec2<float> _v2fPosition;
+				OE::Maths::Vec2<float> _v2fScale;
+
 				float _fTitleBarY;
-				float _fScaleX;
-				float _fScaleY;
+
 				unsigned char _uiFgColor[4];
 				unsigned char _uiBgColor[4];
 				unsigned char _uiBrdrColor[4];
