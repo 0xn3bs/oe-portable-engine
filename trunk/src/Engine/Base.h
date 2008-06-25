@@ -23,7 +23,6 @@ namespace OE
 	class Base
 	{
 	public:
-
 		static unsigned int InitializeEngine(int argc, char **argv);
 		static int OpenWindow(int width, int height, int redbits,
 			int greenbits, int bluebits, int alphabits,
@@ -35,6 +34,7 @@ namespace OE
 		{
 			glfwSetWindowTitle(title);
 		}
+
 		static void VSync(bool enabled)
 		{
 			if(enabled)
@@ -42,36 +42,44 @@ namespace OE
 			else
 				glfwSwapInterval(0);
 		}
+
 		static void Dispose();
 		static bool IsRunning()
 		{
 			return _bIsRunning;
 		}
+
 		static void SetInitialize(void (*initialize)(void))
 		{
 			_pf_Initialize = initialize;
 		}
+
 		static void SetUpdate(void (*update)(double deltaTime))
 		{
 			_pf_Update = update;
 		}
+
 		static void SetDraw(void (*draw)(double deltaTime))
 		{
 			_pf_Draw = draw;
 		}
+
 		static void GetWindowSize(int* width, int* height)
 		{
 			*width = _iWindowWidth;
 			*height = _iWindowHeight;
 		}
+
 		static void SetWindowResize(void (*resize)(int width, int height))
 		{
 			glfwSetWindowSizeCallback((GLFWwindowsizefun)resize);
 		}
+
 		static void SwapBuffers()
 		{
 			glfwSwapBuffers();
 		}
+
 		static void Flush()
 		{
 			glFlush();

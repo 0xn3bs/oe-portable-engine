@@ -553,5 +553,3 @@ static float otan(float x)
 return osin(x)/ocos(x);
 }
 */
-
-

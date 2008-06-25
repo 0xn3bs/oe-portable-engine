@@ -7,10 +7,10 @@ bool OE::UI::Widgets::Widget::IsOver(const float &x, const float &y)
 	iXPos = _winParentWindow->GetXPos();
 	iYPos = _winParentWindow->GetYPos();
 
-	bool isX = (x > iXPos + _2fPosition[0])
-		&& (x < iXPos + _2fPosition[0] + _2fDimensions[0]);
-	bool isY = (y > iYPos + _2fPosition[1])
-		&& (y < iYPos + _2fPosition[1] + _2fDimensions[1]);
+	bool isX = (x > iXPos + _v2fPosition.x)
+		&& (x < iXPos + _v2fPosition.x + _v2fDimensions.x);
+	bool isY = (y > iYPos + _v2fPosition.y)
+		&& (y < iYPos + _v2fPosition.y + _v2fDimensions.y);
 
 	return isX && isY;
 }

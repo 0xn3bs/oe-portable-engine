@@ -12,6 +12,7 @@
 #define WIDGET_H_
 
 #include "Engine/UI/Windows/Window.h"
+#include "Engine/Maths/Vector.h"
 
 namespace OE
 {
@@ -26,10 +27,10 @@ namespace OE
 				Widget(const float &x, const float &y, const float &width, const float &height, 
 					OE::UI::Windows::Window* parentWindow)
 				{
-					_2fPosition[0] = x;
-					_2fPosition[1] = y;
-					_2fDimensions[0] = width;
-					_2fDimensions[1] = height;
+					_v2fPosition.x = x;
+					_v2fPosition.y = y;
+					_v2fDimensions.x = width;
+					_v2fDimensions.y = height;
 					_winParentWindow = parentWindow;
 					_uiBgColor[0] = 150;
 					_uiBgColor[1] = 240;
@@ -37,9 +38,11 @@ namespace OE
 					_uiBgColor[3] = 255;
 					_bIsOver = false;
 				}
+
 				~Widget()
 				{
 				}
+
 				virtual void OnMouseOver(){};
 				virtual void OnMouseOut(){};
 				virtual void OnMouseClick(){};
@@ -51,10 +54,13 @@ namespace OE
 				{
 					_szCaption = caption;
 				}
+
 				OE::UI::Windows::Window* _winParentWindow;
 				char* _szCaption;
-				float _2fDimensions[2];
-				float _2fPosition[2];
+
+				OE::Maths::Vec2<float> _v2fDimensions;
+				OE::Maths::Vec2<float> _v2fPosition;
+
 				unsigned char _uiFgColor[4];
 				unsigned char _uiBgColor[4];
 				unsigned char _uiBrdrColor[4];
