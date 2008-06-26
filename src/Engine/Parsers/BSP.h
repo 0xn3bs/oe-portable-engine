@@ -18,6 +18,7 @@
 #include "Engine/Base.h"
 #include "Engine/Input/Input.h"
 #include "Engine/Textures/TextureManager.h"
+#include "Engine/Maths/Vector.h"
 
 #define	V_HEADER_LUMPS	64
 
@@ -29,6 +30,11 @@ namespace OE
 {
 	namespace Parsers
 	{
+		class RenderPathManager
+		{
+
+		};
+
 		class BSP : public OE::Input::InputListener
 		{
 		public:
@@ -56,9 +62,9 @@ namespace OE
 
 			struct _IBSP_VERTEX
 			{
-				float Position[3];
+				OE::Maths::Vec3<float> Position;
 				float TexCoord[2][2];
-				float Normal[3];
+				OE::Maths::Vec3<float> Normal;
 				unsigned char Color[4];
 			};
 
@@ -81,7 +87,7 @@ namespace OE
 				int LMSize[2];
 				float LMOrigin[3];
 				float LMVecs[2][3];
-				float Normal[3];
+				OE::Maths::Vec3<float> Position;
 				int Size[2];
 			};
 
@@ -112,10 +118,7 @@ namespace OE
 				int Length;
 			};
 
-			struct _VBSP_VECTOR
-			{
-				float x, y, z;
-			};
+#define	_VBSP_VECTOR OE::Maths::Vec3<float>
 
 			struct _VBSP_VERTEX
 			{
@@ -187,9 +190,9 @@ namespace OE
 
 			struct _OBSP_VERTEX
 			{
-				float Position[3];
+				OE::Maths::Vec3<float> Position;
 				float TexCoord[2][2];
-				float Normal[3];
+				OE::Maths::Vec3<float> Normal;
 				unsigned char Color[4];
 			};
 
@@ -259,4 +262,5 @@ namespace OE
 		};
 	}
 }
-#endif
+
+#endif /*BSP_H_*/

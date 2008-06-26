@@ -16,7 +16,7 @@
 #include <GL/glfw.h>
 #include <vector>
 #include <string>
-#include "FreeImage.h"
+#include <FreeImage.h>
 
 #ifndef GL_TEXTURE_2D_BINDING_EXT
 #define GL_TEXTURE_2D_BINDING_EXT         0x8069
@@ -69,7 +69,8 @@ namespace OE
 			}
 
 		private:
-			static std::vector<_TEXTURE> _vLoadedTextures;
+			static OE::Textures::_TEXTURE* _vLoadedTextures;
+			static unsigned int _iNumLoadedTextures;
 			static bool _LoadImage(const char* path, GLuint Texture);
 			static bool _LoadRawImage(const unsigned char* data, GLuint Texture);
 			static bool _DoesFileExist(const char* path);

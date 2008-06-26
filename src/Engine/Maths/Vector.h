@@ -15,6 +15,8 @@
 #include <iostream>
 #include "Math.h"
 
+#define SUBCRIPT_OUT_OF_RANGE -1
+
 namespace OE
 {
 	namespace Maths
@@ -119,6 +121,16 @@ namespace OE
 			Vec1<T> operator/(const T &rhs) const
 			{
 				return Vec1(*this)/=rhs;
+			}
+
+			T& operator[] (unsigned int i)
+			{
+				if(i > 0)
+				{
+					std::cerr << "Vec1 subscript out of range";
+					throw SUBCRIPT_OUT_OF_RANGE;
+				}
+				return x;
 			}
 
 			friend std::ostream &operator<<(std::ostream &stream, Vec1<T> rhs)
@@ -235,6 +247,16 @@ namespace OE
 			Vec2<T> operator/(const T &rhs) const
 			{
 				return Vec2(*this)/=rhs;
+			}
+
+			T& operator[] (unsigned int i)
+			{
+				if(i > 1)
+				{
+					std::cerr << "Vec2 subscript out of range";
+					throw SUBCRIPT_OUT_OF_RANGE;
+				}
+				return i == 0 ? x : y;
 			}
 
 			friend std::ostream &operator<<(std::ostream &stream, Vec2<T> rhs)
@@ -380,6 +402,17 @@ namespace OE
 				return Vec3(*this)%=rhs;
 			}
 
+			T& operator[] (unsigned int i)
+			{
+				if(i > 2)
+				{
+					std::cerr << "Vec3 subscript out of range";
+					throw SUBCRIPT_OUT_OF_RANGE;
+				}
+
+				return i == 0 ? x : i == 1 ? y : z;
+			}
+
 			friend std::ostream &operator<<(std::ostream &stream, Vec3<T> rhs)
 			{
 				stream << "<" << rhs.x << ", " << rhs.y << ", " << rhs.z << ">";
@@ -508,6 +541,16 @@ namespace OE
 			Vec4<T> operator/(const T &rhs) const
 			{
 				return Vec4(*this)/=rhs;
+			}
+
+			T& operator[] (unsigned int i)
+			{
+				if(i > 3)
+				{
+					std::cerr << "Vec4 subscript out of range";
+					throw SUBCRIPT_OUT_OF_RANGE;
+				}
+				return i == 0 ? x : i == 1 ? y : i == 2 ? z : u;
 			}
 
 			friend std::ostream &operator<<(std::ostream &stream, Vec4<T> rhs)
