@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)src&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;GLEW_STATIC;GLFWAPIENTRY;GLFWAPI;GLFWCALL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -49,6 +49,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
+				EnablePREfast="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,9 +62,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImage.lib glew32.lib"
+				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImaged.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;"
+				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -73,6 +75,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				AssemblyIdentity=""
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -114,7 +117,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;GLEW_STATIC;GLFWAPIENTRY;GLFWAPI;GLFWCALL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -132,8 +135,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib"
+				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImage.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;"
+				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -204,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Engine\GLEW\glew.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\engine\parsers\INI.h"
 				>
 			</File>
@@ -213,10 +222,6 @@
 			</File>
 			<File
 				RelativePath=".\src\Engine\Maths\Math.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\includes\stdint.h"
 				>
 			</File>
 			<File
@@ -289,6 +294,10 @@
 			</File>
 			<File
 				RelativePath=".\src\engine\cameras\FPSCamera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Engine\GLEW\glew.c"
 				>
 			</File>
 			<File

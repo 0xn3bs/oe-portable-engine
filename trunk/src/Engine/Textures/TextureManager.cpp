@@ -11,10 +11,13 @@
 #include "TextureManager.h"
 #include <iostream>
 #include <sstream> 
-std::vector<OE::Textures::_TEXTURE> OE::Textures::TextureManager::_vLoadedTextures = std::vector<OE::Textures::_TEXTURE>();
-double OE::Textures::TextureManager::contrast =1.0;
-double OE::Textures::TextureManager::brightness =1.0;
-double OE::Textures::TextureManager::gamma =1.0;
+
+OE::Textures::_TEXTURE* OE::Textures::TextureManager::_vLoadedTextures = (OE::Textures::_TEXTURE*)malloc(sizeof(_TEXTURE));
+unsigned int OE::Textures::TextureManager::_iNumLoadedTextures = 0;
+double OE::Textures::TextureManager::contrast = 1.0;
+double OE::Textures::TextureManager::brightness = 1.0;
+double OE::Textures::TextureManager::gamma = 1.0;
+
 bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 {
 	FREE_IMAGE_FORMAT fifmt = FreeImage_GetFileType(path, 0);
@@ -42,7 +45,9 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 	temp.BPP = bpp;
 	temp.Levels = numLevels;
 
-	_vLoadedTextures.push_back(temp);
+	_iNumLoadedTextures++;
+	OE::Textures::TextureManager::_vLoadedTextures = (OE::Textures::_TEXTURE*)realloc(OE::Textures::TextureManager::_vLoadedTextures, sizeof(_TEXTURE)*_iNumLoadedTextures);
+	_vLoadedTextures[_iNumLoadedTextures - 1] = temp;
 	glBindTexture (GL_TEXTURE_2D, 0);
 	FreeImage_Unload(imageFile);
 
@@ -77,12 +82,15 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	temp.BPP = bpp;
 	temp.Levels = numLevels;
 
-	std::stringstream fn;
-	fn << Texture << "_lm.png";
+	//	Dumps the lightmaps to the root folder.
+	//	std::stringstream fn;
+	//	fn << Texture << "_lm.png";
 
-	FreeImage_Save(FREE_IMAGE_FORMAT::FIF_PNG, imageFile, fn.str().c_str());
+	//	FreeImage_Save(FREE_IMAGE_FORMAT::FIF_PNG, imageFile, fn.str().c_str());
 
-	_vLoadedTextures.push_back(temp);
+	_iNumLoadedTextures++;
+	OE::Textures::TextureManager::_vLoadedTextures = (OE::Textures::_TEXTURE*)realloc(OE::Textures::TextureManager::_vLoadedTextures, sizeof(_TEXTURE)*_iNumLoadedTextures);
+	_vLoadedTextures[_iNumLoadedTextures - 1] = temp;
 	glBindTexture (GL_TEXTURE_2D, 0);
 	FreeImage_Unload(imageFile);
 
@@ -179,7 +187,7 @@ int OE::Textures::TextureManager::LoadTextureFromPath(const char* name)
 		return -1;
 	}
 
-	return _vLoadedTextures.size()-1;
+	return _iNumLoadedTextures-1;
 }
 
 int OE::Textures::TextureManager::LoadTextureFromRaw(const unsigned char* data)
@@ -195,7 +203,7 @@ int OE::Textures::TextureManager::LoadTextureFromRaw(const unsigned char* data)
 		return -1;
 	}
 
-	return _vLoadedTextures.size()-1;
+	return _iNumLoadedTextures-1;
 }
 
 void OE::Textures::TextureManager::DeleteTexture(const GLuint index)
@@ -208,10 +216,10 @@ void OE::Textures::TextureManager::DeleteTexture(const GLuint index)
 
 void OE::Textures::TextureManager::Dispose()
 {
-	for( int i = 0; i < (int)_vLoadedTextures.size(); i++ )
+	for( int i = 0; i < (int)_iNumLoadedTextures; i++ )
 	{
 		DeleteTexture(_vLoadedTextures[i].TextureID);
 	}
 
-	_vLoadedTextures.empty();
+	free(_vLoadedTextures);
 }

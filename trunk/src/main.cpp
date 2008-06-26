@@ -9,6 +9,7 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *	  Joshua 'blankthemuffin' Simmons - Comitted this line!
 *****************************************************************************************/
+
 #ifdef win32
 #include <windows.h>
 #endif
@@ -169,6 +170,5 @@ int main(int argc, char **argv)
 	}
 
 	OE::Base::Dispose();
-
 	return 0;
 }

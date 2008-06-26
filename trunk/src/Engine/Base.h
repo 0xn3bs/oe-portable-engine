@@ -11,7 +11,7 @@
 #ifndef BASE_H_
 #define BASE_H_
 
-#include <GL/glew.h>
+#include "Engine/GLEW/glew.h"
 #include <GL/glfw.h>
 #include <AL/alut.h>
 
