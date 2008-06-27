@@ -34,7 +34,6 @@ OE::Tools::Timers::Timer timerFPS;
 OE::Tools::Timers::Timer timerAlpha;
 OE::Parsers::INI iniParser;
 OE::Parsers::BSP *bspParser;
-OE::Parsers::MD3 *md3Parser;
 OE::Cameras::FPSCamera *fpsCamera;
 bool IsGUIEnabled = false;
 
@@ -68,8 +67,6 @@ void Initialize()
 	std::string mapToLoad = iniParser.GetString("default", "map");
 	bspParser = new OE::Parsers::BSP();
 	bspParser->ParseBSP(mapToLoad.c_str());
-	md3Parser = new OE::Parsers::MD3();
-	md3Parser->ParseMD3("base/models/mapobjects/kt_mushroom/mushroom_2.md3");
 
 	OE::Maths::Vec3<float> cp;
 	OE::Maths::Vec3<float> a(0.69, 0.10, 0.70);
@@ -95,7 +92,6 @@ void Draw(double deltaTime)
 	glLoadIdentity();
 	fpsCamera->Render();
 	bspParser->DebugRender();
-	md3Parser->DebugRender();
 	if(IsGUIEnabled)
 	{
 		//	Render GUI here

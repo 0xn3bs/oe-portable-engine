@@ -20,7 +20,6 @@
 #include <GL/glfw.h>
 
 #define MAX_QPATH 64
-
 #define MD3_MAX_FRAMES 1024
 #define MD3_MAX_TAGS 16
 #define MD3_MAX_SURFACES 32

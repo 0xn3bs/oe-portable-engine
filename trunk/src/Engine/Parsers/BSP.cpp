@@ -142,39 +142,40 @@ void OE::Parsers::BSP::_IBSP_ParseTextures(FILE* file, _IBSP_HEADER *header)
 	fread((_IBSP_TEXTURE*)textures, sizeof(_IBSP_TEXTURE), _iNumTextures, file);
 
 	for(int i = 0; i < _iNumTextures; i++)
-	{
-		std::cout << textures[i].Name << std::endl;
-		
+	{		
 		std::string tPath = std::string("base/") + std::string(textures[i].Name);
 
 		_vTextures[i].TextureIndex = -1;
+		_vTextures[i].Contents = textures[i].Contents;
+		_vTextures[i].Flags = textures[i].Flags;
 
-		std::string testExt = tPath + std::string(".jpg");
+		std::string testExt = tPath + std::string(".png");
 		if(OE::Textures::TextureManager::DoesFileExist(testExt.c_str()))
 		{
 			_vTextures[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromPath(testExt.c_str());
+			continue;
 		}
 
 		testExt = tPath + std::string(".tga");
 		if(OE::Textures::TextureManager::DoesFileExist(testExt.c_str()))
 		{
 			_vTextures[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromPath(testExt.c_str());
+			continue;
 		}
 
 		testExt = tPath + std::string(".jpeg");
 		if(OE::Textures::TextureManager::DoesFileExist(testExt.c_str()))
 		{
 			_vTextures[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromPath(testExt.c_str());
+			continue;
 		}
 
 		testExt = tPath + std::string(".jpg");
 		if(OE::Textures::TextureManager::DoesFileExist(testExt.c_str()))
 		{
 			_vTextures[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromPath(testExt.c_str());
+			continue;
 		}
-
-		_vTextures[i].Contents = textures[i].Contents;
-		_vTextures[i].Flags = textures[i].Flags;
 	}
 
 	free(textures);
