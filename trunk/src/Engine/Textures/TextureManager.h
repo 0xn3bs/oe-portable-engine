@@ -43,6 +43,7 @@ namespace OE
 			static int LoadTextureFromRaw(const unsigned char* data);
 			static void DeleteTexture(const GLuint index);
 			static void Dispose();
+			static bool DoesFileExist(const char* path);
 			static GLint GetTexturesID(GLuint index)
 			{
 				return _vLoadedTextures[index].TextureID;
@@ -67,13 +68,12 @@ namespace OE
 			{
 				return _vLoadedTextures[index].Levels;
 			}
-
 		private:
 			static OE::Textures::_TEXTURE* _vLoadedTextures;
 			static unsigned int _iNumLoadedTextures;
 			static bool _LoadImage(const char* path, GLuint Texture);
 			static bool _LoadRawImage(const unsigned char* data, GLuint Texture);
-			static bool _DoesFileExist(const char* path);
+			
 			static std::string _GetTexturePath(const char* name);
 			static GLint _LoadTextureFromPath(const char* path);
 			static GLint _LoadTextureFromRaw(const unsigned char* data);
