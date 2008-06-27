@@ -97,7 +97,7 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	return true;
 }
 
-bool OE::Textures::TextureManager::_DoesFileExist(const char* path)
+bool OE::Textures::TextureManager::DoesFileExist(const char* path)
 {
 	FILE *fp;
 	fp = fopen(path, "rb");
@@ -110,34 +110,32 @@ bool OE::Textures::TextureManager::_DoesFileExist(const char* path)
 
 std::string OE::Textures::TextureManager::_GetTexturePath(const char* name)
 {
-	std::string tName = std::string(TEXTURE_PATH) + name;
-
-	std::string tPath;
+	std::string tName = std::string(name);
 
 	//	Test extensions.
-	tPath = tName + ".tga";
-	if(_DoesFileExist(tPath.c_str()))
-		return tPath.c_str();
+//	tPath = tName + ".tga";
+//	if(_DoesFileExist(tPath.c_str()))
+//		return tPath.c_str();
 
-	tPath = tName + ".jpg";
-	if(_DoesFileExist(tPath.c_str()))
-		return tPath.c_str();
+//	tPath = tName + ".jpg";
+//	if(_DoesFileExist(tPath.c_str()))
+//		return tPath.c_str();
 
-	tPath = tName + ".jpeg";
-	if(_DoesFileExist(tPath.c_str()))
-		return tPath.c_str();
+//	tPath = tName + ".jpeg";
+//	if(_DoesFileExist(tPath.c_str()))
+//		return tPath.c_str();
 
-	tPath = tName + ".png";
-	if(_DoesFileExist(tPath.c_str()))
-		return tPath.c_str();
+//	tPath = tName + ".png";
+//	if(_DoesFileExist(tPath.c_str()))
+//		return tPath.c_str();
 
-	return std::string("");
+	return tName;
 }
 
 GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 {
 	std::string tPath = std::string(path);
-	std::string ext = tPath.substr(tPath.find_last_of('.'), 4);
+	//std::string ext = tPath.substr(tPath.find_last_of('.'), 4);
 
 	GLuint Texture;
 	glGenTextures(1, &Texture);
