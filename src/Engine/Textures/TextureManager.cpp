@@ -113,21 +113,21 @@ std::string OE::Textures::TextureManager::_GetTexturePath(const char* name)
 	std::string tName = std::string(name);
 
 	//	Test extensions.
-//	tPath = tName + ".tga";
-//	if(_DoesFileExist(tPath.c_str()))
-//		return tPath.c_str();
+	//	tPath = tName + ".tga";
+	//	if(_DoesFileExist(tPath.c_str()))
+	//		return tPath.c_str();
 
-//	tPath = tName + ".jpg";
-//	if(_DoesFileExist(tPath.c_str()))
-//		return tPath.c_str();
+	//	tPath = tName + ".jpg";
+	//	if(_DoesFileExist(tPath.c_str()))
+	//		return tPath.c_str();
 
-//	tPath = tName + ".jpeg";
-//	if(_DoesFileExist(tPath.c_str()))
-//		return tPath.c_str();
+	//	tPath = tName + ".jpeg";
+	//	if(_DoesFileExist(tPath.c_str()))
+	//		return tPath.c_str();
 
-//	tPath = tName + ".png";
-//	if(_DoesFileExist(tPath.c_str()))
-//		return tPath.c_str();
+	//	tPath = tName + ".png";
+	//	if(_DoesFileExist(tPath.c_str()))
+	//		return tPath.c_str();
 
 	return tName;
 }
@@ -140,6 +140,15 @@ GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	GLuint Texture;
 	glGenTextures(1, &Texture);
 	glBindTexture (GL_TEXTURE_2D, Texture);
+
+	for(int i = 0; i < _iNumLoadedTextures; i++)
+	{
+		if(strcmp(_vLoadedTextures[i].TextureName,path)==0)
+		{
+			std::clog << "Warning: Duplicate texture load attempted." << std::endl;
+			return _vLoadedTextures[i].TextureID;
+		}
+	}
 
 	if(_LoadImage(path, Texture))
 	{

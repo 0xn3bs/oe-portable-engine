@@ -29,6 +29,7 @@ namespace OE
 		struct _TEXTURE
 		{
 			GLint TextureID;
+			char TextureName[64];
 			unsigned int Width;
 			unsigned int Height;
 			unsigned int BPP;
