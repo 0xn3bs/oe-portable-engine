@@ -108,10 +108,10 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 	}
 
 	//	Build a map of quotes
-	std::map< int, std::vector<int> > vecQuoteIndices;
-	for(unsigned int i = 0; i < _vLines.size(); i++)
+	std::map< unsigned int, std::vector<unsigned int> > vecQuoteIndices;
+	for( unsigned int i = 0; i < _vLines.size(); i++)
 	{
-		for(unsigned int j = 0; j < _vLines[i].size(); j++)
+		for( unsigned int j = 0; j < _vLines[i].size(); j++)
 		{
 			if(_vLines[i][j]=='\"'&&_vLines[i][j-1]!='\\')
 				vecQuoteIndices[i].push_back(j);
@@ -167,7 +167,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 						if(vecQuoteIndices[i].size() > 0)
 						{
 							//	Is the delimiter between quotes?
-							if(vecQuoteIndices[i][0] < commentIndex && vecQuoteIndices[i][1] > commentIndex)
+							if( vecQuoteIndices[i][0] < commentIndex && vecQuoteIndices[i][1] > commentIndex )
 							{
 								if(commentIndex + 1 < _vLines[i].size())
 									commentIndex = _vLines[i].find_first_of(';', commentIndex+1);

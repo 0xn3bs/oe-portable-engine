@@ -141,7 +141,7 @@ GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	glGenTextures(1, &Texture);
 	glBindTexture (GL_TEXTURE_2D, Texture);
 
-	for(int i = 0; i < _iNumLoadedTextures; i++)
+	for(unsigned int i = 0; i < _iNumLoadedTextures; i++)
 	{
 		if(strcmp(_vLoadedTextures[i].TextureName,path)==0)
 		{

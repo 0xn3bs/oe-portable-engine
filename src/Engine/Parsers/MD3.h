@@ -231,7 +231,7 @@ namespace OE
 
 			void DebugRender()
 			{
-				for(int i = 0; i < _vSurfaces.size(); i++)
+				for( unsigned int i = 0; i < _vSurfaces.size(); i++ )
 				{
 					if(_vSurfaces[i]._vShaders[0].textureIndex==-1)
 						continue;
@@ -241,7 +241,7 @@ namespace OE
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glBegin(GL_TRIANGLES);
-					for(int j = 0; j < _vSurfaces[i]._vTriangles.size(); j++)
+					for( unsigned int j = 0; j < _vSurfaces[i]._vTriangles.size(); j++ )
 					{
 						for(int k = 0; k < 3; k++)
 						{

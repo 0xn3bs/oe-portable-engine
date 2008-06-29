@@ -20,6 +20,8 @@
 <listOptionValue builtIn="false" value="GLEW"/>
 <listOptionValue builtIn="false" value="glut"/>
 <listOptionValue builtIn="false" value="glfw"/>
+<listOptionValue builtIn="false" value="alut"/>
+<listOptionValue builtIn="false" value="openal"/>
 </option>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.610413402" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug"/>
