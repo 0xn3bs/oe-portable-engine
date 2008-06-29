@@ -199,6 +199,17 @@ void OE::Parsers::BSP::_IBSP_ParseMeshVerts(FILE *file, _IBSP_HEADER *header)
 	free(meshVerts);
 }
 
+void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
+{
+	_iNumPlanes = header->DirEntries[2].Length / sizeof(_IBSP_PLANE);
+	_vPlanes = (_OBSP_PLANE*)malloc(sizeof(_OBSP_PLANE)*_iNumPlanes);
+	_IBSP_PLANE *planes = (_IBSP_PLANE*)malloc(sizeof(_IBSP_PLANE)*_iNumPlanes);
+	fseek(file, header->DirEntries[2].Offset, SEEK_SET);
+	fread((_IBSP_PLANE*)planes, sizeof(_IBSP_PLANE), _iNumPlanes, file);
+
+
+}
+
 void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
 {
 	_iNumLightMaps = header->DirEntries[14].Length / sizeof(_IBSP_LIGHTMAP);
@@ -245,6 +256,7 @@ const int OE::Parsers::BSP::ParseIBSP(const char* path)
 	_IBSP_ParseFaces(pFile, pHeader);
 	_IBSP_ParseTextures(pFile, pHeader);
 	_IBSP_ParseMeshVerts(pFile, pHeader);
+	_IBSP_ParseVisData(pFile, pHeader);
 	_IBSP_ParseLightmaps(pFile, pHeader);
 
 	fclose(pFile);
