@@ -38,7 +38,6 @@ namespace OE
 		class BSP : public OE::Input::InputListener
 		{
 		public:
-
 			//	ID BSP
 			struct _IBSP_LUMPDIRECTORY
 			{
@@ -51,6 +50,42 @@ namespace OE
 				char Magic[4];
 				int Version;
 				_IBSP_LUMPDIRECTORY DirEntries[17];
+			};
+
+			struct _IBSP_PLANE
+			{
+				OE::Maths::Vec3<float> Normal;
+				float Distance;
+			};
+
+			struct _IBSP_NODE
+			{
+				int Plane;
+				int Children[2]; //	Negative numbers are leaf indices: -(leaf+1)
+				int Mins[3];
+				int Maxs[3];
+			};
+
+			struct _IBSP_LEAF
+			{
+				int Cluster;
+				int Area;
+				int Mins[3];
+				int Maxs[3];
+				int LeafFace;
+				int NumLeafFaces;
+				int LeafBrush;
+				int NumLeafBrushes;
+			};
+
+			struct _IBSP_LEAFFACE
+			{
+				int Face;
+			};
+
+			struct _IBSP_LEAFBRUSH
+			{
+				int Brush;
 			};
 
 			struct _IBSP_TEXTURE
@@ -161,6 +196,42 @@ namespace OE
 
 			//	Odorless Entertainment BSP
 			//	All other BSP formats will (hopefully) be converted to this format.
+			struct _OBSP_PLANE
+			{
+				OE::Maths::Vec3<float> Normal;
+				float Distance;
+			};
+			
+			struct _OBSP_NODE
+			{
+				int Plane;
+				int Children[2]; //	Negative numbers are leaf indices: -(leaf+1)
+				int Mins[3];
+				int Maxs[3];
+			};
+
+			struct _OBSP_LEAF
+			{
+				int Cluster;
+				int Area;
+				int Mins[3];
+				int Maxs[3];
+				int LeafFace;
+				int NumLeafFaces;
+				int LeafBrush;
+				int NumLeafBrushes;
+			};
+
+			struct _OBSP_LEAFFACE
+			{
+				int Face;
+			};
+
+			struct _OBSP_LEAFBRUSH
+			{
+				int Brush;
+			};
+
 			struct _OBSP_TEXTURE
 			{
 				char Name[64];
@@ -237,6 +308,10 @@ namespace OE
 			void _IBSP_ParseTextures(FILE *file, _IBSP_HEADER* header);
 			void _IBSP_ParseMeshVerts(FILE* file, _IBSP_HEADER* header);
 			void _IBSP_ParseLightmaps(FILE* file, _IBSP_HEADER* header);
+			void _IBSP_ParseVisData(FILE* file, _IBSP_HEADER* header);
+
+			_OBSP_PLANE* _vPlanes;
+			int _iNumPlanes;
 
 			_OBSP_VERTEX* _vVertices;
 			int _iNumVertices;
