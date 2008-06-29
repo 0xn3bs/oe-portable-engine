@@ -4,10 +4,10 @@
 * are made available under the terms of the GNU Lesser Public License v2.1
 * which accompanies this distribution, and is available at
 * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-* 
+*
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
-*****************************************************************************************/ 
+*****************************************************************************************/
 #include "Base.h"
 #include <iostream>
 #include "Textures/TextureManager.h"
@@ -39,6 +39,7 @@ unsigned int OE::Base::InitializeEngine(int argc, char **argv)
 	*/
 	_bIsRunning = true;
 	OE::Input::InputManager::Initialize();
+	OE::Textures::TextureManager::Initialize();
 	return 0;
 }
 
