@@ -91,7 +91,7 @@ void Draw(double deltaTime)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	fpsCamera->Render();
-	bspParser->DebugRender();
+	bspParser->DebugRender(fpsCamera);
 	if(IsGUIEnabled)
 	{
 		//	Render GUI here
