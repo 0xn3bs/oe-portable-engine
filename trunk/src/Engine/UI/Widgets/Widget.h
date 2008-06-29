@@ -50,13 +50,13 @@ namespace OE
 				virtual void Update(const float &dt) = 0;
 				virtual void Render(const float &dt) = 0;
 				bool IsOver(const float &x, const float &y);
-				void SetCaption(char* caption)
+				void SetCaption(const char* caption)
 				{
 					_szCaption = caption;
 				}
 
 				OE::UI::Windows::Window* _winParentWindow;
-				char* _szCaption;
+				const char* _szCaption;
 
 				OE::Maths::Vec2<float> _v2fDimensions;
 				OE::Maths::Vec2<float> _v2fPosition;

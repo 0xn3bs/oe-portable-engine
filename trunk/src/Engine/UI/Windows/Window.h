@@ -59,13 +59,13 @@ namespace OE
 				bool IsOverTitleBar(const float &x, const float &y);
 				void AddWidget(UI::Widgets::Widget *widget);
 				void RemoveWidget(const unsigned int &index);
-				void SetCaption(char* caption)
+				void SetCaption(const char* caption)
 				{
 					_szCaption = caption;
 				}
 
 			protected:
-				char* _szCaption;
+				const char* _szCaption;
 
 				OE::Maths::Vec2<float> _v2fDimensions;
 				OE::Maths::Vec2<float> _v2fPosition;

@@ -52,12 +52,12 @@ const int OE::Parsers::BSP::ParseBSP(const char *path)
 	*/
 	std::string extensions = std::string((const char*)glGetString(GL_EXTENSIONS));
 
-	if(extensions.find_first_of("GL_EXT_texture_filter_anisotropic")!=-1)
+	if( extensions.find_first_of("GL_EXT_texture_filter_anisotropic") != -1 )
 	{
 		std::cout << "Anisotropic supported on your video card!" << std::endl;
 	}
 
-	if(extensions.find_first_of("GL_ARB_multitexture")!=-1)
+	if( extensions.find_first_of("GL_ARB_multitexture") != -1 )
 	{
 		std::cout << "Multitexturing supported on your video card" << std::endl;
 	}
