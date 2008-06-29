@@ -4,7 +4,7 @@
 * are made available under the terms of the GNU Lesser Public License v2.1
 * which accompanies this distribution, and is available at
 * http://www.gnu.org/licenses/old-licensse/gpl-2.0.html
-* 
+*
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
@@ -39,6 +39,10 @@ namespace OE
 		class TextureManager
 		{
 		public:
+			static void Initialize()
+			{
+				_bLittleEndian = FreeImage_IsLittleEndian();
+			}
 			static double contrast, brightness, gamma;
 			static int LoadTextureFromPath(const char* name);
 			static int LoadTextureFromRaw(const unsigned char* data);
@@ -72,9 +76,10 @@ namespace OE
 		private:
 			static OE::Textures::_TEXTURE* _vLoadedTextures;
 			static unsigned int _iNumLoadedTextures;
+			static bool _bLittleEndian;
 			static bool _LoadImage(const char* path, GLuint Texture);
 			static bool _LoadRawImage(const unsigned char* data, GLuint Texture);
-			
+
 			static std::string _GetTexturePath(const char* name);
 			static GLint _LoadTextureFromPath(const char* path);
 			static GLint _LoadTextureFromRaw(const unsigned char* data);

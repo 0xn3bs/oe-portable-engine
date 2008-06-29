@@ -4,19 +4,20 @@
 * are made available under the terms of the GNU Lesser Public License v2.1
 * which accompanies this distribution, and is available at
 * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-* 
+*
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
 #include "TextureManager.h"
 #include <iostream>
-#include <sstream> 
+#include <sstream>
 
 OE::Textures::_TEXTURE* OE::Textures::TextureManager::_vLoadedTextures = (OE::Textures::_TEXTURE*)malloc(sizeof(_TEXTURE));
 unsigned int OE::Textures::TextureManager::_iNumLoadedTextures = 0;
 double OE::Textures::TextureManager::contrast = 1.0;
 double OE::Textures::TextureManager::brightness = 1.0;
 double OE::Textures::TextureManager::gamma = 1.0;
+bool OE::Textures::TextureManager::_bLittleEndian = false;
 
 bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 {
@@ -31,11 +32,13 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 	GLint height = FreeImage_GetHeight(imageFile);
 
 	_SwapRedAndBlueComponents(imageFile, width, height);
-	FreeImage_FlipVertical(imageFile);
+
+	if(_bLittleEndian)
+		FreeImage_FlipVertical(imageFile);
 
 	int numLevels = _GenerateMipmaps(imageFile, width, height, bpp);
 
-	std::clog << "Texture at " << "'" << path << "'" << " loaded as " 
+	std::clog << "Texture at " << "'" << path << "'" << " loaded as "
 		<< "texture #" << Texture << " :: " << __FILE__ << ":" << __LINE__ << std::endl << std::endl;
 
 	_TEXTURE temp;
@@ -68,6 +71,11 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 	//glPixelTransferf(GL_RED_SCALE,10.0f);
 	//glPixelTransferf(GL_GREEN_SCALE,10.0f);
 	//glPixelTransferf(GL_BLUE_SCALE,10.0f);
+
+#ifndef WIN32
+	if(_bLittleEndian)
+		FreeImage_FlipVertical(imageFile);
+#endif
 
 	FreeImage_AdjustBrightness(imageFile, 100);
 
