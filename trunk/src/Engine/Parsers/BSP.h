@@ -19,6 +19,7 @@
 #include "Engine/Input/Input.h"
 #include "Engine/Textures/TextureManager.h"
 #include "Engine/Maths/Vector.h"
+#include "Engine/Cameras/FPSCamera.h"
 
 #define	V_HEADER_LUMPS	64
 
@@ -198,10 +199,10 @@ namespace OE
 			//	All other BSP formats will (hopefully) be converted to this format.
 			struct _OBSP_PLANE
 			{
-				OE::Maths::Vec3<float> Normal;
+				OE::Maths::Vec3<double> Normal;
 				float Distance;
 			};
-			
+
 			struct _OBSP_NODE
 			{
 				int Plane;
@@ -277,7 +278,7 @@ namespace OE
 				unsigned char map[128][128][3];
 				int TextureIndex;
 			};
-			
+
 			BSP()
 			{
 				_iNumFacesToRender = 0;
@@ -288,19 +289,26 @@ namespace OE
 			}
 			~BSP()
 			{
+				free(_vPlanes);
+				free(_vNodes);
+				free(_vLeafs);
+				free(_vLeafFaces);
+				free(_vLeafBrushes);
 				free(_vVertices);
 				free(_vEdges);
 				free(_vFaces);
 				free(_vTextures);
 				free(_vMeshVerts);
 				free(_vLightMaps);
+				free(_vVecs);
+				free(_vRenderedFaces);
 			}
 
 			const int ParseBSP(const char *path);
 			const int ParseIBSP(const char* path);
 			const int ParseVBSP(const char* path);
 
-			void DebugRender();
+			void DebugRender(OE::Cameras::FPSCamera* fpsCamera);
 
 		private:
 			void _IBSP_ParseVertices(FILE *file, _IBSP_HEADER* header);
@@ -310,8 +318,26 @@ namespace OE
 			void _IBSP_ParseLightmaps(FILE* file, _IBSP_HEADER* header);
 			void _IBSP_ParseVisData(FILE* file, _IBSP_HEADER* header);
 
+			void TraverseBSPTree(OE::Cameras::FPSCamera* fpsCamera, int nodeIndex);
+			void RenderLeaf(int index);
+			void RenderFace(int index);
+
+			bool* _vRenderedFaces;
+
 			_OBSP_PLANE* _vPlanes;
 			int _iNumPlanes;
+
+			_OBSP_NODE* _vNodes;
+			int _iNumNodes;
+
+			_OBSP_LEAF* _vLeafs;
+			int _iNumLeafs;
+
+			_OBSP_LEAFFACE* _vLeafFaces;
+			int _iNumLeafFaces;
+
+			_OBSP_LEAFBRUSH* _vLeafBrushes;
+			int _iNumLeafBrushes;
 
 			_OBSP_VERTEX* _vVertices;
 			int _iNumVertices;
@@ -330,6 +356,10 @@ namespace OE
 
 			_OBSP_LIGHTMAP* _vLightMaps;
 			int _iNumLightMaps;
+
+			int _iNumVecs;
+			int _iSizeOfVecs;
+			unsigned char* _vVecs;
 
 			int _iBSPType;
 

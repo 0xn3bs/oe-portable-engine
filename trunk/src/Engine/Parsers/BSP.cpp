@@ -90,8 +90,8 @@ void OE::Parsers::BSP::_IBSP_ParseVertices(FILE *file, _IBSP_HEADER *header)
 		tVertex.TexCoord[1][1] = vertices[i].TexCoord[1][1];
 
 		tVertex.Normal[0] = vertices[i].Normal[0];
-		tVertex.Normal[1] = vertices[i].Normal[1];
-		tVertex.Normal[2] = vertices[i].Normal[2];
+		tVertex.Normal[1] = vertices[i].Normal[2];
+		tVertex.Normal[2] = -vertices[i].Normal[1];
 
 		tVertex.Color[0] = vertices[i].Color[0];
 		tVertex.Color[1] = vertices[i].Color[1];
@@ -106,6 +106,7 @@ void OE::Parsers::BSP::_IBSP_ParseVertices(FILE *file, _IBSP_HEADER *header)
 void OE::Parsers::BSP::_IBSP_ParseFaces(FILE* file, _IBSP_HEADER *header)
 {
 	_iNumFaces = header->DirEntries[13].Length / sizeof(_IBSP_FACE);
+	_vRenderedFaces = (bool*)malloc(sizeof(bool)*_iNumFaces);
 	_vFaces = (_OBSP_FACE*)malloc(sizeof(_OBSP_FACE)*_iNumFaces);
 	_IBSP_FACE *faces = (_IBSP_FACE*)malloc(sizeof(_IBSP_FACE)*_iNumFaces);
 	fseek(file, header->DirEntries[13].Offset, SEEK_SET);
@@ -207,7 +208,95 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[2].Offset, SEEK_SET);
 	fread((_IBSP_PLANE*)planes, sizeof(_IBSP_PLANE), _iNumPlanes, file);
 
+	for(int i = 0; i < _iNumPlanes; i++)
+	{
+		_vPlanes[i].Distance = planes[i].Distance;
+		//_vPlanes[i].Normal.x = planes[i].Normal.x;
+		//_vPlanes[i].Normal.y = planes[i].Normal.y;
+		//_vPlanes[i].Normal.z = planes[i].Normal.z;
+		_vPlanes[i].Normal.x = planes[i].Normal.x;
+		_vPlanes[i].Normal.y = planes[i].Normal.z;
+		_vPlanes[i].Normal.z = -planes[i].Normal.y;
+	}
 
+	free(planes);
+
+	_iNumNodes = header->DirEntries[3].Length / sizeof(_IBSP_NODE);
+	_vNodes = (_OBSP_NODE*)malloc(sizeof(_OBSP_NODE)*_iNumNodes);
+	_IBSP_NODE *nodes = (_IBSP_NODE*)malloc(sizeof(_IBSP_NODE)*_iNumNodes);
+	fseek(file, header->DirEntries[3].Offset, SEEK_SET);
+	fread((_IBSP_NODE*)nodes, sizeof(_IBSP_NODE), _iNumNodes, file);
+
+	for(int i = 0; i < _iNumNodes; i++)
+	{
+		_vNodes[i].Children[0] = nodes[i].Children[0];
+		_vNodes[i].Children[1] = nodes[i].Children[1];
+		_vNodes[i].Mins[0] = nodes[i].Mins[0];
+		_vNodes[i].Mins[1] = nodes[i].Mins[1];
+		_vNodes[i].Mins[2] = nodes[i].Mins[2];
+		_vNodes[i].Maxs[0] = nodes[i].Maxs[0];
+		_vNodes[i].Maxs[1] = nodes[i].Maxs[1];
+		_vNodes[i].Maxs[2] = nodes[i].Maxs[2];
+		_vNodes[i].Plane = nodes[i].Plane;
+	}
+
+	free(nodes);
+
+	_iNumLeafs = header->DirEntries[4].Length / sizeof(_IBSP_LEAF);
+	_vLeafs = (_OBSP_LEAF*)malloc(sizeof(_OBSP_LEAF)*_iNumLeafs);
+	_IBSP_LEAF *leafs = (_IBSP_LEAF*)malloc(sizeof(_IBSP_LEAF)*_iNumLeafs);
+	fseek(file, header->DirEntries[4].Offset, SEEK_SET);
+	fread((_IBSP_LEAF*)leafs, sizeof(_IBSP_LEAF), _iNumLeafs, file);
+
+	for(int i = 0; i < _iNumLeafs; i++)
+	{
+		_vLeafs[i].Cluster = leafs[i].Cluster;
+		_vLeafs[i].Area = leafs[i].Area;
+		_vLeafs[i].Mins[0] = leafs[i].Mins[0];
+		_vLeafs[i].Mins[1] = leafs[i].Mins[1];
+		_vLeafs[i].Mins[2] = leafs[i].Mins[2];
+		_vLeafs[i].Maxs[0] = leafs[i].Maxs[0];
+		_vLeafs[i].Maxs[1] = leafs[i].Maxs[1];
+		_vLeafs[i].Maxs[2] = leafs[i].Maxs[2];
+		_vLeafs[i].LeafFace = leafs[i].LeafFace;
+		_vLeafs[i].NumLeafFaces = leafs[i].NumLeafFaces;
+		_vLeafs[i].LeafBrush = leafs[i].LeafBrush;
+		_vLeafs[i].NumLeafBrushes = leafs[i].NumLeafBrushes;
+	}
+
+	free(leafs);
+
+	_iNumLeafFaces = header->DirEntries[5].Length / sizeof(_IBSP_LEAFFACE);
+	_vLeafFaces = (_OBSP_LEAFFACE*)malloc(sizeof(_OBSP_LEAFFACE)*_iNumLeafFaces);
+	_IBSP_LEAFFACE *leafFaces = (_IBSP_LEAFFACE*)malloc(sizeof(_IBSP_LEAFFACE)*_iNumLeafFaces);
+	fseek(file, header->DirEntries[5].Offset, SEEK_SET);
+	fread((_IBSP_LEAFFACE*)leafFaces, sizeof(_IBSP_LEAFFACE), _iNumLeafFaces, file);
+
+	for(int i = 0; i < _iNumLeafFaces; i++)
+	{
+		_vLeafFaces[i].Face = leafFaces[i].Face;
+	}
+
+	free(leafFaces);
+
+	_iNumLeafBrushes = header->DirEntries[6].Length / sizeof(_IBSP_LEAFBRUSH);
+	_vLeafBrushes = (_OBSP_LEAFBRUSH*)malloc(sizeof(_IBSP_LEAFBRUSH)*_iNumLeafBrushes);
+	_IBSP_LEAFBRUSH *leafBrushes = (_IBSP_LEAFBRUSH*)malloc(sizeof(_IBSP_LEAFBRUSH)*_iNumLeafBrushes);
+	fseek(file, header->DirEntries[6].Offset, SEEK_SET);
+	fread((_IBSP_LEAFBRUSH*)leafBrushes, sizeof(_IBSP_LEAFBRUSH), _iNumLeafBrushes, file);
+
+	for(int i = 0; i < _iNumLeafBrushes; i++)
+	{
+		_vLeafBrushes[i].Brush = leafBrushes[i].Brush;
+	}
+
+	free(leafBrushes);
+
+	fseek(file, header->DirEntries[16].Offset, SEEK_SET);
+	fread(&_iNumVecs, sizeof(int), 1, file);
+	fread(&_iSizeOfVecs, sizeof(int), 1, file);
+	_vVecs = (unsigned char*)malloc(sizeof(unsigned char) * _iNumVecs * _iSizeOfVecs);
+	fread((unsigned char*)_vVecs, sizeof(unsigned char), _iNumVecs * _iSizeOfVecs,file);
 }
 
 void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
@@ -271,107 +360,190 @@ const int OE::Parsers::BSP::ParseVBSP(const char* path)
 	return 0;
 }
 
-void OE::Parsers::BSP::DebugRender()
+void OE::Parsers::BSP::RenderFace(int index)
+{
+	if(_vRenderedFaces[index])
+		return;
+
+	if(_vFaces[index].Type != 1 && _vFaces[index].Type != 3)
+	{
+		return;
+	}
+
+	int textureMapNumLevels = 1;
+	int lightMapNumLevels = 1;
+	GLint textureMapTexID = -1;
+	GLint lightMapTexID = -1;
+
+	int contentFlags = _vTextures[_vFaces[index].Texture].Contents;
+	int surfaceFlags = _vTextures[_vFaces[index].Texture].Flags;
+
+	if(surfaceFlags & 0x80)
+		return;
+
+	if(surfaceFlags & 0x200)
+		return;
+
+	if(surfaceFlags & 0x4)
+		return;
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 1);
+	glEnable(GL_TEXTURE_2D);
+
+	//	Bind Light Map
+	if(_vFaces[index].LMIndex > -1)
+	{
+		lightMapTexID = OE::Textures::TextureManager::GetTexturesID(_vLightMaps[_vFaces[index].LMIndex].TextureIndex);
+		lightMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vLightMaps[_vFaces[index].LMIndex].TextureIndex);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, lightMapTexID);
+		glEnable(GL_TEXTURE_2D);
+	}
+
+	//	Bind Texture Map
+	if(_vTextures[_vFaces[index].Texture].TextureIndex > -1)
+	{
+		textureMapTexID = OE::Textures::TextureManager::GetTexturesID(_vTextures[_vFaces[index].Texture].TextureIndex);
+		textureMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vTextures[_vFaces[index].Texture].TextureIndex);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureMapTexID);
+		glEnable(GL_TEXTURE_2D);
+	}
+
+	if(textureMapNumLevels > 1 || textureMapTexID == -1)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	}
+	else
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	}
+
+	if(_vFaces[index].Type == 1)
+	{
+		glBegin(GL_POLYGON);
+		for(int j = _vFaces[index].Vertex; j < _vFaces[index].Vertex + _vFaces[index].NumVerts; j++)
+		{
+			glMultiTexCoord2f(GL_TEXTURE0, _vVertices[j].TexCoord[0][0], _vVertices[j].TexCoord[0][1]);
+
+			if(lightMapTexID>-1)
+				glMultiTexCoord2f(GL_TEXTURE1, _vVertices[j].TexCoord[1][0], _vVertices[j].TexCoord[1][1]);
+			glColor4f(_vVertices[j].Color[0], _vVertices[j].Color[1], _vVertices[j].Color[2], _vVertices[j].Color[3]);
+			glVertex3f(_vVertices[j].Position[0], _vVertices[j].Position[1], _vVertices[j].Position[2]);
+		}
+		glEnd();
+	}
+
+	if(_vFaces[index].Type == 3)
+	{
+		float x, y, z;
+		glBegin(GL_TRIANGLES);
+		for(int j = _vFaces[index].MeshVert; j < _vFaces[index].MeshVert + _vFaces[index].NumMeshVerts; j++)
+		{
+			x = _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].Position[0];
+			y = _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].Position[1];
+			z = _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].Position[2];
+			glMultiTexCoord2f(GL_TEXTURE0,_vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[0][0], _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[0][1]);
+			if(lightMapTexID > 0)
+			{
+				glMultiTexCoord2f(GL_TEXTURE1, _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[1][0], _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[1][1]);
+			}
+			glVertex3f(x, y, z);
+		}
+		glEnd();
+	}
+	glDisable(GL_TEXTURE_2D);
+	_vRenderedFaces[index] = true;
+}
+
+void OE::Parsers::BSP::RenderLeaf(int index)
+{
+	int x = _vLeafs[index].Cluster;
+
+	for(int i = 0; i < _iNumLeafs; i++)
+	{
+		if(x>0)
+		{
+			bool visible = false;
+			if(i==index)
+				continue;
+			int y = _vLeafs[i].Cluster;
+			visible = _vVecs[x * _iSizeOfVecs + y / 8] & (1 << y % 8);
+			if(visible)
+			{
+				for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; j++)
+				{
+					RenderFace(_vLeafFaces[j].Face);
+				}
+			}
+		}
+		else
+		{
+			for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; j++)
+			{
+				RenderFace(_vLeafFaces[j].Face);
+			}
+		}
+	}	
+
+	for(int i = _vLeafs[index].LeafFace; i < _vLeafs[index].LeafFace + _vLeafs[index].NumLeafFaces; i++)
+	{
+		RenderFace(_vLeafFaces[i].Face);
+	}
+}
+
+void OE::Parsers::BSP::TraverseBSPTree(OE::Cameras::FPSCamera* fpsCamera, int nodeIndex)
+{
+	double dotProd = fpsCamera->GetPos().DotProduct(_vPlanes[_vNodes[nodeIndex].Plane].Normal);
+	double distance = _vPlanes[_vNodes[nodeIndex].Plane].Distance;
+	dotProd -= distance;
+	if(dotProd > 0)
+	{
+		int index = _vNodes[nodeIndex].Children[0];
+
+		//	Is it a leaf?
+		if(index < 0)
+		{
+			index*=-1;
+			index--;
+
+			RenderLeaf(index);
+		}
+		else
+		{
+			TraverseBSPTree(fpsCamera, index);
+		}
+	}
+	else
+	{
+		int index = _vNodes[nodeIndex].Children[1];
+
+		//	Is it a leaf?
+		if(index < 0)
+		{
+			index*=-1;
+			index--;
+
+			RenderLeaf(index);
+		}
+		else
+		{
+			TraverseBSPTree(fpsCamera, index);
+		}
+	}
+}
+
+void OE::Parsers::BSP::DebugRender(OE::Cameras::FPSCamera* fpsCamera)
 {
 	if(_iBSPType == BSP_TYPE_IBSP)
 	{
-		for(int i = 0; i < _iNumFaces; i++)
-		{
-			if(_vFaces[i].Type != 1 && _vFaces[i].Type != 3)
-			{
-				continue;
-			}
-
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, 1);
-			glEnable(GL_TEXTURE_2D);
-
-			int textureMapNumLevels = 1;
-			int lightMapNumLevels = 1;
-			GLint textureMapTexID = -1;
-			GLint lightMapTexID = -1;
-
-			int contentFlags = _vTextures[_vFaces[i].Texture].Contents;
-			int surfaceFlags = _vTextures[_vFaces[i].Texture].Flags;
-
-			if(surfaceFlags & 0x80)
-				continue;
-
-			if(surfaceFlags & 0x200)
-				continue;
-
-			if(surfaceFlags & 0x4)
-				continue;
-
-			//	Bind Light Map
-			if(_vFaces[i].LMIndex > -1)
-			{
-				lightMapTexID = OE::Textures::TextureManager::GetTexturesID(_vLightMaps[_vFaces[i].LMIndex].TextureIndex);
-				lightMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vLightMaps[_vFaces[i].LMIndex].TextureIndex);
-
-				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, lightMapTexID);
-				glEnable(GL_TEXTURE_2D);
-			}
-
-			//	Bind Texture Map
-			if(_vTextures[_vFaces[i].Texture].TextureIndex > -1)
-			{
-				textureMapTexID = OE::Textures::TextureManager::GetTexturesID(_vTextures[_vFaces[i].Texture].TextureIndex);
-				textureMapNumLevels = OE::Textures::TextureManager::GetTexturesNumLevels(_vTextures[_vFaces[i].Texture].TextureIndex);
-				
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, textureMapTexID);
-				glEnable(GL_TEXTURE_2D);
-			}
-
-			if(textureMapNumLevels > 1 || textureMapTexID == -1)
-			{
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			}
-			else
-			{
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			}
-
-			if(_vFaces[i].Type == 1)
-			{
-				glBegin(GL_POLYGON);
-				for(int j = _vFaces[i].Vertex; j < _vFaces[i].Vertex + _vFaces[i].NumVerts; j++)
-				{
-					
-					glMultiTexCoord2f(GL_TEXTURE0, _vVertices[j].TexCoord[0][0], _vVertices[j].TexCoord[0][1]);
-
-					if(lightMapTexID>-1)
-						glMultiTexCoord2f(GL_TEXTURE1, _vVertices[j].TexCoord[1][0], _vVertices[j].TexCoord[1][1]);
-					glColor4f(_vVertices[j].Color[0], _vVertices[j].Color[1], _vVertices[j].Color[2], _vVertices[j].Color[3]);
-					glVertex3f(_vVertices[j].Position[0], _vVertices[j].Position[1], _vVertices[j].Position[2]);
-				}
-				glEnd();
-			}
-
-			if(_vFaces[i].Type == 3)
-			{
-				float x, y, z;
-				glBegin(GL_TRIANGLES);
-				for(int j = _vFaces[i].MeshVert; j < _vFaces[i].MeshVert + _vFaces[i].NumMeshVerts; j++)
-				{
-					x = _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].Position[0];
-					y = _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].Position[1];
-					z = _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].Position[2];
-					glMultiTexCoord2f(GL_TEXTURE0,_vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].TexCoord[0][0], _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].TexCoord[0][1]);
-					if(lightMapTexID > 0)
-					{
-						glMultiTexCoord2f(GL_TEXTURE1, _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].TexCoord[1][0], _vVertices[_vFaces[i].Vertex + _vMeshVerts[j].Offset].TexCoord[1][1]);
-					}
-					glVertex3f(x, y, z);
-				}
-				glEnd();
-			}
-		}
-		glDisable(GL_TEXTURE_2D);
+		TraverseBSPTree(fpsCamera, 0);
+		memset(_vRenderedFaces, 0, sizeof(bool) * _iNumFaces);
 	}
 }

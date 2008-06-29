@@ -72,6 +72,11 @@ namespace OE
 			void Update(const float &dt);
 			void Render();
 
+			OE::Maths::Vec3<double> GetPos()
+			{
+				return _v3dEye;
+			}
+
 		private:
 			OE::Maths::Vec3<double> _v3dEye;
 			OE::Maths::Vec3<double> _v3dCenter;

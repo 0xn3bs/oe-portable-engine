@@ -298,6 +298,11 @@ namespace OE
 				return (vec3.x * x) + (vec3.y * y) + (vec3.z * z);
 			}
 
+			Vec3<T> Normalize()
+			{
+				return Vec3(*this)/=Magnitude();
+			}
+
 			Vec3<T> CrossProduct(const Vec3 &vec3)
 			{
 				return 
