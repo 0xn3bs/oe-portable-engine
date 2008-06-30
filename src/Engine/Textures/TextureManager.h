@@ -13,7 +13,7 @@
 
 #define TEXTURE_PATH "base/"
 
-#include <GL/glfw.h>
+#include "Engine/GLFW/glfw.h"
 #include <vector>
 #include <string>
 #include <FreeImage.h>

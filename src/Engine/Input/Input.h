@@ -11,7 +11,7 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 
-#include <GL/glfw.h>
+#include "Engine/GLFW/glfw.h"
 #include <ostream>
 #include <iostream>
 #include <memory>
