@@ -88,6 +88,19 @@ namespace OE
 			{
 				int Brush;
 			};
+			
+			struct _IBSP_BRUSH
+			{
+				int BrushSide;
+				int NumBrushSides;
+				int Texture;
+			};
+
+			struct _IBSP_BRUSHSIDE
+			{
+				int Plane;
+				int Texture;
+			};
 
 			struct _IBSP_TEXTURE
 			{
@@ -233,6 +246,19 @@ namespace OE
 				int Brush;
 			};
 
+			struct _OBSP_BRUSH
+			{
+				int BrushSide;
+				int NumBrushSides;
+				int Texture;
+			};
+
+			struct _OBSP_BRUSHSIDE
+			{
+				int Plane;
+				int Texture;
+			};
+
 			struct _OBSP_TEXTURE
 			{
 				char Name[64];
@@ -281,6 +307,8 @@ namespace OE
 
 			BSP()
 			{
+				_iNumVecs = 0;
+				_iSizeOfVecs = 0;
 				_iNumFacesToRender = 0;
 				if(OE::Input::InputManager::IsInitialized()==false)
 					std::cerr << "Warning: BSP - The Input Manager has not yet been initialized!" << std::endl;
@@ -308,7 +336,7 @@ namespace OE
 			const int ParseIBSP(const char* path);
 			const int ParseVBSP(const char* path);
 
-			void DebugRender(OE::Cameras::FPSCamera* fpsCamera);
+			void DebugRender(float dt, OE::Cameras::FPSCamera* fpsCamera);
 
 		private:
 			void _IBSP_ParseVertices(FILE *file, _IBSP_HEADER* header);
@@ -338,6 +366,12 @@ namespace OE
 
 			_OBSP_LEAFBRUSH* _vLeafBrushes;
 			int _iNumLeafBrushes;
+
+			_OBSP_BRUSH* _vBrushes;
+			int _iNumBrushes;
+
+			_OBSP_BRUSHSIDE* _vBrushSides;
+			int _iNumBrushSides;
 
 			_OBSP_VERTEX* _vVertices;
 			int _iNumVertices;

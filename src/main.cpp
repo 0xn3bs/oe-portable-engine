@@ -41,9 +41,11 @@ void Initialize()
 {
 	OE::Textures::TextureManager::LoadTextureFromPath("base/textures/notexture.tga");
 
-	fpsCamera = new OE::Cameras::FPSCamera(0.0f, 0.0f, 10.0f, 0.0f, 0.0f, -100.0f, 0.0f, 1.0f, 0.0f);
+	fpsCamera = new OE::Cameras::FPSCamera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
 	glShadeModel(GL_SMOOTH);
+
+	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LINE);
 	glEnable(GL_POINT);
 	glEnable(GL_LINE_SMOOTH);
@@ -82,16 +84,15 @@ void Update(double deltaTime)
 	{
 		//windowManager.Update(deltaTime);
 	}
-	fpsCamera->Update(deltaTime);
+	//fpsCamera->Update(deltaTime);
 }
 
 void Draw(double deltaTime)
 {
-	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	fpsCamera->Render();
-	bspParser->DebugRender(fpsCamera);
+	bspParser->DebugRender(deltaTime, fpsCamera);
 	if(IsGUIEnabled)
 	{
 		//	Render GUI here

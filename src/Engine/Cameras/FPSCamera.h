@@ -77,8 +77,9 @@ namespace OE
 				return _v3dEye;
 			}
 
-		private:
 			OE::Maths::Vec3<double> _v3dEye;
+		private:
+			
 			OE::Maths::Vec3<double> _v3dCenter;
 			OE::Maths::Vec3<double> _v3dUp;
 			OE::Maths::Vec3<double> _v3dChange;
