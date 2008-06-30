@@ -12,8 +12,8 @@
 #define BASE_H_
 
 #include "Engine/GLEW/glew.h"
-#include <GL/glfw.h>
-#include <AL/alut.h>
+#include "Engine/GLFW/glfw.h"
+//#include <AL/alut.h>
 
 /*! \namespace Odorless
 \brief The Odorless Entertainment's expandable namespace.

@@ -10,7 +10,7 @@
 *****************************************************************************************/ 
 #include "BSP.h"
 #include <GL/glext.h>
-#include <GL/glfw.h>
+#include "Engine/GLFW/glfw.h"
 
 #define IDBSPHEADER	(('P'<<24)+('S'<<16)+('B'<<8)+'V')
 

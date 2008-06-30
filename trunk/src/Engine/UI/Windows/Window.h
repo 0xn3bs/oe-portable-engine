@@ -11,7 +11,7 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
-#include <GL/glfw.h>
+#include "Engine/GLFW/glfw.h"
 #include "Engine/UI/Widgets/Widget.h"
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/Maths/Vector.h"

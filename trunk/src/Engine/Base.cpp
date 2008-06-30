@@ -112,7 +112,7 @@ void OE::Base::Draw(double deltaTime)
 void OE::Base::Dispose()
 {
 	_bIsRunning = false;
-	alutExit();
+	//alutExit();
 	glfwDisable(GLFW_STICKY_KEYS);
 
 	glfwTerminate();
