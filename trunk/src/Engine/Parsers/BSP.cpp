@@ -292,11 +292,41 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 
 	free(leafBrushes);
 
-	fseek(file, header->DirEntries[16].Offset, SEEK_SET);
-	fread(&_iNumVecs, sizeof(int), 1, file);
-	fread(&_iSizeOfVecs, sizeof(int), 1, file);
-	_vVecs = (unsigned char*)malloc(sizeof(unsigned char) * _iNumVecs * _iSizeOfVecs);
-	fread((unsigned char*)_vVecs, sizeof(unsigned char), _iNumVecs * _iSizeOfVecs,file);
+	if(header->DirEntries[16].Length > 0)
+	{
+		fseek(file, header->DirEntries[16].Offset, SEEK_SET);
+		fread(&_iNumVecs, sizeof(int), 1, file);
+		fread(&_iSizeOfVecs, sizeof(int), 1, file);
+		_vVecs = (unsigned char*)malloc(sizeof(unsigned char) * _iNumVecs * _iSizeOfVecs);
+		fread((unsigned char*)_vVecs, sizeof(unsigned char), _iNumVecs * _iSizeOfVecs,file);
+	}
+
+	_iNumBrushes = header->DirEntries[8].Length / sizeof(_IBSP_BRUSH);
+	_vBrushes = (_OBSP_BRUSH*)malloc(sizeof(_IBSP_BRUSH)*_iNumBrushes);
+	_IBSP_BRUSH* brushes = (_IBSP_BRUSH*)malloc(sizeof(_IBSP_BRUSH)*_iNumBrushes);
+	fseek(file, header->DirEntries[8].Offset, SEEK_SET);
+	fread((_IBSP_BRUSH*)brushes, sizeof(_IBSP_BRUSH), _iNumBrushes, file);
+
+	for(int i = 0; i < _iNumBrushes; i++)
+	{
+		_vBrushes[i].BrushSide = brushes[i].BrushSide;
+		_vBrushes[i].NumBrushSides = brushes[i].NumBrushSides;
+		_vBrushes[i].Texture = brushes[i].Texture;
+	}
+
+	free(brushes);
+
+	_iNumBrushSides = header->DirEntries[9].Length / sizeof(_IBSP_BRUSHSIDE);
+	_vBrushSides = (_OBSP_BRUSHSIDE*)malloc(sizeof(_IBSP_BRUSHSIDE)*_iNumBrushSides);
+	_IBSP_BRUSHSIDE* brushSides = (_IBSP_BRUSHSIDE*)malloc(sizeof(_IBSP_BRUSHSIDE)*_iNumBrushSides);
+	fseek(file, header->DirEntries[9].Offset, SEEK_SET);
+	fread((_IBSP_BRUSHSIDE*)brushSides, sizeof(_IBSP_BRUSHSIDE), _iNumBrushSides, file);
+
+	for(int i = 0; i < _iNumBrushSides; i++)
+	{
+		_vBrushSides[i].Plane = brushSides[i].Plane;
+		_vBrushSides[i].Texture = brushSides[i].Texture;
+	}
 }
 
 void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
@@ -468,14 +498,26 @@ void OE::Parsers::BSP::RenderLeaf(int index)
 
 	for(int i = 0; i < _iNumLeafs; i++)
 	{
+		if(i==index)
+			continue;
 		if(x>0)
 		{
 			bool visible = false;
 			if(i==index)
 				continue;
 			int y = _vLeafs[i].Cluster;
-			visible = _vVecs[x * _iSizeOfVecs + y / 8] & (1 << y % 8);
-			if(visible)
+			if(_iNumVecs > 0)
+			{
+				visible = _vVecs[x * _iSizeOfVecs + y / 8] & (1 << y % 8);
+				if(visible)
+				{
+					for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; j++)
+					{
+						RenderFace(_vLeafFaces[j].Face);
+					}
+				}
+			}
+			else
 			{
 				for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; j++)
 				{
@@ -539,11 +581,12 @@ void OE::Parsers::BSP::TraverseBSPTree(OE::Cameras::FPSCamera* fpsCamera, int no
 	}
 }
 
-void OE::Parsers::BSP::DebugRender(OE::Cameras::FPSCamera* fpsCamera)
+void OE::Parsers::BSP::DebugRender(float dt, OE::Cameras::FPSCamera* fpsCamera)
 {
 	if(_iBSPType == BSP_TYPE_IBSP)
 	{
 		TraverseBSPTree(fpsCamera, 0);
 		memset(_vRenderedFaces, 0, sizeof(bool) * _iNumFaces);
+		fpsCamera->Update(dt);
 	}
 }
