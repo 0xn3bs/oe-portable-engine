@@ -64,12 +64,12 @@ namespace OE
 				}
 			};
 
-			void MoveForward(const float &dt);
-			void MoveBackward(const float &dt);
-			void StrafeLeft(const float &dt);
-			void StrafeRight(const float &dt);
+			void MoveForward(const float dt);
+			void MoveBackward(const float dt);
+			void StrafeLeft(const float dt);
+			void StrafeRight(const float dt);
 
-			void Update(const float &dt);
+			void Update(const float dt);
 			void Render();
 
 			OE::Maths::Vec3<double> GetPos()

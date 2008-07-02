@@ -24,7 +24,7 @@ namespace OE
 			class Widget
 			{
 			public:
-				Widget(const float &x, const float &y, const float &width, const float &height, 
+				Widget(const float x, const float y, const float width, const float height, 
 					OE::UI::Windows::Window* parentWindow)
 				{
 					_v2fPosition.x = x;
@@ -47,9 +47,9 @@ namespace OE
 				virtual void OnMouseOut(){};
 				virtual void OnMouseClick(){};
 				virtual void OnMouseButton(const int button, const int action){};
-				virtual void Update(const float &dt) = 0;
-				virtual void Render(const float &dt) = 0;
-				bool IsOver(const float &x, const float &y);
+				virtual void Update(const float dt) = 0;
+				virtual void Render(const float dt) = 0;
+				bool IsOver(const float x, const float y);
 				void SetCaption(const char* caption)
 				{
 					_szCaption = caption;

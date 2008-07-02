@@ -22,7 +22,7 @@ namespace OE
 			class Button : public OE::UI::Widgets::Widget
 			{
 			public:
-				Button(const float& x, const float &y, const float &width, const float &height, 
+				Button(const float x, const float y, const float width, const float height, 
 					OE::UI::Windows::Window* parentWindow) : Widget(x, y, width, 
 					height, parentWindow)
 				{
@@ -57,11 +57,11 @@ namespace OE
 					_szCaption = "Click";
 				}
 
-				virtual void Update(const float &dt)
+				virtual void Update(const float dt)
 				{
 				}
 
-				virtual void Render(const float &dt)
+				virtual void Render(const float dt)
 				{
 					glPushMatrix();
 					glBegin(GL_QUADS);

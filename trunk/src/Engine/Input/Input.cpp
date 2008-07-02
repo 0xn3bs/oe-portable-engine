@@ -86,7 +86,7 @@ void OE::Input::InputManager::Initialize()
 	_bInitialized = true;
 }
 
-void OE::Input::InputManager::Update(double &dt)
+void OE::Input::InputManager::Update(double dt)
 {
 	int x, y;
 	glfwGetMousePos(&x, &y);

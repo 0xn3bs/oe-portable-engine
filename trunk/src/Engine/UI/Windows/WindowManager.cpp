@@ -93,7 +93,7 @@ void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 	}
 }
 
-bool OE::UI::Windows::WindowManager::CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y)
+bool OE::UI::Windows::WindowManager::CanPick(const unsigned int index, const unsigned int x, const unsigned int y)
 {
 	Window* winTemp = _vecWindows.at(index);
 	bool bOver = winTemp->IsOver(x, y);
@@ -105,7 +105,7 @@ bool OE::UI::Windows::WindowManager::CanPick(const unsigned int &index, const un
 	return bOver;
 }
 
-void OE::UI::Windows::WindowManager::Update(const float &dt)
+void OE::UI::Windows::WindowManager::Update(const float dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
@@ -159,7 +159,7 @@ void OE::UI::Windows::WindowManager::UpdateWin(const int width, const int height
 	_iWinHeight = height;
 }
 
-void OE::UI::Windows::WindowManager::Render(const float &dt)
+void OE::UI::Windows::WindowManager::Render(const float dt)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{

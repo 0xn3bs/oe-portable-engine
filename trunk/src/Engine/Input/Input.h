@@ -68,7 +68,7 @@ namespace OE
 			static void Initialize();
 			static bool IsInitialized(){return _bInitialized;}
 			static bool IsMouseForcedToReference(){return _bForceMouseToRefPos;}
-			static void SetMouseReferencePos(const int &x, const int &y)
+			static void SetMouseReferencePos(const int x, const int y)
 			{
 				_iMouseReferenceX = x;
 				_iMouseReferenceY = y;
@@ -79,34 +79,34 @@ namespace OE
 				_bForceMouseToRefPos = forceReference;
 			}
 
-			static void Update(double &dt);
+			static void Update(double dt);
 
 			static void AddInputListener(InputListener* inputListener)
 			{
 				_vecInputListeners.push_back(inputListener);
 			}
 
-			static void SetKeyState(const char &key, bool &state)
+			static void SetKeyState(const char key, bool state)
 			{
 				_rgbKeys[(int)key] = state;
 			}
 
-			static bool GetKeyState(const char &key)
+			static bool GetKeyState(const char key)
 			{
 				return _rgbKeys[(int)key];
 			}
 
-			static void SetMousePos(const int &x, const int &y)
+			static void SetMousePos(const int x, const int y)
 			{
 				glfwSetMousePos(x, y);
 			}
 
-			static void SetMouseX(const int &x)
+			static void SetMouseX(const int x)
 			{
 				glfwSetMousePos(x, _iMouseY);
 			}
 
-			static void SetMouseY(const int &y)
+			static void SetMouseY(const int y)
 			{
 				glfwSetMousePos(_iMouseX, y);
 			}	
@@ -136,7 +136,7 @@ namespace OE
 				return _iMouseY;
 			}
 
-			static bool IsMouseDown(const int &button)
+			static bool IsMouseDown(const int button)
 			{
 				return glfwGetMouseButton(button);
 			}

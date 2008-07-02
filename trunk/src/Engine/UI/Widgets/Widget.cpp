@@ -1,6 +1,6 @@
 #include "Widget.h"
 
-bool OE::UI::Widgets::Widget::IsOver(const float &x, const float &y)
+bool OE::UI::Widgets::Widget::IsOver(const float x, const float y)
 {
 	int iXPos, iYPos;
 
