@@ -17,7 +17,7 @@ OE::UI::Windows::Window::Window()
 	_bIsDragging = false;
 }
 
-OE::UI::Windows::Window::Window(const float &x, const float &y, const float &width, const float &height)
+OE::UI::Windows::Window::Window(const float x, const float y, const float width, const float height)
 {
 	_v2fPosition.x = x;
 	_v2fPosition.y = y;
@@ -34,14 +34,14 @@ OE::UI::Windows::Window::~Window()
 
 }
 
-bool OE::UI::Windows::Window::IsOver(const float &x, const float &y)
+bool OE::UI::Windows::Window::IsOver(const float x, const float y)
 {
 	bool isX = x > _v2fPosition.x && x < _v2fPosition.x + _v2fDimensions.x;
 	bool isY = y > _v2fPosition.y && y < _v2fPosition.y + _v2fDimensions.y;
 	return isX && isY;
 }
 
-bool OE::UI::Windows::Window::IsOverTitleBar(const float &x, const float &y)
+bool OE::UI::Windows::Window::IsOverTitleBar(const float x, const float y)
 {
 	bool isX = x > _v2fPosition.x && x < _v2fPosition.x + _v2fDimensions.x;
 	bool isY = y > _v2fPosition.y && y < _v2fPosition.y + (_fTitleBarY);
@@ -54,7 +54,7 @@ void OE::UI::Windows::Window::AddWidget(UI::Widgets::Widget *widget)
 }
 
 void OE::UI::Windows::Window::RemoveWidget(
-	const unsigned int &index)
+	const unsigned int index)
 {
 	_vecWidgets.erase(_vecWidgets.begin()+index);
 }

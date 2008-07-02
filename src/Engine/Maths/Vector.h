@@ -32,7 +32,7 @@ namespace OE
 				x = 0;
 			}
 
-			Vec1(const T &x)
+			Vec1(const T x)
 			{
 				this->x = x;
 			}
@@ -57,13 +57,13 @@ namespace OE
 				return *this;
 			}
 
-			Vec1<T> &operator+=(const T &rhs) 
+			Vec1<T> &operator+=(const T rhs) 
 			{
 				x += rhs;
 				return *this;
 			}
 
-			Vec1<T> operator+(const T &rhs) const
+			Vec1<T> operator+(const T rhs) const
 			{
 				return Vec1(*this)+=rhs;
 			}
@@ -90,13 +90,13 @@ namespace OE
 				return Vec1(*this)-=rhs;
 			}
 
-			Vec1<T> &operator*=(const T &rhs)
+			Vec1<T> &operator*=(const T rhs)
 			{
 				x *= rhs;
 				return *this;
 			}
 
-			Vec1<T> operator*(const T &rhs) const
+			Vec1<T> operator*(const T rhs) const
 			{
 				return Vec1(*this)*=rhs;
 			}
@@ -112,13 +112,13 @@ namespace OE
 				return Vec1(*this)*=rhs;
 			}
 
-			Vec1<T> &operator/=(const T &rhs)
+			Vec1<T> &operator/=(const T rhs)
 			{
 				x /= rhs;
 				return *this;
 			}
 
-			Vec1<T> operator/(const T &rhs) const
+			Vec1<T> operator/(const T rhs) const
 			{
 				return Vec1(*this)/=rhs;
 			}
@@ -151,7 +151,7 @@ namespace OE
 				x = y = 0;
 			}
 
-			Vec2(const T &x, const T &y)
+			Vec2(const T x, const T y)
 			{
 				this->x = x;
 				this->y = y;
@@ -178,14 +178,14 @@ namespace OE
 				return *this;
 			}
 
-			Vec2<T> &operator+=(const T &rhs) 
+			Vec2<T> &operator+=(const T rhs) 
 			{
 				x += rhs;
 				y += rhs;
 				return *this;
 			}
 
-			Vec2<T> operator+(const T &rhs) const
+			Vec2<T> operator+(const T rhs) const
 			{
 				return Vec2(*this)+=rhs;
 			}
@@ -214,14 +214,14 @@ namespace OE
 				return Vec2(*this)-=rhs;
 			}
 
-			Vec2<T> &operator*=(const T &rhs)
+			Vec2<T> &operator*=(const T rhs)
 			{
 				x *= rhs;
 				y *= rhs;
 				return *this;
 			}
 
-			Vec2<T> operator*(const T &rhs) const
+			Vec2<T> operator*(const T rhs) const
 			{
 				return Vec2(*this)*=rhs;
 			}
@@ -237,14 +237,14 @@ namespace OE
 				return Vec2(*this)*=rhs;
 			}
 
-			Vec2<T> &operator/=(const T &rhs)
+			Vec2<T> &operator/=(const T rhs)
 			{
 				x /= rhs;
 				y /= rhs;
 				return *this;
 			}
 
-			Vec2<T> operator/(const T &rhs) const
+			Vec2<T> operator/(const T rhs) const
 			{
 				return Vec2(*this)/=rhs;
 			}
@@ -277,7 +277,7 @@ namespace OE
 				x = y = z = 0;
 			}
 
-			Vec3(const T &x, const T &y, const T &z)
+			Vec3(const T x, const T y, const T z)
 			{
 				this->x = x;
 				this->y = y;
@@ -319,7 +319,7 @@ namespace OE
 				return *this;
 			}
 
-			Vec3<T> &operator+=(const T &rhs) 
+			Vec3<T> &operator+=(const T rhs) 
 			{
 				x += rhs;
 				y += rhs;
@@ -327,7 +327,7 @@ namespace OE
 				return *this;
 			}
 
-			Vec3<T> operator+(const T &rhs) const
+			Vec3<T> operator+(const T rhs) const
 			{
 				return Vec3(*this)+=rhs;
 			}
@@ -358,7 +358,7 @@ namespace OE
 				return Vec3(*this)-=rhs;
 			}
 
-			Vec3<T> &operator*=(const T &rhs)
+			Vec3<T> &operator*=(const T rhs)
 			{
 				x *= rhs;
 				y *= rhs;
@@ -366,7 +366,7 @@ namespace OE
 				return *this;
 			}
 
-			Vec3<T> operator*(const T &rhs) const
+			Vec3<T> operator*(const T rhs) const
 			{
 				return Vec3(*this)*=rhs;
 			}
@@ -382,7 +382,7 @@ namespace OE
 				return Vec3(*this)*=rhs;
 			}
 
-			Vec3<T> &operator/=(const T &rhs)
+			Vec3<T> &operator/=(const T rhs)
 			{
 				x /= rhs;
 				y /= rhs;
@@ -467,7 +467,7 @@ namespace OE
 				return *this;
 			}
 
-			Vec4<T> &operator+=(const T &rhs) 
+			Vec4<T> &operator+=(const T rhs) 
 			{
 				x += rhs;
 				y += rhs;
@@ -476,7 +476,7 @@ namespace OE
 				return *this;
 			}
 
-			Vec4<T> operator+(const T &rhs) const
+			Vec4<T> operator+(const T rhs) const
 			{
 				return Vec4(*this)+=rhs;
 			}
@@ -509,7 +509,7 @@ namespace OE
 				return Vec4(*this)-=rhs;
 			}
 
-			Vec4<T> &operator*=(const T &rhs)
+			Vec4<T> &operator*=(const T rhs)
 			{
 				x *= rhs;
 				y *= rhs;
@@ -518,7 +518,7 @@ namespace OE
 				return *this;
 			}
 
-			Vec4<T> operator*(const T &rhs) const
+			Vec4<T> operator*(const T rhs) const
 			{
 				return Vec4(*this)*=rhs;
 			}
@@ -534,7 +534,7 @@ namespace OE
 				return Vec4(*this)*=rhs;
 			}
 
-			Vec4<T> &operator/=(const T &rhs)
+			Vec4<T> &operator/=(const T rhs)
 			{
 				x /= rhs;
 				y /= rhs;
@@ -543,7 +543,7 @@ namespace OE
 				return *this;
 			}
 
-			Vec4<T> operator/(const T &rhs) const
+			Vec4<T> operator/(const T rhs) const
 			{
 				return Vec4(*this)/=rhs;
 			}

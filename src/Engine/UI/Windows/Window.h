@@ -38,12 +38,12 @@ namespace OE
 				friend class WindowManager;
 			public:
 				Window();
-				Window(const float &x, const float &y, const float &width, const float &height);
+				Window(const float x, const float y, const float width, const float height);
 				~Window();
 				virtual int Initialize() = 0;
 				virtual void Dispose() = 0;
-				virtual void Update(const float &dt) = 0;
-				virtual void Render(const float &dt) = 0;
+				virtual void Update(const float dt) = 0;
+				virtual void Render(const float dt) = 0;
 
 				virtual void OnMouseClick(const char button, const int x, const int y){};
 				virtual void OnMouseDown(const char button, const int x, const int y){};
@@ -55,10 +55,10 @@ namespace OE
 				int GetWidth(){return _v2fDimensions.x;}
 				int GetHeight(){return _v2fDimensions.y;}
 
-				bool IsOver(const float &x, const float &y);
-				bool IsOverTitleBar(const float &x, const float &y);
+				bool IsOver(const float x, const float y);
+				bool IsOverTitleBar(const float x, const float y);
 				void AddWidget(UI::Widgets::Widget *widget);
-				void RemoveWidget(const unsigned int &index);
+				void RemoveWidget(const unsigned int index);
 				void SetCaption(const char* caption)
 				{
 					_szCaption = caption;

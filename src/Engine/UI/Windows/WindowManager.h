@@ -54,23 +54,23 @@ namespace OE
 					_winCurrentFocused = &window;
 				}
 
-				void RemoveWindow(const unsigned int &index)
+				void RemoveWindow(const unsigned int index)
 				{
 					_vecWindows.at(index)->_bHasFocus = false;
 					_vecWindows.erase(_vecWindows.begin() + index);
 				}
 
-				bool CanPick(const unsigned int &index, const unsigned int &x, const unsigned int &y);
-				void SetFocus(const unsigned int &index)
+				bool CanPick(const unsigned int index, const unsigned int x, const unsigned int y);
+				void SetFocus(const unsigned int index)
 				{
 					if(_winCurrentFocused != NULL)
 						_winCurrentFocused->_bHasFocus = false;
 					_vecWindows[index]->_bHasFocus = true;
 				}
 
-				void Update(const float &dt);
+				void Update(const float dt);
 				void UpdateWin(const int width, const int height);
-				void Render(const float &dt);
+				void Render(const float dt);
 
 			private:
 				void UpdateFocus()

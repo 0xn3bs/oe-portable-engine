@@ -10,7 +10,7 @@
 ***************************************************************************************************/
 #include "INI.h"
 
-int OE::Parsers::INI::GetInt(std::string section, std::string variable)
+int OE::Parsers::INI::GetInt(const std::string &section, const std::string &variable)
 {
 	std::string value = _mapINIData[section][variable];
 	const char* tempBuffer = value.c_str();
@@ -18,7 +18,7 @@ int OE::Parsers::INI::GetInt(std::string section, std::string variable)
 	return result;
 }
 
-bool OE::Parsers::INI::GetBool(std::string section, std::string variable)
+bool OE::Parsers::INI::GetBool(const std::string &section, const std::string &variable)
 {
 	std::string value = _mapINIData[section][variable];
 
@@ -27,7 +27,7 @@ bool OE::Parsers::INI::GetBool(std::string section, std::string variable)
 	return false;
 }
 
-double OE::Parsers::INI::GetDouble(std::string section, std::string variable)
+double OE::Parsers::INI::GetDouble(const std::string &section, const std::string &variable)
 {
 	std::string value = _mapINIData[section][variable];
 	const char* tempBuffer = value.c_str();
@@ -35,7 +35,7 @@ double OE::Parsers::INI::GetDouble(std::string section, std::string variable)
 	return result;
 }
 
-float OE::Parsers::INI::GetFloat(std::string section, std::string variable)
+float OE::Parsers::INI::GetFloat(const std::string &section, const std::string &variable)
 {
 	std::string value = _mapINIData[section][variable];
 	const char* tempBuffer = value.c_str();

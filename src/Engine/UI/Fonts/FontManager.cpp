@@ -154,7 +154,7 @@ void OE::UI::Fonts::FontManager::SetFont(const char *name)
 	}
 }
 
-void OE::UI::Fonts::FontManager::SetFont(const unsigned int &index)
+void OE::UI::Fonts::FontManager::SetFont(const unsigned int index)
 {
 	if (index < _vFonts.size() && index >= 0)
 		_iCurrentFont = index;

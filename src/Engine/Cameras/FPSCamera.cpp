@@ -11,7 +11,7 @@
 #include "FPSCamera.h"
 #include "Engine/Textures/TextureManager.h"
 
-void OE::Cameras::FPSCamera::MoveForward(const float &dt)
+void OE::Cameras::FPSCamera::MoveForward(const float dt)
 {
 	OE::Maths::Vec3<double> direction;
 
@@ -22,7 +22,7 @@ void OE::Cameras::FPSCamera::MoveForward(const float &dt)
 	_v3dEye += ((direction/magnitude)*CAMERA_SPEED)*dt;
 }
 
-void OE::Cameras::FPSCamera::MoveBackward(const float &dt)
+void OE::Cameras::FPSCamera::MoveBackward(const float dt)
 {
 	OE::Maths::Vec3<double> direction;
 
@@ -33,7 +33,7 @@ void OE::Cameras::FPSCamera::MoveBackward(const float &dt)
 	_v3dEye -= ((direction/magnitude)*CAMERA_SPEED)*dt;
 }
 
-void OE::Cameras::FPSCamera::StrafeLeft(const float &dt)
+void OE::Cameras::FPSCamera::StrafeLeft(const float dt)
 {
 	_v3dCenter.x = _v3dEye.x + sin(_v3dChange.y+PI2);
 	_v3dCenter.z = _v3dEye.z + cos(_v3dChange.y+PI2);
@@ -51,7 +51,7 @@ void OE::Cameras::FPSCamera::StrafeLeft(const float &dt)
 	_v3dCenter.z -= _v3dEye.z + cos(_v3dChange.y+PI2);
 }
 
-void OE::Cameras::FPSCamera::StrafeRight(const float &dt)
+void OE::Cameras::FPSCamera::StrafeRight(const float dt)
 {
 	_v3dCenter.x = _v3dEye.x + sin(_v3dChange.y-PI2);
 	_v3dCenter.z = _v3dEye.z + cos(_v3dChange.y-PI2);
@@ -69,7 +69,7 @@ void OE::Cameras::FPSCamera::StrafeRight(const float &dt)
 	_v3dCenter.z -= _v3dEye.z + cos(_v3dChange.y-PI2);
 }
 
-void OE::Cameras::FPSCamera::Update(const float &dt)
+void OE::Cameras::FPSCamera::Update(const float dt)
 {
 	if(OE::Input::InputManager::GetKeyState('W'))
 	{

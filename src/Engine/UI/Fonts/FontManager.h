@@ -28,9 +28,9 @@ namespace OE
 				~FontManager();
 				static const int AddFont(const char *path, bool setMonoSpaced);
 				static void SetFont(const char *name);
-				static void SetFont(const unsigned int &index);
+				static void SetFont(const unsigned int index);
 				static void CalculateUVs(_FONT &font, bool setMonoSpaced);
-				static OE::UI::Fonts::_FONT* GetFont(unsigned int &index)
+				static OE::UI::Fonts::_FONT* GetFont(unsigned int index)
 				{
 					if(index >= _vFonts.size())
 						return (OE::UI::Fonts::_FONT*)0;

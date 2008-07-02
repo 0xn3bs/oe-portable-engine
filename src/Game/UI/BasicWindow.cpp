@@ -10,7 +10,7 @@
 *****************************************************************************************/ 
 #include "BasicWindow.h"
 
-void OE::Game::UI::BasicWindow::Update(const float &dt)
+void OE::Game::UI::BasicWindow::Update(const float dt)
 {
 	for(unsigned int i = 0; i < _vecWidgets.size(); i++)
 	{
@@ -19,7 +19,7 @@ void OE::Game::UI::BasicWindow::Update(const float &dt)
 	}
 }
 
-void OE::Game::UI::BasicWindow::Render(const float &dt)
+void OE::Game::UI::BasicWindow::Render(const float dt)
 {
 	//	Background
 	glBegin(GL_QUADS);

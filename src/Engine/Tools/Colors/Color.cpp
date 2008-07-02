@@ -10,7 +10,7 @@
 *****************************************************************************************/
 #include "Color.h"
 
-void OE::Tools::Colors::Color::IntToRGB(const unsigned int &RGB,
+void OE::Tools::Colors::Color::IntToRGB(const unsigned int RGB,
 													  unsigned int *colorComponents)
 {
 	colorComponents[0] = (RGB >> 16) & 255; //      Red
@@ -18,7 +18,7 @@ void OE::Tools::Colors::Color::IntToRGB(const unsigned int &RGB,
 	colorComponents[2] = (RGB) & 255; //    Blue
 }
 
-unsigned int *OE::Tools::Colors::Color::IntToRGB(const unsigned int &RGB)
+unsigned int *OE::Tools::Colors::Color::IntToRGB(const unsigned int RGB)
 {
 	unsigned int *colorComponents = new unsigned int [3];
 	colorComponents[0] = (RGB >> 16) & 255; //      Red
@@ -27,18 +27,18 @@ unsigned int *OE::Tools::Colors::Color::IntToRGB(const unsigned int &RGB)
 	return colorComponents;
 }
 
-void OE::Tools::Colors::Color::RGBToInt(int &RGB, const unsigned int &R,
-													  const unsigned int &G, const unsigned int &B)
+void OE::Tools::Colors::Color::RGBToInt(int RGB, const unsigned int R,
+													  const unsigned int G, const unsigned int B)
 {
 	RGB = RGBToInt(R, G, B);
 }
 
-unsigned int OE::Tools::Colors::Color::RGBToInt(const unsigned int &R, const unsigned int &G, const unsigned int &B)
+unsigned int OE::Tools::Colors::Color::RGBToInt(const unsigned int R, const unsigned int G, const unsigned int B)
 {
 	return ((R << 16) + (G << 8) + (B));
 }
 
-void OE::Tools::Colors::Color::IntToRGBA(const unsigned int &RGBA,
+void OE::Tools::Colors::Color::IntToRGBA(const unsigned int RGBA,
 													   unsigned int *colorComponents)
 {
 	colorComponents[0] = (RGBA >> 24) & 255; //     Red
@@ -47,7 +47,7 @@ void OE::Tools::Colors::Color::IntToRGBA(const unsigned int &RGBA,
 	colorComponents[3] = RGBA & 255; //     Alpha
 }
 
-unsigned int *OE::Tools::Colors::Color::IntToRGBA(const unsigned int &RGBA)
+unsigned int *OE::Tools::Colors::Color::IntToRGBA(const unsigned int RGBA)
 {
 	unsigned int *colorComponents = new unsigned int [4];
 	colorComponents[0] = (RGBA >> 24) & 255; //     Red
@@ -57,8 +57,8 @@ unsigned int *OE::Tools::Colors::Color::IntToRGBA(const unsigned int &RGBA)
 	return colorComponents;
 }
 
-void OE::Tools::Colors::Color::RGBAToInt(unsigned int &RGBA, const unsigned int &R,
-													   const unsigned int &G, const unsigned int &B, const unsigned int &A)
+void OE::Tools::Colors::Color::RGBAToInt(unsigned int RGBA, const unsigned int R,
+													   const unsigned int G, const unsigned int B, const unsigned int A)
 {
 	RGBA = RGBAToInt(R, G, B, A);
 }
@@ -71,8 +71,8 @@ void OE::Tools::Colors::Color::RGBA(unsigned char* RGBA, unsigned char R, unsign
 	RGBA[3] = A;
 }
 
-unsigned int OE::Tools::Colors::Color::RGBAToInt(const unsigned int &R, const unsigned int &G, const unsigned int &B,
-															   const unsigned int &A)
+unsigned int OE::Tools::Colors::Color::RGBAToInt(const unsigned int R, const unsigned int G, const unsigned int B,
+															   const unsigned int A)
 {
 	return ((unsigned int)((unsigned char)R << 24) | ((unsigned char)G << 16) | ((unsigned char)B << 8) | ((unsigned char)A));
 	//return ((R << 24) + (G << 16) + (B << 8) + (A));

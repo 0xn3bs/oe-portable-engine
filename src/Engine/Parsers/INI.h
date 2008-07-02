@@ -36,15 +36,15 @@ namespace OE
 
 			const int ParseINI(const char* path);
 
-			std::string GetString(std::string section, std::string variable)
+			std::string GetString(const std::string &section, const std::string &variable)
 			{
 				return _mapINIData[section][variable];
 			}
 
-			int GetInt(std::string section, std::string variable);
-			bool GetBool(std::string section, std::string variable);
-			double GetDouble(std::string section, std::string variable);
-			float GetFloat(std::string section, std::string variable);
+			int GetInt(const std::string &section, const std::string &variable);
+			bool GetBool(const std::string &section, const std::string &variable);
+			double GetDouble(const std::string &section, const std::string &variable);
+			float GetFloat(const std::string &section, const std::string &variable);
 
 		private:
 			std::map< std::string, std::map< std::string,std::string> > _mapINIData;
