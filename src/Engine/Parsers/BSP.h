@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <vector>
+#include "SurfaceFlags.h"
 #include "Engine/Base.h"
 #include "Engine/Input/Input.h"
 #include "Engine/Textures/TextureManager.h"
@@ -31,14 +32,31 @@ namespace OE
 {
 	namespace Parsers
 	{
-		class RenderPathManager
-		{
-
-		};
-
 		class BSP : public OE::Input::InputListener
 		{
 		public:
+			/*
+			class RenderPipeline
+			{
+			public:
+				RenderPipeline()
+				{
+					_RENDERP
+					_vRenderPaths = (_RENDER_PATH*)malloc(1);
+				}
+				struct _FACE_TYPE_RENDER_PATH
+				{
+					void (*CallBack)(int faceIndex);
+				};
+				void AddRenderPath(_RENDER_PATH* renderPath)
+				{
+
+				}
+			private:
+				_RENDER_PATH* _vRenderPaths;
+				int _iNumRenderPaths;
+			};*/
+
 			//	ID BSP
 			struct _IBSP_LUMPDIRECTORY
 			{
@@ -88,7 +106,7 @@ namespace OE
 			{
 				int Brush;
 			};
-			
+
 			struct _IBSP_BRUSH
 			{
 				int BrushSide;
@@ -330,6 +348,7 @@ namespace OE
 				free(_vLightMaps);
 				free(_vVecs);
 				free(_vRenderedFaces);
+				free(_vEntities);
 			}
 
 			const int ParseBSP(const char *path);
@@ -339,6 +358,7 @@ namespace OE
 			void DebugRender(float dt, OE::Cameras::FPSCamera* fpsCamera);
 
 		private:
+			void _IBSP_ParseEntities(FILE *file, _IBSP_HEADER *header);
 			void _IBSP_ParseVertices(FILE *file, _IBSP_HEADER* header);
 			void _IBSP_ParseFaces(FILE *file, _IBSP_HEADER* header);
 			void _IBSP_ParseTextures(FILE *file, _IBSP_HEADER* header);
@@ -349,6 +369,7 @@ namespace OE
 			void TraverseBSPTree(OE::Cameras::FPSCamera* fpsCamera, int nodeIndex);
 			void RenderLeaf(int index);
 			void RenderFace(int index);
+			void RenderEverything();
 
 			bool* _vRenderedFaces;
 
@@ -394,6 +415,8 @@ namespace OE
 			int _iNumVecs;
 			int _iSizeOfVecs;
 			unsigned char* _vVecs;
+
+			unsigned char* _vEntities;
 
 			int _iBSPType;
 

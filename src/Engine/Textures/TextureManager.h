@@ -107,7 +107,7 @@ namespace OE
 			{
 				bool canGenerateMipmaps = (width % 2 == 0 && height % 2 == 0 && width/height == 1) ? true : false;
 
-				const int tBpp = (bpp == 24) ? GL_RGB : GL_RGBA;
+				const int tBpp = (bpp == 32) ? GL_RGBA : (bpp==24) ? GL_RGB : (bpp==16) ? GL_RGB16 : (bpp==8) ? GL_RGB8 : GL_RGB4;
 
 				if(canGenerateMipmaps)
 				{

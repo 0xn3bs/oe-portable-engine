@@ -158,6 +158,11 @@ GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 		}
 	}
 
+	if(tPath.compare("base/textures/simpsons/white.png")==0)
+	{
+		std::cout << "WOW WTF";
+	}
+
 	if(_LoadImage(path, Texture))
 	{
 		return Texture;
@@ -189,6 +194,7 @@ GLint OE::Textures::TextureManager::_LoadTextureFromRaw(const unsigned char *dat
 int OE::Textures::TextureManager::LoadTextureFromPath(const char* name)
 {
 	std::string path = _GetTexturePath(name);
+
 	GLint Texture = -1;
 
 	if(path.length() == 0)

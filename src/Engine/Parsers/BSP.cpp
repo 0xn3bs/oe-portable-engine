@@ -66,6 +66,15 @@ const int OE::Parsers::BSP::ParseBSP(const char *path)
 	return 0;
 }
 
+void OE::Parsers::BSP::_IBSP_ParseEntities(FILE *file, _IBSP_HEADER *header)
+{
+	_vEntities = (unsigned char*)malloc(sizeof(char)*header->DirEntries[0].Length);
+	fseek(file, header->DirEntries[0].Offset, SEEK_SET);
+	fread((unsigned char*)_vEntities, sizeof(char), header->DirEntries[0].Length, file);
+
+	std::cout << _vEntities;
+}
+
 void OE::Parsers::BSP::_IBSP_ParseVertices(FILE *file, _IBSP_HEADER *header)
 {
 	_iNumVertices = header->DirEntries[10].Length / sizeof(_IBSP_VERTEX);
@@ -150,6 +159,8 @@ void OE::Parsers::BSP::_IBSP_ParseTextures(FILE* file, _IBSP_HEADER *header)
 		_vTextures[i].Contents = textures[i].Contents;
 		_vTextures[i].Flags = textures[i].Flags;
 
+		std::cout << "Trying to load " << tPath << std::endl;
+
 		std::string testExt = tPath + std::string(".png");
 		if(OE::Textures::TextureManager::DoesFileExist(testExt.c_str()))
 		{
@@ -211,9 +222,6 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	for(int i = 0; i < _iNumPlanes; i++)
 	{
 		_vPlanes[i].Distance = planes[i].Distance;
-		//_vPlanes[i].Normal.x = planes[i].Normal.x;
-		//_vPlanes[i].Normal.y = planes[i].Normal.y;
-		//_vPlanes[i].Normal.z = planes[i].Normal.z;
 		_vPlanes[i].Normal.x = planes[i].Normal.x;
 		_vPlanes[i].Normal.y = planes[i].Normal.z;
 		_vPlanes[i].Normal.z = -planes[i].Normal.y;
@@ -327,6 +335,8 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 		_vBrushSides[i].Plane = brushSides[i].Plane;
 		_vBrushSides[i].Texture = brushSides[i].Texture;
 	}
+
+	free(brushSides);
 }
 
 void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
@@ -359,7 +369,6 @@ void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
 		_vLightMaps[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromRaw(&_vLightMaps[i].map[0][0][0]);
 	}
 
-
 	free(lightMaps);
 }
 
@@ -367,6 +376,7 @@ const int OE::Parsers::BSP::ParseIBSP(const char* path)
 {
 	FILE *pFile;
 	pFile = fopen(path, "rb");
+	fseek(pFile, 0, SEEK_SET);
 
 	_IBSP_HEADER *pHeader = (_IBSP_HEADER*)malloc(sizeof(_IBSP_HEADER));
 	fread((_IBSP_HEADER*)pHeader,sizeof(_IBSP_HEADER),1, pFile);
@@ -377,6 +387,9 @@ const int OE::Parsers::BSP::ParseIBSP(const char* path)
 	_IBSP_ParseMeshVerts(pFile, pHeader);
 	_IBSP_ParseVisData(pFile, pHeader);
 	_IBSP_ParseLightmaps(pFile, pHeader);
+	_IBSP_ParseEntities(pFile, pHeader);
+
+	std::cout << "IBSP Version: " << pHeader->Version << std::endl;
 
 	fclose(pFile);
 
@@ -395,31 +408,14 @@ void OE::Parsers::BSP::RenderFace(int index)
 	if(_vRenderedFaces[index])
 		return;
 
-	if(_vFaces[index].Type != 1 && _vFaces[index].Type != 3)
-	{
-		return;
-	}
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 1);
+	glEnable(GL_TEXTURE_2D);
 
 	int textureMapNumLevels = 1;
 	int lightMapNumLevels = 1;
 	GLint textureMapTexID = -1;
 	GLint lightMapTexID = -1;
-
-	int contentFlags = _vTextures[_vFaces[index].Texture].Contents;
-	int surfaceFlags = _vTextures[_vFaces[index].Texture].Flags;
-
-	if(surfaceFlags & 0x80)
-		return;
-
-	if(surfaceFlags & 0x200)
-		return;
-
-	if(surfaceFlags & 0x4)
-		return;
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 1);
-	glEnable(GL_TEXTURE_2D);
 
 	//	Bind Light Map
 	if(_vFaces[index].LMIndex > -1)
@@ -443,7 +439,7 @@ void OE::Parsers::BSP::RenderFace(int index)
 		glEnable(GL_TEXTURE_2D);
 	}
 
-	if(textureMapNumLevels > 1 || textureMapTexID == -1)
+	if(textureMapNumLevels > 1 || /*This is for the "notexture" texture*/ textureMapTexID == -1 )
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -455,40 +451,61 @@ void OE::Parsers::BSP::RenderFace(int index)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	}
 
-	if(_vFaces[index].Type == 1)
-	{
-		glBegin(GL_POLYGON);
-		for(int j = _vFaces[index].Vertex; j < _vFaces[index].Vertex + _vFaces[index].NumVerts; j++)
-		{
-			glMultiTexCoord2f(GL_TEXTURE0, _vVertices[j].TexCoord[0][0], _vVertices[j].TexCoord[0][1]);
+	int contentFlags = _vTextures[_vFaces[index].Texture].Contents;
+	int surfaceFlags = _vTextures[_vFaces[index].Texture].Flags;
 
-			if(lightMapTexID>-1)
-				glMultiTexCoord2f(GL_TEXTURE1, _vVertices[j].TexCoord[1][0], _vVertices[j].TexCoord[1][1]);
-			glColor4f(_vVertices[j].Color[0], _vVertices[j].Color[1], _vVertices[j].Color[2], _vVertices[j].Color[3]);
-			glVertex3f(_vVertices[j].Position[0], _vVertices[j].Position[1], _vVertices[j].Position[2]);
-		}
-		glEnd();
+	if(surfaceFlags & SURF_NODRAW)
+		return;
+	else
+	if(surfaceFlags & SURF_SKIP)
+		return;
+	else
+	if(surfaceFlags & SURF_SKY)
+		return;
+	else
+	if (contentFlags & CONTENTS_TRANSLUCENT)
+	{
+		glBlendFunc(GL_ONE, GL_ONE);
+		glEnable(GL_BLEND);			
+		glAlphaFunc(GL_GREATER,0.1);
+		glEnable(GL_ALPHA_TEST);
+	}
+	else
+	{
+		glDisable(GL_BLEND);
 	}
 
-	if(_vFaces[index].Type == 3)
+	switch(_vFaces[index].Type)
 	{
-		float x, y, z;
-		glBegin(GL_TRIANGLES);
-		for(int j = _vFaces[index].MeshVert; j < _vFaces[index].MeshVert + _vFaces[index].NumMeshVerts; j++)
+	case 1:
 		{
-			x = _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].Position[0];
-			y = _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].Position[1];
-			z = _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].Position[2];
-			glMultiTexCoord2f(GL_TEXTURE0,_vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[0][0], _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[0][1]);
-			if(lightMapTexID > 0)
+			//	Does the same as type 3 faces.
+		}
+	case 3:
+		{
+			int meshInd = 0;
+			glBegin(GL_TRIANGLES);
+			for(int j = _vFaces[index].MeshVert; j < _vFaces[index].MeshVert + _vFaces[index].NumMeshVerts; j++)
 			{
-				glMultiTexCoord2f(GL_TEXTURE1, _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[1][0], _vVertices[_vFaces[index].Vertex + _vMeshVerts[j].Offset].TexCoord[1][1]);
+				meshInd = _vFaces[index].Vertex + _vMeshVerts[j].Offset;
+				glMultiTexCoord2f(GL_TEXTURE0,_vVertices[meshInd].TexCoord[0][0], _vVertices[meshInd].TexCoord[0][1]);
+
+				if(lightMapTexID>-1)
+					glMultiTexCoord2f(GL_TEXTURE1, _vVertices[meshInd].TexCoord[1][0], _vVertices[meshInd].TexCoord[1][1]);
+
+				glVertex3f(_vVertices[meshInd].Position[0], _vVertices[meshInd].Position[1], _vVertices[meshInd].Position[2]);
 			}
-			glVertex3f(x, y, z);
+			glEnd();
+			break;
 		}
-		glEnd();
+	default:
+		{
+			break;
+		}
 	}
+
 	glDisable(GL_TEXTURE_2D);
+
 	_vRenderedFaces[index] = true;
 }
 
@@ -589,4 +606,9 @@ void OE::Parsers::BSP::DebugRender(float dt, OE::Cameras::FPSCamera* fpsCamera)
 		memset(_vRenderedFaces, 0, sizeof(bool) * _iNumFaces);
 		fpsCamera->Update(dt);
 	}
+}
+
+void OE::Parsers::BSP::RenderEverything()
+{
+	//
 }
