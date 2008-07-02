@@ -51,12 +51,13 @@ void Initialize()
 	glEnable(GL_LINE_SMOOTH);
 
 	glEnable(GL_BLEND);
-	glEnable(GL_ALPHA);
+	//glEnable(GL_ALPHA);
+	//glEnable(GL_ALPHA_TEST);
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_COLOR);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_FRONT);
 
 	//glEnable(GL_LIGHTING);
 	glPointSize(2.0f);
