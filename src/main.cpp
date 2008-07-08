@@ -72,8 +72,8 @@ void Initialize()
 	bspParser->ParseBSP(mapToLoad.c_str());
 
 	OE::Maths::Vec3<float> cp;
-	OE::Maths::Vec3<float> a(0.69, 0.10, 0.70);
-	OE::Maths::Vec3<float> b(0.44, 0.71, -0.54);
+	OE::Maths::Vec3<float> a(0.69f, 0.10f, 0.70f);
+	OE::Maths::Vec3<float> b(0.44f, 0.71f, -0.54f);
 
 	std::cout << a << " x " << b << " = " << a % b << std::endl;
 }
@@ -93,7 +93,7 @@ void Draw(double deltaTime)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	fpsCamera->Render();
-	bspParser->DebugRender(deltaTime, fpsCamera);
+	bspParser->DebugRender(static_cast<float>(deltaTime), fpsCamera);
 	if(IsGUIEnabled)
 	{
 		//	Render GUI here
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 	{
 		if(timerAlpha.IsRunning)
 		{
-			float el = timerAlpha.GetElapsedSec();
+			float el = static_cast<float>(timerAlpha.GetElapsedSec());
 			deltaTime = el - elapsedTime;
 			elapsedTime = el;
 		}

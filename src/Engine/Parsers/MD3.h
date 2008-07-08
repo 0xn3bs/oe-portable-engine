@@ -206,11 +206,11 @@ namespace OE
 						fread((_MD3_VERTEX*)pVertices, sizeof(_MD3_VERTEX), pSurfaces[i].NumVerts, pFile);
 						for(int j = 0; j < pSurfaces[i].NumVerts; j++)
 						{
-							float y = pVertices[j].Position[2] * MD3_XYZ_SCALE;
-							float z = -pVertices[j].Position[1] * MD3_XYZ_SCALE;
-							pVertices[j].Position[0] = pVertices[j].Position[0] * MD3_XYZ_SCALE;
-							pVertices[j].Position[1] = y;
-							pVertices[j].Position[2] = z;
+							float y = static_cast<float>(pVertices[j].Position[2] * MD3_XYZ_SCALE);
+							float z = static_cast<float>(-pVertices[j].Position[1] * MD3_XYZ_SCALE);
+							pVertices[j].Position[0] = static_cast<short>(pVertices[j].Position[0] * MD3_XYZ_SCALE);
+							pVertices[j].Position[1] = static_cast<short>(y);
+							pVertices[j].Position[2] = static_cast<short>(z);
 							tempSurf._vVertices.push_back(pVertices[j]);
 						}
 

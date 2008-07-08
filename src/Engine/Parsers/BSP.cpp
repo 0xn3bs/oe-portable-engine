@@ -85,12 +85,12 @@ void OE::Parsers::BSP::_IBSP_ParseVertices(FILE *file, _IBSP_HEADER *header)
 
 	for(int i = 0; i < _iNumVertices; i++)
 	{
-		int y = vertices[i].Position[2];
-		int z = -vertices[i].Position[1];
+		int y = static_cast<int>(vertices[i].Position[2]);
+		int z = static_cast<int>(-vertices[i].Position[1]);
 		_OBSP_VERTEX tVertex;
 		tVertex.Position[0] = vertices[i].Position[0];
-		tVertex.Position[1] = y;
-		tVertex.Position[2] = z;
+		tVertex.Position[1] = static_cast<float>(y);
+		tVertex.Position[2] = static_cast<float>(z);
 
 		tVertex.TexCoord[0][0] = vertices[i].TexCoord[0][0];
 		tVertex.TexCoord[0][1] = vertices[i].TexCoord[0][1];
