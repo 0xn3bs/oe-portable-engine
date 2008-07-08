@@ -4,9 +4,10 @@
 * are made available under the terms of the GNU Lesser Public License v2.1
 * which accompanies this distribution, and is available at
 * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-* 
+*
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
+*     Guillaume 'P90' Parent - minor performance improvements
 ***************************************************************************************************/
 #ifndef TIMER_H_
 #define TIMER_H_
@@ -20,55 +21,55 @@
 
 namespace OE
 {
-	namespace Tools
-	{
-		namespace Timers
-		{
-			typedef struct _TIME
-			{
-				double Years;
-				double Days;
-				double Hours;
-				double Minutes;
-				double Seconds;
-				double Milliseconds;
-				double Microseconds;
-			} TIME;
+        namespace Tools
+        {
+                namespace Timers
+                {
+                        typedef struct _TIME
+                        {
+                                double Years;
+                                double Days;
+                                double Hours;
+                                double Minutes;
+                                double Seconds;
+                                double Milliseconds;
+                                double Microseconds;
+                        } TIME;
 
-			class Timer
-			{
-			public:
+                        TIME buildTimeStruct(double Microseconds);
 
-				Timer();
-				~Timer();
+                        class Timer
+                        {
+                        public:
 
-				void Start();
-				void Stop();
+                                Timer();
+                                Timer(const TIME &t);
+                                ~Timer();
 
-				double GetElapsedMicroSec();
-				double GetElapsedMilliSec();
-				double GetElapsedSec();
-				TIME GetElapsed();
-				bool IsRunning;
-
-			protected:
-			private:
-
+                                void Start();
+                                void Stop();
+                                double GetElapsedMicroSec();
+                                double GetElapsedMilliSec();
+                                double GetElapsedSec();
+                                TIME GetElapsed();
+                                bool IsRunning;
+                        protected:
+                        private:
 #ifdef WIN32
-				LARGE_INTEGER Freq;
-				LARGE_INTEGER StartCount;
-				LARGE_INTEGER EndCount;
+                                LARGE_INTEGER Freq;
+                                LARGE_INTEGER StartCount;
+                                LARGE_INTEGER EndCount;
 #else
-				timeval StartCount;
-				timeval EndCount;
+                                timeval StartCount;
+                                timeval EndCount;
 #endif
 
-				double _dStartTime;
-				double _dEndTime;
+                                double _dStartTime;
+                                double _dEndTime;
 
-			};
-		}
-	}
+                        };
+                }
+        }
 }
 
 #endif /*TIMER_H_*/
