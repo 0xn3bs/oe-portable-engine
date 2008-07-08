@@ -36,7 +36,7 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 
 			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
 			{
-				bool bIsOver = tempWin->_vecWidgets[j]->IsOver(iMouseX, iMouseY) && bCanPick;
+				bool bIsOver = tempWin->_vecWidgets[j]->IsOver(static_cast<float>(iMouseX), static_cast<float>(iMouseY)) && bCanPick;
 				if(bIsOver)
 					tempWin->_vecWidgets[j]->OnMouseButton(key, action);
 			}
@@ -44,7 +44,7 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 			if(bCanPick&&!tempWin->_bHasFocus)
 				SetFocus(i);
 
-			if(bCanPick&&tempWin->IsOverTitleBar(iMouseX, iMouseY))
+			if(bCanPick&&tempWin->IsOverTitleBar(static_cast<float>(iMouseX), static_cast<float>(iMouseY)))
 				tempWin->_bIsDragging = true;
 		}
 	}
@@ -61,8 +61,8 @@ void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int st
 
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
-			bool startIsOver = winTemp->_vecWidgets[j]->IsOver(startX, startY) && CanPick(i, startX, startY);
-			bool endIsOver = winTemp->_vecWidgets[j]->IsOver(endX, endY) && CanPick(i, endX, endY);
+			bool startIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(startX), static_cast<float>(startY)) && CanPick(i, startX, startY);
+			bool endIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(endX), static_cast<float>(endY)) && CanPick(i, endX, endY);
 			if(startIsOver&&endIsOver)
 				winTemp->_vecWidgets[j]->OnMouseClick();
 		}
@@ -76,7 +76,7 @@ void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 		Window* winTemp = _vecWindows.at(i);
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
-			bool isOver = winTemp->_vecWidgets[j]->IsOver(x, y) && CanPick(i, x, y);
+			bool isOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(x), static_cast<float>(y)) && CanPick(i, x, y);
 
 			if(isOver && !winTemp->_vecWidgets[j]->_bIsOver)
 			{
@@ -96,10 +96,10 @@ void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 bool OE::UI::Windows::WindowManager::CanPick(const unsigned int index, const unsigned int x, const unsigned int y)
 {
 	Window* winTemp = _vecWindows.at(index);
-	bool bOver = winTemp->IsOver(x, y);
+	bool bOver = winTemp->IsOver(static_cast<float>(x), static_cast<float>(y));
 	for(unsigned int i = index+1; i < _vecWindows.size(); i++)
 	{
-		if((_vecWindows[i]->IsOver(x,y) || _vecWindows[i]->IsOverTitleBar(x,y)))
+		if((_vecWindows[i]->IsOver(static_cast<float>(x),static_cast<float>(y)) || _vecWindows[i]->IsOverTitleBar(static_cast<float>(x),static_cast<float>(y))))
 			return false;
 	}
 	return bOver;
@@ -115,11 +115,11 @@ void OE::UI::Windows::WindowManager::Update(const float dt)
 		if(winTemp->_v2fPosition.y < -winTemp->_fTitleBarY+5)
 			winTemp->_v2fPosition.y = -winTemp->_fTitleBarY+5;
 		if(winTemp->_v2fPosition.y > _iWinHeight-5)
-			winTemp->_v2fPosition.y = _iWinHeight-5;
+			winTemp->_v2fPosition.y = static_cast<float>(_iWinHeight-5);
 		if(winTemp->_v2fPosition.x < -winTemp->_v2fDimensions.x+5)
 			winTemp->_v2fPosition.x = -winTemp->_v2fDimensions.x+5;
 		if(winTemp->_v2fPosition.x > _iWinWidth-5)
-			winTemp->_v2fPosition.x = _iWinWidth-5;
+			winTemp->_v2fPosition.x = static_cast<float>(_iWinWidth-5);
 
 		if(winTemp->_bIsDragging)
 		{

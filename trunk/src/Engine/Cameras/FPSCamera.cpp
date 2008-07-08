@@ -17,7 +17,7 @@ void OE::Cameras::FPSCamera::MoveForward(const float dt)
 
 	direction = _v3dCenter - _v3dEye;
 
-	float magnitude = direction.Magnitude();
+	float magnitude = static_cast<float>(direction.Magnitude());
 
 	_v3dEye += ((direction/magnitude)*CAMERA_SPEED)*dt;
 }
@@ -28,7 +28,7 @@ void OE::Cameras::FPSCamera::MoveBackward(const float dt)
 
 	direction = _v3dCenter - _v3dEye;
 
-	float magnitude = direction.Magnitude();
+	float magnitude = static_cast<float>(direction.Magnitude());
 
 	_v3dEye -= ((direction/magnitude)*CAMERA_SPEED)*dt;
 }
@@ -42,7 +42,7 @@ void OE::Cameras::FPSCamera::StrafeLeft(const float dt)
 	direction = _v3dCenter - _v3dEye;
 	direction.y = 0;	//	Our y direction should not affect our strafe speed when pitched.
 
-	float magnitude = direction.Magnitude();
+	float magnitude = static_cast<float>(direction.Magnitude());
 
 	_v3dEye.x += ((direction.x/magnitude)*CAMERA_SPEED)*dt;
 	_v3dEye.z += ((direction.z/magnitude)*CAMERA_SPEED)*dt;
@@ -60,7 +60,7 @@ void OE::Cameras::FPSCamera::StrafeRight(const float dt)
 	direction = _v3dCenter - _v3dEye;
 	direction.y = 0;	//	Our y direction should not affect our strafe speed when pitched.
 
-	float magnitude = direction.Magnitude();
+	float magnitude = static_cast<float>(direction.Magnitude());
 
 	_v3dEye.x += ((direction.x/magnitude)*CAMERA_SPEED)*dt;
 	_v3dEye.z += ((direction.z/magnitude)*CAMERA_SPEED)*dt;

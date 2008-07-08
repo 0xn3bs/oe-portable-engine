@@ -50,10 +50,10 @@ namespace OE
 				virtual void OnMouseUp(const char button, const int x, const int y){};
 				virtual void OnMouseMove(int x, int y){};
 
-				int GetXPos(){return _v2fPosition.x;}
-				int GetYPos(){return _v2fPosition.y;}
-				int GetWidth(){return _v2fDimensions.x;}
-				int GetHeight(){return _v2fDimensions.y;}
+				int GetXPos(){return static_cast<int>(_v2fPosition.x);}
+				int GetYPos(){return static_cast<int>(_v2fPosition.y);}
+				int GetWidth(){return static_cast<int>(_v2fDimensions.x);}
+				int GetHeight(){return static_cast<int>(_v2fDimensions.y);}
 
 				bool IsOver(const float x, const float y);
 				bool IsOverTitleBar(const float x, const float y);

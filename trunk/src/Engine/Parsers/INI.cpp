@@ -97,7 +97,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 	//	Remove invalid lines
 	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
-		unsigned int equalIndex = _vLines[i].find_first_of("=");
+		unsigned int equalIndex = static_cast<unsigned int>(_vLines[i].find_first_of("="));
 		//	There's nothing important in this line so let's remove it.
 		if(equalIndex==std::string::npos&&_vLines[i][0]!='[')
 		{
@@ -121,10 +121,10 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 	//	Strip Comments and clean it up...
 	for(unsigned int i = 0; i < _vLines.size(); i++)
 	{
-		unsigned int equalIndex = _vLines[i].find_first_of("=");
-		unsigned int commentIndex = _vLines[i].find_first_of(';');
-		unsigned int LBraceIndex = _vLines[i].find_first_of('[');
-		unsigned int RBraceIndex = _vLines[i].find_first_of(']');
+		unsigned int equalIndex = static_cast<unsigned int>(_vLines[i].find_first_of("="));
+		unsigned int commentIndex = static_cast<unsigned int>(_vLines[i].find_first_of(';'));
+		unsigned int LBraceIndex = static_cast<unsigned int>(_vLines[i].find_first_of('['));
+		unsigned int RBraceIndex = static_cast<unsigned int>(_vLines[i].find_first_of(']'));
 
 		//	This line is invalid, remove it.
 		if(equalIndex == std::string::npos)
@@ -170,22 +170,22 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 							if( vecQuoteIndices[i][0] < commentIndex && vecQuoteIndices[i][1] > commentIndex )
 							{
 								if(commentIndex + 1 < _vLines[i].size())
-									commentIndex = _vLines[i].find_first_of(';', commentIndex+1);
+									commentIndex = static_cast<unsigned int>(_vLines[i].find_first_of(';', commentIndex+1));
 								else
-									commentIndex = std::string::npos;
+									commentIndex = static_cast<unsigned int>(std::string::npos);
 							}
 							else
 							{
 								_vLines[i] = _vLines[i].substr(0, commentIndex);
 								_vLines[i] = _vLines[i].substr(0, _vLines[i].find_last_not_of(' ') + 1);
-								commentIndex = std::string::npos;
+								commentIndex = static_cast<unsigned int>(std::string::npos);
 							}
 						}
 						else
 						{
 							_vLines[i] = _vLines[i].substr(0, commentIndex);
 							_vLines[i] = _vLines[i].substr(0, _vLines[i].find_last_not_of(' ') + 1);
-							commentIndex = std::string::npos;
+							commentIndex = static_cast<unsigned int>(std::string::npos);
 						}
 					}
 				}
@@ -199,7 +199,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 	{
 		if(_vLines[i][0]=='[')
 		{
-			unsigned int endBrace = _vLines[i].find_last_of("]");
+			unsigned int endBrace = static_cast<unsigned int>(_vLines[i].find_last_of("]"));
 			if(endBrace!=std::string::npos)
 			{
 				if(endBrace>1)
@@ -215,13 +215,13 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 				if(j+1<_vLines[i].size())
 				{
 					std::string left = _vLines[i].substr(0,j);
-					int il = left.find_first_not_of(' ');
-					int ir = left.find_last_not_of(' ');
+					int il = static_cast<int>(left.find_first_not_of(' '));
+					int ir = static_cast<int>(left.find_last_not_of(' '));
 					left = left.substr(il, ir+1);
 					//	Don't include the delimiter on the right side
 					std::string right = _vLines[i].substr(j+1,_vLines[i].size()-j-1);
-					il = right.find_last_of(' ');
-					ir = right.find_last_not_of(' ');
+					il = static_cast<int>(right.find_last_of(' '));
+					ir = static_cast<int>(right.find_last_not_of(' '));
 					right = right.substr(il+1, ir);
 					_mapINIData[section].insert(make_pair(left,right));
 				}

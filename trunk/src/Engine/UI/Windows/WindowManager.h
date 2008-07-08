@@ -50,7 +50,7 @@ namespace OE
 				void AddWindow(Window &window)
 				{
 					_vecWindows.push_back(&window);
-					SetFocus(_vecWindows.size()-1);
+					SetFocus(static_cast<unsigned int>(_vecWindows.size()-1));
 					_winCurrentFocused = &window;
 				}
 
