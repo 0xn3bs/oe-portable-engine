@@ -9,7 +9,7 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *****************************************************************************************/ 
 #include "BSP.h"
-#include <GL/glext.h>
+#include "Engine/GL/glext.h"
 #include "Engine/GLFW/glfw.h"
 
 #define IDBSPHEADER	(('P'<<24)+('S'<<16)+('B'<<8)+'V')

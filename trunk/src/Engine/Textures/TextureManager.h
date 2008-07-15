@@ -16,7 +16,7 @@
 #include "Engine/GLFW/glfw.h"
 #include <vector>
 #include <string>
-#include <FreeImage.h>
+#include "Engine/FreeImage/FreeImage.h"
 
 #ifndef GL_TEXTURE_2D_BINDING_EXT
 #define GL_TEXTURE_2D_BINDING_EXT         0x8069
