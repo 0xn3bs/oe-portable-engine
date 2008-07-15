@@ -16,6 +16,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <windows.h>
 
 namespace OE
 {
@@ -113,7 +114,11 @@ namespace OE
 
 			static void GetMousePos(int *xPos, int *yPos)
 			{
-				glfwGetMousePos(xPos, yPos);
+#ifdef WIN32
+				POINT pos;
+				//GetCursorPos(pos);
+				//glfwGetMousePos(xPos, yPos);
+#endif
 			}
 
 			static const int GetMouseDeltaX()

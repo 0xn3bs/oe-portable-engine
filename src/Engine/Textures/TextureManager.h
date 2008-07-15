@@ -102,7 +102,7 @@ namespace OE
 				}
 			}
 
-			//	Generates Mipmaps(if it can) and returns the number of levels of detail the texture has.
+			//	Generates Mipmaps (if it can) and returns the number of levels of detail the texture has.
 			static int _GenerateMipmaps(FIBITMAP* image, GLint width, GLint height, unsigned int bpp)
 			{
 				bool canGenerateMipmaps = (width % 2 == 0 && height % 2 == 0 && width/height == 1) ? true : false;
