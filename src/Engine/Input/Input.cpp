@@ -9,7 +9,6 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
 #include "Input.h"
-
 OE::Input::InputManager g_inputManager;
 bool OE::Input::InputManager::_rgbKeys[255];
 int OE::Input::InputManager::_iMouseX=0;
@@ -22,9 +21,12 @@ int OE::Input::InputManager::_iMouseClickEndX=0;
 int OE::Input::InputManager::_iMouseClickEndY=0;
 int OE::Input::InputManager::_iMouseReferenceX=0;
 int OE::Input::InputManager::_iMouseReferenceY=0;
+int OE::Input::InputManager::_iMouseLastPosX=0;
+int OE::Input::InputManager::_iMouseLastPosY=0;
 bool OE::Input::InputManager::_bIsMouseAlreadyDown=false;
 bool OE::Input::InputManager::_bInitialized=false;
 bool OE::Input::InputManager::_bForceMouseToRefPos=false;
+bool OE::Input::InputManager::_bMouseHidden=false;
 
 std::vector<OE::Input::InputListener*> OE::Input::InputManager::_vecInputListeners = std::vector<OE::Input::InputListener*>();
 
@@ -89,9 +91,9 @@ void OE::Input::InputManager::Initialize()
 void OE::Input::InputManager::Update(double dt)
 {
 	int x, y;
-	glfwGetMousePos(&x, &y);
+	GetMousePos(&x, &y);
 
-	if(_bForceMouseToRefPos)
+	if(_bForceMouseToRefPos && _bMouseHidden)
 	{
 		_iMouseDeltaX = _iMouseReferenceX - x;
 		_iMouseDeltaY = _iMouseReferenceY - y;
@@ -101,14 +103,27 @@ void OE::Input::InputManager::Update(double dt)
 		{
 			_iMouseX = _iMouseReferenceX;
 			_iMouseY = _iMouseReferenceY;
-			glfwSetMousePos(_iMouseReferenceX, _iMouseReferenceY);
+			SetMousePos(_iMouseReferenceX, _iMouseReferenceY);
 		}
+
+		_iMouseLastPosX = _iMouseX;
+		_iMouseLastPosY = _iMouseY;
 	}
 	else
 	{
-		_iMouseDeltaX = 0;
-		_iMouseDeltaY = 0;
-		//_iMouseX = x;
-		//_iMouseY = y;
+		_iMouseDeltaX = _iMouseLastPosX - x;
+		_iMouseDeltaY = _iMouseLastPosY - y;
+		_iMouseLastPosX = x;
+		_iMouseLastPosY = y;
 	}
+}
+
+void OE::Input::InputManager::SetMousePos(const int xPos, const int yPos)
+{
+	glfwSetMousePos(xPos, yPos);
+}
+
+void OE::Input::InputManager::GetMousePos(int *xPos, int *yPos)
+{
+	glfwGetMousePos(xPos, yPos);
 }

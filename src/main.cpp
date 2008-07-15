@@ -10,10 +10,6 @@
 *	  Joshua 'blankthemuffin' Simmons - Comitted this line!
 *****************************************************************************************/
 
-#ifdef win32
-#include <windows.h>
-#endif
-
 #define __BUILD_STRING__ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
 #include "Engine/Base.h"
 #include "Engine/Input/Input.h"

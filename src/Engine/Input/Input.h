@@ -16,7 +16,6 @@
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <windows.h>
 
 namespace OE
 {
@@ -47,10 +46,13 @@ namespace OE
 			static int _iMouseClickEndY;
 			static int _iMouseReferenceX;
 			static int _iMouseReferenceY;
+			static int _iMouseLastPosX;
+			static int _iMouseLastPosY;
 			static bool _bIsMouseAlreadyDown;
 			static bool _rgbKeys[255];
 			static bool _bInitialized;
 			static bool _bForceMouseToRefPos;
+			static bool _bMouseHidden;
 
 			static void GLFWCALL GLFWSetCharEvent(int key, int action);
 			static void GLFWCALL GLFWSetKeyEvent(int key, int action);
@@ -97,29 +99,28 @@ namespace OE
 				return _rgbKeys[(int)key];
 			}
 
-			static void SetMousePos(const int x, const int y)
+			static void SetMousePos(const int xPos, const int yPos);
+
+			static void SetMouseX(const int xPos)
 			{
-				glfwSetMousePos(x, y);
+				glfwSetMousePos(xPos, _iMouseY);
 			}
 
-			static void SetMouseX(const int x)
+			static void SetMouseY(const int yPos)
 			{
-				glfwSetMousePos(x, _iMouseY);
-			}
-
-			static void SetMouseY(const int y)
-			{
-				glfwSetMousePos(_iMouseX, y);
+				glfwSetMousePos(_iMouseX, yPos);
 			}	
 
-			static void GetMousePos(int *xPos, int *yPos)
+			static void SetCursorVisible(bool con)
 			{
-#ifdef WIN32
-				POINT pos;
-				//GetCursorPos(pos);
-				//glfwGetMousePos(xPos, yPos);
-#endif
+				if(con)
+					glfwEnable(GLFW_MOUSE_CURSOR);
+				else
+					glfwDisable(GLFW_MOUSE_CURSOR);
+				_bMouseHidden = !con;
 			}
+
+			static void GetMousePos(int *xPos, int *yPos);
 
 			static const int GetMouseDeltaX()
 			{
@@ -139,6 +140,11 @@ namespace OE
 			static const int GetMouseY()
 			{
 				return _iMouseY;
+			}
+
+			static bool IsCursorVisible()
+			{
+				return !_bMouseHidden;
 			}
 
 			static bool IsMouseDown(const int button)
