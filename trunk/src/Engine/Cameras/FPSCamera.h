@@ -60,6 +60,7 @@ namespace OE
 			{
 				if(key==GLFW_KEY_TAB && action == GLFW_PRESS)
 				{
+					OE::Input::InputManager::SetCursorVisible(!OE::Input::InputManager::IsCursorVisible());
 					OE::Input::InputManager::SetForceToMouseReference(!OE::Input::InputManager::IsMouseForcedToReference());
 				}
 			};
