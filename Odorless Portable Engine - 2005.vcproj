@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImaged.lib"
+				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib FreeImaged.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;"
 				IgnoreDefaultLibraryNames="LIBCMT"
@@ -137,9 +137,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImage.lib"
+				AdditionalDependencies="glfw.lib opengl32.lib glu32.lib FreeImage.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\FreeImage&quot;;&quot;$(SolutionDir)src\Engine\GLFW&quot;"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				SubSystem="1"
