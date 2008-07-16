@@ -103,6 +103,6 @@ void OE::Cameras::FPSCamera::Update(const float dt)
 }
 
 void OE::Cameras::FPSCamera::Render()
-{	
+{
 	gluLookAt(_v3dEye.x,_v3dEye.y,_v3dEye.z,_v3dCenter.x,_v3dCenter.y,_v3dCenter.z,_v3dUp.x,_v3dUp.y,_v3dUp.z);
 }

@@ -31,13 +31,17 @@ OE::Tools::Timers::Timer timerAlpha;
 OE::Parsers::INI iniParser;
 OE::Parsers::BSP *bspParser;
 OE::Cameras::FPSCamera *fpsCamera;
+OE::UI::Windows::WindowManager *windowManager;
+OE::UI::Windows::Window *testWindow;
 bool IsGUIEnabled = false;
-
 void Initialize()
 {
 	OE::Textures::TextureManager::LoadTextureFromPath("base/textures/notexture.tga");
 
 	fpsCamera = new OE::Cameras::FPSCamera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	windowManager = new OE::UI::Windows::WindowManager();
+	testWindow = new OE::Game::UI::BasicWindow(0, 0, 100, 100);
+	windowManager->AddWindow(*testWindow);
 
 	glShadeModel(GL_SMOOTH);
 
@@ -77,6 +81,7 @@ void Initialize()
 void Update(double deltaTime)
 {
 	OE::Input::InputManager::Update(deltaTime);
+	windowManager->Update(deltaTime);
 	if(IsGUIEnabled)
 	{
 		//windowManager.Update(deltaTime);
@@ -87,19 +92,30 @@ void Update(double deltaTime)
 void Draw(double deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(65, (GLfloat)OE::Base::_iWindowWidth/(GLfloat)OE::Base::_iWindowHeight, 1.0f, 10000.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
 	glLoadIdentity();
 	fpsCamera->Render();
+	glEnable(GL_DEPTH_TEST);
 	bspParser->DebugRender(static_cast<float>(deltaTime), fpsCamera);
-	if(IsGUIEnabled)
-	{
-		//	Render GUI here
-	}
+	glPopMatrix();
+	glPopMatrix();
+
+	glDisable(GL_DEPTH_TEST);
+	windowManager->Render(deltaTime);
+	glViewport(0, 0, OE::Base::_iWindowWidth, OE::Base::_iWindowHeight);
 }
 
 void OnResize(int width, int height)
 {
+	OE::Base::_iWindowWidth = width;
+	OE::Base::_iWindowHeight = height;
 	glViewport(0, 0, width, height);
-	glMatrixMode( GL_PROJECTION );
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(65, (GLfloat)width/(GLfloat)height, 1.0f, 10000.0f);
 	glMatrixMode(GL_MODELVIEW);

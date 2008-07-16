@@ -84,8 +84,9 @@ namespace OE
 		{
 			glFlush();
 		}
-	private:
 		static int _iWindowWidth, _iWindowHeight;
+	private:
+		
 		static bool _bIsRunning;
 		static void (*_pf_Update)(double deltaTime);
 		static void (*_pf_Draw)(double deltaTime);
