@@ -32,6 +32,7 @@ namespace OE
 				{
 					_iWinWidth = 0;
 					_iWinHeight = 0;
+					_winCurrentFocused = NULL;
 					OE::Input::InputManager::AddInputListener(this);
 				}
 

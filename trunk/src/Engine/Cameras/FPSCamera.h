@@ -17,7 +17,7 @@
 #include <iostream>
 
 #define CAMERA_SPEED 250
-#define MOUSE_SENSITIVITY 0.25
+#define MOUSE_SENSITIVITY 0.2
 
 namespace OE
 {

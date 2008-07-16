@@ -161,13 +161,24 @@ void OE::UI::Windows::WindowManager::UpdateWin(const int width, const int height
 
 void OE::UI::Windows::WindowManager::Render(const float dt)
 {
+  	glMatrixMode(GL_PROJECTION);
+  	glPushMatrix();
+  	glLoadIdentity();
+  	glOrtho(0, 1, 1, 0, -1, 1);
+  	glMatrixMode(GL_MODELVIEW);
+  	glPushMatrix();
+  	glLoadIdentity();
+  	gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0);
+  	glPopMatrix();
+  	glMatrixMode(GL_PROJECTION);
+	
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* winTemp = _vecWindows.at(i);
-		glMatrixMode( GL_PROJECTION );
-		glScalef(winTemp->_v2fScale.x,winTemp->_v2fScale.y,1);
-		glViewport(winTemp->_v2fPosition.x, _iWinHeight-winTemp->_v2fDimensions.x-winTemp->_v2fPosition.y, winTemp->_v2fDimensions.x, winTemp->_v2fDimensions.y);
+		glViewport(winTemp->_v2fPosition.x, OE::Base::_iWindowHeight-winTemp->_v2fDimensions.y-winTemp->_v2fPosition.y, winTemp->_v2fDimensions.x, winTemp->_v2fDimensions.y);
 		winTemp->Render(dt);
-		glScalef(1/winTemp->_v2fScale.x,1/winTemp->_v2fScale.y,1);
 	}
+
+	glColor3ub(255,255,255);
+  	glPopMatrix();
 }
