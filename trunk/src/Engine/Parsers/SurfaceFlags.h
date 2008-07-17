@@ -1,13 +1,5 @@
-/***************************************************************************************************
-* Copyright (c) 2008 Jonathan 'Bladezor' Bastnagel.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the GNU Lesser Public License v2.1
-* which accompanies this distribution, and is available at
-* http://www.gnu.org/licenses/old-licensse/gpl-2.0.html
-*
-* Contributors:
-*     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
-***************************************************************************************************/
+//	ORIGINAL IBSP SURFACE FLAGS FROM ID'S QUAKE III SOURCE
+
 #ifndef IBSP_SURFACE_FLAGS_
 #define IBSP_SURFACE_FLAGS_
 
