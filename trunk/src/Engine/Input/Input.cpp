@@ -49,6 +49,8 @@ void GLFWCALL OE::Input::InputManager::GLFWSetKeyEvent(int key, int action)
 
 void GLFWCALL OE::Input::InputManager::GLFWSetMousePos(int x, int y)
 {
+	_iMouseX = x;
+	_iMouseY = y;
 	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
 	{
 		_vecInputListeners.at(i)->OnMouseMove(x, y);
@@ -97,14 +99,8 @@ void OE::Input::InputManager::Update(double dt)
 	{
 		_iMouseDeltaX = _iMouseReferenceX - x;
 		_iMouseDeltaY = _iMouseReferenceY - y;
-
-		//	Only set the mouse position back if there has been a change.
-		if(_iMouseDeltaX != 0 || _iMouseDeltaY != 0)
-		{
-			_iMouseX = _iMouseReferenceX;
-			_iMouseY = _iMouseReferenceY;
-			SetMousePos(_iMouseReferenceX, _iMouseReferenceY);
-		}
+		
+		SetMousePos(_iMouseReferenceX, _iMouseReferenceY);
 
 		_iMouseLastPosX = _iMouseX;
 		_iMouseLastPosY = _iMouseY;

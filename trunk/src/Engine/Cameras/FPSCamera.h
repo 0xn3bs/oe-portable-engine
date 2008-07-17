@@ -58,12 +58,11 @@ namespace OE
 
 			void OnKeyEvent(const int key, const int action)
 			{
-				if(key==GLFW_KEY_TAB && action == GLFW_PRESS)
-				{
+				if(key=='`' && action == GLFW_PRESS)
+				{	
 					OE::Input::InputManager::SetCursorVisible(!OE::Input::InputManager::IsCursorVisible());
-					OE::Input::InputManager::SetForceToMouseReference(!OE::Input::InputManager::IsMouseForcedToReference());
 				}
-			};
+			}
 
 			void MoveForward(const float dt);
 			void MoveBackward(const float dt);
@@ -80,7 +79,6 @@ namespace OE
 
 			OE::Maths::Vec3<double> _v3dEye;
 		private:
-			
 			OE::Maths::Vec3<double> _v3dCenter;
 			OE::Maths::Vec3<double> _v3dUp;
 			OE::Maths::Vec3<double> _v3dChange;

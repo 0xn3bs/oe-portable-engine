@@ -26,7 +26,7 @@ namespace OE
 					OE::UI::Windows::Window* parentWindow) : Widget(x, y, width, 
 					height, parentWindow)
 				{
-
+					_szCaption = "Button";
 				}
 
 				~Button()
@@ -63,18 +63,17 @@ namespace OE
 
 				virtual void Render(const float dt)
 				{
-					glPushMatrix();
+					//glColor4ub(_uiBgColor[3],_uiBgColor[2],_uiBgColor[1],_uiBgColor[0]);
 					glBegin(GL_QUADS);
 					glVertex3f(0, 0, 0);
-					glVertex3f(0, _v2fDimensions.y, 0);
-					glTexCoord2f(1, 1);
-					glVertex3f(_v2fDimensions.x, _v2fDimensions.y, 0);
-					glTexCoord2f(1, 0);
-					glVertex3f(_v2fDimensions.x, 0, 0);
+					glVertex3f(0, 1, 0);
+					glVertex3f(1, 1, 0);
+					glVertex3f(1, 0, 0);
 					glEnd();
-					glPopMatrix();
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
+					glScalef(TEMP_FONT_SIZE/_v2fDimensions.x, TEMP_FONT_SIZE/_v2fDimensions.y, 1);
 					OE::UI::Fonts::FontManager::Write(_szCaption);
+					glScalef(1/(TEMP_FONT_SIZE/_v2fDimensions.x), 1/(TEMP_FONT_SIZE/_v2fDimensions.y), 1);
 				}
 			};
 		}
