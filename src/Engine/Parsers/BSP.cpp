@@ -408,10 +408,6 @@ void OE::Parsers::BSP::RenderFace(int index)
 	if(_vRenderedFaces[index])
 		return;
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 1);
-	glEnable(GL_TEXTURE_2D);
-
 	int textureMapNumLevels = 1;
 	int lightMapNumLevels = 1;
 	GLint textureMapTexID = -1;
@@ -436,6 +432,12 @@ void OE::Parsers::BSP::RenderFace(int index)
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureMapTexID);
+		glEnable(GL_TEXTURE_2D);
+	}
+	else
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 1);
 		glEnable(GL_TEXTURE_2D);
 	}
 
@@ -504,6 +506,12 @@ void OE::Parsers::BSP::RenderFace(int index)
 		}
 	}
 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 
 	_vRenderedFaces[index] = true;
@@ -603,8 +611,8 @@ void OE::Parsers::BSP::DebugRender(float dt, OE::Cameras::FPSCamera* fpsCamera)
 	if(_iBSPType == BSP_TYPE_IBSP)
 	{
 		TraverseBSPTree(fpsCamera, 0);
+		glDisable(GL_BLEND);
 		memset(_vRenderedFaces, 0, sizeof(bool) * _iNumFaces);
-		fpsCamera->Update(dt);
 	}
 }
 

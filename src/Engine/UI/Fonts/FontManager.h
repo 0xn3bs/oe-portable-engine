@@ -11,6 +11,8 @@
 #ifndef FONTMANAGER_
 #define FONTMANAGER_
 
+#define TEMP_FONT_SIZE 12
+
 #include "Font.h"
 #include <vector>
 #include <iostream>

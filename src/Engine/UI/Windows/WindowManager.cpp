@@ -123,8 +123,8 @@ void OE::UI::Windows::WindowManager::Update(const float dt)
 
 		if(winTemp->_bIsDragging)
 		{
-			winTemp->_v2fPosition.x += OE::Input::InputManager::GetMouseDeltaX();
-			winTemp->_v2fPosition.y += OE::Input::InputManager::GetMouseDeltaY();
+			winTemp->_v2fPosition.x -= OE::Input::InputManager::GetMouseDeltaX();
+			winTemp->_v2fPosition.y -= OE::Input::InputManager::GetMouseDeltaY();
 		}
 
 		if(OE::Input::InputManager::GetMouseX() < 0)
@@ -171,14 +171,18 @@ void OE::UI::Windows::WindowManager::Render(const float dt)
   	gluLookAt(0, 0, 0, 0, 0, -1, 0, 1, 0);
   	glPopMatrix();
   	glMatrixMode(GL_PROJECTION);
-	
+
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		glDisable(GL_DEPTH_TEST);
+		//glEnable(GL_ALPHA_TEST);
+		glColor4ub(255,255,255,255);
 		Window* winTemp = _vecWindows.at(i);
 		glViewport(winTemp->_v2fPosition.x, OE::Base::_iWindowHeight-winTemp->_v2fDimensions.y-winTemp->_v2fPosition.y, winTemp->_v2fDimensions.x, winTemp->_v2fDimensions.y);
 		winTemp->Render(dt);
 	}
 
-	glColor3ub(255,255,255);
   	glPopMatrix();
 }

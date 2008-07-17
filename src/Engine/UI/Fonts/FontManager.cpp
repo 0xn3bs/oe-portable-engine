@@ -8,6 +8,8 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *****************************************************************************************/
+#include "Engine/GLEW/glew.h"
+#include "Engine/GL/glext.h"
 #include "FontManager.h"
 #include "Engine/Textures/TextureManager.h"
 #include "Engine/Tools/Colors/Color.h"
@@ -99,24 +101,28 @@ void OE::UI::Fonts::FontManager::Write(const char* string)
 	const unsigned int uintLength = (unsigned int)strlen(string);
 
 	_FONT fFont = _vFonts.at(_iCurrentFont);
-
+	
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, fFont.TextureHandle);
-
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	float iXPos = 0, iYPos = 0;
+	
 	for (unsigned int i = 0; i < uintLength; i++)
 	{
 
 		int intCharNum = (int)string[i];
 		_CHARACTER character = fFont.Chars.at(intCharNum);
-
+		character.Size=character.Size/16;
 		if(string[i] == '\n')
 		{
-			iYPos += (int)character.Size;
+			iYPos += character.Size;
 			iXPos = 0;
 			continue;
 		}
@@ -139,10 +145,16 @@ void OE::UI::Fonts::FontManager::Write(const char* string)
 		glVertex3f((GLfloat)iXPos + character.Size, (GLfloat)iYPos, 0);
 		glEnd();
 
-		iXPos += (int)character.Size;
+		iXPos += character.Size;
 	}
 
+	glBlendFunc(GL_ZERO, GL_ZERO);
+	glDisable(GL_BLEND);
+	glEnable(GL_ALPHA_TEST);
+
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
 }
 
 void OE::UI::Fonts::FontManager::SetFont(const char *name)

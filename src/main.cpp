@@ -32,30 +32,36 @@ OE::Parsers::INI iniParser;
 OE::Parsers::BSP *bspParser;
 OE::Cameras::FPSCamera *fpsCamera;
 OE::UI::Windows::WindowManager *windowManager;
-OE::UI::Windows::Window *testWindow;
+OE::UI::Windows::Window *testWindow, *testWindow2;
+OE::UI::Widgets::Button *testButton;
 bool IsGUIEnabled = false;
+
 void Initialize()
 {
 	OE::Textures::TextureManager::LoadTextureFromPath("base/textures/notexture.tga");
+	OE::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
+	OE::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
 
 	fpsCamera = new OE::Cameras::FPSCamera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	fpsCamera->Update(0);
 	windowManager = new OE::UI::Windows::WindowManager();
-	testWindow = new OE::Game::UI::BasicWindow(0, 0, 100, 100);
+	testWindow = new OE::Game::UI::BasicWindow(100,100,100,100);
+	testWindow2 = new OE::Game::UI::BasicWindow(100,100,250,125);
+	testButton = new OE::UI::Widgets::Button(50, 50, 75, 10, testWindow2);
+	testWindow2->AddWidget(testButton);
 	windowManager->AddWindow(*testWindow);
+	windowManager->AddWindow(*testWindow2);
 
 	glShadeModel(GL_SMOOTH);
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LINE);
-	glEnable(GL_POINT);
+	glEnable(GL_POINT_SMOOTH);
 	glEnable(GL_LINE_SMOOTH);
 
 	glEnable(GL_BLEND);
-	//glEnable(GL_ALPHA);
+	glEnable(GL_ALPHA_TEST);
 	//glEnable(GL_ALPHA_TEST);
 
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_COLOR);
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT);
 
@@ -80,18 +86,22 @@ void Initialize()
 
 void Update(double deltaTime)
 {
-	OE::Input::InputManager::Update(deltaTime);
-	windowManager->Update(deltaTime);
-	if(IsGUIEnabled)
+	if(OE::Input::InputManager::IsCursorVisible())
 	{
-		//windowManager.Update(deltaTime);
+		windowManager->UpdateWin(OE::Base::_iWindowWidth, OE::Base::_iWindowHeight);
+		windowManager->Update(deltaTime);
 	}
-	//fpsCamera->Update(deltaTime);
+	else
+	{
+			fpsCamera->Update(deltaTime);
+	}
+	OE::Input::InputManager::Update(deltaTime);
 }
 
 void Draw(double deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glColor4ub(255,255,255,255);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -101,12 +111,15 @@ void Draw(double deltaTime)
 	glLoadIdentity();
 	fpsCamera->Render();
 	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_ALPHA_TEST);
 	bspParser->DebugRender(static_cast<float>(deltaTime), fpsCamera);
 	glPopMatrix();
 	glPopMatrix();
-
-	glDisable(GL_DEPTH_TEST);
-	windowManager->Render(deltaTime);
+	glBindTexture(GL_TEXTURE_2D,0);
+	if(OE::Input::InputManager::IsCursorVisible())
+	{
+		windowManager->Render(deltaTime);
+	}
 	glViewport(0, 0, OE::Base::_iWindowWidth, OE::Base::_iWindowHeight);
 }
 
