@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Odorless Portable Engine"
 	ProjectGUID="{80CE4403-0C46-4EC6-9F8B-76F958BB68AB}"
 	RootNamespace="Odorless Portable Engine"
@@ -47,7 +47,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				EnablePREfast="false"
 			/>
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImaged.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;;&quot;$(SolutionDir)src\Engine\Libs&quot;"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -137,7 +137,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="OpenAL32.lib alut.lib glfw.lib opengl32.lib glu32.lib FreeImage.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\Engine\GLFW&quot;;&quot;$(SolutionDir)src\Engine\Libs&quot;"
 				IgnoreDefaultLibraryNames="LIBCMT"
 				GenerateDebugInformation="true"
 				SubSystem="1"
