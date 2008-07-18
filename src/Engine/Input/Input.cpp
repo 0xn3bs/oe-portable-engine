@@ -10,7 +10,7 @@
 ***************************************************************************************************/
 #include "Input.h"
 OE::Input::InputManager g_inputManager;
-bool OE::Input::InputManager::_rgbKeys[255];
+bool OE::Input::InputManager::_rgbKeys[512];
 int OE::Input::InputManager::_iMouseX=0;
 int OE::Input::InputManager::_iMouseY=0;
 int OE::Input::InputManager::_iMouseDeltaX=0;

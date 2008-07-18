@@ -49,7 +49,7 @@ namespace OE
 			static int _iMouseLastPosX;
 			static int _iMouseLastPosY;
 			static bool _bIsMouseAlreadyDown;
-			static bool _rgbKeys[255];
+			static bool _rgbKeys[512];
 			static bool _bInitialized;
 			static bool _bForceMouseToRefPos;
 			static bool _bMouseHidden;

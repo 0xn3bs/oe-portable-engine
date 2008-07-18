@@ -85,13 +85,11 @@ namespace OE
 				{
 					if(_bHasFocus)
 					{
-						std::cout << "Textfield has focus" << std::endl;
 						_uiBgColor[0] = 100;
 						_uiBgColor[2] = 100;
 					}
 					else
 					{
-						std::cout << "Textfield doesn't have focus" << std::endl;
 						_uiBgColor[0] = 50;
 						_uiBgColor[2] = 50;
 					}
