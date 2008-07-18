@@ -64,6 +64,7 @@ namespace OE
 						glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
 					else
 						glColor4ub(_uiBgColor[2],_uiBgColor[1],_uiBgColor[0],_uiBgColor[3]);
+
 					glBegin(GL_QUADS);
 					glTexCoord2f(0, 0);
 					glVertex3f(0, 0, 0);
@@ -74,11 +75,6 @@ namespace OE
 					glTexCoord2f(1, 0);
 					glVertex3f(1, 0, 0);
 					glEnd();
-
-					if(!_bHasFocus)
-						glColor4ub(_uiBgColor[0]/2,_uiBgColor[1]/2,_uiBgColor[2]/2,_uiBgColor[3]);
-					else
-						glColor4ub(_uiBgColor[2]/2,_uiBgColor[1]/2,_uiBgColor[0]/2,_uiBgColor[3]);
 				
 					//	Render widgets here.
 					for(unsigned int i = 0; i < _vecWidgets.size(); i++)
@@ -92,8 +88,8 @@ namespace OE
 					}
 
 					//	Border
-					glBegin(GL_LINES);
 					glColor4ub(_uiBrdrColor[0],_uiBrdrColor[1],_uiBrdrColor[2],_uiBrdrColor[3]);
+					glBegin(GL_LINES);
 					glVertex3f(0, 0, 0);
 					glVertex3f(0, 1, 0);
 					glVertex3f(0, 1, 0);
@@ -107,9 +103,9 @@ namespace OE
 					glEnd();
 
 					glColor4ub(_uiFgColor[0],_uiFgColor[1],_uiFgColor[2],_uiFgColor[3]);
-					glScalef(TEMP_FONT_SIZE/_v2fDimensions.x,TEMP_FONT_SIZE/_v2fDimensions.y, 1);
+					glScalef(1.0f/_v2fDimensions.x,1.0f/_v2fDimensions.y, 1);
 					OE::UI::Fonts::FontManager::Write("Console");
-					glScalef(1/(TEMP_FONT_SIZE/_v2fDimensions.x), 1/(TEMP_FONT_SIZE/_v2fDimensions.y), 1);
+					glScalef(1/(1.0f/_v2fDimensions.x), 1/(1.0f/_v2fDimensions.y), 1);
 				}
 			};
 		}

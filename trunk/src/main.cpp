@@ -33,25 +33,23 @@ OE::Parsers::INI iniParser;
 OE::Parsers::BSP *bspParser;
 OE::Cameras::FPSCamera *fpsCamera;
 OE::UI::Windows::WindowManager *windowManager;
-OE::UI::Windows::Window *testWindow, *testWindow2, *consoleWindow;
+OE::UI::Windows::Window *testWindow2, *consoleWindow;
 OE::UI::Widgets::Button *testButton;
 bool IsGUIEnabled = false;
 
 void Initialize()
 {
 	OE::Textures::TextureManager::LoadTextureFromPath("base/textures/notexture.tga");
-	OE::UI::Fonts::FontManager::AddFont("base/textures/fonts/phantom", true);
-	OE::UI::Fonts::FontManager::SetFont("base/textures/fonts/phantom");
+	OE::UI::Fonts::FontManager::AddFont("base/textures/fonts/arial", true);
+	OE::UI::Fonts::FontManager::SetFont("base/textures/fonts/arial");
 
 	fpsCamera = new OE::Cameras::FPSCamera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 	fpsCamera->Update(0);
 	windowManager = new OE::UI::Windows::WindowManager();
-	testWindow = new OE::Game::UI::BasicWindow(100,100,100,100);
-	testWindow2 = new OE::Game::UI::BasicWindow(100,100,250,125);
-	testButton = new OE::UI::Widgets::Button(50, 50, 75, 10, testWindow2);
+	testWindow2 = new OE::Game::UI::BasicWindow(0,0,250,125);
+	testButton = new OE::UI::Widgets::Button(50, 50, 100, 16, testWindow2);
 	consoleWindow = new OE::Game::UI::ConsoleWindow(25,25, 400, 200);
 	testWindow2->AddWidget(testButton);
-	windowManager->AddWindow(*testWindow);
 	windowManager->AddWindow(*testWindow2);
 	windowManager->AddWindow(*consoleWindow);
 

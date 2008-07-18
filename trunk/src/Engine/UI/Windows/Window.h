@@ -50,6 +50,7 @@ namespace OE
 				virtual void OnMouseUp(const char button, const int x, const int y){};
 				virtual void OnMouseMove(int x, int y){};
 				virtual void OnCharEvent(int key, int action){};
+				virtual void OnKeyEvent(int key, int action){};
 
 				int GetXPos(){return static_cast<int>(_v2fPosition.x);}
 				int GetYPos(){return static_cast<int>(_v2fPosition.y);}
