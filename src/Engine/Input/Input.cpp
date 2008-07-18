@@ -87,6 +87,7 @@ void OE::Input::InputManager::Initialize()
 	glfwSetKeyCallback(GLFWSetKeyEvent);
 	glfwSetMousePosCallback(GLFWSetMousePos);
 	glfwSetMouseButtonCallback(GLFWSetMouseButton);
+	glfwEnable(GLFW_KEY_REPEAT);
 	_bInitialized = true;
 }
 

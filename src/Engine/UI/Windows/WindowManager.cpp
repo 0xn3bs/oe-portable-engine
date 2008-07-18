@@ -61,10 +61,38 @@ void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int st
 
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
+			winTemp->_vecWidgets[j]->_bHasFocus = false;
 			bool startIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(startX), static_cast<float>(startY)) && CanPick(i, startX, startY);
 			bool endIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(endX), static_cast<float>(endY)) && CanPick(i, endX, endY);
 			if(startIsOver&&endIsOver)
+			{
+				winTemp->_vecWidgets[j]->_bHasFocus = true;
 				winTemp->_vecWidgets[j]->OnMouseClick();
+			}
+		}
+	}
+}
+
+void OE::UI::Windows::WindowManager::OnCharEvent(const int key, const int action)
+{
+	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	{
+		Window* winTemp = _vecWindows.at(i);
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		{
+			winTemp->_vecWidgets[j]->OnCharEvent(key, action);
+		}
+	}
+}
+
+void OE::UI::Windows::WindowManager::OnKeyEvent(const int key, const int action)
+{
+	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	{
+		Window* winTemp = _vecWindows.at(i);
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		{
+			winTemp->_vecWidgets[j]->OnKeyEvent(key, action);
 		}
 	}
 }
@@ -110,6 +138,11 @@ void OE::UI::Windows::WindowManager::Update(const float dt)
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		OE::UI::Windows::Window* winTemp = _vecWindows.at(i);
+
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		{
+			winTemp->_vecWidgets[j]->Update(dt);
+		}
 
 		//	Window Bounds Checking, we want the user to always have a way of grabbing a window.
 		if(winTemp->_v2fPosition.y < -winTemp->_fTitleBarY+5)
@@ -177,7 +210,6 @@ void OE::UI::Windows::WindowManager::Render(const float dt)
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_DEPTH_TEST);
-		//glEnable(GL_ALPHA_TEST);
 		glColor4ub(255,255,255,255);
 		Window* winTemp = _vecWindows.at(i);
 		glViewport(winTemp->_v2fPosition.x, OE::Base::_iWindowHeight-winTemp->_v2fDimensions.y-winTemp->_v2fPosition.y, winTemp->_v2fDimensions.x, winTemp->_v2fDimensions.y);

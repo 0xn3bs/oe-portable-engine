@@ -48,11 +48,15 @@ namespace OE
 				void OnMouseButton(const int key, const int action);
 				void OnMouseClick(const int startX, const int startY, const int endX, const int endY);
 				void OnMouseMove(const int x, const int y);
+				void OnKeyEvent(const int key, const int action);
+				void OnCharEvent(const int key, const int action);
+
 				void AddWindow(Window &window)
 				{
 					_vecWindows.push_back(&window);
 					SetFocus(static_cast<unsigned int>(_vecWindows.size()-1));
 					_winCurrentFocused = &window;
+					_winCurrentFocused->Initialize();
 				}
 
 				void RemoveWindow(const unsigned int index)
@@ -62,6 +66,7 @@ namespace OE
 				}
 
 				bool CanPick(const unsigned int index, const unsigned int x, const unsigned int y);
+
 				void SetFocus(const unsigned int index)
 				{
 					if(_winCurrentFocused != NULL)

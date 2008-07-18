@@ -58,6 +58,7 @@ namespace OE
 			static void GLFWCALL GLFWSetKeyEvent(int key, int action);
 			static void GLFWCALL GLFWSetMousePos(int x, int y);
 			static void GLFWCALL GLFWSetMouseButton(int button, int action);
+
 		public:
 			InputManager()
 			{

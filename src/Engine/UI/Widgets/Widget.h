@@ -13,6 +13,7 @@
 
 #include "Engine/UI/Windows/Window.h"
 #include "Engine/Maths/Vector.h"
+#include <string>
 
 namespace OE
 {
@@ -37,6 +38,7 @@ namespace OE
 					_uiBgColor[2] = 150;
 					_uiBgColor[3] = 255;
 					_bIsOver = false;
+					_bHasFocus = false;
 				}
 
 				~Widget()
@@ -47,16 +49,19 @@ namespace OE
 				virtual void OnMouseOut(){};
 				virtual void OnMouseClick(){};
 				virtual void OnMouseButton(const int button, const int action){};
+				virtual void OnCharEvent(const int key, const int action){};
+				virtual void OnKeyEvent(const int key, const int action){};
+
 				virtual void Update(const float dt) = 0;
 				virtual void Render(const float dt) = 0;
 				bool IsOver(const float x, const float y);
 				void SetCaption(const char* caption)
 				{
-					_szCaption = caption;
+					_szCaption = std::string(caption);
 				}
 
 				OE::UI::Windows::Window* _winParentWindow;
-				const char* _szCaption;
+				std::string _szCaption;
 
 				OE::Maths::Vec2<float> _v2fDimensions;
 				OE::Maths::Vec2<float> _v2fPosition;
@@ -65,6 +70,7 @@ namespace OE
 				unsigned char _uiBgColor[4];
 				unsigned char _uiBrdrColor[4];
 				bool _bIsOver;
+				bool _bHasFocus;
 			};
 		}
 	}
