@@ -23,6 +23,7 @@
 #include "Engine/Cameras/FPSCamera.h"
 #include "Engine/Maths/Vector.h"
 #include "Engine/Parsers/MD3.h"
+#include "Game/UI/ConsoleWindow.h"
 #include <iostream>
 #include <math.h>
 
@@ -32,7 +33,7 @@ OE::Parsers::INI iniParser;
 OE::Parsers::BSP *bspParser;
 OE::Cameras::FPSCamera *fpsCamera;
 OE::UI::Windows::WindowManager *windowManager;
-OE::UI::Windows::Window *testWindow, *testWindow2;
+OE::UI::Windows::Window *testWindow, *testWindow2, *consoleWindow;
 OE::UI::Widgets::Button *testButton;
 bool IsGUIEnabled = false;
 
@@ -48,9 +49,11 @@ void Initialize()
 	testWindow = new OE::Game::UI::BasicWindow(100,100,100,100);
 	testWindow2 = new OE::Game::UI::BasicWindow(100,100,250,125);
 	testButton = new OE::UI::Widgets::Button(50, 50, 75, 10, testWindow2);
+	consoleWindow = new OE::Game::UI::ConsoleWindow(25,25, 400, 200);
 	testWindow2->AddWidget(testButton);
 	windowManager->AddWindow(*testWindow);
 	windowManager->AddWindow(*testWindow2);
+	windowManager->AddWindow(*consoleWindow);
 
 	glShadeModel(GL_SMOOTH);
 
@@ -60,12 +63,17 @@ void Initialize()
 
 	glEnable(GL_BLEND);
 	glEnable(GL_ALPHA_TEST);
+
+
+	//	Disabled for debugging purposes/
 	//glEnable(GL_ALPHA_TEST);
 
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_FRONT);
 
 	//glEnable(GL_LIGHTING);
+
+
 	glPointSize(2.0f);
 	glLineWidth(1.0f);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -93,7 +101,7 @@ void Update(double deltaTime)
 	}
 	else
 	{
-			fpsCamera->Update(deltaTime);
+		fpsCamera->Update(deltaTime);
 	}
 	OE::Input::InputManager::Update(deltaTime);
 }

@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Game\UI\ConsoleWindow.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\engine\ui\fonts\Font.h"
 				>
 			</File>
@@ -239,6 +243,10 @@
 			</File>
 			<File
 				RelativePath=".\src\Engine\Parsers\SurfaceFlags.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Engine\UI\Widgets\TextField.h"
 				>
 			</File>
 			<File
@@ -298,6 +306,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Game\UI\ConsoleWidow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\engine\ui\fonts\Font.cpp"
 				>
 			</File>
@@ -331,6 +343,10 @@
 			</File>
 			<File
 				RelativePath=".\src\engine\types\String.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Engine\UI\Widgets\TextField.cpp"
 				>
 			</File>
 			<File
