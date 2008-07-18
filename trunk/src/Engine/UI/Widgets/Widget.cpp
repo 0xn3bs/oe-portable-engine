@@ -14,3 +14,13 @@ bool OE::UI::Widgets::Widget::IsOver(const float x, const float y)
 
 	return isX && isY;
 }
+
+void OE::UI::Widgets::Widget::GetLocalPosition(int *x, int *y)
+{
+	int mX, mY;
+	mX = mY = 0;
+
+	OE::Input::InputManager::GetMousePos(&mX, &mY);
+	*x = mX - _v2fPosition.x - _winParentWindow->GetXPos();
+	*y = mY - _v2fPosition.y - _winParentWindow->GetYPos();
+}

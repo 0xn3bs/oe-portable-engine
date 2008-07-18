@@ -13,6 +13,7 @@
 
 #include "Engine/UI/Windows/Window.h"
 #include "Engine/Maths/Vector.h"
+#include "Engine/Input/Input.h"
 #include <string>
 
 namespace OE
@@ -24,6 +25,8 @@ namespace OE
 		{
 			class Widget
 			{
+			protected:
+				void GetLocalPosition(int *x, int *y);
 			public:
 				Widget(const float x, const float y, const float width, const float height, 
 					OE::UI::Windows::Window* parentWindow)
