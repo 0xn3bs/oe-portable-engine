@@ -72,9 +72,9 @@ namespace OE
 					glVertex3f(1, 0, 0);
 					glEnd();
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
-					glScalef(TEMP_FONT_SIZE/_v2fDimensions.x, TEMP_FONT_SIZE/_v2fDimensions.y, 1);
+					glScalef(1.0f/_v2fDimensions.x, 1.0f/_v2fDimensions.y, 1);
 					OE::UI::Fonts::FontManager::Write(_szCaption.c_str());
-					glScalef(1/(TEMP_FONT_SIZE/_v2fDimensions.x), 1/(TEMP_FONT_SIZE/_v2fDimensions.y), 1);
+					glScalef(1/(1.0f/_v2fDimensions.x), 1/(1.0f/_v2fDimensions.y), 1);
 				}
 			};
 		}

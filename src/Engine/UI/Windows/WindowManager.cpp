@@ -36,9 +36,13 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 
 			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
 			{
+				tempWin->_vecWidgets[j]->_bHasFocus = false;
 				bool bIsOver = tempWin->_vecWidgets[j]->IsOver(static_cast<float>(iMouseX), static_cast<float>(iMouseY)) && bCanPick;
 				if(bIsOver)
+				{
+					tempWin->_vecWidgets[j]->_bHasFocus = true;
 					tempWin->_vecWidgets[j]->OnMouseButton(key, action);
+				}
 			}
 
 			if(bCanPick&&!tempWin->_bHasFocus)
@@ -61,12 +65,10 @@ void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int st
 
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
-			winTemp->_vecWidgets[j]->_bHasFocus = false;
 			bool startIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(startX), static_cast<float>(startY)) && CanPick(i, startX, startY);
 			bool endIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(endX), static_cast<float>(endY)) && CanPick(i, endX, endY);
 			if(startIsOver&&endIsOver)
 			{
-				winTemp->_vecWidgets[j]->_bHasFocus = true;
 				winTemp->_vecWidgets[j]->OnMouseClick();
 			}
 		}
@@ -90,6 +92,7 @@ void OE::UI::Windows::WindowManager::OnKeyEvent(const int key, const int action)
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* winTemp = _vecWindows.at(i);
+		winTemp->OnKeyEvent(key, action);
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
 			winTemp->_vecWidgets[j]->OnKeyEvent(key, action);

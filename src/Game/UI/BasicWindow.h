@@ -40,6 +40,10 @@ namespace OE
 
 				}
 
+				virtual void OnKeyEvent(int key, int action)
+				{
+				}
+
 				int Initialize()
 				{
 					OE::Tools::Colors::Color::RGBA(_uiBgColor,36,97,104,190);

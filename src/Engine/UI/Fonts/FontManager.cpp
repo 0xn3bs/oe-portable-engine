@@ -113,13 +113,12 @@ void OE::UI::Fonts::FontManager::Write(const char* string)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	float iXPos = 0, iYPos = 0;
-	
+
+	glBegin(GL_QUADS);
 	for (unsigned int i = 0; i < uintLength; i++)
 	{
-
 		int intCharNum = (int)string[i];
 		_CHARACTER character = fFont.Chars.at(intCharNum);
-		character.Size=character.Size/16;
 		if(string[i] == '\n')
 		{
 			iYPos += character.Size;
@@ -127,7 +126,7 @@ void OE::UI::Fonts::FontManager::Write(const char* string)
 			continue;
 		}
 
-		glBegin(GL_QUADS);
+		
 		//Top-left vertex (corner)
 		glTexCoord2f(character.U1, character.V1);
 		glVertex3f((GLfloat)iXPos, (GLfloat)iYPos, 0);
@@ -143,10 +142,11 @@ void OE::UI::Fonts::FontManager::Write(const char* string)
 		//Top-right vertex (corner)
 		glTexCoord2f(character.U2, character.V1);
 		glVertex3f((GLfloat)iXPos + character.Size, (GLfloat)iYPos, 0);
-		glEnd();
+		
 
 		iXPos += character.Size;
 	}
+	glEnd();
 
 	glBlendFunc(GL_ZERO, GL_ZERO);
 	glDisable(GL_BLEND);
