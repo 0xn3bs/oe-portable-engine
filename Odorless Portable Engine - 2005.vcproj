@@ -306,7 +306,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\Game\UI\ConsoleWidow.cpp"
+				RelativePath=".\src\Game\UI\ConsoleWindow.cpp"
 				>
 			</File>
 			<File
