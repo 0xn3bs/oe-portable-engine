@@ -13,6 +13,8 @@
 
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/UI/Widgets/Widget.h"
+#include <string>
+#include <vector>
 
 namespace OE
 {
@@ -23,6 +25,7 @@ namespace OE
 			class ListBox : public OE::UI::Widgets::Widget
 			{
 			private:
+				std::vector<std::string> _vItems;
 				void (*OnItemSelected)(int index, const char* value);
 			public:
 				ListBox(const float x, const float y, const float width, const float height, 
@@ -37,6 +40,11 @@ namespace OE
 
 				~ListBox()
 				{
+				}
+
+				virtual void PushBack(const char* value)
+				{
+
 				}
 
 				virtual void OnMouseButton(const int button, const int action)
@@ -77,6 +85,7 @@ namespace OE
 
 				virtual void Render(const float dt)
 				{
+					/*
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
 					glBegin(GL_QUADS);
 					glVertex3f(0, 0, 0);
@@ -88,6 +97,7 @@ namespace OE
 					glScalef(1.0f/_v2fDimensions.x, 1.0f/_v2fDimensions.y, 1);
 					OE::UI::Fonts::FontManager::Write(_szTextWithCaret.c_str());
 					glScalef(1/(1.0f/_v2fDimensions.x), 1/(1.0f/_v2fDimensions.y), 1);
+					*/
 				}
 			};
 		}

@@ -23,7 +23,9 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 		{
 			OE::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			if(tempWin->_bIsDragging)
+			{
 				tempWin->_bIsDragging = false;
+			}
 		}
 	}
 

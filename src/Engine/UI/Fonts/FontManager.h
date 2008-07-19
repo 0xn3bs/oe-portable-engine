@@ -38,6 +38,10 @@ namespace OE
 						return (OE::UI::Fonts::_FONT*)0;
 				}
 				static void Write(const char *path);
+				static void Write(const char c)
+				{
+					Write(&c);
+				}
 				static int IndexOf(const char *name);
 
 			private:

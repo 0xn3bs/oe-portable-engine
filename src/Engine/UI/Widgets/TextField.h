@@ -23,20 +23,23 @@ namespace OE
 			class TextField : public OE::UI::Widgets::Widget
 			{
 			private:
-				std::string _szTextWithCaret;
 				int _caretPos;
+				float _iTotalTime;
+				bool _bCaretRender;
 				void (*OnSubmit)(const char* text);
 			public:
 				TextField(const float x, const float y, const float width, const float height, 
 					OE::UI::Windows::Window* parentWindow) : Widget(x, y, width, 
 					height, parentWindow)
 				{
-					_uiBgColor[0] = 102;
+					_uiBgColor[0] = 50;
 					_uiBgColor[1] = 102;
-					_uiBgColor[2] = 51;
+					_uiBgColor[2] = 100;
+					_uiBgColor[3] = 150;
 					_szCaption = "";
-					_szTextWithCaret = "";
 					_caretPos = 0;
+					_bCaretRender = false;
+					_iTotalTime = 0;
 				}
 
 				~TextField()
@@ -50,46 +53,41 @@ namespace OE
 
 				virtual void OnMouseButton(const int button, const int action)
 				{
+					if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
+					{
+						int mX, mY, lX, lY;
+						lX = lY = mX = mY = 0;
+						OE::Input::InputManager::GetMousePos(&mX, &mY);
+						GetLocalPosition(&lX, &lY);
+
+						std::cout << "X: " << lX << " Y: " << lY << std::endl;
+
+						_caretPos = lX/16;
+
+						if(lX > (_szCaption.length()+1) * 16)
+						{
+							if(_szCaption.length()==0)
+							{
+								_caretPos = 0;
+							}
+							else
+							{
+								_caretPos = _szCaption.length();
+							}
+						}
+					}
 				}
 
 				virtual void OnMouseOver()
 				{
-					_uiBgColor[0] += 100;
-					_uiBgColor[2] += 100;
 				}
 
 				virtual void OnMouseOut()
 				{
-					_uiBgColor[0] -= 100;
-					_uiBgColor[2] -= 100;
 				}
 
 				virtual void OnMouseClick()
 				{
-					int mX, mY, lX, lY;
-					lX = lY = mX = mY = 0;
-					OE::Input::InputManager::GetMousePos(&mX, &mY);
-					GetLocalPosition(&lX, &lY);
-
-					_caretPos = (_szCaption.length() - (_szCaption.length() - lX))/16;
-
-					_szTextWithCaret = _szCaption;
-
-					if(mX > (_szCaption.length()+1) * 16)
-					{
-						if(_szCaption.length()==0)
-						{
-							_caretPos = 0;
-							_szTextWithCaret.push_back('|');
-						}
-						else
-						{
-							_caretPos = _szCaption.length();
-							_szTextWithCaret.push_back('|');
-						}
-					}
-					else
-						_szTextWithCaret.insert(_szTextWithCaret.begin()+_caretPos, '|');
 				}
 
 				virtual void OnKeyEvent(const int key, const int action)
@@ -112,7 +110,6 @@ namespace OE
 							{
 								OnSubmit(_szCaption.c_str());
 							}
-							_szTextWithCaret = "";
 							_szCaption = "";
 							_caretPos = 0;
 						}
@@ -124,8 +121,13 @@ namespace OE
 								_caretPos--;
 							}
 						}
-						_szTextWithCaret = _szCaption;
-						_szTextWithCaret.insert(_szTextWithCaret.begin()+_caretPos, '|');
+						if(key == GLFW_KEY_DEL && action == GLFW_PRESS)
+						{
+							if(_caretPos < _szCaption.length())
+							{
+								_szCaption.erase(_szCaption.begin() + _caretPos,_szCaption.begin() + _caretPos+1);
+							}
+						}
 					}
 				}
 
@@ -134,25 +136,33 @@ namespace OE
 					if(_bHasFocus && action == GLFW_PRESS)
 					{
 						_szCaption.insert(_szCaption.begin()+_caretPos, (char)key);
-						_szTextWithCaret = _szCaption;
 						_caretPos++;
-						_szTextWithCaret.insert(_szTextWithCaret.begin()+_caretPos, '|');
 					}
 				}
 
 				virtual void Update(const float dt)
 				{
-					if(_bHasFocus)
+					if(_iTotalTime < 0.5f)
 					{
+						_iTotalTime+=dt;
+					}
+					else
+					{
+						_bCaretRender = !_bCaretRender;
+						_iTotalTime = 0;
+					}
+
+					if(!_bHasFocus)
+					{
+						_caretPos = 0;
 						_uiBgColor[0] = 100;
 						_uiBgColor[2] = 100;
 					}
 					else
 					{
-						_szTextWithCaret = _szCaption;
-						_caretPos = _szCaption.length();
 						_uiBgColor[0] = 50;
-						_uiBgColor[2] = 50;
+						_uiBgColor[1] = 102;
+						_uiBgColor[2] = 100;
 					}
 				}
 
@@ -165,9 +175,21 @@ namespace OE
 					glVertex3f(1, 1, 0);
 					glVertex3f(1, 0, 0);
 					glEnd();
-					glColor4ub(255,255,255,255);
+					
+
 					glScalef(1.0f/_v2fDimensions.x, 1.0f/_v2fDimensions.y, 1);
-					OE::UI::Fonts::FontManager::Write(_szTextWithCaret.c_str());
+					
+					glColor4ub(255,255,255,255);
+					OE::UI::Fonts::FontManager::Write(_szCaption.c_str());
+					glColor4ub(153,255,255,255);
+					if(_bHasFocus && _bCaretRender)
+					{
+						float xTrans = (_v2fPosition.x + (_caretPos * 16))-8;
+						glTranslatef(xTrans, 0, 0);
+						OE::UI::Fonts::FontManager::Write((char)127);
+						glTranslatef(-xTrans, 0, 0);
+					}
+
 					glScalef(1/(1.0f/_v2fDimensions.x), 1/(1.0f/_v2fDimensions.y), 1);
 				}
 			};
