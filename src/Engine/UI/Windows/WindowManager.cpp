@@ -22,6 +22,18 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 		for(unsigned int i = 0; i < _vecWindows.size(); i++)
 		{
 			OE::UI::Windows::Window* tempWin = _vecWindows.at(i);
+
+			bool bCanPick = CanPick(i, iMouseX, iMouseY);
+
+			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
+			{
+				bool bIsOver = tempWin->_vecWidgets[j]->IsOver(static_cast<float>(iMouseX), static_cast<float>(iMouseY)) && bCanPick;
+				if(bIsOver)
+				{
+					tempWin->_vecWidgets[j]->OnMouseButton(key, action);
+				}
+			}
+
 			if(tempWin->_bIsDragging)
 			{
 				tempWin->_bIsDragging = false;
@@ -110,6 +122,9 @@ void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
 			bool isOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(x), static_cast<float>(y)) && CanPick(i, x, y);
+			
+			if(isOver || winTemp->_vecWidgets[j]->_bHasFocus)
+				winTemp->_vecWidgets[j]->OnMouseMove(x,y);
 
 			if(isOver && !winTemp->_vecWidgets[j]->_bIsOver)
 			{
