@@ -48,7 +48,7 @@ void Initialize()
 	windowManager = new OE::UI::Windows::WindowManager();
 	testWindow2 = new OE::Game::UI::BasicWindow(0,0,250,125);
 	testButton = new OE::UI::Widgets::Button(50, 50, 100, 16, testWindow2);
-	consoleWindow = new OE::Game::UI::ConsoleWindow(25,25, 400, 200);
+	consoleWindow = new OE::Game::UI::ConsoleWindow(100,25, 400, 200);
 	testWindow2->AddWidget(testButton);
 	windowManager->AddWindow(*testWindow2);
 	windowManager->AddWindow(*consoleWindow);
