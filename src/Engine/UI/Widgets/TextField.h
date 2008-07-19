@@ -90,8 +90,6 @@ namespace OE
 					}
 					else
 						_szTextWithCaret.insert(_szTextWithCaret.begin()+_caretPos, '|');
-
-					std::cout << "Caret Pos: " << _caretPos << std::endl;
 				}
 
 				virtual void OnKeyEvent(const int key, const int action)

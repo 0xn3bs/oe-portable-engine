@@ -230,6 +230,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\Engine\UI\Widgets\ListBox.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\Engine\Maths\Math.h"
 				>
 			</File>
@@ -331,6 +335,10 @@
 			</File>
 			<File
 				RelativePath=".\src\engine\input\Input.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Engine\UI\Widgets\ListBox.cpp"
 				>
 			</File>
 			<File
