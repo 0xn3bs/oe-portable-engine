@@ -24,6 +24,7 @@ namespace OE
 			{
 			private:
 				int _caretPos;
+				int _caretUpPos;
 				float _iTotalTime;
 				bool _bCaretRender;
 				void (*OnSubmit)(const char* text);
@@ -38,6 +39,7 @@ namespace OE
 					_uiBgColor[3] = 150;
 					_szCaption = "";
 					_caretPos = 0;
+					_caretUpPos = 0;
 					_bCaretRender = false;
 					_iTotalTime = 0;
 				}
@@ -51,30 +53,47 @@ namespace OE
 					OnSubmit = cb;
 				}
 
+				void CalculateCaretPosition(int *caretPos)
+				{
+					int mX, mY, lX, lY;
+					lX = lY = mX = mY = 0;
+					OE::Input::InputManager::GetMousePos(&mX, &mY);
+					GetLocalPosition(&lX, &lY);
+
+					*caretPos = lX/16;
+
+					if(lX > (_szCaption.length()+1) * 16)
+					{
+						if(_szCaption.length()==0)
+						{
+							*caretPos = 0;
+						}
+						else
+						{
+							*caretPos = _szCaption.length();
+						}
+					}
+				}
+
 				virtual void OnMouseButton(const int button, const int action)
 				{
-					if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
+					if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 					{
-						int mX, mY, lX, lY;
-						lX = lY = mX = mY = 0;
-						OE::Input::InputManager::GetMousePos(&mX, &mY);
-						GetLocalPosition(&lX, &lY);
+						CalculateCaretPosition(&_caretPos);
+						_caretUpPos = _caretPos;
+					}
 
-						std::cout << "X: " << lX << " Y: " << lY << std::endl;
+					if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+					{
+						CalculateCaretPosition(&_caretUpPos);
+					}
+				}
 
-						_caretPos = lX/16;
-
-						if(lX > (_szCaption.length()+1) * 16)
-						{
-							if(_szCaption.length()==0)
-							{
-								_caretPos = 0;
-							}
-							else
-							{
-								_caretPos = _szCaption.length();
-							}
-						}
+				virtual void OnMouseMove(const int x, const int y)
+				{
+					if(glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+					{
+						CalculateCaretPosition(&_caretUpPos);
 					}
 				}
 
@@ -97,12 +116,18 @@ namespace OE
 						if(key == GLFW_KEY_LEFT && action == GLFW_PRESS)
 						{
 							if(_caretPos > 0)
+							{
 								_caretPos--;
+								_caretUpPos = _caretPos;
+							}
 						}
 						if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
 						{
 							if(_caretPos < _szCaption.length())
+							{
 								_caretPos++;
+								_caretUpPos = _caretPos;
+							}
 						}
 						if(key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 						{
@@ -112,6 +137,7 @@ namespace OE
 							}
 							_szCaption = "";
 							_caretPos = 0;
+							_caretUpPos = 0;
 						}
 						if(key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS)
 						{
@@ -137,6 +163,7 @@ namespace OE
 					{
 						_szCaption.insert(_szCaption.begin()+_caretPos, (char)key);
 						_caretPos++;
+						_caretUpPos = _caretPos;
 					}
 				}
 
@@ -154,7 +181,6 @@ namespace OE
 
 					if(!_bHasFocus)
 					{
-						_caretPos = 0;
 						_uiBgColor[0] = 100;
 						_uiBgColor[2] = 100;
 					}
@@ -168,6 +194,9 @@ namespace OE
 
 				virtual void Render(const float dt)
 				{
+					float carStartX = (_v2fPosition.x + (_caretPos * 16));
+					float carEndX = (_v2fPosition.x + (_caretUpPos * 16));
+
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
 					glBegin(GL_QUADS);
 					glVertex3f(0, 0, 0);
@@ -176,9 +205,16 @@ namespace OE
 					glVertex3f(1, 0, 0);
 					glEnd();
 					
+					glColor4ub(0,0,0,255);
+					glBegin(GL_QUADS);
+					glVertex3f(carStartX/_v2fDimensions.x, 0, 0);
+					glVertex3f(carStartX/_v2fDimensions.x, 1, 0);
+					glVertex3f(carEndX/_v2fDimensions.x, 1, 0);
+					glVertex3f(carEndX/_v2fDimensions.x, 0, 0);
+					glEnd();
 
 					glScalef(1.0f/_v2fDimensions.x, 1.0f/_v2fDimensions.y, 1);
-					
+
 					glColor4ub(255,255,255,255);
 					OE::UI::Fonts::FontManager::Write(_szCaption.c_str());
 					glColor4ub(153,255,255,255);
@@ -189,6 +225,11 @@ namespace OE
 						OE::UI::Fonts::FontManager::Write((char)127);
 						glTranslatef(-xTrans, 0, 0);
 					}
+					
+					glBegin(GL_LINES);
+					glVertex3f(carStartX, 0, 0);
+					glVertex3f(carEndX, 0, 0);
+					glEnd();
 
 					glScalef(1/(1.0f/_v2fDimensions.x), 1/(1.0f/_v2fDimensions.y), 1);
 				}
