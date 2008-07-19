@@ -143,8 +143,24 @@ namespace OE
 						{
 							if(_szCaption.length()>0)
 							{
-								_szCaption.erase(_szCaption.begin() + _caretPos-1,_szCaption.begin() + _caretPos);
-								_caretPos--;
+								if(_caretPos == _caretUpPos)
+								{
+									_szCaption.erase(_szCaption.begin() + _caretPos-1,_szCaption.begin() + _caretPos);
+									_caretPos--;
+									_caretUpPos = _caretPos;
+								}
+
+								if(_caretPos > _caretUpPos)
+								{
+									_szCaption.erase(_szCaption.begin() + _caretUpPos,_szCaption.begin() + _caretPos);
+									_caretUpPos = _caretPos;
+								}
+
+								if(_caretPos < _caretUpPos)
+								{
+									_szCaption.erase(_szCaption.begin() + _caretPos,_szCaption.begin() + _caretUpPos);
+									_caretUpPos = _caretPos;
+								}
 							}
 						}
 						if(key == GLFW_KEY_DEL && action == GLFW_PRESS)
