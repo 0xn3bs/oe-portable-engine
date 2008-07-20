@@ -92,6 +92,8 @@ void Initialize()
 
 void Update(double deltaTime)
 {
+	OE::Input::InputManager::Update(deltaTime);
+
 	if(OE::Input::InputManager::IsCursorVisible())
 	{
 		windowManager->UpdateWin(OE::Base::_iWindowWidth, OE::Base::_iWindowHeight);
@@ -101,7 +103,6 @@ void Update(double deltaTime)
 	{
 		fpsCamera->Update(deltaTime);
 	}
-	OE::Input::InputManager::Update(deltaTime);
 }
 
 void Draw(double deltaTime)
