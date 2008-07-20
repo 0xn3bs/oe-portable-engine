@@ -113,8 +113,6 @@ void OE::Base::Dispose()
 {
 	_bIsRunning = false;
 	//alutExit();
-	glfwDisable(GLFW_STICKY_KEYS);
-
 	glfwTerminate();
 	OE::Textures::TextureManager::Dispose();
 }

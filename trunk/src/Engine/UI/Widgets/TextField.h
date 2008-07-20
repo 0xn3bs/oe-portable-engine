@@ -13,6 +13,11 @@
 
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/UI/Widgets/Widget.h"
+#include <string>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 namespace OE
 {
@@ -27,6 +32,7 @@ namespace OE
 				int _caretUpPos;
 				float _iTotalTime;
 				bool _bCaretRender;
+				bool _bControlPressed;
 				void (*OnSubmit)(const char* text);
 			public:
 				TextField(const float x, const float y, const float width, const float height, 
@@ -42,6 +48,7 @@ namespace OE
 					_caretUpPos = 0;
 					_bCaretRender = false;
 					_iTotalTime = 0;
+					_bControlPressed = false;
 				}
 
 				~TextField()
@@ -109,79 +116,9 @@ namespace OE
 				{
 				}
 
-				virtual void OnKeyEvent(const int key, const int action)
-				{
-					if(_bHasFocus)
-					{
-						if(key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-						{
-							if(_caretPos > 0)
-							{
-								_caretPos--;
-								_caretUpPos = _caretPos;
-							}
-						}
-						if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-						{
-							if(_caretPos < _szCaption.length())
-							{
-								_caretPos++;
-								_caretUpPos = _caretPos;
-							}
-						}
-						if(key == GLFW_KEY_ENTER && action == GLFW_PRESS)
-						{
-							if(*OnSubmit != NULL)
-							{
-								OnSubmit(_szCaption.c_str());
-							}
-							_szCaption = "";
-							_caretPos = 0;
-							_caretUpPos = 0;
-						}
-						if(key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS)
-						{
-							if(_szCaption.length()>0)
-							{
-								if(_caretPos == _caretUpPos)
-								{
-									_szCaption.erase(_szCaption.begin() + _caretPos-1,_szCaption.begin() + _caretPos);
-									_caretPos--;
-									_caretUpPos = _caretPos;
-								}
+				virtual void OnKeyEvent(const int key, const int action);
 
-								if(_caretPos > _caretUpPos)
-								{
-									_szCaption.erase(_szCaption.begin() + _caretUpPos,_szCaption.begin() + _caretPos);
-									_caretUpPos = _caretPos;
-								}
-
-								if(_caretPos < _caretUpPos)
-								{
-									_szCaption.erase(_szCaption.begin() + _caretPos,_szCaption.begin() + _caretUpPos);
-									_caretUpPos = _caretPos;
-								}
-							}
-						}
-						if(key == GLFW_KEY_DEL && action == GLFW_PRESS)
-						{
-							if(_caretPos < _szCaption.length())
-							{
-								_szCaption.erase(_szCaption.begin() + _caretPos,_szCaption.begin() + _caretPos+1);
-							}
-						}
-					}
-				}
-
-				virtual void OnCharEvent(const int key, const int action)
-				{
-					if(_bHasFocus && action == GLFW_PRESS)
-					{
-						_szCaption.insert(_szCaption.begin()+_caretPos, (char)key);
-						_caretPos++;
-						_caretUpPos = _caretPos;
-					}
-				}
+				virtual void OnCharEvent(const int key, const int action);
 
 				virtual void Update(const float dt)
 				{
@@ -220,7 +157,7 @@ namespace OE
 					glVertex3f(1, 1, 0);
 					glVertex3f(1, 0, 0);
 					glEnd();
-					
+
 					glColor4ub(0,0,0,255);
 					glBegin(GL_QUADS);
 					glVertex3f(carStartX/_v2fDimensions.x, 0, 0);
@@ -241,7 +178,7 @@ namespace OE
 						OE::UI::Fonts::FontManager::Write((char)127);
 						glTranslatef(-xTrans, 0, 0);
 					}
-					
+
 					glBegin(GL_LINES);
 					glVertex3f(carStartX, 0, 0);
 					glVertex3f(carEndX, 0, 0);

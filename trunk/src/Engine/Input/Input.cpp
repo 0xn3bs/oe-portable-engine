@@ -32,6 +32,7 @@ std::vector<OE::Input::InputListener*> OE::Input::InputManager::_vecInputListene
 
 void GLFWCALL OE::Input::InputManager::GLFWSetCharEvent(int key, int action)
 {
+	_rgbKeys[key] = action == GLFW_PRESS ? 1 : 0;
 	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
 	{
 		_vecInputListeners.at(i)->OnCharEvent(key,action);
@@ -40,7 +41,7 @@ void GLFWCALL OE::Input::InputManager::GLFWSetCharEvent(int key, int action)
 
 void GLFWCALL OE::Input::InputManager::GLFWSetKeyEvent(int key, int action)
 {
-	_rgbKeys[key] = (bool)action;
+	_rgbKeys[key] = action == GLFW_PRESS ? 1 : 0;
 	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
 	{
 		_vecInputListeners.at(i)->OnKeyEvent(key,action);
@@ -81,6 +82,43 @@ void OE::Input::InputManager::GLFWSetMouseButton(int button, int action)
 	}
 }
 
+void OE::Input::InputManager::CopyToClipboard(const char *value)
+{
+#ifdef _WIN32
+	if(OpenClipboard(NULL))
+	{
+		HGLOBAL clipbuffer;
+		char * buffer = NULL;
+		EmptyClipboard();
+		clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(value)+1);
+		buffer = (char*)GlobalLock(clipbuffer);
+		strcpy(buffer, value);
+		buffer[strlen(value)] = 0;
+		GlobalUnlock(clipbuffer);
+		SetClipboardData(CF_TEXT,clipbuffer);
+		CloseClipboard();
+	}
+#endif
+}
+
+const char* OE::Input::InputManager::GetFromClipboard()
+{
+#ifdef _WIN32
+	if(OpenClipboard(NULL))
+	{
+		HGLOBAL clipbuffer;
+		char * buffer = NULL;
+		HANDLE hData = GetClipboardData( CF_TEXT );
+		buffer = (char*)GlobalLock( hData );
+		GlobalUnlock( hData );
+		CloseClipboard();
+		return buffer;
+	}
+	else
+		return NULL;
+#endif
+}
+
 void OE::Input::InputManager::Initialize()
 {
 	glfwSetCharCallback(GLFWSetCharEvent);
@@ -88,6 +126,8 @@ void OE::Input::InputManager::Initialize()
 	glfwSetMousePosCallback(GLFWSetMousePos);
 	glfwSetMouseButtonCallback(GLFWSetMouseButton);
 	glfwEnable(GLFW_KEY_REPEAT);
+	glfwEnable(GLFW_STICKY_KEYS);
+	glfwEnable(GLFW_SYSTEM_KEYS);
 	_bInitialized = true;
 }
 
@@ -100,7 +140,7 @@ void OE::Input::InputManager::Update(double dt)
 	{
 		_iMouseDeltaX = _iMouseReferenceX - x;
 		_iMouseDeltaY = _iMouseReferenceY - y;
-		
+
 		SetMousePos(_iMouseReferenceX, _iMouseReferenceY);
 
 		_iMouseLastPosX = _iMouseX;

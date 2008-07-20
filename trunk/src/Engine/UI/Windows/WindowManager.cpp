@@ -94,6 +94,7 @@ void OE::UI::Windows::WindowManager::OnCharEvent(const int key, const int action
 	for(unsigned int i = 0; i < _vecWindows.size(); i++)
 	{
 		Window* winTemp = _vecWindows.at(i);
+		winTemp->OnCharEvent(key, action);
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
 		{
 			winTemp->_vecWidgets[j]->OnCharEvent(key, action);

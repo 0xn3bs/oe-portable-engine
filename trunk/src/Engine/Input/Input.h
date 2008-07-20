@@ -17,6 +17,10 @@
 #include <memory>
 #include <vector>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 namespace OE
 {
 	namespace Input
@@ -70,6 +74,10 @@ namespace OE
 			}
 
 			static void Initialize();
+
+			static void CopyToClipboard(const char* value);
+			static const char* GetFromClipboard();
+
 			static bool IsInitialized(){return _bInitialized;}
 			static bool IsMouseForcedToReference(){return _bForceMouseToRefPos;}
 			static void SetMouseReferencePos(const int x, const int y)
