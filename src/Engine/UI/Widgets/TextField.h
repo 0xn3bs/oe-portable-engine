@@ -33,6 +33,8 @@ namespace OE
 				float _iTotalTime;
 				bool _bCaretRender;
 				bool _bControlPressed;
+				std::string _szRenderedText;
+				int _iLeftBound, _iRightBound;
 				void (*OnSubmit)(const char* text);
 			public:
 				TextField(const float x, const float y, const float width, const float height, 
@@ -49,6 +51,8 @@ namespace OE
 					_bCaretRender = false;
 					_iTotalTime = 0;
 					_bControlPressed = false;
+					_iLeftBound  = 0;
+					_iRightBound = 0;
 				}
 
 				~TextField()
@@ -171,7 +175,7 @@ namespace OE
 					glScalef(1.0f/_v2fDimensions.x, 1.0f/_v2fDimensions.y, 1);
 
 					glColor4ub(255,255,255,255);
-					OE::UI::Fonts::FontManager::Write(_szCaption.c_str());
+					OE::UI::Fonts::FontManager::Write(_szRenderedText.c_str());
 					glColor4ub(153,255,255,255);
 					if(_bHasFocus && _bCaretRender)
 					{

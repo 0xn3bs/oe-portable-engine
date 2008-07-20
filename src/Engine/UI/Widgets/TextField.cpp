@@ -41,6 +41,8 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 				_caretPos+=clipboard.length();
 				_caretUpPos = _caretPos;
 			}
+
+			_szRenderedText = _szCaption;
 		}
 
 		if(key == GLFW_KEY_LEFT && action == GLFW_PRESS)
@@ -50,14 +52,30 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 				_caretPos--;
 				_caretUpPos = _caretPos;
 			}
+			else
+			{
+				if(_iLeftBound>0)
+					_iLeftBound--;
+			}
+
+			_szRenderedText = _szCaption.substr(_iLeftBound,_szCaption.length() - _iLeftBound);
 		}
 		if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
 		{
-			if(_caretPos < _szCaption.length())
+			if(_caretPos < _szCaption.length() && _caretPos < (_v2fDimensions.x/16))
 			{
 				_caretPos++;
 				_caretUpPos = _caretPos;
 			}
+			else
+			{
+				if(_iLeftBound + _caretPos< _szCaption.length())
+				{
+					_iLeftBound++;
+				}
+			}
+
+			_szRenderedText = _szCaption.substr(_iLeftBound,_szCaption.length() - _iLeftBound);
 		}
 		if(key == GLFW_KEY_ENTER && action == GLFW_PRESS)
 		{
@@ -66,6 +84,7 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 				OnSubmit(_szCaption.c_str());
 			}
 			_szCaption = "";
+			_szRenderedText = _szCaption;
 			_caretPos = 0;
 			_caretUpPos = 0;
 		}
@@ -75,22 +94,24 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			{
 				if(_caretPos == _caretUpPos)
 				{
-					_szCaption.erase(_szCaption.begin() + _caretPos-1,_szCaption.begin() + _caretPos);
+					_szCaption.erase(_szCaption.begin() + _caretPos+_iLeftBound-1,_szCaption.begin() + _caretPos+_iLeftBound);
 					_caretPos--;
 					_caretUpPos = _caretPos;
 				}
 
 				if(_caretPos > _caretUpPos)
 				{
-					_szCaption.erase(_szCaption.begin() + _caretUpPos,_szCaption.begin() + _caretPos);
+					_szCaption.erase(_szCaption.begin() + _caretUpPos+_iLeftBound,_szCaption.begin() + _caretPos+_iLeftBound);
 					_caretPos = _caretUpPos;
 				}
 
 				if(_caretPos < _caretUpPos)
 				{
-					_szCaption.erase(_szCaption.begin() + _caretPos,_szCaption.begin() + _caretUpPos);
+					_szCaption.erase(_szCaption.begin() + _caretPos+_iLeftBound,_szCaption.begin() + _caretUpPos+_iLeftBound);
 					_caretUpPos = _caretPos;
 				}
+
+				_szRenderedText = _szCaption;
 			}
 		}
 		if(key == GLFW_KEY_DEL && action == GLFW_PRESS)
@@ -99,7 +120,7 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			{
 				if(_caretPos < _szCaption.length())
 				{
-					_szCaption.erase(_szCaption.begin() + _caretPos,_szCaption.begin() + _caretPos+1);
+					_szCaption.erase(_szCaption.begin() + _caretPos+_iLeftBound,_szCaption.begin() + _caretPos+_iLeftBound+1);
 				}
 			}
 			else
@@ -108,24 +129,26 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 				{
 					if(_caretPos == _caretUpPos)
 					{
-						_szCaption.erase(_szCaption.begin() + _caretPos-1,_szCaption.begin() + _caretPos);
+						_szCaption.erase(_szCaption.begin() + _caretPos+_iLeftBound-1,_szCaption.begin() + _caretPos+_iLeftBound);
 						_caretPos--;
 						_caretUpPos = _caretPos;
 					}
 
 					if(_caretPos > _caretUpPos)
 					{
-						_szCaption.erase(_szCaption.begin() + _caretUpPos,_szCaption.begin() + _caretPos);
+						_szCaption.erase(_szCaption.begin() + _caretUpPos+_iLeftBound,_szCaption.begin() + _caretPos+_iLeftBound);
 						_caretPos = _caretUpPos;
 					}
 
 					if(_caretPos < _caretUpPos)
 					{
-						_szCaption.erase(_szCaption.begin() + _caretPos,_szCaption.begin() + _caretUpPos);
+						_szCaption.erase(_szCaption.begin() + _caretPos+_iLeftBound,_szCaption.begin() + _caretUpPos+_iLeftBound);
 						_caretUpPos = _caretPos;
 					}
 				}
 			}
+			
+			_szRenderedText = _szCaption;
 		}
 	}
 }
@@ -139,22 +162,39 @@ void OE::UI::Widgets::TextField::OnCharEvent(const int key, const int action)
 			if(_caretPos > _caretUpPos)
 			{
 				_szCaption.replace(_szCaption.begin() + _caretUpPos, _szCaption.begin() + _caretPos,1,key);
-				_caretUpPos++;
+				if(_caretUpPos<_szCaption.length()-_iLeftBound)
+					_caretUpPos++;
 				_caretPos = _caretUpPos;
 			}
 
 			if(_caretPos < _caretUpPos)
 			{
 				_szCaption.replace(_szCaption.begin() + _caretPos, _szCaption.begin() + _caretUpPos,1,key);
-				_caretPos++;
+				if(_caretPos<_szCaption.length()-_iLeftBound)
+					_caretPos++;
 				_caretUpPos = _caretPos;
 			}
 		}
 		else
 		{
-			_szCaption.insert(_szCaption.begin()+_caretPos, (char)key);
-			_caretPos++;
+			if(_caretPos + _iLeftBound < (_v2fDimensions.x/16))
+			{
+				_szCaption.insert(_szCaption.begin()+_caretPos+_iLeftBound, (char)key);
+				if(_caretPos<_szCaption.length()-_iLeftBound)
+					_caretPos++;
+			}
+			else
+			{
+				if(_szCaption.length() > (_v2fDimensions.x/16))
+				{
+					_iLeftBound++;
+				}
+				_szCaption.insert(_szCaption.begin()+_caretPos+_iLeftBound-1, (char)key);
+			}
+
 			_caretUpPos = _caretPos;
 		}
+
+		_szRenderedText = _szCaption.substr(_iLeftBound,_szCaption.length() - _iLeftBound);
 	}
 }
