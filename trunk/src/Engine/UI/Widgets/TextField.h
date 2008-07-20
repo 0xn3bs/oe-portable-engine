@@ -69,7 +69,7 @@ namespace OE
 
 					*caretPos = lX/16;
 
-					if(lX > (_szCaption.length()+1) * 16)
+					if(lX > (_szCaption.length()) * 16)
 					{
 						if(_szCaption.length()==0)
 						{
@@ -147,8 +147,10 @@ namespace OE
 
 				virtual void Render(const float dt)
 				{
-					float carStartX = (_v2fPosition.x + (_caretPos * 16));
-					float carEndX = (_v2fPosition.x + (_caretUpPos * 16));
+					float carStartX = 1/_winParentWindow->GetXPos();
+					carStartX += _v2fPosition.x > 0 ? ((1/_v2fPosition.x) + (_caretPos * 16)) : (_caretPos * 16);
+					float carEndX = 1/_winParentWindow->GetXPos(); 
+					carEndX += _v2fPosition.x > 0 ? ((1/_v2fPosition.x) + (_caretUpPos * 16)) : (_caretUpPos * 16);
 
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
 					glBegin(GL_QUADS);
@@ -173,7 +175,8 @@ namespace OE
 					glColor4ub(153,255,255,255);
 					if(_bHasFocus && _bCaretRender)
 					{
-						float xTrans = (_v2fPosition.x + (_caretPos * 16))-8;
+						float xTrans = (1/_winParentWindow->GetXPos());
+						xTrans += _v2fPosition.x > 0 ? ((1/_v2fPosition.x + _caretPos * 16) - 8) : ((_caretPos * 16) - 8);
 						glTranslatef(xTrans, 0, 0);
 						OE::UI::Fonts::FontManager::Write((char)127);
 						glTranslatef(-xTrans, 0, 0);
