@@ -19,13 +19,13 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 
 	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
 	{
-		for(unsigned int i = 0; i < _vecWindows.size(); i++)
+		for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 		{
 			OE::UI::Windows::Window* tempWin = _vecWindows.at(i);
 
 			bool bCanPick = CanPick(i, iMouseX, iMouseY);
 
-			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
+			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); ++j)
 			{
 				bool bIsOver = tempWin->_vecWidgets[j]->IsOver(static_cast<float>(iMouseX), static_cast<float>(iMouseY)) && bCanPick;
 				if(bIsOver)
@@ -43,12 +43,12 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 
 	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
 	{
-		for(unsigned int i = 0; i < _vecWindows.size(); i++)
+		for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 		{
 			OE::UI::Windows::Window* tempWin = _vecWindows.at(i);
 			bool bCanPick = CanPick(i, iMouseX, iMouseY);
 
-			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); j++)
+			for(unsigned int j = 0; j < tempWin->_vecWidgets.size(); ++j)
 			{
 				tempWin->_vecWidgets[j]->_bHasFocus = false;
 				bool bIsOver = tempWin->_vecWidgets[j]->IsOver(static_cast<float>(iMouseX), static_cast<float>(iMouseY)) && bCanPick;
@@ -73,11 +73,11 @@ void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int acti
 
 void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int startY, const int endX, const int endY)
 {
-	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		Window* winTemp = _vecWindows.at(i);
 
-		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); ++j)
 		{
 			bool startIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(startX), static_cast<float>(startY)) && CanPick(i, startX, startY);
 			bool endIsOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(endX), static_cast<float>(endY)) && CanPick(i, endX, endY);
@@ -91,11 +91,11 @@ void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int st
 
 void OE::UI::Windows::WindowManager::OnCharEvent(const int key, const int action)
 {
-	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		Window* winTemp = _vecWindows.at(i);
 		winTemp->OnCharEvent(key, action);
-		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); ++j)
 		{
 			winTemp->_vecWidgets[j]->OnCharEvent(key, action);
 		}
@@ -104,11 +104,11 @@ void OE::UI::Windows::WindowManager::OnCharEvent(const int key, const int action
 
 void OE::UI::Windows::WindowManager::OnKeyEvent(const int key, const int action)
 {
-	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		Window* winTemp = _vecWindows.at(i);
 		winTemp->OnKeyEvent(key, action);
-		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); ++j)
 		{
 			winTemp->_vecWidgets[j]->OnKeyEvent(key, action);
 		}
@@ -117,10 +117,10 @@ void OE::UI::Windows::WindowManager::OnKeyEvent(const int key, const int action)
 
 void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
 {
-	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		Window* winTemp = _vecWindows.at(i);
-		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); ++j)
 		{
 			bool isOver = winTemp->_vecWidgets[j]->IsOver(static_cast<float>(x), static_cast<float>(y)) && CanPick(i, x, y);
 			
@@ -146,7 +146,7 @@ bool OE::UI::Windows::WindowManager::CanPick(const unsigned int index, const uns
 {
 	Window* winTemp = _vecWindows.at(index);
 	bool bOver = winTemp->IsOver(static_cast<float>(x), static_cast<float>(y));
-	for(unsigned int i = index+1; i < _vecWindows.size(); i++)
+	for(unsigned int i = index+1; i < _vecWindows.size(); ++i)
 	{
 		if((_vecWindows[i]->IsOver(static_cast<float>(x),static_cast<float>(y)) || _vecWindows[i]->IsOverTitleBar(static_cast<float>(x),static_cast<float>(y))))
 			return false;
@@ -156,11 +156,11 @@ bool OE::UI::Windows::WindowManager::CanPick(const unsigned int index, const uns
 
 void OE::UI::Windows::WindowManager::Update(const float dt)
 {
-	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		OE::UI::Windows::Window* winTemp = _vecWindows.at(i);
 
-		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); j++)
+		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); ++j)
 		{
 			winTemp->_vecWidgets[j]->Update(dt);
 		}
@@ -226,7 +226,7 @@ void OE::UI::Windows::WindowManager::Render(const float dt)
   	glPopMatrix();
   	glMatrixMode(GL_PROJECTION);
 
-	for(unsigned int i = 0; i < _vecWindows.size(); i++)
+	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);

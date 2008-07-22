@@ -26,6 +26,7 @@
 #include "Game/UI/ConsoleWindow.h"
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 OE::Tools::Timers::Timer timerFPS;
 OE::Tools::Timers::Timer timerAlpha;
@@ -86,6 +87,7 @@ void Initialize()
 	OE::Maths::Vec3<float> cp;
 	OE::Maths::Vec3<float> a(0.69f, 0.10f, 0.70f);
 	OE::Maths::Vec3<float> b(0.44f, 0.71f, -0.54f);
+
 
 	std::cout << a << " x " << b << " = " << a % b << std::endl;
 }
@@ -201,7 +203,7 @@ int main(int argc, char **argv)
 		if (glfwGetKey(GLFW_KEY_ESC) || !glfwGetWindowParam(GLFW_OPENED))
 			break;
 
-		totalFrames++;
+		++totalFrames;
 	}
 
 	OE::Base::Dispose();

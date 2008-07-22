@@ -55,7 +55,7 @@ unsigned int OE::Types::String::Length(const char* s)
 {
 	int i = 0;
 	while(s[i] != 0)
-		i++;
+		++i;
 	return i;
 }
 
@@ -71,14 +71,14 @@ bool OE::Types::String::IsLower(const char c)
 
 void OE::Types::String::ToLower()
 {
-	for(unsigned int i = 0; i < _uiLength; i++)
+	for(unsigned int i = 0; i < _uiLength; ++i)
 		if(IsUpper(_szData[i]))
 			_szData[i] += 32;
 }
 
 void OE::Types::String::ToUpper()
 {
-	for(unsigned int i = 0; i < _uiLength; i++)
+	for(unsigned int i = 0; i < _uiLength; ++i)
 		if(IsLower(_szData[i]))
 			_szData[i] -= 32;
 }
@@ -112,7 +112,7 @@ void OE::Types::String::Replace(const char* t, const char* n)
 
 int OE::Types::String::IndexOf(const char c) const
 {
-	for(unsigned int i = 0; i < _uiLength; i++)
+	for(unsigned int i = 0; i < _uiLength; ++i)
 		if(c == _szData[i])
 			return i;
 	return -1;
@@ -135,7 +135,7 @@ int OE::Types::String::IndexOf(const char* string) const
 
 	int pi = IndexOf(string[0]);
 
-	for(unsigned int i = 0; i < len; i++)
+	for(unsigned int i = 0; i < len; ++i)
 	{
 		if(pi == -1)
 			break;

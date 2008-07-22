@@ -115,7 +115,7 @@ void OE::UI::Fonts::FontManager::Write(const char* string)
 	float iXPos = 0, iYPos = 0;
 
 	glBegin(GL_QUADS);
-	for (unsigned int i = 0; i < uintLength; i++)
+	for (unsigned int i = 0; i < uintLength; ++i)
 	{
 		int intCharNum = (int)string[i];
 		_CHARACTER character = fFont.Chars.at(intCharNum);
@@ -174,7 +174,7 @@ void OE::UI::Fonts::FontManager::SetFont(const unsigned int index)
 
 int OE::UI::Fonts::FontManager::IndexOf(const char *name)
 {
-	for (unsigned int i = 0; i < _vFonts.size(); i++)
+	for (unsigned int i = 0; i < _vFonts.size(); ++i)
 		if (strcmp(_vFonts[i].Name, name) == 0)
 			return i;
 

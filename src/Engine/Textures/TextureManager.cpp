@@ -48,7 +48,7 @@ bool OE::Textures::TextureManager::_LoadImage(const char* path, GLuint Texture)
 	temp.BPP = bpp;
 	temp.Levels = numLevels;
 
-	_iNumLoadedTextures++;
+	++_iNumLoadedTextures;
 	OE::Textures::TextureManager::_vLoadedTextures = (OE::Textures::_TEXTURE*)realloc(OE::Textures::TextureManager::_vLoadedTextures, sizeof(_TEXTURE)*_iNumLoadedTextures);
 	_vLoadedTextures[_iNumLoadedTextures - 1] = temp;
 	glBindTexture (GL_TEXTURE_2D, 0);
@@ -96,7 +96,7 @@ bool OE::Textures::TextureManager::_LoadRawImage(const unsigned char* data, GLui
 
 	//	FreeImage_Save(FREE_IMAGE_FORMAT::FIF_PNG, imageFile, fn.str().c_str());
 
-	_iNumLoadedTextures++;
+	++_iNumLoadedTextures;
 	OE::Textures::TextureManager::_vLoadedTextures = (OE::Textures::_TEXTURE*)realloc(OE::Textures::TextureManager::_vLoadedTextures, sizeof(_TEXTURE)*_iNumLoadedTextures);
 	_vLoadedTextures[_iNumLoadedTextures - 1] = temp;
 	glBindTexture (GL_TEXTURE_2D, 0);
@@ -149,7 +149,7 @@ GLint OE::Textures::TextureManager::_LoadTextureFromPath(const char* path)
 	glGenTextures(1, &Texture);
 	glBindTexture (GL_TEXTURE_2D, Texture);
 
-	for(unsigned int i = 0; i < _iNumLoadedTextures; i++)
+	for(unsigned int i = 0; i < _iNumLoadedTextures; ++i)
 	{
 		if(strcmp(_vLoadedTextures[i].TextureName,path)==0)
 		{
@@ -237,7 +237,7 @@ void OE::Textures::TextureManager::DeleteTexture(const GLuint index)
 
 void OE::Textures::TextureManager::Dispose()
 {
-	for( int i = 0; i < (int)_iNumLoadedTextures; i++ )
+	for( int i = 0; i < (int)_iNumLoadedTextures; ++i )
 	{
 		DeleteTexture(_vLoadedTextures[i].TextureID);
 	}
