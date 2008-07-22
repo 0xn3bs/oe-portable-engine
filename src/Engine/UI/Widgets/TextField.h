@@ -13,6 +13,7 @@
 
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/UI/Widgets/Widget.h"
+#include "Engine/Maths/Math.h"
 #include <string>
 
 #ifdef _WIN32
@@ -151,10 +152,10 @@ namespace OE
 
 				virtual void Render(const float dt)
 				{
-					float carStartX = 1/_winParentWindow->GetXPos();
-					carStartX += _v2fPosition.x > 0 ? ((1/_v2fPosition.x) + (_caretPos * 16)) : (_caretPos * 16);
-					float carEndX = 1/_winParentWindow->GetXPos(); 
-					carEndX += _v2fPosition.x > 0 ? ((1/_v2fPosition.x) + (_caretUpPos * 16)) : (_caretUpPos * 16);
+					float carStartX = OE::Maths::Math::SafeInverse(_winParentWindow->GetXPos());
+					carStartX += OE::Maths::Math::SafeInverse(_v2fPosition.x) + (_caretPos * 16);
+					float carEndX = OE::Maths::Math::SafeInverse(_winParentWindow->GetXPos());
+					carEndX += OE::Maths::Math::SafeInverse(_v2fPosition.x)+ (_caretUpPos * 16);
 
 					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
 					glBegin(GL_QUADS);
@@ -172,15 +173,15 @@ namespace OE
 					glVertex3f(carEndX/_v2fDimensions.x, 0, 0);
 					glEnd();
 
-					glScalef(1.0f/_v2fDimensions.x, 1.0f/_v2fDimensions.y, 1);
+					glScalef(OE::Maths::Math::SafeInverse(_v2fDimensions.x), OE::Maths::Math::SafeInverse(_v2fDimensions.y), 1);
 
 					glColor4ub(255,255,255,255);
 					OE::UI::Fonts::FontManager::Write(_szRenderedText.c_str());
 					glColor4ub(153,255,255,255);
 					if(_bHasFocus && _bCaretRender)
 					{
-						float xTrans = (1/_winParentWindow->GetXPos());
-						xTrans += _v2fPosition.x > 0 ? ((1/_v2fPosition.x + _caretPos * 16) - 8) : ((_caretPos * 16) - 8);
+						float xTrans = OE::Maths::Math::SafeInverse(_winParentWindow->GetXPos());
+						xTrans += ((OE::Maths::Math::SafeInverse(_v2fPosition.x) + _caretPos * 16) - 8);
 						glTranslatef(xTrans, 0, 0);
 						OE::UI::Fonts::FontManager::Write((char)127);
 						glTranslatef(-xTrans, 0, 0);
@@ -191,7 +192,7 @@ namespace OE
 					glVertex3f(carEndX, 0, 0);
 					glEnd();
 
-					glScalef(1/(1.0f/_v2fDimensions.x), 1/(1.0f/_v2fDimensions.y), 1);
+					glScalef(OE::Maths::Math::SafeInverse(OE::Maths::Math::SafeInverse(_v2fDimensions.x)), OE::Maths::Math::SafeInverse(OE::Maths::Math::SafeInverse(_v2fDimensions.y)), 1);
 				}
 			};
 		}
