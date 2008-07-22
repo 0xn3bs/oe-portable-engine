@@ -155,7 +155,7 @@ namespace OE
 					fseek(pFile, pHeader->OffsetFrames, SEEK_SET);
 					fread((_MD3_FRAME*)pFrames, sizeof(_MD3_FRAME), pHeader->NumFrames, pFile);
 
-					for(int i = 0; i < pHeader->NumFrames; i++)
+					for(int i = 0; i < pHeader->NumFrames; ++i)
 					{
 						_vFrames.push_back(pFrames[i]);
 					}
@@ -166,7 +166,7 @@ namespace OE
 					fseek(pFile, pHeader->OffsetSurfaces, SEEK_SET);
 					fread((_MD3_SURFACE*)pSurfaces, sizeof(_MD3_SURFACE), pHeader->NumSurfaces, pFile);
 
-					for(int i = 0; i < pHeader->NumSurfaces; i++)
+					for(int i = 0; i < pHeader->NumSurfaces; ++i)
 					{
 						_OE_SURFACE tempSurf;
 						tempSurf.Surface = pSurfaces[i];
@@ -178,7 +178,7 @@ namespace OE
 
 						fseek(pFile, pHeader->OffsetSurfaces + pSurfaces[i].OffsetShaders, SEEK_SET);
 						fread((_MD3_SHADER*)pShaders, sizeof(_MD3_SHADER), pSurfaces[i].NumShaders, pFile);
-						for(int j = 0; j < pSurfaces[i].NumShaders; j++)
+						for(int j = 0; j < pSurfaces[i].NumShaders; ++j)
 						{
 							_OE_SHADER tShader;
 							tShader.Shader = pShaders[j];
@@ -190,21 +190,21 @@ namespace OE
 
 						fseek(pFile, pHeader->OffsetSurfaces + pSurfaces[i].OffsetTriangles, SEEK_SET);
 						fread((_MD3_TRIANGLE*)pTriangles, sizeof(_MD3_TRIANGLE), pSurfaces[i].NumTriangles, pFile);
-						for(int j = 0; j < pSurfaces[i].NumTriangles; j++)
+						for(int j = 0; j < pSurfaces[i].NumTriangles; ++j)
 						{
 							tempSurf._vTriangles.push_back(pTriangles[j]);
 						}
 
 						fseek(pFile, pHeader->OffsetSurfaces + pSurfaces[i].OffsetSt, SEEK_SET);
 						fread((_MD3_TEXCOORD*)pTexCoords, sizeof(_MD3_TEXCOORD), pSurfaces[i].NumVerts, pFile);
-						for(int j = 0; j < pSurfaces[i].NumVerts; j++)
+						for(int j = 0; j < pSurfaces[i].NumVerts; ++j)
 						{
 							tempSurf._vTexCoords.push_back(pTexCoords[j]);
 						}
 
 						fseek(pFile, pHeader->OffsetSurfaces + pSurfaces[i].OffsetVertices, SEEK_SET);
 						fread((_MD3_VERTEX*)pVertices, sizeof(_MD3_VERTEX), pSurfaces[i].NumVerts, pFile);
-						for(int j = 0; j < pSurfaces[i].NumVerts; j++)
+						for(int j = 0; j < pSurfaces[i].NumVerts; ++j)
 						{
 							float y = static_cast<float>(pVertices[j].Position[2] * MD3_XYZ_SCALE);
 							float z = static_cast<float>(-pVertices[j].Position[1] * MD3_XYZ_SCALE);
@@ -231,7 +231,7 @@ namespace OE
 
 			void DebugRender()
 			{
-				for( unsigned int i = 0; i < _vSurfaces.size(); i++ )
+				for( unsigned int i = 0; i < _vSurfaces.size(); ++i )
 				{
 					if(_vSurfaces[i]._vShaders[0].textureIndex==-1)
 						continue;
@@ -241,9 +241,9 @@ namespace OE
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 					glBegin(GL_TRIANGLES);
-					for( unsigned int j = 0; j < _vSurfaces[i]._vTriangles.size(); j++ )
+					for( unsigned int j = 0; j < _vSurfaces[i]._vTriangles.size(); ++j )
 					{
-						for(int k = 0; k < 3; k++)
+						for(int k = 0; k < 3; ++k)
 						{
 							int index = _vSurfaces[i]._vTriangles[j].Indexes[k];
 							_MD3_VERTEX vert = _vSurfaces[i]._vVertices[index];

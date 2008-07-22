@@ -82,14 +82,15 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			_bCaretRender = true;
 			if(_caretPos < _szCaption.length() && _caretPos < (_v2fDimensions.x/16))
 			{
-				_caretPos++;
+				
+				++_caretPos;
 				_caretUpPos = _caretPos;
 			}
 			else
 			{
 				if(_iLeftBound + _caretPos < _szCaption.length())
 				{
-					_iLeftBound++;
+					++_iLeftBound;
 				}
 			}
 
@@ -198,7 +199,7 @@ void OE::UI::Widgets::TextField::OnCharEvent(const int key, const int action)
 			{
 				_szCaption.replace(_szCaption.begin()+_caretUpPos+_iLeftBound, _szCaption.begin()+_caretPos+_iLeftBound,1,key);
 				if(_caretUpPos<_szCaption.length()-_iLeftBound)
-					_caretUpPos++;
+					++_caretUpPos;
 				_caretPos = _caretUpPos;
 			}
 
@@ -206,7 +207,7 @@ void OE::UI::Widgets::TextField::OnCharEvent(const int key, const int action)
 			{
 				_szCaption.replace(_szCaption.begin()+_caretPos+_iLeftBound, _szCaption.begin()+_caretUpPos+_iLeftBound,1,key);
 				if(_caretPos<_szCaption.length()-_iLeftBound)
-					_caretPos++;
+					++_caretPos;
 				_caretUpPos = _caretPos;
 			}
 		}
@@ -218,7 +219,7 @@ void OE::UI::Widgets::TextField::OnCharEvent(const int key, const int action)
 				
 				if(_caretPos!=(_v2fDimensions.x/16))
 				{
-					_caretPos++;
+					++_caretPos;
 					_caretUpPos=_caretPos;
 				}
 			}
@@ -228,13 +229,13 @@ void OE::UI::Widgets::TextField::OnCharEvent(const int key, const int action)
 				
 				if(_caretPos != (_v2fDimensions.x/16))
 				{
-					_caretPos++;
+					++_caretPos;
 					_caretUpPos=_caretPos;
 				}
 				else
 				if(_caretPos == (_v2fDimensions.x/16))
 				{
-					_iLeftBound++;
+					++_iLeftBound;
 				}
 			}
 		}

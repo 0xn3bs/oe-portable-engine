@@ -90,7 +90,7 @@ namespace OE
 					glEnd();
 				
 					//	Render widgets here.
-					for(unsigned int i = 0; i < _vecWidgets.size(); i++)
+					for(unsigned int i = 0; i < _vecWidgets.size(); ++i)
 					{
 						OE::UI::Widgets::Widget* wWidget = _vecWidgets.at(i);
 						glTranslatef(wWidget->_v2fPosition.x/_v2fDimensions.x, wWidget->_v2fPosition.y/_v2fDimensions.y, 0);

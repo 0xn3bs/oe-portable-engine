@@ -81,7 +81,7 @@ namespace OE
 			private:
 				void UpdateFocus()
 				{
-					for(unsigned int i = 0; i < _vecWindows.size(); i++)
+					for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 					{
 						Window* tempWin = _vecWindows.at(i);
 						_winCurrentFocused = tempWin;

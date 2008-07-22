@@ -86,9 +86,9 @@ namespace OE
 
 			static void _SwapRedAndBlueComponents(FIBITMAP* image, int width, int height)
 			{
-				for( int x = 0; x < width; x++ )
+				for( int x = 0; x < width; ++x )
 				{
-					for( int y = 0; y < height; y++ )
+					for( int y = 0; y < height; ++y )
 					{
 						RGBQUAD p;
 						FreeImage_GetPixelColor( image, x, y, &p );
@@ -117,7 +117,7 @@ namespace OE
 						image = FreeImage_Rescale(image, j, j, FILTER_BILINEAR);
 						BYTE* bits = FreeImage_GetBits(image);
 						glTexImage2D(GL_TEXTURE_2D, i, tBpp, j, j, 0, tBpp, GL_UNSIGNED_BYTE, bits);
-						i++;
+						++i;
 					}
 					return i+1;
 				}

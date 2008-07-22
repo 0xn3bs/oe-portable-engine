@@ -83,7 +83,7 @@ void OE::Parsers::BSP::_IBSP_ParseVertices(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[10].Offset, SEEK_SET);
 	fread((_IBSP_VERTEX*)vertices, sizeof(_IBSP_VERTEX), _iNumVertices, file);
 
-	for(int i = 0; i < _iNumVertices; i++)
+	for(int i = 0; i < _iNumVertices; ++i)
 	{
 		int y = static_cast<int>(vertices[i].Position[2]);
 		int z = static_cast<int>(-vertices[i].Position[1]);
@@ -121,7 +121,7 @@ void OE::Parsers::BSP::_IBSP_ParseFaces(FILE* file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[13].Offset, SEEK_SET);
 	fread((_IBSP_FACE*)faces, sizeof(_IBSP_FACE), _iNumFaces, file);
 
-	for(int i = 0; i < _iNumFaces; i++)
+	for(int i = 0; i < _iNumFaces; ++i)
 	{
 		_OBSP_FACE tFace;
 		tFace.NumVerts = faces[i].NumVertex;
@@ -151,7 +151,7 @@ void OE::Parsers::BSP::_IBSP_ParseTextures(FILE* file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[1].Offset, SEEK_SET);
 	fread((_IBSP_TEXTURE*)textures, sizeof(_IBSP_TEXTURE), _iNumTextures, file);
 
-	for(int i = 0; i < _iNumTextures; i++)
+	for(int i = 0; i < _iNumTextures; ++i)
 	{		
 		std::string tPath = std::string("base/") + std::string(textures[i].Name);
 
@@ -201,7 +201,7 @@ void OE::Parsers::BSP::_IBSP_ParseMeshVerts(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[11].Offset, SEEK_SET);
 	fread((_IBSP_MESHVERT*)meshVerts, sizeof(_IBSP_MESHVERT), _iNumMeshVerts, file);
 
-	for(int i = 0; i < _iNumMeshVerts; i++)
+	for(int i = 0; i < _iNumMeshVerts; ++i)
 	{
 		_OBSP_MESHVERT t;
 		t.Offset = meshVerts[i].Offset;
@@ -219,7 +219,7 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[2].Offset, SEEK_SET);
 	fread((_IBSP_PLANE*)planes, sizeof(_IBSP_PLANE), _iNumPlanes, file);
 
-	for(int i = 0; i < _iNumPlanes; i++)
+	for(int i = 0; i < _iNumPlanes; ++i)
 	{
 		_vPlanes[i].Distance = planes[i].Distance;
 		_vPlanes[i].Normal.x = planes[i].Normal.x;
@@ -235,7 +235,7 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[3].Offset, SEEK_SET);
 	fread((_IBSP_NODE*)nodes, sizeof(_IBSP_NODE), _iNumNodes, file);
 
-	for(int i = 0; i < _iNumNodes; i++)
+	for(int i = 0; i < _iNumNodes; ++i)
 	{
 		_vNodes[i].Children[0] = nodes[i].Children[0];
 		_vNodes[i].Children[1] = nodes[i].Children[1];
@@ -256,7 +256,7 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[4].Offset, SEEK_SET);
 	fread((_IBSP_LEAF*)leafs, sizeof(_IBSP_LEAF), _iNumLeafs, file);
 
-	for(int i = 0; i < _iNumLeafs; i++)
+	for(int i = 0; i < _iNumLeafs; ++i)
 	{
 		_vLeafs[i].Cluster = leafs[i].Cluster;
 		_vLeafs[i].Area = leafs[i].Area;
@@ -280,7 +280,7 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[5].Offset, SEEK_SET);
 	fread((_IBSP_LEAFFACE*)leafFaces, sizeof(_IBSP_LEAFFACE), _iNumLeafFaces, file);
 
-	for(int i = 0; i < _iNumLeafFaces; i++)
+	for(int i = 0; i < _iNumLeafFaces; ++i)
 	{
 		_vLeafFaces[i].Face = leafFaces[i].Face;
 	}
@@ -293,7 +293,7 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[6].Offset, SEEK_SET);
 	fread((_IBSP_LEAFBRUSH*)leafBrushes, sizeof(_IBSP_LEAFBRUSH), _iNumLeafBrushes, file);
 
-	for(int i = 0; i < _iNumLeafBrushes; i++)
+	for(int i = 0; i < _iNumLeafBrushes; ++i)
 	{
 		_vLeafBrushes[i].Brush = leafBrushes[i].Brush;
 	}
@@ -315,7 +315,7 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[8].Offset, SEEK_SET);
 	fread((_IBSP_BRUSH*)brushes, sizeof(_IBSP_BRUSH), _iNumBrushes, file);
 
-	for(int i = 0; i < _iNumBrushes; i++)
+	for(int i = 0; i < _iNumBrushes; ++i)
 	{
 		_vBrushes[i].BrushSide = brushes[i].BrushSide;
 		_vBrushes[i].NumBrushSides = brushes[i].NumBrushSides;
@@ -330,7 +330,7 @@ void OE::Parsers::BSP::_IBSP_ParseVisData(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[9].Offset, SEEK_SET);
 	fread((_IBSP_BRUSHSIDE*)brushSides, sizeof(_IBSP_BRUSHSIDE), _iNumBrushSides, file);
 
-	for(int i = 0; i < _iNumBrushSides; i++)
+	for(int i = 0; i < _iNumBrushSides; ++i)
 	{
 		_vBrushSides[i].Plane = brushSides[i].Plane;
 		_vBrushSides[i].Texture = brushSides[i].Texture;
@@ -347,14 +347,14 @@ void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[14].Offset, SEEK_SET);
 	fread((_IBSP_LIGHTMAP*)lightMaps, sizeof(_IBSP_LIGHTMAP), _iNumLightMaps, file);
 
-	for(int i = 0;  i < _iNumLightMaps; i++)
+	for(int i = 0;  i < _iNumLightMaps; ++i)
 	{
 		_OBSP_LIGHTMAP t;
-		for(int x = 0; x < 128; x++)
+		for(int x = 0; x < 128; ++x)
 		{
-			for(int y = 0; y < 128; y++)
+			for(int y = 0; y < 128; ++y)
 			{
-				for(int c = 0; c < 3; c++)
+				for(int c = 0; c < 3; ++c)
 				{
 					t.map[x][y][c] = lightMaps[i].map[x][y][c];
 				}
@@ -364,7 +364,7 @@ void OE::Parsers::BSP::_IBSP_ParseLightmaps(FILE *file, _IBSP_HEADER *header)
 		_vLightMaps[i] = t;
 	}
 
-	for(int i = 0; i < _iNumLightMaps; i++)
+	for(int i = 0; i < _iNumLightMaps; ++i)
 	{
 		_vLightMaps[i].TextureIndex = OE::Textures::TextureManager::LoadTextureFromRaw(&_vLightMaps[i].map[0][0][0]);
 	}
@@ -487,7 +487,7 @@ void OE::Parsers::BSP::RenderFace(int index)
 		{
 			int meshInd = 0;
 			glBegin(GL_TRIANGLES);
-			for(int j = _vFaces[index].MeshVert; j < _vFaces[index].MeshVert + _vFaces[index].NumMeshVerts; j++)
+			for(int j = _vFaces[index].MeshVert; j < _vFaces[index].MeshVert + _vFaces[index].NumMeshVerts; ++j)
 			{
 				meshInd = _vFaces[index].Vertex + _vMeshVerts[j].Offset;
 				glMultiTexCoord2f(GL_TEXTURE0,_vVertices[meshInd].TexCoord[0][0], _vVertices[meshInd].TexCoord[0][1]);
@@ -521,7 +521,7 @@ void OE::Parsers::BSP::RenderLeaf(int index)
 {
 	int x = _vLeafs[index].Cluster;
 
-	for(int i = 0; i < _iNumLeafs; i++)
+	for(int i = 0; i < _iNumLeafs; ++i)
 	{
 		if(i==index)
 			continue;
@@ -536,7 +536,7 @@ void OE::Parsers::BSP::RenderLeaf(int index)
 				visible = _vVecs[x * _iSizeOfVecs + y / 8] & (1 << y % 8);
 				if(visible)
 				{
-					for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; j++)
+					for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; ++j)
 					{
 						RenderFace(_vLeafFaces[j].Face);
 					}
@@ -544,7 +544,7 @@ void OE::Parsers::BSP::RenderLeaf(int index)
 			}
 			else
 			{
-				for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; j++)
+				for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; ++j)
 				{
 					RenderFace(_vLeafFaces[j].Face);
 				}
@@ -552,14 +552,14 @@ void OE::Parsers::BSP::RenderLeaf(int index)
 		}
 		else
 		{
-			for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; j++)
+			for(int j = _vLeafs[i].LeafFace; j < _vLeafs[i].LeafFace + _vLeafs[i].NumLeafFaces; ++j)
 			{
 				RenderFace(_vLeafFaces[j].Face);
 			}
 		}
 	}	
 
-	for(int i = _vLeafs[index].LeafFace; i < _vLeafs[index].LeafFace + _vLeafs[index].NumLeafFaces; i++)
+	for(int i = _vLeafs[index].LeafFace; i < _vLeafs[index].LeafFace + _vLeafs[index].NumLeafFaces; ++i)
 	{
 		RenderFace(_vLeafFaces[i].Face);
 	}

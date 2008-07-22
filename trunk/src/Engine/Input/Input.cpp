@@ -33,7 +33,7 @@ std::vector<OE::Input::InputListener*> OE::Input::InputManager::_vecInputListene
 void GLFWCALL OE::Input::InputManager::GLFWSetCharEvent(int key, int action)
 {
 	_rgbKeys[key] = action == GLFW_PRESS ? 1 : 0;
-	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
+	for(unsigned int i = 0; i < _vecInputListeners.size(); ++i)
 	{
 		_vecInputListeners.at(i)->OnCharEvent(key,action);
 	}
@@ -42,7 +42,7 @@ void GLFWCALL OE::Input::InputManager::GLFWSetCharEvent(int key, int action)
 void GLFWCALL OE::Input::InputManager::GLFWSetKeyEvent(int key, int action)
 {
 	_rgbKeys[key] = action == GLFW_PRESS ? 1 : 0;
-	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
+	for(unsigned int i = 0; i < _vecInputListeners.size(); ++i)
 	{
 		_vecInputListeners.at(i)->OnKeyEvent(key,action);
 	}
@@ -52,7 +52,7 @@ void GLFWCALL OE::Input::InputManager::GLFWSetMousePos(int x, int y)
 {
 	_iMouseX = x;
 	_iMouseY = y;
-	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
+	for(unsigned int i = 0; i < _vecInputListeners.size(); ++i)
 	{
 		_vecInputListeners.at(i)->OnMouseMove(x, y);
 	}
@@ -74,7 +74,7 @@ void OE::Input::InputManager::GLFWSetMouseButton(int button, int action)
 		_iMouseClickEndY = _iMouseY;
 		click = true;
 	}
-	for(unsigned int i = 0; i < _vecInputListeners.size(); i++)
+	for(unsigned int i = 0; i < _vecInputListeners.size(); ++i)
 	{
 		_vecInputListeners.at(i)->OnMouseButton(button, action);
 		if(click)

@@ -71,7 +71,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 
 	//	Remove leading and trailing whitespace.
 
-	for(unsigned int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); ++i)
 	{
 		//	Erase empty lines from the vector.
 		if(_vLines[i].size()<=0)
@@ -95,7 +95,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 	}
 
 	//	Remove invalid lines
-	for(unsigned int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); ++i)
 	{
 		unsigned int equalIndex = static_cast<unsigned int>(_vLines[i].find_first_of("="));
 		//	There's nothing important in this line so let's remove it.
@@ -109,9 +109,9 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 
 	//	Build a map of quotes
 	std::map< unsigned int, std::vector<unsigned int> > vecQuoteIndices;
-	for( unsigned int i = 0; i < _vLines.size(); i++)
+	for( unsigned int i = 0; i < _vLines.size(); ++i)
 	{
-		for( unsigned int j = 0; j < _vLines[i].size(); j++)
+		for( unsigned int j = 0; j < _vLines[i].size(); ++j)
 		{
 			if(_vLines[i][j]=='\"'&&_vLines[i][j-1]!='\\')
 				vecQuoteIndices[i].push_back(j);
@@ -119,7 +119,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 	}
 
 	//	Strip Comments and clean it up...
-	for(unsigned int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); ++i)
 	{
 		unsigned int equalIndex = static_cast<unsigned int>(_vLines[i].find_first_of("="));
 		unsigned int commentIndex = static_cast<unsigned int>(_vLines[i].find_first_of(';'));
@@ -195,7 +195,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 
 	//	Parse
 	std::string section="null";
-	for(unsigned int i = 0; i < _vLines.size(); i++)
+	for(unsigned int i = 0; i < _vLines.size(); ++i)
 	{
 		if(_vLines[i][0]=='[')
 		{
@@ -208,7 +208,7 @@ const int OE::Parsers::INI::ParseINI(const char* path)
 				}
 			}
 		}
-		for(unsigned int j = 0; j < _vLines[i].size(); j++)
+		for(unsigned int j = 0; j < _vLines[i].size(); ++j)
 		{
 			if(_vLines[i][j]=='=')
 			{
