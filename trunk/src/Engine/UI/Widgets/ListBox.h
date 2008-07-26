@@ -44,7 +44,7 @@ namespace OE
 
 				virtual void PushBack(const char* value)
 				{
-
+					_vItems.push_back(std::string(value));
 				}
 
 				virtual void OnMouseButton(const int button, const int action)
@@ -53,14 +53,10 @@ namespace OE
 
 				virtual void OnMouseOver()
 				{
-					_uiBgColor[0] += 100;
-					_uiBgColor[2] += 100;
 				}
 
 				virtual void OnMouseOut()
 				{
-					_uiBgColor[0] -= 100;
-					_uiBgColor[2] -= 100;
 				}
 
 				virtual void OnMouseClick()
@@ -85,19 +81,19 @@ namespace OE
 
 				virtual void Render(const float dt)
 				{
-					/*
-					glColor4ub(_uiBgColor[0],_uiBgColor[1],_uiBgColor[2],_uiBgColor[3]);
-					glBegin(GL_QUADS);
-					glVertex3f(0, 0, 0);
-					glVertex3f(0, 1, 0);
-					glVertex3f(1, 1, 0);
-					glVertex3f(1, 0, 0);
-					glEnd();
-					glColor4ub(255,255,255,255);
-					glScalef(1.0f/_v2fDimensions.x, 1.0f/_v2fDimensions.y, 1);
-					OE::UI::Fonts::FontManager::Write(_szTextWithCaret.c_str());
-					glScalef(1/(1.0f/_v2fDimensions.x), 1/(1.0f/_v2fDimensions.y), 1);
-					*/
+					glColor4ub(_uiBgColor[3],_uiBgColor[1],_uiBgColor[2],255);
+
+					glScalef(OE::Maths::Math::SafeInverse(_v2fDimensions.x), OE::Maths::Math::SafeInverse(_v2fDimensions.y), 1);
+					for(int i = 0; i < _vItems.size(); i++)
+					{
+						if((i+1)*16 >= _v2fDimensions.y)
+							break;
+
+						glTranslatef(0, (i*16), 0);
+						OE::UI::Fonts::FontManager::Write(_vItems[i].c_str());
+						glTranslatef(0, -(i*16), 0);
+					}
+					glScalef(OE::Maths::Math::SafeInverse(OE::Maths::Math::SafeInverse(_v2fDimensions.x)), OE::Maths::Math::SafeInverse(OE::Maths::Math::SafeInverse(_v2fDimensions.y)), 1);
 				}
 			};
 		}

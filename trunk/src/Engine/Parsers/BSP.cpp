@@ -72,7 +72,7 @@ void OE::Parsers::BSP::_IBSP_ParseEntities(FILE *file, _IBSP_HEADER *header)
 	fseek(file, header->DirEntries[0].Offset, SEEK_SET);
 	fread((unsigned char*)_vEntities, sizeof(char), header->DirEntries[0].Length, file);
 
-	std::cout << _vEntities;
+	//std::cout << _vEntities;
 }
 
 void OE::Parsers::BSP::_IBSP_ParseVertices(FILE *file, _IBSP_HEADER *header)

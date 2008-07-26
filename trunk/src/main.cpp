@@ -11,6 +11,8 @@
 *****************************************************************************************/
 
 #define __BUILD_STRING__ "Odorless Entertainment - Engine - Build: " __DATE__ " at " __TIME__
+
+#include "Engine/Networking/NetworkManager.h"
 #include "Engine/Base.h"
 #include "Engine/Input/Input.h"
 #include "Engine/Tools/Timers/Timer.h"
@@ -24,6 +26,7 @@
 #include "Engine/Maths/Vector.h"
 #include "Engine/Parsers/MD3.h"
 #include "Game/UI/ConsoleWindow.h"
+
 #include <iostream>
 #include <math.h>
 #include <vector>
@@ -36,6 +39,7 @@ OE::Cameras::FPSCamera *fpsCamera;
 OE::UI::Windows::WindowManager *windowManager;
 OE::UI::Windows::Window *testWindow2, *consoleWindow;
 OE::UI::Widgets::Button *testButton;
+OE::Networking::NetworkManager *networkManager;
 bool IsGUIEnabled = false;
 
 void Initialize()
@@ -44,6 +48,7 @@ void Initialize()
 	OE::UI::Fonts::FontManager::AddFont("base/textures/fonts/arial", true);
 	OE::UI::Fonts::FontManager::SetFont("base/textures/fonts/arial");
 
+	networkManager = new OE::Networking::NetworkManager();
 	fpsCamera = new OE::Cameras::FPSCamera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 	fpsCamera->Update(0);
 	windowManager = new OE::UI::Windows::WindowManager();
@@ -136,6 +141,7 @@ void OnResize(int width, int height)
 {
 	OE::Base::_iWindowWidth = width;
 	OE::Base::_iWindowHeight = height;
+
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
