@@ -16,6 +16,8 @@
 #include "Engine/Textures/TextureManager.h"
 #include "Engine/UI/Widgets/Button.h"
 #include "Engine/UI/Widgets/TextField.h"
+#include "Engine/ui/Widgets/ListBox.h"
+#include "Engine/Maths/Math.h"
 
 namespace OE
 {
@@ -27,7 +29,7 @@ namespace OE
 			{
 			private:
 				static OE::UI::Widgets::Widget* textField;
-				//static OE::UI::Widgets::ListBox* listBox;
+				static OE::UI::Widgets::Widget* listBox;
 			public:
 				ConsoleWindow() : OE::UI::Windows::Window()
 				{
@@ -47,6 +49,7 @@ namespace OE
 				static void OnTextFieldSubmit(const char* text)
 				{
 					std::cout << "'" << text << "' was submitted" << std::endl;
+					((OE::UI::Widgets::ListBox*)listBox)->PushBack(text);
 				}
 
 				int Initialize()
@@ -56,7 +59,9 @@ namespace OE
 					OE::Tools::Colors::Color::RGBA(_uiFgColor,236,225,195,190);
 					textField = new OE::UI::Widgets::TextField(0, _v2fDimensions.y-20, _v2fDimensions.x,20, this);
 					((OE::UI::Widgets::TextField*)textField)->SetSubmitCallback(&OnTextFieldSubmit);
+					listBox = new OE::UI::Widgets::ListBox(0, 16, _v2fDimensions.x, textField->_v2fPosition.y-16,this);
 					AddWidget(textField);
+					AddWidget(listBox);
 					_fTitleBarY = 15.5f;
 					return 0;
 				}
@@ -96,7 +101,7 @@ namespace OE
 						glTranslatef(wWidget->_v2fPosition.x/_v2fDimensions.x, wWidget->_v2fPosition.y/_v2fDimensions.y, 0);
 						glScalef(wWidget->_v2fDimensions.x/_v2fDimensions.x,wWidget->_v2fDimensions.y/_v2fDimensions.y, 1);
 						wWidget->Render(dt);
-						glScalef(1/(wWidget->_v2fDimensions.x/_v2fDimensions.x), 1/(wWidget->_v2fDimensions.y/_v2fDimensions.y), 1);
+						glScalef(OE::Maths::Math::SafeInverse(wWidget->_v2fDimensions.x/_v2fDimensions.x), OE::Maths::Math::SafeInverse(wWidget->_v2fDimensions.y/_v2fDimensions.y), 1);
 						glTranslatef(-wWidget->_v2fPosition.x/_v2fDimensions.x, -wWidget->_v2fPosition.y/_v2fDimensions.y, 0);
 					}
 

@@ -9,6 +9,10 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
 #include "Input.h"
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 OE::Input::InputManager g_inputManager;
 bool OE::Input::InputManager::_rgbKeys[512];
 int OE::Input::InputManager::_iMouseX=0;
