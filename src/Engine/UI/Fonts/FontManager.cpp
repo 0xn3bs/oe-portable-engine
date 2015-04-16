@@ -35,12 +35,12 @@ OE::UI::Fonts::FontManager::~FontManager()
 //	TODO: Generate non-monospace UV coordinates for characters.
 const int OE::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpaced)
 {
-	char szTGAPath[255];
+	char szPNGPath[255];
 
-	strcpy(szTGAPath, path);
-	strcat(szTGAPath, ".png");
+	strcpy(szPNGPath, path);
+	strcat(szPNGPath, ".png");
 
-	int uintTextureHandle = OE::Textures::TextureManager::GetTexturesID(OE::Textures::TextureManager::LoadTextureFromPath(szTGAPath));
+	int uintTextureHandle = OE::Textures::TextureManager::GetTexturesID(OE::Textures::TextureManager::LoadTextureFromPath(szPNGPath));
 
 	if (uintTextureHandle <= -1)
 		return uintTextureHandle;
