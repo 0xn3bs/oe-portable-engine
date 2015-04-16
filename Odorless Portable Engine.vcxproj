@@ -38,7 +38,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
-    <NuGetPackageImportStamp>0a0b449f</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>83486e44</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>Debug\</OutDir>
@@ -145,15 +145,21 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
     <Import Project="packages\boost.1.57.0.0\build\native\boost.targets" Condition="Exists('packages\boost.1.57.0.0\build\native\boost.targets')" />
-    <Import Project="packages\boost_thread-vc120.1.57.0.0\build\native\boost_thread-vc120.targets" Condition="Exists('packages\boost_thread-vc120.1.57.0.0\build\native\boost_thread-vc120.targets')" />
-    <Import Project="packages\boost_system-vc120.1.57.0.0\build\native\boost_system-vc120.targets" Condition="Exists('packages\boost_system-vc120.1.57.0.0\build\native\boost_system-vc120.targets')" />
-    <Import Project="packages\boost_date_time-vc120.1.57.0.0\build\native\boost_date_time-vc120.targets" Condition="Exists('packages\boost_date_time-vc120.1.57.0.0\build\native\boost_date_time-vc120.targets')" />
+    <Import Project="packages\boost_system.1.57.0.0\build\native\boost_system.targets" Condition="Exists('packages\boost_system.1.57.0.0\build\native\boost_system.targets')" />
+    <Import Project="packages\boost_date_time.1.57.0.0\build\native\boost_date_time.targets" Condition="Exists('packages\boost_date_time.1.57.0.0\build\native\boost_date_time.targets')" />
+    <Import Project="packages\boost_regex.1.57.0.0\build\native\boost_regex.targets" Condition="Exists('packages\boost_regex.1.57.0.0\build\native\boost_regex.targets')" />
+    <Import Project="packages\boost_thread.1.57.0.0\build\native\boost_thread.targets" Condition="Exists('packages\boost_thread.1.57.0.0\build\native\boost_thread.targets')" />
+    <Import Project="packages\boost_chrono.1.57.0.0\build\native\boost_chrono.targets" Condition="Exists('packages\boost_chrono.1.57.0.0\build\native\boost_chrono.targets')" />
+    <Import Project="packages\freeimage.redist.3.16.0\build\native\freeimage.redist.targets" Condition="Exists('packages\freeimage.redist.3.16.0\build\native\freeimage.redist.targets')" />
+    <Import Project="packages\freeimage.3.16.0\build\native\freeimage.targets" Condition="Exists('packages\freeimage.3.16.0\build\native\freeimage.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -161,8 +167,12 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('packages\boost.1.57.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.57.0.0\build\native\boost.targets'))" />
-    <Error Condition="!Exists('packages\boost_thread-vc120.1.57.0.0\build\native\boost_thread-vc120.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_thread-vc120.1.57.0.0\build\native\boost_thread-vc120.targets'))" />
-    <Error Condition="!Exists('packages\boost_system-vc120.1.57.0.0\build\native\boost_system-vc120.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_system-vc120.1.57.0.0\build\native\boost_system-vc120.targets'))" />
-    <Error Condition="!Exists('packages\boost_date_time-vc120.1.57.0.0\build\native\boost_date_time-vc120.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_date_time-vc120.1.57.0.0\build\native\boost_date_time-vc120.targets'))" />
+    <Error Condition="!Exists('packages\boost_system.1.57.0.0\build\native\boost_system.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_system.1.57.0.0\build\native\boost_system.targets'))" />
+    <Error Condition="!Exists('packages\boost_date_time.1.57.0.0\build\native\boost_date_time.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_date_time.1.57.0.0\build\native\boost_date_time.targets'))" />
+    <Error Condition="!Exists('packages\boost_regex.1.57.0.0\build\native\boost_regex.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_regex.1.57.0.0\build\native\boost_regex.targets'))" />
+    <Error Condition="!Exists('packages\boost_thread.1.57.0.0\build\native\boost_thread.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_thread.1.57.0.0\build\native\boost_thread.targets'))" />
+    <Error Condition="!Exists('packages\boost_chrono.1.57.0.0\build\native\boost_chrono.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost_chrono.1.57.0.0\build\native\boost_chrono.targets'))" />
+    <Error Condition="!Exists('packages\freeimage.redist.3.16.0\build\native\freeimage.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\freeimage.redist.3.16.0\build\native\freeimage.redist.targets'))" />
+    <Error Condition="!Exists('packages\freeimage.3.16.0\build\native\freeimage.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\freeimage.3.16.0\build\native\freeimage.targets'))" />
   </Target>
 </Project>
