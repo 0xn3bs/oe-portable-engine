@@ -44,7 +44,7 @@ bool IsGUIEnabled = false;
 
 void Initialize()
 {
-	OE::Textures::TextureManager::LoadTextureFromPath("base/textures/notexture.tga");
+	OE::Textures::TextureManager::LoadTextureFromPath("base/textures/notexture.png");
 	OE::UI::Fonts::FontManager::AddFont("base/textures/fonts/arial", true);
 	OE::UI::Fonts::FontManager::SetFont("base/textures/fonts/arial");
 

@@ -38,7 +38,7 @@ const int OE::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpac
 	char szTGAPath[255];
 
 	strcpy(szTGAPath, path);
-	strcat(szTGAPath, ".tga");
+	strcat(szTGAPath, ".png");
 
 	int uintTextureHandle = OE::Textures::TextureManager::GetTexturesID(OE::Textures::TextureManager::LoadTextureFromPath(szTGAPath));
 
@@ -61,7 +61,10 @@ const int OE::UI::Fonts::FontManager::AddFont(const char *path, bool setMonoSpac
 }
 
 void OE::UI::Fonts::FontManager::CalculateUVs(_FONT &font, bool setMonoSpaced)
-{
+{	
+	unsigned int iTexWidth = OE::Textures::TextureManager::GetTexturesWidth(font.TextureHandle-1);
+	unsigned int iTexHeight = OE::Textures::TextureManager::GetTexturesHeight(font.TextureHandle-1);
+
 	if(setMonoSpaced)
 	{
 		const unsigned int cintFontSize = 256;
