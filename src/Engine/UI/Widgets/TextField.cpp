@@ -1,10 +1,10 @@
 #include "TextField.h"
 
-void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
+void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action, const int mods)
 {
 	if(_bHasFocus)
 	{
-		if(key == 'C' && (glfwGetKey(GLFW_KEY_LCTRL)||glfwGetKey(GLFW_KEY_RCTRL)) && action == GLFW_PRESS)
+		if (key == 'C' && (OE::Input::InputManager::GetKey(GLFW_KEY_LEFT_CONTROL) || OE::Input::InputManager::GetKey(GLFW_KEY_RIGHT_CONTROL)) && action == GLFW_PRESS)
 		{
 			std::string subCopy = std::string(_szCaption);
 
@@ -17,7 +17,7 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			OE::Input::InputManager::CopyToClipboard(subCopy.c_str());
 		}
 
-		if(key == 'V' && (glfwGetKey(GLFW_KEY_LCTRL)||glfwGetKey(GLFW_KEY_RCTRL)) && action == GLFW_PRESS)
+		if (key == 'V' && (OE::Input::InputManager::GetKey(GLFW_KEY_LEFT_CONTROL) || OE::Input::InputManager::GetKey(GLFW_KEY_RIGHT_CONTROL)) && action == GLFW_PRESS)
 		{
 			std::string clipboard = std::string(OE::Input::InputManager::GetFromClipboard());
 
@@ -60,9 +60,10 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			_szRenderedText = _szCaption.substr(_iLeftBound,_szCaption.length() - _iLeftBound);
 		}
 
-		if(key == GLFW_KEY_LEFT && action == GLFW_PRESS)
+		if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && !(OE::Input::InputManager::GetKey(GLFW_KEY_LEFT_SHIFT) || OE::Input::InputManager::GetKey(GLFW_KEY_RIGHT_SHIFT)))
 		{
 			_bCaretRender = true;
+
 			if(_caretPos > 0)
 			{
 				_caretPos--;
@@ -77,12 +78,12 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			_szRenderedText = _szCaption.substr(_iLeftBound,_szCaption.length() - _iLeftBound);
 		}
 
-		if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
+		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && !(OE::Input::InputManager::GetKey(GLFW_KEY_LEFT_SHIFT) || OE::Input::InputManager::GetKey(GLFW_KEY_RIGHT_SHIFT)))
 		{
 			_bCaretRender = true;
+
 			if(_caretPos < _szCaption.length() && _caretPos < (_v2fDimensions.x/16))
 			{
-				
 				++_caretPos;
 				_caretUpPos = _caretPos;
 			}
@@ -95,6 +96,44 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			}
 
 			_szRenderedText = _szCaption.substr(_iLeftBound,_szCaption.length() - _iLeftBound);
+		}
+
+		if (key == GLFW_KEY_LEFT && action == GLFW_PRESS && (OE::Input::InputManager::GetKey(GLFW_KEY_LEFT_SHIFT) || OE::Input::InputManager::GetKey(GLFW_KEY_RIGHT_SHIFT)))
+		{
+			_bCaretRender = true;
+			if (_caretPos > 0)
+			{
+				_caretPos--;
+			}
+			else
+			{
+				if (_iLeftBound > 0)
+				{
+					_caretUpPos++;
+					_iLeftBound--;
+				}
+			}
+
+			_szRenderedText = _szCaption.substr(_iLeftBound, _szCaption.length() - _iLeftBound);
+		}
+
+		if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS && (OE::Input::InputManager::GetKey(GLFW_KEY_LEFT_SHIFT) || OE::Input::InputManager::GetKey(GLFW_KEY_RIGHT_SHIFT)))
+		{
+			_bCaretRender = true;
+			if (_caretPos < _szCaption.length() && _caretPos < (_v2fDimensions.x / 16))
+			{
+				_caretPos++;
+			}
+			else
+			{
+				if (_iLeftBound + _caretPos < _szCaption.length())
+				{
+					_caretUpPos--;
+					_iLeftBound++;
+				}
+			}
+
+			_szRenderedText = _szCaption.substr(_iLeftBound, _szCaption.length() - _iLeftBound);
 		}
 
 		if(key == GLFW_KEY_ENTER && action == GLFW_PRESS)
@@ -150,7 +189,7 @@ void OE::UI::Widgets::TextField::OnKeyEvent(const int key, const int action)
 			}
 		}
 
-		if(key == GLFW_KEY_DEL && action == GLFW_PRESS)
+		if(key == GLFW_KEY_DELETE && action == GLFW_PRESS)
 		{
 			_bCaretRender = true;
 			if(_caretPos == _caretUpPos)
@@ -218,7 +257,7 @@ void OE::UI::Widgets::TextField::OnCharEvent(const int key, const int action)
 				_szCaption.insert(_szCaption.begin()+_caretPos+_iLeftBound, (char)key);
 				
 				if(_caretPos!=(_v2fDimensions.x/16))
-				{
+				{ 
 					++_caretPos;
 					_caretUpPos=_caretPos;
 				}

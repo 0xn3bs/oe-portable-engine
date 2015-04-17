@@ -17,7 +17,7 @@
 #include <string>
 #include "Engine/Maths/Vector.h"
 #include "Engine/Textures/TextureManager.h"
-#include "Engine/GLFW/glfw.h"
+#include <GLFW\glfw3.h>
 
 #define MAX_QPATH 64
 #define MD3_MAX_FRAMES 1024

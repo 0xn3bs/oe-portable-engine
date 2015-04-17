@@ -206,7 +206,7 @@ int main(int argc, char **argv)
 		OE::Base::Flush();
 		OE::Base::SwapBuffers();
 
-		if (glfwGetKey(GLFW_KEY_ESC) || !glfwGetWindowParam(GLFW_OPENED))
+		if (glfwGetKey(OE::Base::Window, GLFW_KEY_ESCAPE))
 			break;
 
 		++totalFrames;

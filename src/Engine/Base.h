@@ -11,8 +11,10 @@
 #ifndef BASE_H_
 #define BASE_H_
 
-#include "Engine/GLEW/glew.h"
-#include "Engine/GLFW/glfw.h"
+#include <GL\glew.h>
+
+#include <GLFW\glfw3.h>
+
 //#include <AL/alut.h>
 
 /*! \namespace Odorless
@@ -23,6 +25,7 @@ namespace OE
 	class Base
 	{
 	public:
+		static GLFWwindow* Window;
 		static unsigned int InitializeEngine(int argc, char **argv);
 		static int OpenWindow(int width, int height, int redbits,
 			int greenbits, int bluebits, int alphabits,
@@ -32,7 +35,7 @@ namespace OE
 		static void Draw(double deltaTime);
 		static void SetWindowTitle(const char* title)
 		{
-			glfwSetWindowTitle(title);
+			glfwSetWindowTitle(Window, title);
 		}
 
 		static void VSync(bool enabled)
@@ -72,12 +75,12 @@ namespace OE
 
 		static void SetWindowResize(void (*resize)(int width, int height))
 		{
-			glfwSetWindowSizeCallback((GLFWwindowsizefun)resize);
+			glfwSetWindowSizeCallback(Window, (GLFWwindowsizefun)resize);
 		}
 
 		static void SwapBuffers()
 		{
-			glfwSwapBuffers();
+			glfwSwapBuffers(Window);
 		}
 
 		static void Flush()

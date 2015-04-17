@@ -11,7 +11,7 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 
-#include "Engine/GLFW/glfw.h"
+#include <GLFW\glfw3.h>
 #include <ostream>
 #include <iostream>
 #include <memory>
@@ -26,15 +26,17 @@ namespace OE
 		public:
 			virtual void OnMouseButton(const int button, const int action){};
 			virtual void OnMouseClick(const int startX, const int startY, const int endX, const int endY){};
-			virtual void OnMouseMove(const int x, const int y){};
-			virtual void OnKeyEvent(const int key, const int action){};
-			virtual void OnCharEvent(const int key, const int action){};
+			virtual void OnMouseMove(const double x, const double y){};
+			virtual void OnKeyEvent(const int key, const int action, const int mods){};
+			virtual void OnCharEvent(const int codepoint){};
 		};
 
 		class InputManager
 		{
 		private:
 			static std::vector<InputListener*> _vecInputListeners;
+
+			static GLFWwindow* _window;
 
 			static int _iMouseX;
 			static int _iMouseY;
@@ -54,10 +56,10 @@ namespace OE
 			static bool _bForceMouseToRefPos;
 			static bool _bMouseHidden;
 
-			static void GLFWCALL GLFWSetCharEvent(int key, int action);
-			static void GLFWCALL GLFWSetKeyEvent(int key, int action);
-			static void GLFWCALL GLFWSetMousePos(int x, int y);
-			static void GLFWCALL GLFWSetMouseButton(int button, int action);
+			static void GLFWSetCharEvent(GLFWwindow* window, unsigned int codepoint);
+			static void GLFWSetKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods);
+			static void GLFWSetCursorPos(GLFWwindow* window, double x, double y);
+			static void GLFWSetMouseButton(GLFWwindow* window, int button, int action, int mods);
 
 		public:
 			InputManager()
@@ -69,7 +71,7 @@ namespace OE
 			{
 			}
 
-			static void Initialize();
+			static void Initialize(GLFWwindow* window);
 
 			static void CopyToClipboard(const char* value);
 			static const char* GetFromClipboard();
@@ -94,6 +96,16 @@ namespace OE
 				_vecInputListeners.push_back(inputListener);
 			}
 
+			static int GetMouseButton(int button)
+			{
+				return glfwGetMouseButton(_window, button);
+			}
+
+			static int GetKey(int key)
+			{
+				return glfwGetKey(_window, key);
+			}
+
 			static void SetKeyState(const char key, bool state)
 			{
 				_rgbKeys[(int)key] = state;
@@ -104,28 +116,29 @@ namespace OE
 				return _rgbKeys[(int)key];
 			}
 
-			static void SetMousePos(const int xPos, const int yPos);
+			static void SetMousePos(const double xPos, const double yPos);
 
-			static void SetMouseX(const int xPos)
+			static void SetMouseX(const double xPos)
 			{
-				glfwSetMousePos(xPos, _iMouseY);
+				glfwSetCursorPos(_window, xPos, _iMouseY);
 			}
 
-			static void SetMouseY(const int yPos)
+			static void SetMouseY(const double yPos)
 			{
-				glfwSetMousePos(_iMouseX, yPos);
+				glfwSetCursorPos(_window, _iMouseX, yPos);
 			}	
 
-			static void SetCursorVisible(bool con)
+			static void SetCursorDisabled(bool con)
 			{
 				if(con)
-					glfwEnable(GLFW_MOUSE_CURSOR);
+					glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 				else
-					glfwDisable(GLFW_MOUSE_CURSOR);
+					glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 				_bMouseHidden = !con;
 			}
 
-			static void GetMousePos(int *xPos, int *yPos);
+			static void GetMousePos(double *xPos, double *yPos);
 
 			static const int GetMouseDeltaX()
 			{
@@ -154,7 +167,7 @@ namespace OE
 
 			static bool IsMouseDown(const int button)
 			{
-				return glfwGetMouseButton(button);
+				return glfwGetMouseButton(_window, button);
 			}
 		};
 	};

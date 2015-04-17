@@ -17,7 +17,7 @@ bool OE::UI::Widgets::Widget::IsOver(const float x, const float y)
 
 void OE::UI::Widgets::Widget::GetLocalPosition(int *x, int *y)
 {
-	int mX, mY;
+	double mX, mY;
 	mX = mY = 0;
 
 	OE::Input::InputManager::GetMousePos(&mX, &mY);

@@ -13,10 +13,11 @@
 
 #define TEXTURE_PATH "base/"
 
-#include "Engine/GLFW/glfw.h"
+#include <GLFW\glfw3.h>
 #include <vector>
 #include <string>
 #include "Engine/FreeImage/FreeImage.h"
+
 
 #ifndef GL_TEXTURE_2D_BINDING_EXT
 #define GL_TEXTURE_2D_BINDING_EXT         0x8069

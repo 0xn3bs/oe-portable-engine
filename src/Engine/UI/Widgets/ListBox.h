@@ -61,8 +61,10 @@ namespace OE
 
 				virtual void OnMouseClick()
 				{
-					int mX, mY, lX, lY;
-					lX = lY = mX = mY = 0;
+					double mX, mY;
+					int lX, lY;
+					lX = lY = 0;
+					mX = mY = 0;
 					OE::Input::InputManager::GetMousePos(&mX, &mY);
 					GetLocalPosition(&lX, &lY);;
 				}

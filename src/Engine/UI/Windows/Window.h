@@ -11,7 +11,7 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
-#include "Engine/GLFW/glfw.h"
+#include <GLFW\glfw3.h>
 #include "Engine/UI/Widgets/Widget.h"
 #include "Engine/UI/Fonts/FontManager.h"
 #include "Engine/Maths/Vector.h"
@@ -50,7 +50,7 @@ namespace OE
 				virtual void OnMouseUp(const char button, const int x, const int y){};
 				virtual void OnMouseMove(int x, int y){};
 				virtual void OnCharEvent(int key, int action){};
-				virtual void OnKeyEvent(int key, int action){};
+				virtual void OnKeyEvent(int key, int action, int mods){};
 
 				int GetXPos(){return static_cast<int>(_v2fPosition.x);}
 				int GetYPos(){return static_cast<int>(_v2fPosition.y);}

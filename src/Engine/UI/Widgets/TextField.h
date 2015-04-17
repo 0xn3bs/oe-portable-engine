@@ -67,8 +67,10 @@ namespace OE
 
 				void CalculateCaretPosition(int *caretPos)
 				{
-					int mX, mY, lX, lY;
-					lX = lY = mX = mY = 0;
+					double mX, mY;
+					int lX, lY;
+					lX = lY = 0;
+					mX = mY = 0;
 					OE::Input::InputManager::GetMousePos(&mX, &mY);
 					GetLocalPosition(&lX, &lY);
 
@@ -89,13 +91,13 @@ namespace OE
 
 				virtual void OnMouseButton(const int button, const int action)
 				{
-					if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+					if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && _bHasFocus)
 					{
 						CalculateCaretPosition(&_caretPos);
 						_caretUpPos = _caretPos;
 					}
 
-					if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+					if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE && _bHasFocus)
 					{
 						CalculateCaretPosition(&_caretUpPos);
 					}
@@ -103,7 +105,7 @@ namespace OE
 
 				virtual void OnMouseMove(const int x, const int y)
 				{
-					if(glfwGetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+					if (OE::Input::InputManager::GetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && _bHasFocus)
 					{
 						CalculateCaretPosition(&_caretUpPos);
 					}
@@ -121,7 +123,7 @@ namespace OE
 				{
 				}
 
-				virtual void OnKeyEvent(const int key, const int action);
+				virtual void OnKeyEvent(const int key, const int action, const int mods);
 
 				virtual void OnCharEvent(const int key, const int action);
 
@@ -183,7 +185,7 @@ namespace OE
 						float xTrans = OE::Maths::Math::SafeInverse(_winParentWindow->GetXPos());
 						xTrans += ((OE::Maths::Math::SafeInverse(_v2fPosition.x) + _caretPos * 16) - 8);
 						glTranslatef(xTrans, 0, 0);
-						OE::UI::Fonts::FontManager::Write((char)127);
+						OE::UI::Fonts::FontManager::Write('_');
 						glTranslatef(-xTrans, 0, 0);
 					}
 

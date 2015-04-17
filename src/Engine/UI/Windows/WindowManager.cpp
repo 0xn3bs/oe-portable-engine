@@ -14,7 +14,7 @@
 
 void OE::UI::Windows::WindowManager::OnMouseButton(const int key, const int action)
 {
-	int iMouseX, iMouseY;
+	double iMouseX, iMouseY;
 	OE::Input::InputManager::GetMousePos(&iMouseX, &iMouseY);
 
 	if(key == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE)
@@ -102,15 +102,15 @@ void OE::UI::Windows::WindowManager::OnCharEvent(const int key, const int action
 	}
 }
 
-void OE::UI::Windows::WindowManager::OnKeyEvent(const int key, const int action)
+void OE::UI::Windows::WindowManager::OnKeyEvent(const int key, const int action, const int mods)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		Window* winTemp = _vecWindows.at(i);
-		winTemp->OnKeyEvent(key, action);
+		winTemp->OnKeyEvent(key, action, mods);
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); ++j)
 		{
-			winTemp->_vecWidgets[j]->OnKeyEvent(key, action);
+			winTemp->_vecWidgets[j]->OnKeyEvent(key, action, mods);
 		}
 	}
 }

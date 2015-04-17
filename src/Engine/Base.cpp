@@ -13,6 +13,7 @@
 #include "Textures/TextureManager.h"
 #include "Input/Input.h"
 
+GLFWwindow* OE::Base::Window = NULL;
 int OE::Base::_iWindowWidth, OE::Base::_iWindowHeight = 0;
 bool OE::Base::_bIsRunning = false;
 void (*OE::Base::_pf_Initialize)(void) = 0;
@@ -22,7 +23,7 @@ void (*OE::Base::_pf_Draw)(double deltaTime) = 0;
 ///	Function which Intializes the Engine. <b>Call this before anything else is done!</b>
 unsigned int OE::Base::InitializeEngine(int argc, char **argv)
 {
-	glfwInit();
+	if (!glfwInit())    exit(EXIT_FAILURE);
 	/*
 	ALuint buffer, source;
 	alutInit (&argc, argv);
@@ -38,7 +39,7 @@ unsigned int OE::Base::InitializeEngine(int argc, char **argv)
 	alSourcePlay (source);
 	*/
 	_bIsRunning = true;
-	OE::Input::InputManager::Initialize();
+
 	OE::Textures::TextureManager::Initialize();
 	return 0;
 }
@@ -58,21 +59,25 @@ int OE::Base::OpenWindow(int width, int height, int redbits,
 						 int greenbits, int bluebits, int alphabits, int depthbits,
 						 int stencilbits)
 {
-	int window = glfwOpenWindow(width,
+	Window = glfwCreateWindow(width,
 		height,
-		redbits,
-		greenbits,
-		bluebits,
-		alphabits,
-		depthbits,
-		stencilbits,
-		GLFW_WINDOW);
+		"Odorless Portable Engine",
+		NULL,
+		NULL);
+
+	if (!Window)
+	{ 
+		Dispose();
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+
+	glfwMakeContextCurrent(Window);
+
+	GLenum error = glGetError();
 
 	_iWindowWidth = width;
 	_iWindowHeight = height;
-
-	if (!window)
-		Dispose();
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -80,7 +85,7 @@ int OE::Base::OpenWindow(int width, int height, int redbits,
 		std::cout << "Error: GLEW failed to load!" << std::endl;
 	}
 
-	OE::Input::InputManager::Initialize();
+	OE::Input::InputManager::Initialize(Window);
 
 	return 0;
 }

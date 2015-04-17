@@ -9,10 +9,12 @@
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 ***************************************************************************************************/
 #include "Input.h"
+
 #ifdef _WIN32
 #include <Windows.h>
 #endif
 
+GLFWwindow* OE::Input::InputManager::_window = NULL;
 OE::Input::InputManager g_inputManager;
 bool OE::Input::InputManager::_rgbKeys[512];
 int OE::Input::InputManager::_iMouseX=0;
@@ -34,25 +36,25 @@ bool OE::Input::InputManager::_bMouseHidden=false;
 
 std::vector<OE::Input::InputListener*> OE::Input::InputManager::_vecInputListeners = std::vector<OE::Input::InputListener*>();
 
-void GLFWCALL OE::Input::InputManager::GLFWSetCharEvent(int key, int action)
+void OE::Input::InputManager::GLFWSetCharEvent(GLFWwindow* window, unsigned int codepoint)
 {
-	_rgbKeys[key] = action == GLFW_PRESS ? 1 : 0;
 	for(unsigned int i = 0; i < _vecInputListeners.size(); ++i)
 	{
-		_vecInputListeners.at(i)->OnCharEvent(key,action);
+		_vecInputListeners.at(i)->OnCharEvent(codepoint);
 	}
 }
 
-void GLFWCALL OE::Input::InputManager::GLFWSetKeyEvent(int key, int action)
+void OE::Input::InputManager::GLFWSetKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	_rgbKeys[key] = action == GLFW_PRESS ? 1 : 0;
+	_rgbKeys[key] = (action == GLFW_PRESS) || (action == GLFW_REPEAT) ? 1 : 0;
+
 	for(unsigned int i = 0; i < _vecInputListeners.size(); ++i)
 	{
-		_vecInputListeners.at(i)->OnKeyEvent(key,action);
+		_vecInputListeners.at(i)->OnKeyEvent(key,action,mods);
 	}
 }
 
-void GLFWCALL OE::Input::InputManager::GLFWSetMousePos(int x, int y)
+void OE::Input::InputManager::GLFWSetCursorPos(GLFWwindow* window, double x, double y)
 {
 	_iMouseX = x;
 	_iMouseY = y;
@@ -62,7 +64,7 @@ void GLFWCALL OE::Input::InputManager::GLFWSetMousePos(int x, int y)
 	}
 }
 
-void OE::Input::InputManager::GLFWSetMouseButton(int button, int action)
+void OE::Input::InputManager::GLFWSetMouseButton(GLFWwindow* window, int button, int action, int mods)
 {
 	bool click = false;
 	if(button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS)
@@ -88,56 +90,28 @@ void OE::Input::InputManager::GLFWSetMouseButton(int button, int action)
 
 void OE::Input::InputManager::CopyToClipboard(const char *value)
 {
-#ifdef _WIN32
-	if(OpenClipboard(NULL))
-	{
-		HGLOBAL clipbuffer;
-		char * buffer = NULL;
-		EmptyClipboard();
-		clipbuffer = GlobalAlloc(GMEM_DDESHARE, strlen(value)+1);
-		buffer = (char*)GlobalLock(clipbuffer);
-		strcpy(buffer, value);
-		buffer[strlen(value)] = 0;
-		GlobalUnlock(clipbuffer);
-		SetClipboardData(CF_TEXT,clipbuffer);
-		CloseClipboard();
-	}
-#endif
+	glfwSetClipboardString(_window, value);
 }
 
 const char* OE::Input::InputManager::GetFromClipboard()
 {
-#ifdef _WIN32
-	if(OpenClipboard(NULL))
-	{
-		HGLOBAL clipbuffer;
-		char * buffer = NULL;
-		HANDLE hData = GetClipboardData( CF_TEXT );
-		buffer = (char*)GlobalLock( hData );
-		GlobalUnlock( hData );
-		CloseClipboard();
-		return buffer;
-	}
-	else
-		return NULL;
-#endif
+	return glfwGetClipboardString(_window);
 }
 
-void OE::Input::InputManager::Initialize()
+void OE::Input::InputManager::Initialize(GLFWwindow* window)
 {
-	glfwSetCharCallback(GLFWSetCharEvent);
-	glfwSetKeyCallback(GLFWSetKeyEvent);
-	glfwSetMousePosCallback(GLFWSetMousePos);
-	glfwSetMouseButtonCallback(GLFWSetMouseButton);
-	glfwEnable(GLFW_KEY_REPEAT);
-	glfwEnable(GLFW_STICKY_KEYS);
-	glfwEnable(GLFW_SYSTEM_KEYS);
+	_window = window;
+	glfwSetCharCallback(_window, GLFWSetCharEvent);
+	glfwSetKeyCallback(_window, GLFWSetKeyEvent);
+	glfwSetCursorPosCallback(_window, GLFWSetCursorPos);
+	glfwSetMouseButtonCallback(_window, GLFWSetMouseButton);
+	glfwSetInputMode(_window, GLFW_STICKY_KEYS, GL_TRUE);
 	_bInitialized = true;
 }
 
 void OE::Input::InputManager::Update(double dt)
 {
-	int x, y;
+	double x, y;
 	GetMousePos(&x, &y);
 
 	if(_bForceMouseToRefPos && _bMouseHidden)
@@ -145,7 +119,7 @@ void OE::Input::InputManager::Update(double dt)
 		_iMouseDeltaX = _iMouseReferenceX - x;
 		_iMouseDeltaY = _iMouseReferenceY - y;
 
-		SetMousePos(_iMouseReferenceX, _iMouseReferenceY);
+		//SetMousePos(_iMouseReferenceX, _iMouseReferenceY);
 
 		_iMouseLastPosX = _iMouseX;
 		_iMouseLastPosY = _iMouseY;
@@ -157,14 +131,15 @@ void OE::Input::InputManager::Update(double dt)
 		_iMouseLastPosX = x;
 		_iMouseLastPosY = y;
 	}
+	glfwPollEvents();
 }
 
-void OE::Input::InputManager::SetMousePos(const int xPos, const int yPos)
+void OE::Input::InputManager::SetMousePos(const double xPos, const double yPos)
 {
-	glfwSetMousePos(xPos, yPos);
+	//glfwSetCursorPos(_window, xPos, yPos);
 }
 
-void OE::Input::InputManager::GetMousePos(int *xPos, int *yPos)
+void OE::Input::InputManager::GetMousePos(double *xPos, double *yPos)
 {
-	glfwGetMousePos(xPos, yPos);
+	glfwGetCursorPos(_window, xPos, yPos);
 }

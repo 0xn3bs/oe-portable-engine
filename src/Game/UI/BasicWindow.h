@@ -40,7 +40,7 @@ namespace OE
 
 				}
 
-				virtual void OnKeyEvent(int key, int action)
+				virtual void OnKeyEvent(int key, int action, int mods)
 				{
 				}
 

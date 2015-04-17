@@ -8,8 +8,8 @@
 * Contributors:
 *     Jonathan 'Bladezor' Bastnagel - initial implementation and documentation
 *****************************************************************************************/
-#include "Engine/GLEW/glew.h"
-#include "Engine/GL/glext.h"
+#include <GL\glew.h>
+//#include "Engine/GL/glext.h"
 #include "FontManager.h"
 #include "Engine/Textures/TextureManager.h"
 #include "Engine/Tools/Colors/Color.h"

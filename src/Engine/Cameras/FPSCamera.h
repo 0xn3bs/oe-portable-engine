@@ -11,7 +11,7 @@
 #ifndef FPSCAMERA_H_
 #define FPSCAMERA_H_
 
-#include "Engine/GLFW/glfw.h"
+#include <GLFW\glfw3.h>
 #include "Engine/Maths/Vector.h"
 #include "Engine/Input/Input.h"
 #include <iostream>
@@ -56,11 +56,11 @@ namespace OE
 			{
 			}
 
-			void OnKeyEvent(const int key, const int action)
+			void OnKeyEvent(const int key, const int action, const int mods)
 			{
 				if(key=='`' && action == GLFW_PRESS)
 				{	
-					OE::Input::InputManager::SetCursorVisible(!OE::Input::InputManager::IsCursorVisible());
+					OE::Input::InputManager::SetCursorDisabled(!OE::Input::InputManager::IsCursorVisible());
 				}
 			}
 
