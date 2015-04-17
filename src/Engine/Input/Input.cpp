@@ -105,7 +105,6 @@ void OE::Input::InputManager::Initialize(GLFWwindow* window)
 	glfwSetKeyCallback(_window, GLFWSetKeyEvent);
 	glfwSetCursorPosCallback(_window, GLFWSetCursorPos);
 	glfwSetMouseButtonCallback(_window, GLFWSetMouseButton);
-	glfwSetInputMode(_window, GLFW_STICKY_KEYS, GL_TRUE);
 	_bInitialized = true;
 }
 
