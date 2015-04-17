@@ -73,7 +73,7 @@ namespace OE
 				{
 				}
 
-				virtual void OnCharEvent(const int key, const int action)
+				virtual void OnCharEvent(const int codepoint)
 				{
 				}
 

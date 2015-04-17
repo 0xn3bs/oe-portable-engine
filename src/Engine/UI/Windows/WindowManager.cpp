@@ -89,15 +89,15 @@ void OE::UI::Windows::WindowManager::OnMouseClick(const int startX, const int st
 	}
 }
 
-void OE::UI::Windows::WindowManager::OnCharEvent(const int key, const int action)
+void OE::UI::Windows::WindowManager::OnCharEvent(const int codepoint)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{
 		Window* winTemp = _vecWindows.at(i);
-		winTemp->OnCharEvent(key, action);
+		winTemp->OnCharEvent(codepoint);
 		for(unsigned int j = 0; j < winTemp->_vecWidgets.size(); ++j)
 		{
-			winTemp->_vecWidgets[j]->OnCharEvent(key, action);
+			winTemp->_vecWidgets[j]->OnCharEvent(codepoint);
 		}
 	}
 }

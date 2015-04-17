@@ -53,7 +53,7 @@ namespace OE
 				virtual void OnMouseClick(){};
 				virtual void OnMouseMove(const int x, const int y){};
 				virtual void OnMouseButton(const int button, const int action){};
-				virtual void OnCharEvent(const int key, const int action){};
+				virtual void OnCharEvent(const int codepoint){};
 				virtual void OnKeyEvent(const int key, const int action, const int mods){};
 
 				virtual void Update(const float dt) = 0;

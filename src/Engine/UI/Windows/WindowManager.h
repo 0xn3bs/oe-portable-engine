@@ -49,7 +49,7 @@ namespace OE
 				void OnMouseClick(const int startX, const int startY, const int endX, const int endY);
 				void OnMouseMove(const int x, const int y);
 				void OnKeyEvent(const int key, const int action, const int mods);
-				void OnCharEvent(const int key, const int action);
+				void OnCharEvent(const int codepoint);
 
 				void AddWindow(Window &window)
 				{

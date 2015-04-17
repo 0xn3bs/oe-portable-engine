@@ -125,7 +125,7 @@ namespace OE
 
 				virtual void OnKeyEvent(const int key, const int action, const int mods);
 
-				virtual void OnCharEvent(const int key, const int action);
+				virtual void OnCharEvent(const int codepoint);
 
 				virtual void Update(const float dt)
 				{
