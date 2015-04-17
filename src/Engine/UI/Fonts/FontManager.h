@@ -40,7 +40,8 @@ namespace OE
 				static void Write(const char *path);
 				static void Write(const char c)
 				{
-					Write(&c);
+					std::string character = std::string(1, c);
+					Write(character.c_str());
 				}
 				static int IndexOf(const char *name);
 
