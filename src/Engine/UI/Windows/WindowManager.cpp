@@ -115,7 +115,7 @@ void OE::UI::Windows::WindowManager::OnKeyEvent(const int key, const int action,
 	}
 }
 
-void OE::UI::Windows::WindowManager::OnMouseMove(const int x, const int y)
+void OE::UI::Windows::WindowManager::OnMouseMove(const double x, const double y)
 {
 	for(unsigned int i = 0; i < _vecWindows.size(); ++i)
 	{

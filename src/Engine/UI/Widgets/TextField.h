@@ -103,7 +103,7 @@ namespace OE
 					}
 				}
 
-				virtual void OnMouseMove(const int x, const int y)
+				virtual void OnMouseMove(const double x, const double y)
 				{
 					if (OE::Input::InputManager::GetMouseButton(GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && _bHasFocus)
 					{
